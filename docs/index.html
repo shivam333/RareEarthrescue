@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rare Earth Rescue | Rare Earth Recycling Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell header-shell">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="39" class="logo-ring" />
+              <path class="logo-arrow" d="M73 17l15 8-1 18-7-8" />
+              <path class="logo-peak" d="M22 64L45 40l13 17 11-9 15 16" />
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Rare Earth Rescue</strong>
+            <span>Digital infrastructure for recycled rare earth supply</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="marketplace.html">Marketplace</a>
+          <a href="supplier-onboarding.html">Suppliers</a>
+          <a href="recycler-onboarding.html">Recyclers</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="button button-ghost" href="dashboard.html">Sign In</a>
+          <a class="button button-primary" href="contact.html">Get Started</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero shell">
+        <div class="hero-copy reveal">
+          <div class="hero-logo" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="39" class="logo-ring" />
+              <path class="logo-arrow" d="M73 17l15 8-1 18-7-8" />
+              <path class="logo-peak" d="M22 64L45 40l13 17 11-9 15 16" />
+            </svg>
+          </div>
+          <p class="eyebrow">Circular critical mineral supply chains</p>
+          <h1 class="hero-title">Trade rare-earth-bearing scrap with verified industrial buyers.</h1>
+          <p class="lede">
+            A premium B2B marketplace for feedstock suppliers, scrappers, aggregators, and
+            processors sourcing NdFeB magnets, motors, HDD assemblies, MRI systems, manufacturing
+            scrap, and other rare-earth-bearing materials.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="marketplace.html">Explore Marketplace</a>
+            <a class="button button-secondary" href="supplier-onboarding.html">List Feedstock</a>
+            <a class="button button-secondary" href="recycler-onboarding.html">Join as Recycler</a>
+          </div>
+          <div class="hero-media-strip">
+            <article class="hero-thumb">
+              <img
+                src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80"
+                alt="Close-up of electronics and circuit components"
+              />
+              <span>Electronics and magnet-bearing assemblies</span>
+            </article>
+            <article class="hero-thumb">
+              <img
+                src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=900&q=80"
+                alt="Industrial motors and robotics equipment"
+              />
+              <span>Motors, robotics, and industrial systems</span>
+            </article>
+            <article class="hero-thumb">
+              <img
+                src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80"
+                alt="Warehouse and industrial material storage"
+              />
+              <span>Scrap aggregation and regional supply</span>
+            </article>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-image-layer">
+            <img
+              src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1600&q=80"
+              alt="Industrial machinery and engineers in a manufacturing environment"
+            />
+          </div>
+          <div class="network-grid"></div>
+          <div class="hero-glow"></div>
+          <div class="hero-map">
+            <svg viewBox="0 0 800 680" aria-hidden="true">
+              <path class="map-stroke" d="M82 182c62-34 114-52 171-52 62 0 116 18 160 54 28 22 61 34 98 34 35 0 73-10 116-31 39-19 72-27 104-23" />
+              <path class="map-stroke" d="M118 348c52-34 98-51 140-51 41 0 84 17 129 52 42 33 82 50 118 50 30 0 68-11 115-33 48-22 90-31 127-27" />
+              <path class="map-stroke" d="M216 500c40-28 75-42 103-42 32 0 64 14 98 42 30 24 62 36 94 36 32 0 68-12 107-36 40-25 78-36 114-34" />
+              <circle cx="148" cy="206" r="8" class="map-node" />
+              <circle cx="252" cy="314" r="9" class="map-node" />
+              <circle cx="432" cy="262" r="10" class="map-node-accent" />
+              <circle cx="602" cy="196" r="9" class="map-node" />
+              <circle cx="528" cy="462" r="10" class="map-node-accent" />
+              <circle cx="300" cy="520" r="9" class="map-node" />
+              <circle cx="148" cy="206" r="10" class="pulse-ring" />
+              <circle cx="432" cy="262" r="10" class="pulse-ring" />
+              <circle cx="528" cy="462" r="10" class="pulse-ring" />
+            </svg>
+          </div>
+
+          <div class="floating-stack">
+            <article class="floating-card highlight float-hover">
+              <span class="badge badge-outline">Featured feedstock</span>
+              <strong>NdFeB Magnet Scrap - 18 MT - Texas, USA</strong>
+              <p>Verified seller. Assay-backed. Logistics support available.</p>
+            </article>
+            <article class="floating-card float-hover">
+              <span class="badge">Bid activity</span>
+              <strong>14 active recycler buyers</strong>
+              <p>Traction motor and HDD magnet categories showing strongest demand this week.</p>
+            </article>
+            <article class="floating-card float-hover">
+              <span class="badge badge-outline">Price signal</span>
+              <strong>Motor scrap spread tightened 6.4%</strong>
+              <p>Higher verified assay rates across North America and Germany.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="shell metrics-row reveal">
+        <article class="metric">
+          <span class="metric-value" data-count="420">0</span>
+          <span class="metric-label">verified suppliers</span>
+        </article>
+        <article class="metric">
+          <span class="metric-value" data-count="165">0</span>
+          <span class="metric-label">recycler buyers</span>
+        </article>
+        <article class="metric">
+          <span class="metric-value" data-count="12">0</span>
+          <span class="metric-label">feedstock categories</span>
+        </article>
+        <article class="metric">
+          <span class="metric-value" data-count="84">0</span>
+          <span class="metric-label">USD millions matched volume</span>
+        </article>
+        <article class="metric">
+          <span class="metric-value" data-count="23">0</span>
+          <span class="metric-label">countries served</span>
+        </article>
+      </section>
+
+      <section class="section shell">
+        <div class="section-header reveal">
+          <p class="eyebrow">Why this matters</p>
+          <h2>Rare earth feedstock is valuable, fragmented, and strategically under-coordinated.</h2>
+          <p class="section-copy">
+            Supply is dispersed across scrapyards, e-waste streams, dismantlers, ITAD firms,
+            industrial processors, and OEM reverse logistics programs. Commercially relevant
+            material often lacks standardized characterization, reliable price discovery, and
+            direct access to specialized buyers.
+          </p>
+        </div>
+
+        <div class="problem-grid">
+          <article class="issue-card reveal float-hover">
+            <span class="issue-index">01</span>
+            <h3>Fragmented supply</h3>
+            <p>Recyclers struggle to source consistent volumes of rare-earth-bearing feedstock across regions and categories.</p>
+          </article>
+          <article class="issue-card reveal float-hover">
+            <span class="issue-index">02</span>
+            <h3>Opaque quality</h3>
+            <p>Material specs, composition estimates, and form factors are inconsistently captured, slowing procurement.</p>
+          </article>
+          <article class="issue-card reveal float-hover">
+            <span class="issue-index">03</span>
+            <h3>Weak price discovery</h3>
+            <p>Scrappers often lack transparent market signals or access to specialist processors willing to bid.</p>
+          </article>
+          <article class="issue-card reveal float-hover">
+            <span class="issue-index">04</span>
+            <h3>Critical mineral pressure</h3>
+            <p>Circular critical mineral supply is becoming central to industrial resilience, electrification, and magnet demand growth.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section shell workflow-shell" id="workflow">
+        <div class="workflow-header reveal">
+          <div class="section-header">
+            <p class="eyebrow">How the marketplace works</p>
+            <h2>Designed for two-sided industrial sourcing.</h2>
+          </div>
+          <div class="tab-controls" role="tablist" aria-label="Workflow toggle">
+            <button class="tab-button active" data-tab-group="workflow" data-tab-target="workflow-suppliers" type="button">For Suppliers</button>
+            <button class="tab-button" data-tab-group="workflow" data-tab-target="workflow-recyclers" type="button">For Recyclers</button>
+          </div>
+        </div>
+
+        <div class="tab-panel active reveal" id="workflow-suppliers" data-panel-group="workflow">
+          <div class="timeline">
+            <article class="timeline-step float-hover">
+              <span class="timeline-badge">1</span>
+              <strong>Upload feedstock</strong>
+              <p>List material type, photos, quantity, location, packaging format, and composition estimate.</p>
+            </article>
+            <article class="timeline-step float-hover">
+              <span class="timeline-badge">2</span>
+              <strong>Add technical context</strong>
+              <p>Provide source industry, magnet type, assay status, contamination notes, and logistics constraints.</p>
+            </article>
+            <article class="timeline-step float-hover">
+              <span class="timeline-badge">3</span>
+              <strong>Receive bids and matches</strong>
+              <p>Verified recyclers engage with structured procurement requests or commercial bids.</p>
+            </article>
+            <article class="timeline-step float-hover">
+              <span class="timeline-badge">4</span>
+              <strong>Coordinate transaction</strong>
+              <p>Move from listing to pickup, delivery, and settlement with support for documents and scheduling.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="tab-panel reveal" id="workflow-recyclers" data-panel-group="workflow">
+          <div class="timeline">
+            <article class="timeline-step float-hover">
+              <span class="timeline-badge">1</span>
+              <strong>Search and filter supply</strong>
+              <p>Browse by material type, geography, quantity, assay availability, and seller verification.</p>
+            </article>
+            <article class="timeline-step float-hover">
+              <span class="timeline-badge">2</span>
+              <strong>Review quality metadata</strong>
+              <p>Evaluate listing detail, images, source industry, packaging format, and composition notes.</p>
+            </article>
+            <article class="timeline-step float-hover">
+              <span class="timeline-badge">3</span>
+              <strong>Submit bids or requests</strong>
+              <p>Respond with pricing, procurement terms, batch preferences, and logistics assumptions.</p>
+            </article>
+            <article class="timeline-step float-hover">
+              <span class="timeline-badge">4</span>
+              <strong>Track supply in motion</strong>
+              <p>Monitor batches through logistics coordination, delivery, and quality-assured settlement.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell">
+        <div class="section-header reveal">
+          <p class="eyebrow">Feedstock categories</p>
+          <h2>The marketplace is built around actual rare-earth-bearing material streams.</h2>
+        </div>
+
+        <div class="category-showcase reveal">
+          <div class="category-showcase-image">
+            <img
+              src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1600&q=80"
+              alt="Industrial logistics and material movement"
+            />
+          </div>
+          <div class="category-showcase-copy">
+            <span class="badge badge-outline">High-value feedstock</span>
+            <strong>From embedded magnets inside motors to manufacturing fines and HDD assemblies.</strong>
+            <p>
+              Each category is presented with the commercial and technical detail recyclers need to
+              evaluate quality, handling complexity, and sourcing relevance.
+            </p>
+          </div>
+        </div>
+
+        <div class="feedstock-grid">
+          <article class="feedstock-card reveal float-hover">
+            <span class="badge badge-outline">NdFeB magnets</span>
+            <h3>NdFeB magnet scrap</h3>
+            <p>High-value magnet feedstock from motors, HDDs, speakers, and manufacturing offcuts.</p>
+            <div class="feedstock-meta">
+              <span>Typical source: traction motors, HDDs, wind systems</span>
+              <span>Form: loose magnets, bonded assemblies, swarf</span>
+              <span>Quality note: coating, contamination, mixed grades</span>
+            </div>
+          </article>
+          <article class="feedstock-card reveal float-hover">
+            <span class="badge badge-outline">SmCo</span>
+            <h3>SmCo magnet scrap</h3>
+            <p>Lower-volume but strategically important feedstock for specialty high-temperature applications.</p>
+            <div class="feedstock-meta">
+              <span>Typical source: aerospace, sensors, industrial equipment</span>
+              <span>Form: manufacturing scrap, broken magnets</span>
+              <span>Quality note: brittle fractions and mixed assemblies</span>
+            </div>
+          </article>
+          <article class="feedstock-card reveal float-hover">
+            <span class="badge badge-outline">Motors</span>
+            <h3>Electric and traction motors</h3>
+            <p>Whole motors, dismantled fractions, or shredded streams with embedded rare-earth-bearing magnets.</p>
+            <div class="feedstock-meta">
+              <span>Typical source: EVs, industrial robotics, appliances</span>
+              <span>Form: whole motor, rotor, stator, shredded fraction</span>
+              <span>Quality note: magnet access and copper crossover matter</span>
+            </div>
+          </article>
+          <article class="feedstock-card reveal float-hover">
+            <span class="badge badge-outline">HDDs</span>
+            <h3>Hard disk drive magnet assemblies</h3>
+            <p>ITAD and e-waste derived material with strong repeatability for specialist buyers.</p>
+            <div class="feedstock-meta">
+              <span>Typical source: ITAD firms, e-waste aggregators</span>
+              <span>Form: assemblies, depopulated units, mixed fractions</span>
+              <span>Quality note: plating, adhesives, mixed stream handling</span>
+            </div>
+          </article>
+          <article class="feedstock-card reveal float-hover">
+            <span class="badge badge-outline">MRI / Industrial</span>
+            <h3>MRI and industrial equipment magnets</h3>
+            <p>Large-format assets with project-based removal, handling, and buyer coordination needs.</p>
+            <div class="feedstock-meta">
+              <span>Typical source: hospitals, salvage, industrial operators</span>
+              <span>Form: assemblies, systems, decommissioned equipment</span>
+              <span>Quality note: extraction complexity and logistics readiness</span>
+            </div>
+          </article>
+          <article class="feedstock-card reveal float-hover">
+            <span class="badge badge-outline">Fines / Sludge</span>
+            <h3>Powders, fines, and manufacturing residues</h3>
+            <p>Intermediate materials for processors with assay and batch validation requirements.</p>
+            <div class="feedstock-meta">
+              <span>Typical source: magnet manufacturing and polishing</span>
+              <span>Form: sludge, dust, fines, captured particulate</span>
+              <span>Quality note: moisture, contamination, assay variance</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section shell table-shell">
+        <div class="toolbar reveal">
+          <div class="section-header">
+            <p class="eyebrow">Marketplace listings preview</p>
+            <h2>Institutional-grade discovery for fragmented feedstock supply.</h2>
+          </div>
+          <div class="filter-row">
+            <button class="chip active" data-chip-group="listing" type="button">All</button>
+            <button class="chip" data-chip-group="listing" type="button">NdFeB</button>
+            <button class="chip" data-chip-group="listing" type="button">Motors</button>
+            <button class="chip" data-chip-group="listing" type="button">Verified Assay</button>
+            <button class="chip" data-chip-group="listing" type="button">Logistics Available</button>
+          </div>
+        </div>
+
+        <div class="table-card reveal">
+          <div class="table-toolbar">
+            <div>
+              <strong class="table-title">Live marketplace snapshot</strong>
+              <p class="table-subtext">Example feedstock currently visible to verified buyers</p>
+            </div>
+            <a class="button button-secondary" href="marketplace.html">View Full Marketplace</a>
+          </div>
+
+          <table class="listing-table">
+            <thead>
+              <tr>
+                <th>Listing</th>
+                <th>Quantity</th>
+                <th>Location</th>
+                <th>Form</th>
+                <th>Verification</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="listing-row">
+                <td>
+                  <div class="listing-title">
+                    <strong class="table-title">NdFeB Magnet Scrap - 18 MT - Texas, USA</strong>
+                    <span class="table-subtext">Automotive traction motors • indicative NdPr rich fraction</span>
+                  </div>
+                </td>
+                <td>18 MT</td>
+                <td>Houston, USA</td>
+                <td>Loose magnets</td>
+                <td><span class="verification">Seller + assay verified</span></td>
+                <td><a class="ghost-link" href="listing-detail.html">View details</a></td>
+              </tr>
+              <tr class="listing-row">
+                <td>
+                  <div class="listing-title">
+                    <strong class="table-title">Mixed Traction Motor Feedstock - 42 units - Ontario, Canada</strong>
+                    <span class="table-subtext">Rotor and stator assemblies • dismantler origin</span>
+                  </div>
+                </td>
+                <td>42 units</td>
+                <td>Ontario, Canada</td>
+                <td>Whole motor</td>
+                <td><span class="verification">Business verified</span></td>
+                <td><a class="ghost-link" href="listing-detail.html">Bid now</a></td>
+              </tr>
+              <tr class="listing-row">
+                <td>
+                  <div class="listing-title">
+                    <strong class="table-title">HDD Magnet Assemblies - 6.5 MT - Illinois, USA</strong>
+                    <span class="table-subtext">ITAD stream • sorted assemblies • repeat monthly availability</span>
+                  </div>
+                </td>
+                <td>6.5 MT</td>
+                <td>Illinois, USA</td>
+                <td>Assemblies</td>
+                <td><span class="verification">Photo validated</span></td>
+                <td><a class="ghost-link" href="listing-detail.html">View details</a></td>
+              </tr>
+              <tr class="listing-row">
+                <td>
+                  <div class="listing-title">
+                    <strong class="table-title">Shredded Motor Fraction with REE-bearing Magnets - 24 MT - Germany</strong>
+                    <span class="table-subtext">Post-shred output • assay requested • logistics support available</span>
+                  </div>
+                </td>
+                <td>24 MT</td>
+                <td>Hamburg, Germany</td>
+                <td>Shredded fraction</td>
+                <td><span class="verification">Seller verified</span></td>
+                <td><a class="ghost-link" href="listing-detail.html">Request bid</a></td>
+              </tr>
+              <tr class="listing-row">
+                <td>
+                  <div class="listing-title">
+                    <strong class="table-title">SmCo Magnet Manufacturing Scrap - 2.1 MT - Japan</strong>
+                    <span class="table-subtext">Precision manufacturing line scrap • tight composition band</span>
+                  </div>
+                </td>
+                <td>2.1 MT</td>
+                <td>Nagoya, Japan</td>
+                <td>Manufacturing scrap</td>
+                <td><span class="verification">Assay verified</span></td>
+                <td><a class="ghost-link" href="listing-detail.html">View details</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section shell intelligence-shell">
+        <div class="section-header reveal">
+          <p class="eyebrow">Pricing intelligence</p>
+          <h2>More than listings. A procurement intelligence layer for rare earth recycling.</h2>
+          <p class="section-copy">
+            Rare Earth Rescue surfaces indicative pricing trends, supply concentration, demand
+            pressure, and quality-linked price spreads so buyers and sellers can transact with more
+            confidence.
+          </p>
+          <div class="hero-actions">
+            <button class="button button-secondary" type="button" data-open-modal="pricing-modal">How pricing works</button>
+          </div>
+        </div>
+
+        <div class="widget-grid">
+          <article class="widget reveal float-hover">
+            <span class="widget-value">142 MT</span>
+            <span class="widget-label">monthly listed tonnage</span>
+            <svg class="chart" viewBox="0 0 320 180" aria-hidden="true">
+              <path class="chart-fill" d="M0 155 L40 148 L80 132 L120 118 L160 110 L200 94 L240 78 L280 70 L320 58 L320 180 L0 180 Z"></path>
+              <polyline class="chart-line" points="0,155 40,148 80,132 120,118 160,110 200,94 240,78 280,70 320,58"></polyline>
+            </svg>
+          </article>
+          <article class="widget reveal float-hover">
+            <span class="widget-value">8.7%</span>
+            <span class="widget-label">average bid spread</span>
+            <svg class="chart" viewBox="0 0 320 180" aria-hidden="true">
+              <line class="chart-axis" x1="0" y1="150" x2="320" y2="150"></line>
+              <rect class="chart-bar" x="20" y="90" width="34" height="60"></rect>
+              <rect class="chart-bar" x="78" y="72" width="34" height="78"></rect>
+              <rect class="chart-bar" x="136" y="56" width="34" height="94"></rect>
+              <rect class="chart-bar" x="194" y="48" width="34" height="102"></rect>
+              <rect class="chart-bar" x="252" y="64" width="34" height="86"></rect>
+            </svg>
+          </article>
+          <article class="widget reveal float-hover map-widget">
+            <span class="widget-value">North America</span>
+            <span class="widget-label">strongest supplier concentration this month</span>
+            <svg viewBox="0 0 360 240" aria-hidden="true">
+              <path class="map-stroke" d="M40 84c32-16 60-24 84-24 26 0 53 8 82 24 18 10 39 16 62 16 24 0 46-5 67-16" />
+              <path class="map-stroke" d="M52 144c28-15 53-22 74-22 19 0 40 7 62 22 22 14 45 21 69 21 19 0 42-6 69-18 25-12 47-17 66-15" />
+              <circle class="map-node" cx="92" cy="82" r="6"></circle>
+              <circle class="map-node-accent" cx="180" cy="130" r="7"></circle>
+              <circle class="map-node" cx="294" cy="88" r="6"></circle>
+              <circle class="pulse-ring" cx="180" cy="130" r="7"></circle>
+            </svg>
+          </article>
+          <article class="widget reveal float-hover">
+            <span class="widget-value">NdFeB</span>
+            <span class="widget-label">top demanded category</span>
+            <div class="widget-list">
+              <div class="widget-list-item"><span>NdFeB magnet scrap</span><strong>31 bids</strong></div>
+              <div class="widget-list-item"><span>Traction motor feedstock</span><strong>26 bids</strong></div>
+              <div class="widget-list-item"><span>HDD magnet assemblies</span><strong>19 bids</strong></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section shell trust-shell">
+        <div class="section-header reveal">
+          <p class="eyebrow">Trust and verification</p>
+          <h2>Reduce friction across quality, credibility, and execution.</h2>
+        </div>
+
+        <div class="trust-stack">
+          <article class="trust-card reveal float-hover">
+            <strong>Verified buyer and seller onboarding</strong>
+            <p>KYC, business verification, compliance review, and category fit checks.</p>
+          </article>
+          <article class="trust-card reveal float-hover">
+            <strong>Material classification standards</strong>
+            <p>Structured listing templates for magnets, motors, assemblies, and intermediate materials.</p>
+          </article>
+          <article class="trust-card reveal float-hover">
+            <strong>Assay and sampling support</strong>
+            <p>Photo validation, document review, assay uploads, and composition metadata.</p>
+          </article>
+          <article class="trust-card reveal float-hover">
+            <strong>Traceability reporting</strong>
+            <p>Logistics visibility, chain-of-custody support, and sustainability reporting outputs.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section shell logistics-shell">
+        <div class="section-header reveal">
+          <p class="eyebrow">Logistics and transactions</p>
+          <h2>The platform supports the full transaction path, not just the match.</h2>
+        </div>
+
+        <div class="flow-line reveal">
+          <article class="flow-step">
+            <strong>Listing</strong>
+            <p>Structured upload, media, material notes, and batch readiness.</p>
+          </article>
+          <article class="flow-step">
+            <strong>Pickup</strong>
+            <p>Freight coordination, scheduling, cross-border support, and consolidation.</p>
+          </article>
+          <article class="flow-step">
+            <strong>Delivery</strong>
+            <p>Documentation workflows, tracking, chain-of-custody, and receiving confirmation.</p>
+          </article>
+          <article class="flow-step">
+            <strong>Settlement</strong>
+            <p>Secure payment rails, milestone terms, order management, and contracting support.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section shell">
+        <div class="section-header reveal">
+          <p class="eyebrow">Strategic importance</p>
+          <h2>Rare earth recycling matters because supply resilience matters.</h2>
+          <p class="section-copy">
+            Electrification, wind generation, robotics, electronics, and defense demand are pushing
+            magnet and rare earth supply into sharper focus. Circular sourcing reduces dependence on
+            virgin extraction and strengthens secondary material access for industrial users.
+          </p>
+        </div>
+      </section>
+
+      <section class="section shell participants-shell">
+        <div class="workflow-header reveal">
+          <div class="section-header">
+            <p class="eyebrow">Industry participants</p>
+            <h2>Purpose-built value for each participant in the ecosystem.</h2>
+          </div>
+          <div class="tab-controls" role="tablist" aria-label="Participants">
+            <button class="tab-button active" data-tab-group="participants" data-tab-target="participant-auto" type="button">Auto dismantlers</button>
+            <button class="tab-button" data-tab-group="participants" data-tab-target="participant-ewaste" type="button">E-waste recyclers</button>
+            <button class="tab-button" data-tab-group="participants" data-tab-target="participant-motor" type="button">Motor recyclers</button>
+            <button class="tab-button" data-tab-group="participants" data-tab-target="participant-oem" type="button">OEM procurement</button>
+          </div>
+        </div>
+
+        <div class="participant-panel active reveal" id="participant-auto" data-panel-group="participants">
+          <div class="participant-grid">
+            <div class="panel">
+              <h3>Auto dismantlers</h3>
+              <p>Need better buyer access for traction motors, magnet assemblies, and mixed dismantled feedstock.</p>
+            </div>
+            <div class="participant-points">
+              <article class="mini-card"><strong>Pain point</strong><p>Unclear pricing for embedded magnet value.</p></article>
+              <article class="mini-card"><strong>Platform value</strong><p>Verified recycler network and category-specific listing templates.</p></article>
+              <article class="mini-card"><strong>Example use case</strong><p>List 42 EV traction motors and receive bids from magnet recovery specialists.</p></article>
+            </div>
+          </div>
+        </div>
+
+        <div class="participant-panel reveal" id="participant-ewaste" data-panel-group="participants">
+          <div class="participant-grid">
+            <div class="panel">
+              <h3>E-waste recyclers</h3>
+              <p>Need a better route for HDD magnet assemblies, speakers, electronics components, and downstream fractions.</p>
+            </div>
+            <div class="participant-points">
+              <article class="mini-card"><strong>Pain point</strong><p>Material streams are frequent but under-characterized.</p></article>
+              <article class="mini-card"><strong>Platform value</strong><p>Repeat listing workflows and buyer demand visibility.</p></article>
+              <article class="mini-card"><strong>Example use case</strong><p>Offer recurring HDD assembly batches with photo validation and monthly availability.</p></article>
+            </div>
+          </div>
+        </div>
+
+        <div class="participant-panel reveal" id="participant-motor" data-panel-group="participants">
+          <div class="participant-grid">
+            <div class="panel">
+              <h3>Motor recyclers</h3>
+              <p>Need visibility into whole motors, dismantled rotor assemblies, and shredded fractions with REE-bearing magnets.</p>
+            </div>
+            <div class="participant-points">
+              <article class="mini-card"><strong>Pain point</strong><p>Feedstock arrives from fragmented sources with uneven quality.</p></article>
+              <article class="mini-card"><strong>Platform value</strong><p>Structured metadata and assay-linked procurement filters.</p></article>
+              <article class="mini-card"><strong>Example use case</strong><p>Save searches for high-volume traction motor lots with logistics support.</p></article>
+            </div>
+          </div>
+        </div>
+
+        <div class="participant-panel reveal" id="participant-oem" data-panel-group="participants">
+          <div class="participant-grid">
+            <div class="panel">
+              <h3>OEM procurement teams</h3>
+              <p>Need supply chain visibility, secondary sourcing options, and better ESG-linked access to recycled feedstock.</p>
+            </div>
+            <div class="participant-points">
+              <article class="mini-card"><strong>Pain point</strong><p>Secondary sourcing lacks consistent market infrastructure.</p></article>
+              <article class="mini-card"><strong>Platform value</strong><p>Supply visibility, market data, and traceable recycled material flows.</p></article>
+              <article class="mini-card"><strong>Example use case</strong><p>Map demand concentration by category and identify reliable regional recycler partners.</p></article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section shell">
+        <div class="section-header reveal">
+          <p class="eyebrow">Testimonials and credibility</p>
+          <h2>Built for commercial operators, not generic sustainability storytelling.</h2>
+        </div>
+
+        <div class="testimonial-grid">
+          <article class="testimonial-card reveal float-hover">
+            <p>“Rare Earth Rescue gave us a serious route to specialist buyers for HDD and magnet-bearing e-waste streams we used to sell too generically.”</p>
+            <div class="testimonial-role">Operations Director, Midwest ITAD Network</div>
+          </article>
+          <article class="testimonial-card reveal float-hover">
+            <p>“The value is not just discovery. It is the structure around assay data, logistics assumptions, and verified counterparties.”</p>
+            <div class="testimonial-role">Procurement Lead, Magnet Recycling Company</div>
+          </article>
+          <article class="testimonial-card reveal float-hover">
+            <p>“For industrial sustainability teams, secondary rare earth sourcing becomes much more actionable when the data and counterparties are organized.”</p>
+            <div class="testimonial-role">Circularity Program Manager, Industrial OEM</div>
+          </article>
+        </div>
+
+        <div class="logo-grid" style="margin-top: 18px;">
+          <article class="logo-card reveal">Partner Recycler</article>
+          <article class="logo-card reveal">OEM Network</article>
+          <article class="logo-card reveal">ITAD Group</article>
+          <article class="logo-card reveal">Scrap Alliance</article>
+        </div>
+      </section>
+
+      <section class="section shell">
+        <div class="cta-panel reveal">
+          <div>
+            <p class="eyebrow">Start transacting with more confidence</p>
+            <h2>List feedstock, become a verified recycler, or request a demo.</h2>
+          </div>
+          <div class="cta-actions">
+            <a class="button button-primary" href="supplier-onboarding.html">List Your Feedstock</a>
+            <a class="button button-secondary" href="recycler-onboarding.html">Become a Verified Recycler</a>
+            <a class="button button-secondary" href="contact.html">Request a Demo</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="39" class="logo-ring" />
+                <path class="logo-arrow" d="M73 17l15 8-1 18-7-8" />
+                <path class="logo-peak" d="M22 64L45 40l13 17 11-9 15 16" />
+              </svg>
+            </span>
+            <span class="brand-copy">
+              <strong>Rare Earth Rescue</strong>
+              <span>Verified feedstock. Traceable secondary materials.</span>
+            </span>
+          </div>
+          <p class="footer-note" style="margin-top: 16px;">
+            The digital infrastructure layer for circular critical mineral supply chains.
+          </p>
+        </div>
+
+        <div class="footer-group">
+          <strong>Marketplace</strong>
+          <div class="footer-links">
+            <a href="marketplace.html">Listings</a>
+            <a href="listing-detail.html">Listing Detail</a>
+            <a href="dashboard.html">Dashboard Preview</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Participants</strong>
+          <div class="footer-links">
+            <a href="supplier-onboarding.html">Suppliers</a>
+            <a href="recycler-onboarding.html">Recyclers</a>
+            <a href="about.html">About</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Company</strong>
+          <div class="footer-links">
+            <a href="contact.html">Contact</a>
+            <a href="#">Terms</a>
+            <a href="#">Privacy</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Follow</strong>
+          <div class="footer-links">
+            <a href="#">LinkedIn</a>
+            <a href="#">Newsletter</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="modal" id="pricing-modal" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">How pricing works</p>
+            <strong>Institutional-style signals for fragmented recycled feedstock</strong>
+          </div>
+          <button class="icon-button" type="button" data-close-modal>&times;</button>
+        </div>
+        <p class="section-copy">
+          Indicative pricing blends recent bid activity, verified transaction history, feedstock
+          form, quality bands, assay confidence, logistics complexity, and regional demand pressure.
+          The platform is designed to improve price discovery without pretending every lot is a
+          perfectly standardized commodity.
+        </p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
