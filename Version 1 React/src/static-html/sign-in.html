@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Access | Rare Earth Rescue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@500;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-auth-page="sign-in" class="home-page auth-page-body">
+    <header class="site-header">
+      <div class="shell header-shell">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="39" class="logo-ring" />
+              <path class="logo-arrow" d="M73 17l15 8-1 18-7-8" />
+              <path class="logo-peak" d="M22 64L45 40l13 17 11-9 15 16" />
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Rare Earth Rescue</strong>
+            <span>Digital infrastructure for recycled rare earth supply</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="marketplace.html">Marketplace</a>
+          <a href="supplier-onboarding.html">Suppliers</a>
+          <a href="recycler-onboarding.html">Recyclers</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="auth-slot" data-auth-slot>
+            <a class="button button-ghost" data-auth-link data-redirect="dashboard.html" href="sign-in.html">Sign In</a>
+          </div>
+          <a class="button button-primary" href="contact.html">Talk to Our Team</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <section id="account-access" class="section shell auth-shell auth-shell-centered">
+        <div class="auth-background-authors" aria-hidden="true">
+          <span class="auth-node auth-node-a"></span>
+          <span class="auth-node auth-node-b"></span>
+          <span class="auth-grid-ornament"></span>
+        </div>
+
+        <div class="auth-page-layout auth-page-layout-centered">
+          <div class="auth-copy auth-copy-centered reveal">
+            <p class="eyebrow">Buyer and Supplier Access</p>
+            <h1 class="auth-title">Access the rare earth recovery network</h1>
+            <p class="auth-subcopy">
+              Built for suppliers, recyclers, and procurement teams operating across fragmented
+              supply chains.
+            </p>
+          </div>
+
+          <div class="auth-card auth-card-centered panel reveal">
+            <div class="auth-tabs" role="tablist" aria-label="Authentication">
+              <button class="auth-tab-button active" type="button" data-auth-mode="sign-in">Sign In</button>
+              <button class="auth-tab-button" type="button" data-auth-mode="sign-up">Create Account</button>
+            </div>
+
+            <div class="auth-mode-panel active" data-auth-panel="sign-in">
+              <div class="auth-panel-copy">
+                <h2 class="auth-panel-title">Welcome back</h2>
+                <p class="auth-panel-subtext">Manage listings, orders, and supply relationships.</p>
+              </div>
+
+              <div class="custom-auth-step active" id="sign-in-form-step">
+                <div class="custom-social-stack">
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-in" data-strategy="oauth_google">
+                    <span class="oauth-button-mark">G</span>
+                    <span>Continue with Google</span>
+                  </button>
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-in" data-strategy="oauth_microsoft">
+                    <span class="oauth-button-mark">M</span>
+                    <span>Continue with Microsoft</span>
+                  </button>
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-in" data-strategy="oauth_linkedin_oidc">
+                    <span class="oauth-button-mark">in</span>
+                    <span>Continue with LinkedIn</span>
+                  </button>
+                </div>
+
+                <div class="auth-divider">
+                  <span>or use your work email</span>
+                </div>
+
+                <form id="custom-sign-in-form" class="auth-form">
+                  <label class="auth-label" for="sign-in-email">Work email</label>
+                  <input id="sign-in-email" class="auth-input" name="email" type="email" autocomplete="email" placeholder="name@company.com" />
+
+                  <label class="auth-label" for="sign-in-password">Password</label>
+                  <input id="sign-in-password" class="auth-input" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" />
+
+                  <button id="sign-in-submit" class="button button-primary button-block auth-submit" type="submit">Continue</button>
+                </form>
+
+                <div id="sign-in-feedback" class="auth-feedback" hidden></div>
+                <p class="auth-helper-text">Use the email and password configured for your Rare Earth Rescue account.</p>
+              </div>
+
+              <div class="custom-auth-step" id="sign-in-verify-step" hidden>
+                <div class="verify-panel-copy">
+                  <span class="plan-badge">Verification required</span>
+                  <h3>Check your inbox</h3>
+                  <p id="sign-in-verify-copy">Enter the security code sent to your email to finish signing in.</p>
+                </div>
+
+                <form id="custom-sign-in-verify-form" class="auth-form">
+                  <label class="auth-label" for="sign-in-code">Verification code</label>
+                  <input id="sign-in-code" class="auth-input auth-code-input" name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" />
+
+                  <button id="sign-in-verify-submit" class="button button-primary button-block auth-submit" type="submit">Verify and continue</button>
+                </form>
+
+                <div class="auth-secondary-actions">
+                  <button id="sign-in-resend" class="button button-secondary" type="button">Resend code</button>
+                  <button id="sign-in-reset" class="button button-ghost" type="button">Start over</button>
+                </div>
+
+                <div id="sign-in-verify-feedback" class="auth-feedback" hidden></div>
+              </div>
+            </div>
+
+            <div class="auth-mode-panel" data-auth-panel="sign-up">
+              <div class="auth-panel-copy">
+                <h2 class="auth-panel-title">Create your account</h2>
+                <p class="auth-panel-subtext">
+                  Start with secure account creation, then compare one-time and subscription access
+                  below.
+                </p>
+              </div>
+
+              <div class="custom-auth-step active" id="sign-up-form-step">
+                <form id="custom-sign-up-form" class="auth-form">
+                  <label class="auth-label" for="sign-up-email">Work email</label>
+                  <input id="sign-up-email" class="auth-input" name="email" type="email" autocomplete="email" placeholder="name@company.com" />
+
+                  <label class="auth-label" for="sign-up-password">Create password</label>
+                  <input id="sign-up-password" class="auth-input" name="password" type="password" autocomplete="new-password" placeholder="Create a secure password" />
+
+                  <label class="auth-label" for="sign-up-company">Company name</label>
+                  <input id="sign-up-company" class="auth-input" name="company" type="text" autocomplete="organization" placeholder="Your company or operating entity" />
+
+                  <div id="clerk-captcha" class="auth-captcha" data-cl-theme="light" data-cl-size="flexible"></div>
+
+                  <button id="sign-up-submit" class="button button-primary button-block auth-submit" type="submit">Create account</button>
+                </form>
+
+                <div class="auth-divider">
+                  <span>or continue with a connected account</span>
+                </div>
+
+                <div class="custom-social-stack">
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-up" data-strategy="oauth_google">
+                    <span class="oauth-button-mark">G</span>
+                    <span>Sign up with Google</span>
+                  </button>
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-up" data-strategy="oauth_microsoft">
+                    <span class="oauth-button-mark">M</span>
+                    <span>Sign up with Microsoft</span>
+                  </button>
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-up" data-strategy="oauth_linkedin_oidc">
+                    <span class="oauth-button-mark">in</span>
+                    <span>Sign up with LinkedIn</span>
+                  </button>
+                </div>
+
+                <div id="sign-up-feedback" class="auth-feedback" hidden></div>
+
+                <div class="auth-signup-links">
+                  <a class="ghost-link" href="#plan-comparison">Compare one-time vs subscription</a>
+                  <a class="ghost-link" href="#subscription-plan">Know more about subscription</a>
+                </div>
+              </div>
+
+              <div class="custom-auth-step" id="sign-up-verify-step" hidden>
+                <div class="verify-panel-copy">
+                  <span class="plan-badge">Email verification</span>
+                  <h3>Verify your work email</h3>
+                  <p id="sign-up-verify-copy">Enter the one-time code sent to your inbox to activate the account.</p>
+                </div>
+
+                <form id="custom-sign-up-verify-form" class="auth-form">
+                  <label class="auth-label" for="sign-up-code">Verification code</label>
+                  <input id="sign-up-code" class="auth-input auth-code-input" name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" />
+
+                  <button id="sign-up-verify-submit" class="button button-primary button-block auth-submit" type="submit">Verify and continue</button>
+                </form>
+
+                <div class="auth-secondary-actions">
+                  <button id="sign-up-resend" class="button button-secondary" type="button">Resend code</button>
+                  <button id="sign-up-reset" class="button button-ghost" type="button">Start over</button>
+                </div>
+
+                <div id="sign-up-verify-feedback" class="auth-feedback" hidden></div>
+                <div class="auth-signup-links">
+                  <a class="ghost-link" href="#plan-comparison">Compare plans while you wait</a>
+                </div>
+              </div>
+            </div>
+
+            <div id="role-selection-panel" class="auth-mode-panel" data-auth-panel="role-selection">
+              <div class="auth-panel-copy">
+                <h2 class="auth-panel-title">How will you use Rare Earth Rescue?</h2>
+                <p class="auth-panel-subtext">We’ll tailor your experience.</p>
+              </div>
+
+              <div class="role-selector">
+                <button class="role-card" type="button" data-role="supplier">
+                  <strong>Supplier</strong>
+                  <p>List and sell feedstock.</p>
+                </button>
+                <button class="role-card" type="button" data-role="recycler">
+                  <strong>Recycler</strong>
+                  <p>Discover and source materials.</p>
+                </button>
+                <button class="role-card" type="button" data-role="both">
+                  <strong>Both</strong>
+                  <p>Operate on both sides of the network.</p>
+                </button>
+              </div>
+
+              <div class="auth-role-actions">
+                <a id="role-continue-button" class="button button-primary is-disabled" href="dashboard.html" aria-disabled="true">Continue</a>
+              </div>
+            </div>
+
+            <div id="signed-in-panel" class="auth-mode-panel" hidden>
+              <span class="badge">Signed in</span>
+              <h3 style="margin-top: 14px;">Your account is active.</h3>
+              <p class="section-copy" style="margin-top: 10px;">
+                Open your user menu to manage your account, then continue into the dashboard.
+              </p>
+              <div id="signed-in-user-button" class="signed-in-user-button" style="margin-top: 18px;"></div>
+              <div class="hero-actions" style="margin-top: 22px; justify-content: center;">
+                <a class="button button-primary" href="dashboard.html">Go to Dashboard</a>
+                <a class="button button-secondary" href="index.html">Back to Homepage</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="auth-trust reveal">
+            <p>Secure access for verified industrial participants</p>
+            <p>Trusted by suppliers, recyclers, and procurement teams</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="plan-comparison" class="section shell auth-secondary-section reveal">
+        <div class="section-header auth-secondary-header">
+          <p class="eyebrow">Compare Access Paths</p>
+          <h2>Choose the right operating model for your recovery workflow.</h2>
+          <p class="section-copy">
+            Use this as a working outline for how Rare Earth Rescue can support one-off trades,
+            recurring marketplace participation, and tailored service-led programs.
+          </p>
+        </div>
+
+        <div class="plan-comparison-shell">
+          <div class="plan-showcase-grid">
+            <article class="tier-showcase-card tier-showcase-card-free float-hover">
+              <span class="tier-icon-shell" aria-hidden="true">
+                <span class="tier-icon">1</span>
+              </span>
+              <span class="plan-badge">One-time</span>
+              <h3>One-Time Order</h3>
+              <p>For a single material movement, fast buyer discovery, and initial platform use.</p>
+              <a class="button button-secondary" data-plan-jump="free" href="#account-access">Start account</a>
+            </article>
+
+            <article class="tier-showcase-card tier-showcase-card-subscription tier-showcase-card-featured float-hover">
+              <span class="tier-feature-pill">Preferred ongoing path</span>
+              <span class="tier-icon-shell" aria-hidden="true">
+                <span class="tier-icon">2</span>
+              </span>
+              <span class="plan-badge plan-badge-subscription">Subscription</span>
+              <h3>Marketplace Access</h3>
+              <p>For repeat buying and selling, recurring visibility, alerts, and procurement intelligence.</p>
+              <a class="button button-primary" data-plan-jump="subscription" href="#account-access">Request subscription access</a>
+            </article>
+
+            <article class="tier-showcase-card tier-showcase-card-enterprise float-hover">
+              <span class="tier-icon-shell" aria-hidden="true">
+                <span class="tier-icon">3</span>
+              </span>
+              <span class="plan-badge">Services</span>
+              <h3>Strategic Services</h3>
+              <p>For larger operators who need tailored workflows, coordinated sourcing, and managed support.</p>
+              <a class="button button-secondary" href="contact.html">Request services</a>
+            </article>
+          </div>
+
+          <div class="plan-table-panel panel">
+            <table class="plan-table">
+              <thead>
+                <tr>
+                  <th>Plans</th>
+                  <th>One-Time Order</th>
+                  <th>Marketplace Access</th>
+                  <th>Strategic Services</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Best for</td>
+                  <td>Single lot execution and first-time participation</td>
+                  <td>Recurring sourcing, repeat listings, and active buyer programs</td>
+                  <td>High-touch supply programs, managed support, and tailored workflows</td>
+                </tr>
+                <tr>
+                  <td>Marketplace access</td>
+                  <td>Focused access to complete one transaction</td>
+                  <td>Ongoing access to verified marketplace opportunities</td>
+                  <td>Coordinated access shaped around your operating model</td>
+                </tr>
+                <tr>
+                  <td>Visibility and discovery</td>
+                  <td>Basic listing visibility and direct matching support</td>
+                  <td>Broader listing exposure, saved workflows, and recurring discovery</td>
+                  <td>Priority routing, service-led support, and structured engagement paths</td>
+                </tr>
+                <tr>
+                  <td>Commercial intelligence</td>
+                  <td>High-level context around demand and counterparties</td>
+                  <td>Expanded signals, alerts, and procurement-facing intelligence layers</td>
+                  <td>Custom reporting, tailored oversight, and strategic planning support</td>
+                </tr>
+                <tr>
+                  <td>Operations support</td>
+                  <td>Standard coordination for transaction completion</td>
+                  <td>Ongoing operational support for repeat marketplace activity</td>
+                  <td>White-glove coordination across sourcing, logistics, and account workflows</td>
+                </tr>
+                <tr>
+                  <td>Commercial path</td>
+                  <td>Create account and place an order</td>
+                  <td>Request subscription access</td>
+                  <td>Request services through the Rare Earth Rescue team</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="plan-comparison-actions">
+            <a class="button button-secondary" data-plan-jump="free" href="#account-access">Create Free Account</a>
+            <a class="button button-primary" data-plan-jump="subscription" href="#account-access">Request Subscription Access</a>
+            <a class="button button-secondary" href="contact.html">Request Services</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="subscription-plan" class="section shell auth-secondary-section reveal">
+        <div class="subscription-knowmore panel">
+          <div class="subscription-copy">
+            <p class="eyebrow">Know More</p>
+            <h2>Subscription is built for repeat operators across the rare earth recovery chain.</h2>
+            <p class="section-copy">
+              Choose subscription if your team needs continuing access to fragmented supply,
+              ongoing pricing visibility, and a cleaner workflow for repeated buying or selling.
+            </p>
+            <div class="workflow-links">
+              <a class="button button-primary" data-plan-jump="subscription" href="#account-access">Continue with Subscription</a>
+              <a class="button button-secondary" href="contact.html">Talk to Our Team</a>
+            </div>
+          </div>
+
+          <div class="subscription-grid">
+            <article class="mini-card float-hover">
+              <strong>Marketplace continuity</strong>
+              <p>Stay visible to verified participants and keep repeat feedstock programs active.</p>
+            </article>
+            <article class="mini-card float-hover">
+              <strong>Commercial intelligence</strong>
+              <p>Track bid spreads, category demand, and market signals across NdFeB, motors, and HDD assemblies.</p>
+            </article>
+            <article class="mini-card float-hover">
+              <strong>Team workflows</strong>
+              <p>Support procurement teams, scrapyards, and recyclers with a shared operating layer for sourcing.</p>
+            </article>
+            <article class="mini-card float-hover">
+              <strong>Strategic support</strong>
+              <p>Use subscription when supply resilience, recurring orders, and buyer discovery matter more than a single trade.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="39" class="logo-ring" />
+                <path class="logo-arrow" d="M73 17l15 8-1 18-7-8" />
+                <path class="logo-peak" d="M22 64L45 40l13 17 11-9 15 16" />
+              </svg>
+            </span>
+            <span class="brand-copy">
+              <strong>Rare Earth Rescue</strong>
+              <span>Verified feedstock. Traceable secondary materials.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Marketplace</strong>
+          <div class="footer-links">
+            <a href="marketplace.html">Listings</a>
+            <a href="listing-detail.html">Listing Detail</a>
+            <a href="dashboard.html">Dashboard Preview</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Participants</strong>
+          <div class="footer-links">
+            <a href="supplier-onboarding.html">Suppliers</a>
+            <a href="recycler-onboarding.html">Recyclers</a>
+            <a href="about.html">About</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Company</strong>
+          <div class="footer-links">
+            <a href="contact.html">Contact</a>
+            <a href="#">Terms</a>
+            <a href="#">Privacy</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Follow</strong>
+          <div class="footer-links">
+            <a href="#">LinkedIn</a>
+            <a href="#">Newsletter</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="clerk-config.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>

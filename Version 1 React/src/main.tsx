@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ClerkProvider } from "@clerk/react";
 import App from "./App";
 import "./index.css";
+import "./legacy.css";
 import { clerkPublishableKey } from "./lib/site";
 
 const routerBase =

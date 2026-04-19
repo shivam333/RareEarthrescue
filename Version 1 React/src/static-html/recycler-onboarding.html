@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recycler Onboarding | Rare Earth Rescue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell header-shell">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="39" class="logo-ring" />
+              <path class="logo-arrow" d="M73 17l15 8-1 18-7-8" />
+              <path class="logo-peak" d="M22 64L45 40l13 17 11-9 15 16" />
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Rare Earth Rescue</strong>
+            <span>Recycler onboarding</span>
+          </span>
+        </a>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="shell page-hero reveal">
+        <p class="eyebrow">Recycler onboarding</p>
+        <h1>Secure fragmented supply with more procurement intelligence.</h1>
+        <p class="lede">
+          Join as a verified recycler, refiner, processor, or OEM reverse logistics team and define
+          exactly which categories, assays, and regions fit your procurement model.
+        </p>
+      </section>
+
+      <section class="shell onboarding-layout">
+        <aside class="form-sidebar">
+          <div class="panel reveal">
+            <h3>Application steps</h3>
+            <div class="stepper">
+              <div class="step active"><div class="step-index">1</div><div><strong>Business verification</strong><p class="muted">Company, permits, and procurement contact</p></div></div>
+              <div class="step"><div class="step-index">2</div><div><strong>Capability profile</strong><p class="muted">Materials handled and process fit</p></div></div>
+              <div class="step"><div class="step-index">3</div><div><strong>Buying preferences</strong><p class="muted">Regions, quantities, assay standards</p></div></div>
+              <div class="step"><div class="step-index">4</div><div><strong>Marketplace access</strong><p class="muted">Saved searches and alert setup</p></div></div>
+            </div>
+          </div>
+        </aside>
+
+        <div class="form-panel reveal">
+          <span class="badge">Step 1 of 4</span>
+          <h2 style="margin-top: 14px;">Build your recycler profile</h2>
+          <p class="section-copy" style="margin-top: 10px;">
+            Help Rare Earth Rescue route relevant feedstock opportunities to your procurement team.
+          </p>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="recycler-name">Company name</label>
+              <input class="input" id="recycler-name" value="Northshore Magnet Recovery" />
+            </div>
+            <div class="field">
+              <label for="recycler-type">Buyer type</label>
+              <select class="select" id="recycler-type">
+                <option>Magnet recycler</option>
+                <option>Hydromet processor</option>
+                <option>Pyromet processor</option>
+                <option>OEM reverse logistics team</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="facility">Primary processing facility</label>
+              <input class="input" id="facility" value="Rotterdam, Netherlands" />
+            </div>
+            <div class="field">
+              <label for="coverage">Sourcing coverage</label>
+              <input class="input" id="coverage" value="Europe and North America" />
+            </div>
+            <div class="field">
+              <label for="target-categories">Target feedstock categories</label>
+              <input class="input" id="target-categories" value="NdFeB magnet scrap, motor fractions, manufacturing scrap" />
+            </div>
+            <div class="field">
+              <label for="lot-size">Preferred lot size</label>
+              <input class="input" id="lot-size" value="5-25 MT, with repeat monthly sourcing preferred" />
+            </div>
+            <div class="field">
+              <label for="assay-standard">Assay requirement</label>
+              <input class="input" id="assay-standard" value="Preferred for 10 MT+ lots; photo validation accepted on pilot batches" />
+            </div>
+            <div class="field">
+              <label for="procurement-contact">Procurement contact</label>
+              <input class="input" id="procurement-contact" value="Mila Jensen, Senior Buyer" />
+            </div>
+          </div>
+
+          <div class="field" style="margin-top: 18px;">
+            <label for="recycler-notes">Capability notes</label>
+            <textarea class="textarea" id="recycler-notes">We process sintered magnet scrap and selected motor-derived streams with preference for verified lots, documented source industries, and staged logistics support for cross-border shipments.</textarea>
+            <span class="field-help">Describe accepted forms, contamination thresholds, and how you prefer to receive supply opportunities.</span>
+          </div>
+
+          <div class="hero-actions" style="margin-top: 22px;">
+            <a class="button button-primary" href="contact.html">Continue to Qualification</a>
+            <a class="button button-secondary" href="marketplace.html">Preview Live Supply</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="clerk-config.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>
