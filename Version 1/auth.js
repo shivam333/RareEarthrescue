@@ -103,6 +103,9 @@
       fontFamily: '"Manrope", sans-serif',
     },
     elements: {
+      rootBox: {
+        width: "100%",
+      },
       cardBox: {
         boxShadow: "none",
         border: "0",
@@ -122,6 +125,15 @@
         boxShadow: "none",
         background: "#fffaf2",
         minHeight: "48px",
+      },
+      socialButtons: {
+        display: "grid",
+        gridTemplateColumns: "1fr",
+        gap: "12px",
+      },
+      socialButtonsBlockButtonText: {
+        fontSize: "0.98rem",
+        whiteSpace: "normal",
       },
       formButtonPrimary: {
         borderRadius: "14px",
@@ -206,6 +218,7 @@
   const authModePanels = document.querySelectorAll("[data-auth-panel]");
   const authTabButtons = document.querySelectorAll("[data-auth-mode]");
   const planCards = document.querySelectorAll("[data-plan]");
+  const planJumpButtons = document.querySelectorAll("[data-plan-jump]");
   const roleCards = document.querySelectorAll("[data-role]");
   const roleContinueButton = document.getElementById("role-continue-button");
 
@@ -252,6 +265,12 @@
     });
   };
 
+  const setActivePlan = (planValue) => {
+    activePlan = planValue || "free";
+    localStorage.setItem(planStorageKey, activePlan);
+    syncPlanCards();
+  };
+
   const syncRoleCards = () => {
     roleCards.forEach((card) => {
       card.classList.toggle("active", card.dataset.role === activeRole);
@@ -276,9 +295,20 @@
 
   planCards.forEach((card) => {
     card.addEventListener("click", () => {
-      activePlan = card.dataset.plan || "free";
-      localStorage.setItem(planStorageKey, activePlan);
-      syncPlanCards();
+      setActivePlan(card.dataset.plan || "free");
+    });
+  });
+
+  planJumpButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextPlan = button.dataset.planJump || "free";
+      setActivePlan(nextPlan);
+      showPanel("sign-up");
+
+      const nextUrl = new URL(window.location.href);
+      nextUrl.searchParams.set("mode", "sign-up");
+      nextUrl.searchParams.delete("step");
+      window.history.replaceState({}, "", nextUrl);
     });
   });
 

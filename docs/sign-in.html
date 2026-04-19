@@ -47,7 +47,7 @@
     </header>
 
     <main class="page">
-      <section class="section shell auth-shell auth-shell-centered">
+      <section id="account-access" class="section shell auth-shell auth-shell-centered">
         <div class="auth-background-authors" aria-hidden="true">
           <span class="auth-node auth-node-a"></span>
           <span class="auth-node auth-node-b"></span>
@@ -85,23 +85,17 @@
             <div class="auth-mode-panel" data-auth-panel="sign-up">
               <div class="auth-panel-copy">
                 <h2 class="auth-panel-title">Create your account</h2>
-                <p class="auth-panel-subtext">Start free or unlock full access.</p>
-              </div>
-
-              <div class="plan-selector">
-                <button class="plan-card active" type="button" data-plan="free">
-                  <span class="plan-badge">Start free</span>
-                  <strong>One-Time Order</strong>
-                  <p>Place a single transaction, no subscription required.</p>
-                </button>
-                <button class="plan-card" type="button" data-plan="subscription">
-                  <span class="plan-badge plan-badge-subscription">Subscription</span>
-                  <strong>Full Access</strong>
-                  <p>Access listings, pricing intelligence, and ongoing supply discovery.</p>
-                </button>
+                <p class="auth-panel-subtext">
+                  Start with secure account creation, then compare one-time and subscription access
+                  below.
+                </p>
               </div>
 
               <div id="clerk-sign-up-root" class="clerk-auth-root clerk-auth-root-compact" aria-live="polite"></div>
+              <div class="auth-signup-links">
+                <a class="ghost-link" href="#plan-comparison">Compare one-time vs subscription</a>
+                <a class="ghost-link" href="#subscription-plan">Know more about subscription</a>
+              </div>
               <p class="auth-helper-text">
                 Role selection happens after account creation so we can tailor your workspace.
               </p>
@@ -150,6 +144,122 @@
           <div class="auth-trust reveal">
             <p>Secure access for verified industrial participants</p>
             <p>Trusted by suppliers, recyclers, and procurement teams</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="plan-comparison" class="section shell auth-secondary-section reveal">
+        <div class="section-header auth-secondary-header">
+          <p class="eyebrow">Compare Access Paths</p>
+          <h2>Choose the right way to start on Rare Earth Rescue.</h2>
+          <p class="section-copy">
+            Create an account first, then choose whether you need a single transaction flow or
+            recurring marketplace access with intelligence tools.
+          </p>
+        </div>
+
+        <div class="plan-comparison-shell">
+          <div class="plan-selector plan-selector-inline">
+            <button class="plan-card active" type="button" data-plan="free">
+              <span class="plan-badge">Start free</span>
+              <strong>One-Time Order</strong>
+              <p>Best for a single lot, quick buyer access, and testing the network.</p>
+            </button>
+            <button class="plan-card" type="button" data-plan="subscription">
+              <span class="plan-badge plan-badge-subscription">Subscription</span>
+              <strong>Full Access</strong>
+              <p>Best for repeat sourcing, pricing intelligence, and ongoing supply discovery.</p>
+            </button>
+          </div>
+
+          <div class="plan-table-panel panel">
+            <table class="plan-table">
+              <thead>
+                <tr>
+                  <th>Capability</th>
+                  <th>One-Time Order</th>
+                  <th>Subscription</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Single transaction execution</td>
+                  <td>Included</td>
+                  <td>Included</td>
+                </tr>
+                <tr>
+                  <td>Verified buyer and seller access</td>
+                  <td>Included</td>
+                  <td>Included</td>
+                </tr>
+                <tr>
+                  <td>Recurring listing visibility</td>
+                  <td>Limited</td>
+                  <td>Full access</td>
+                </tr>
+                <tr>
+                  <td>Saved searches and alerts</td>
+                  <td>Not included</td>
+                  <td>Included</td>
+                </tr>
+                <tr>
+                  <td>Pricing intelligence and market signals</td>
+                  <td>Summary level</td>
+                  <td>Full access</td>
+                </tr>
+                <tr>
+                  <td>Procurement pipeline tools</td>
+                  <td>Not included</td>
+                  <td>Included</td>
+                </tr>
+                <tr>
+                  <td>Priority support and onboarding</td>
+                  <td>Standard</td>
+                  <td>Priority</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="plan-comparison-actions">
+            <a class="button button-secondary" data-plan-jump="free" href="#account-access">Create Free Account</a>
+            <a class="button button-primary" data-plan-jump="subscription" href="#account-access">Create Subscription Account</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="subscription-plan" class="section shell auth-secondary-section reveal">
+        <div class="subscription-knowmore panel">
+          <div class="subscription-copy">
+            <p class="eyebrow">Know More</p>
+            <h2>Subscription is built for repeat operators across the rare earth recovery chain.</h2>
+            <p class="section-copy">
+              Choose subscription if your team needs continuing access to fragmented supply,
+              ongoing pricing visibility, and a cleaner workflow for repeated buying or selling.
+            </p>
+            <div class="workflow-links">
+              <a class="button button-primary" data-plan-jump="subscription" href="#account-access">Continue with Subscription</a>
+              <a class="button button-secondary" href="contact.html">Talk to Our Team</a>
+            </div>
+          </div>
+
+          <div class="subscription-grid">
+            <article class="mini-card float-hover">
+              <strong>Marketplace continuity</strong>
+              <p>Stay visible to verified participants and keep repeat feedstock programs active.</p>
+            </article>
+            <article class="mini-card float-hover">
+              <strong>Commercial intelligence</strong>
+              <p>Track bid spreads, category demand, and market signals across NdFeB, motors, and HDD assemblies.</p>
+            </article>
+            <article class="mini-card float-hover">
+              <strong>Team workflows</strong>
+              <p>Support procurement teams, scrapyards, and recyclers with a shared operating layer for sourcing.</p>
+            </article>
+            <article class="mini-card float-hover">
+              <strong>Strategic support</strong>
+              <p>Use subscription when supply resilience, recurring orders, and buyer discovery matter more than a single trade.</p>
+            </article>
           </div>
         </div>
       </section>

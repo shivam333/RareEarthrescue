@@ -785,6 +785,14 @@ body.home-page.fullpage-enabled .hero {
   text-align: center;
 }
 
+.auth-signup-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 14px;
+}
+
 .auth-trust {
   display: grid;
   gap: 6px;
@@ -915,6 +923,82 @@ body.home-page.fullpage-enabled .hero {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+
+.auth-secondary-section {
+  padding-top: 48px;
+}
+
+.auth-secondary-header {
+  max-width: 920px;
+}
+
+.plan-comparison-shell {
+  display: grid;
+  gap: 18px;
+}
+
+.plan-selector-inline {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 0;
+}
+
+.plan-table-panel {
+  overflow: hidden;
+}
+
+.plan-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.plan-table th,
+.plan-table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.plan-table th {
+  color: var(--text);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+}
+
+.plan-table td {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.plan-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.plan-comparison-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.subscription-knowmore {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 22px;
+  padding: 28px;
+}
+
+.subscription-copy {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.subscription-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .button.is-disabled {
@@ -2097,10 +2181,13 @@ body[data-auth-page="sign-in"] .footer-grid {
 
   .hero-path-grid,
   .plan-selector,
+  .plan-selector-inline,
   .dashboard-mock-grid,
   .service-stack-grid,
   .dashboard-showcase,
-  .flywheel-layout {
+  .flywheel-layout,
+  .subscription-grid,
+  .subscription-knowmore {
     grid-template-columns: 1fr;
   }
 
@@ -2213,6 +2300,10 @@ body[data-auth-page="sign-in"] .footer-grid {
   .plan-selector,
   .role-selector {
     grid-template-columns: 1fr;
+  }
+
+  .plan-table-panel {
+    overflow-x: auto;
   }
 
   .auth-grid-ornament {
