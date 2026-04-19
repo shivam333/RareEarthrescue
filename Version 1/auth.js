@@ -62,9 +62,10 @@
     return `${absoluteUrl.pathname}${absoluteUrl.search}${absoluteUrl.hash}`;
   };
 
-  const currentRelativeUrl = `${window.location.pathname.split("/").pop() || "index.html"}${window.location.search}${window.location.hash}`;
+  const getSearchParam = (name) => new URLSearchParams(window.location.search).get(name);
   const signInPage = config.signInPage || "sign-in.html";
   const defaultSignedInRedirect = config.signedInRedirect || "dashboard.html";
+  const currentRelativeUrl = `${window.location.pathname.split("/").pop() || "index.html"}${window.location.search}${window.location.hash}`;
   const clerkDomain = getClerkDomain(publishableKey);
 
   if (!clerkDomain) {
@@ -84,6 +85,78 @@
     console.error("Clerk failed to initialize.", error);
     return;
   }
+
+  const buildAppearance = () => ({
+    options: {
+      logoPlacement: "inside",
+      socialButtonsPlacement: "top",
+      socialButtonsVariant: "blockButton",
+      unsafe_disableDevelopmentModeWarnings: true,
+    },
+    variables: {
+      colorPrimary: "#b88b3c",
+      colorForeground: "#2f3426",
+      colorInputText: "#2f3426",
+      colorText: "#2f3426",
+      colorBackground: "#fffaf2",
+      borderRadius: "18px",
+      fontFamily: '"Manrope", sans-serif',
+    },
+    elements: {
+      cardBox: {
+        boxShadow: "none",
+        border: "0",
+        background: "transparent",
+        padding: "0",
+      },
+      headerTitle: {
+        fontSize: "1.5rem",
+        fontWeight: "800",
+      },
+      headerSubtitle: {
+        color: "#6f6b57",
+      },
+      socialButtonsBlockButton: {
+        borderRadius: "14px",
+        border: "1px solid rgba(104, 90, 59, 0.16)",
+        boxShadow: "none",
+        background: "#fffaf2",
+        minHeight: "48px",
+      },
+      formButtonPrimary: {
+        borderRadius: "14px",
+        background: "linear-gradient(145deg, #b88b3c, #9f742c)",
+        boxShadow: "none",
+      },
+      formFieldInput: {
+        borderRadius: "14px",
+        borderColor: "rgba(104, 90, 59, 0.18)",
+        minHeight: "48px",
+      },
+      phoneInputBox: {
+        borderRadius: "14px",
+        borderColor: "rgba(104, 90, 59, 0.18)",
+        minHeight: "48px",
+      },
+      footerActionLink: {
+        color: "#b88b3c",
+        fontWeight: "700",
+      },
+      identityPreviewText: {
+        color: "#2f3426",
+      },
+      formFieldLabel: {
+        color: "#2f3426",
+        fontWeight: "700",
+      },
+      dividerLine: {
+        background: "rgba(104, 90, 59, 0.12)",
+      },
+      dividerText: {
+        color: "#6f6b57",
+      },
+    },
+  });
 
   document.body.classList.toggle("is-signed-in", window.Clerk.isSignedIn);
   document.body.classList.toggle("is-signed-out", !window.Clerk.isSignedIn);
@@ -122,30 +195,154 @@
   }
 
   const authPage = document.body.dataset.authPage;
-  if (authPage === "sign-in") {
-    const authRoot = document.getElementById("clerk-auth-root");
-    const signedInPanel = document.getElementById("signed-in-panel");
-    const redirectParam = new URLSearchParams(window.location.search).get("redirect");
-    const fallbackRedirectUrl = getRelativePath(redirectParam || defaultSignedInRedirect);
+  if (authPage !== "sign-in") {
+    return;
+  }
 
-    if (!authRoot) {
+  const signInRoot = document.getElementById("clerk-sign-in-root");
+  const signUpRoot = document.getElementById("clerk-sign-up-root");
+  const signedInPanel = document.getElementById("signed-in-panel");
+  const roleSelectionPanel = document.getElementById("role-selection-panel");
+  const authModePanels = document.querySelectorAll("[data-auth-panel]");
+  const authTabButtons = document.querySelectorAll("[data-auth-mode]");
+  const planCards = document.querySelectorAll("[data-plan]");
+  const roleCards = document.querySelectorAll("[data-role]");
+  const roleContinueButton = document.getElementById("role-continue-button");
+
+  const redirectParam = getSearchParam("redirect");
+  const currentMode = getSearchParam("mode") || "sign-in";
+  const stepParam = getSearchParam("step");
+  const roleStorageKey = "rer-selected-role";
+  const planStorageKey = "rer-selected-plan";
+
+  const fallbackRedirectUrl = getRelativePath(redirectParam || defaultSignedInRedirect);
+  const roleRedirectUrl = `${signInPage}?step=role&redirect=${encodeURIComponent(fallbackRedirectUrl)}`;
+  let activePlan = localStorage.getItem(planStorageKey) || "free";
+  let activeRole = localStorage.getItem(roleStorageKey) || "";
+
+  const showPanel = (panelName) => {
+    authModePanels.forEach((panel) => {
+      panel.classList.toggle("active", panel.dataset.authPanel === panelName);
+    });
+
+    authTabButtons.forEach((button) => {
+      button.classList.toggle("active", button.dataset.authMode === panelName);
+    });
+  };
+
+  const updateRoleContinue = () => {
+    if (!roleContinueButton) {
       return;
     }
 
-    if (window.Clerk.isSignedIn) {
-      authRoot.hidden = true;
-      if (signedInPanel) {
-        signedInPanel.hidden = false;
+    const hasRole = Boolean(activeRole);
+    roleContinueButton.classList.toggle("is-disabled", !hasRole);
+    roleContinueButton.setAttribute("aria-disabled", String(!hasRole));
+
+    if (hasRole) {
+      roleContinueButton.href = `${fallbackRedirectUrl}${fallbackRedirectUrl.includes("?") ? "&" : "?"}role=${encodeURIComponent(activeRole)}`;
+    } else {
+      roleContinueButton.href = "#";
+    }
+  };
+
+  const syncPlanCards = () => {
+    planCards.forEach((card) => {
+      card.classList.toggle("active", card.dataset.plan === activePlan);
+    });
+  };
+
+  const syncRoleCards = () => {
+    roleCards.forEach((card) => {
+      card.classList.toggle("active", card.dataset.role === activeRole);
+    });
+    updateRoleContinue();
+  };
+
+  authTabButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const mode = button.dataset.authMode;
+      if (!mode) {
+        return;
       }
+
+      const nextUrl = new URL(window.location.href);
+      nextUrl.searchParams.set("mode", mode);
+      nextUrl.searchParams.delete("step");
+      window.history.replaceState({}, "", nextUrl);
+      showPanel(mode);
+    });
+  });
+
+  planCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      activePlan = card.dataset.plan || "free";
+      localStorage.setItem(planStorageKey, activePlan);
+      syncPlanCards();
+    });
+  });
+
+  roleCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      activeRole = card.dataset.role || "";
+      localStorage.setItem(roleStorageKey, activeRole);
+      syncRoleCards();
+    });
+  });
+
+  roleContinueButton?.addEventListener("click", (event) => {
+    if (!activeRole) {
+      event.preventDefault();
+    }
+  });
+
+  if (window.Clerk.isSignedIn) {
+    if (stepParam === "role") {
+      showPanel("role-selection");
+      roleSelectionPanel?.removeAttribute("hidden");
+      signedInPanel?.setAttribute("hidden", "hidden");
+      signedInPanel?.classList.remove("active");
+      syncRoleCards();
+    } else {
+      authModePanels.forEach((panel) => panel.classList.remove("active"));
+      authTabButtons.forEach((button) => button.classList.remove("active"));
+      signInRoot?.setAttribute("hidden", "hidden");
+      signUpRoot?.setAttribute("hidden", "hidden");
+      signedInPanel?.removeAttribute("hidden");
+      signedInPanel?.classList.add("active");
 
       const signedInUserButton = document.getElementById("signed-in-user-button");
       if (signedInUserButton) {
         window.Clerk.mountUserButton(signedInUserButton);
       }
-    } else {
-      window.Clerk.mountSignIn(authRoot, {
-        fallbackRedirectUrl,
-      });
     }
+
+    return;
+  }
+
+  syncPlanCards();
+  syncRoleCards();
+
+  if (signInRoot) {
+    window.Clerk.mountSignIn(signInRoot, {
+      fallbackRedirectUrl,
+      appearance: buildAppearance(),
+      initialValues: {
+        identifier: getSearchParam("identifier") || "",
+      },
+    });
+  }
+
+  if (signUpRoot) {
+    window.Clerk.mountSignUp(signUpRoot, {
+      fallbackRedirectUrl: roleRedirectUrl,
+      appearance: buildAppearance(),
+    });
+  }
+
+  if (currentMode === "sign-up") {
+    showPanel("sign-up");
+  } else {
+    showPanel("sign-in");
   }
 })();
