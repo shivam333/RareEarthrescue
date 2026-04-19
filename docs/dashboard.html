@@ -12,7 +12,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
+  <body data-auth-protected="true">
     <header class="site-header">
       <div class="shell header-shell">
         <a class="brand" href="index.html">
@@ -114,5 +114,7 @@
     </main>
 
     <script src="script.js"></script>
+    <script src="clerk-config.js"></script>
+    <script src="auth.js"></script>
   </body>
 </html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In | Rare Earth Rescue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@500;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-auth-page="sign-in" class="home-page">
+    <header class="site-header">
+      <div class="shell header-shell">
+        <a class="brand" href="index.html">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="39" class="logo-ring" />
+              <path class="logo-arrow" d="M73 17l15 8-1 18-7-8" />
+              <path class="logo-peak" d="M22 64L45 40l13 17 11-9 15 16" />
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong>Rare Earth Rescue</strong>
+            <span>Digital infrastructure for recycled rare earth supply</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a href="marketplace.html">Marketplace</a>
+          <a href="supplier-onboarding.html">Suppliers</a>
+          <a href="recycler-onboarding.html">Recyclers</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="auth-slot" data-auth-slot>
+            <a class="button button-ghost" data-auth-link data-redirect="dashboard.html" href="sign-in.html">Sign In</a>
+          </div>
+          <a class="button button-primary" href="contact.html">Talk to Our Team</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="section shell auth-shell">
+        <div class="auth-page-layout">
+          <div class="auth-copy reveal">
+            <p class="eyebrow">Secure buyer and supplier access</p>
+            <h1 class="hero-title">Access your Rare Earth Rescue workspace.</h1>
+            <p class="lede">
+              Sign in with Clerk to manage listings, buyer requests, procurement workflows, and
+              account settings from one secure control layer.
+            </p>
+            <div class="card-grid-3">
+              <article class="mini-card float-hover">
+                <strong>Buyer onboarding</strong>
+                <p>Saved searches, open orders, watchlists, and material intelligence.</p>
+              </article>
+              <article class="mini-card float-hover">
+                <strong>Supplier onboarding</strong>
+                <p>Feedstock listings, bid visibility, pickup coordination, and settlement tracking.</p>
+              </article>
+              <article class="mini-card float-hover">
+                <strong>User management</strong>
+                <p>Clerk handles authentication, user sessions, account settings, and security controls.</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="auth-card panel reveal">
+            <div id="clerk-auth-root" class="clerk-auth-root" aria-live="polite"></div>
+            <div id="signed-in-panel" hidden>
+              <span class="badge">Signed in</span>
+              <h3 style="margin-top: 14px;">Your account is active.</h3>
+              <p class="section-copy" style="margin-top: 10px;">
+                Open your user menu to manage your account, then continue into the dashboard.
+              </p>
+              <div id="signed-in-user-button" class="signed-in-user-button" style="margin-top: 18px;"></div>
+              <div class="hero-actions" style="margin-top: 22px;">
+                <a class="button button-primary" href="dashboard.html">Go to Dashboard</a>
+                <a class="button button-secondary" href="index.html">Back to Homepage</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell footer-grid">
+        <div class="footer-brand">
+          <div class="brand">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="39" class="logo-ring" />
+                <path class="logo-arrow" d="M73 17l15 8-1 18-7-8" />
+                <path class="logo-peak" d="M22 64L45 40l13 17 11-9 15 16" />
+              </svg>
+            </span>
+            <span class="brand-copy">
+              <strong>Rare Earth Rescue</strong>
+              <span>Verified feedstock. Traceable secondary materials.</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Marketplace</strong>
+          <div class="footer-links">
+            <a href="marketplace.html">Listings</a>
+            <a href="listing-detail.html">Listing Detail</a>
+            <a href="dashboard.html">Dashboard Preview</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Participants</strong>
+          <div class="footer-links">
+            <a href="supplier-onboarding.html">Suppliers</a>
+            <a href="recycler-onboarding.html">Recyclers</a>
+            <a href="about.html">About</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Company</strong>
+          <div class="footer-links">
+            <a href="contact.html">Contact</a>
+            <a href="#">Terms</a>
+            <a href="#">Privacy</a>
+          </div>
+        </div>
+
+        <div class="footer-group">
+          <strong>Follow</strong>
+          <div class="footer-links">
+            <a href="#">LinkedIn</a>
+            <a href="#">Newsletter</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="clerk-config.js"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>
