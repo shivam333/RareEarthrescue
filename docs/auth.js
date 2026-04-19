@@ -145,6 +145,18 @@
     } else {
       window.Clerk.mountSignIn(authRoot, {
         fallbackRedirectUrl,
+        appearance: {
+          options: {
+            logoPlacement: "inside",
+            socialButtonsPlacement: "top",
+            socialButtonsVariant: "blockButton",
+            unsafe_disableDevelopmentModeWarnings: true,
+          },
+          variables: {
+            colorPrimary: "#2f63c9",
+            colorForeground: "#14253d",
+          },
+        },
       });
     }
   }

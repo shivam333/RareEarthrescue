@@ -711,18 +711,63 @@ body.home-page.fullpage-enabled .hero {
   align-items: start;
 }
 
+.auth-shell-centered {
+  min-height: calc(100vh - 240px);
+  display: grid;
+  align-items: center;
+}
+
+.auth-page-layout-centered {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 22px;
+}
+
 .auth-copy {
   display: grid;
   gap: 20px;
   align-content: start;
 }
 
+.auth-copy-centered {
+  max-width: 700px;
+  text-align: center;
+  justify-items: center;
+  gap: 12px;
+}
+
+.auth-title {
+  max-width: none;
+  font-size: clamp(2.3rem, 4vw, 3.6rem);
+  line-height: 1.08;
+}
+
+.auth-subcopy {
+  max-width: 40rem;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
 .auth-card {
   padding: 28px;
 }
 
+.auth-card-centered {
+  width: min(100%, 560px);
+  padding: 22px;
+}
+
 .clerk-auth-root {
-  min-height: 540px;
+  min-height: 520px;
+}
+
+.auth-helper-text {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  text-align: center;
 }
 
 .dashboard-showcase {

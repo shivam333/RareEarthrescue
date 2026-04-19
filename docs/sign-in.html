@@ -47,33 +47,22 @@
     </header>
 
     <main class="page">
-      <section class="section shell auth-shell">
-        <div class="auth-page-layout">
-          <div class="auth-copy reveal">
-            <p class="eyebrow">Secure buyer and supplier access</p>
-            <h1 class="hero-title">Access your Rare Earth Rescue workspace.</h1>
-            <p class="lede">
-              Sign in with Clerk to manage listings, buyer requests, procurement workflows, and
-              account settings from one secure control layer.
+      <section class="section shell auth-shell auth-shell-centered">
+        <div class="auth-page-layout auth-page-layout-centered">
+          <div class="auth-copy auth-copy-centered reveal">
+            <p class="eyebrow">Buyer and supplier access</p>
+            <h1 class="auth-title">Sign in or create your account.</h1>
+            <p class="auth-subcopy">
+              Use email, phone, or your work account to access the Rare Earth Rescue platform.
             </p>
-            <div class="card-grid-3">
-              <article class="mini-card float-hover">
-                <strong>Buyer onboarding</strong>
-                <p>Saved searches, open orders, watchlists, and material intelligence.</p>
-              </article>
-              <article class="mini-card float-hover">
-                <strong>Supplier onboarding</strong>
-                <p>Feedstock listings, bid visibility, pickup coordination, and settlement tracking.</p>
-              </article>
-              <article class="mini-card float-hover">
-                <strong>User management</strong>
-                <p>Clerk handles authentication, user sessions, account settings, and security controls.</p>
-              </article>
-            </div>
           </div>
 
-          <div class="auth-card panel reveal">
+          <div class="auth-card auth-card-centered panel reveal">
             <div id="clerk-auth-root" class="clerk-auth-root" aria-live="polite"></div>
+            <p class="auth-helper-text">
+              Social login buttons like Google, Microsoft, and LinkedIn will appear here once they
+              are enabled in Clerk.
+            </p>
             <div id="signed-in-panel" hidden>
               <span class="badge">Signed in</span>
               <h3 style="margin-top: 14px;">Your account is active.</h3>
@@ -81,7 +70,7 @@
                 Open your user menu to manage your account, then continue into the dashboard.
               </p>
               <div id="signed-in-user-button" class="signed-in-user-button" style="margin-top: 18px;"></div>
-              <div class="hero-actions" style="margin-top: 22px;">
+              <div class="hero-actions" style="margin-top: 22px; justify-content: center;">
                 <a class="button button-primary" href="dashboard.html">Go to Dashboard</a>
                 <a class="button button-secondary" href="index.html">Back to Homepage</a>
               </div>
