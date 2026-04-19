@@ -75,11 +75,62 @@
                 <h2 class="auth-panel-title">Welcome back</h2>
                 <p class="auth-panel-subtext">Manage listings, orders, and supply relationships.</p>
               </div>
-              <div id="clerk-sign-in-root" class="clerk-auth-root" aria-live="polite"></div>
-              <p class="auth-helper-text">
-                Google, Microsoft, and LinkedIn buttons will appear automatically once those
-                providers are enabled in Clerk.
-              </p>
+
+              <div class="custom-auth-step active" id="sign-in-form-step">
+                <div class="custom-social-stack">
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-in" data-strategy="oauth_google">
+                    <span class="oauth-button-mark">G</span>
+                    <span>Continue with Google</span>
+                  </button>
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-in" data-strategy="oauth_microsoft">
+                    <span class="oauth-button-mark">M</span>
+                    <span>Continue with Microsoft</span>
+                  </button>
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-in" data-strategy="oauth_linkedin_oidc">
+                    <span class="oauth-button-mark">in</span>
+                    <span>Continue with LinkedIn</span>
+                  </button>
+                </div>
+
+                <div class="auth-divider">
+                  <span>or use your work email</span>
+                </div>
+
+                <form id="custom-sign-in-form" class="auth-form">
+                  <label class="auth-label" for="sign-in-email">Work email</label>
+                  <input id="sign-in-email" class="auth-input" name="email" type="email" autocomplete="email" placeholder="name@company.com" />
+
+                  <label class="auth-label" for="sign-in-password">Password</label>
+                  <input id="sign-in-password" class="auth-input" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" />
+
+                  <button id="sign-in-submit" class="button button-primary button-block auth-submit" type="submit">Continue</button>
+                </form>
+
+                <div id="sign-in-feedback" class="auth-feedback" hidden></div>
+                <p class="auth-helper-text">Use the email and password configured for your Rare Earth Rescue account.</p>
+              </div>
+
+              <div class="custom-auth-step" id="sign-in-verify-step" hidden>
+                <div class="verify-panel-copy">
+                  <span class="plan-badge">Verification required</span>
+                  <h3>Check your inbox</h3>
+                  <p id="sign-in-verify-copy">Enter the security code sent to your email to finish signing in.</p>
+                </div>
+
+                <form id="custom-sign-in-verify-form" class="auth-form">
+                  <label class="auth-label" for="sign-in-code">Verification code</label>
+                  <input id="sign-in-code" class="auth-input auth-code-input" name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" />
+
+                  <button id="sign-in-verify-submit" class="button button-primary button-block auth-submit" type="submit">Verify and continue</button>
+                </form>
+
+                <div class="auth-secondary-actions">
+                  <button id="sign-in-resend" class="button button-secondary" type="button">Resend code</button>
+                  <button id="sign-in-reset" class="button button-ghost" type="button">Start over</button>
+                </div>
+
+                <div id="sign-in-verify-feedback" class="auth-feedback" hidden></div>
+              </div>
             </div>
 
             <div class="auth-mode-panel" data-auth-panel="sign-up">
@@ -91,14 +142,73 @@
                 </p>
               </div>
 
-              <div id="clerk-sign-up-root" class="clerk-auth-root clerk-auth-root-compact" aria-live="polite"></div>
-              <div class="auth-signup-links">
-                <a class="ghost-link" href="#plan-comparison">Compare one-time vs subscription</a>
-                <a class="ghost-link" href="#subscription-plan">Know more about subscription</a>
+              <div class="custom-auth-step active" id="sign-up-form-step">
+                <form id="custom-sign-up-form" class="auth-form">
+                  <label class="auth-label" for="sign-up-email">Work email</label>
+                  <input id="sign-up-email" class="auth-input" name="email" type="email" autocomplete="email" placeholder="name@company.com" />
+
+                  <label class="auth-label" for="sign-up-password">Create password</label>
+                  <input id="sign-up-password" class="auth-input" name="password" type="password" autocomplete="new-password" placeholder="Create a secure password" />
+
+                  <label class="auth-label" for="sign-up-company">Company name</label>
+                  <input id="sign-up-company" class="auth-input" name="company" type="text" autocomplete="organization" placeholder="Your company or operating entity" />
+
+                  <div id="clerk-captcha" class="auth-captcha" data-cl-theme="light" data-cl-size="flexible"></div>
+
+                  <button id="sign-up-submit" class="button button-primary button-block auth-submit" type="submit">Create account</button>
+                </form>
+
+                <div class="auth-divider">
+                  <span>or continue with a connected account</span>
+                </div>
+
+                <div class="custom-social-stack">
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-up" data-strategy="oauth_google">
+                    <span class="oauth-button-mark">G</span>
+                    <span>Sign up with Google</span>
+                  </button>
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-up" data-strategy="oauth_microsoft">
+                    <span class="oauth-button-mark">M</span>
+                    <span>Sign up with Microsoft</span>
+                  </button>
+                  <button class="oauth-button" type="button" data-oauth-flow="sign-up" data-strategy="oauth_linkedin_oidc">
+                    <span class="oauth-button-mark">in</span>
+                    <span>Sign up with LinkedIn</span>
+                  </button>
+                </div>
+
+                <div id="sign-up-feedback" class="auth-feedback" hidden></div>
+
+                <div class="auth-signup-links">
+                  <a class="ghost-link" href="#plan-comparison">Compare one-time vs subscription</a>
+                  <a class="ghost-link" href="#subscription-plan">Know more about subscription</a>
+                </div>
               </div>
-              <p class="auth-helper-text">
-                Role selection happens after account creation so we can tailor your workspace.
-              </p>
+
+              <div class="custom-auth-step" id="sign-up-verify-step" hidden>
+                <div class="verify-panel-copy">
+                  <span class="plan-badge">Email verification</span>
+                  <h3>Verify your work email</h3>
+                  <p id="sign-up-verify-copy">Enter the one-time code sent to your inbox to activate the account.</p>
+                </div>
+
+                <form id="custom-sign-up-verify-form" class="auth-form">
+                  <label class="auth-label" for="sign-up-code">Verification code</label>
+                  <input id="sign-up-code" class="auth-input auth-code-input" name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" />
+
+                  <button id="sign-up-verify-submit" class="button button-primary button-block auth-submit" type="submit">Verify and continue</button>
+                </form>
+
+                <div class="auth-secondary-actions">
+                  <button id="sign-up-resend" class="button button-secondary" type="button">Resend code</button>
+                  <button id="sign-up-reset" class="button button-ghost" type="button">Start over</button>
+                </div>
+
+                <div id="sign-up-verify-feedback" class="auth-feedback" hidden></div>
+                <div class="auth-signup-links">
+                  <a class="ghost-link" href="#plan-comparison">Compare plans while you wait</a>
+                </div>
+              </div>
             </div>
 
             <div id="role-selection-panel" class="auth-mode-panel" data-auth-panel="role-selection">
@@ -151,71 +261,93 @@
       <section id="plan-comparison" class="section shell auth-secondary-section reveal">
         <div class="section-header auth-secondary-header">
           <p class="eyebrow">Compare Access Paths</p>
-          <h2>Choose the right way to start on Rare Earth Rescue.</h2>
+          <h2>Choose the right operating model for your recovery workflow.</h2>
           <p class="section-copy">
-            Create an account first, then choose whether you need a single transaction flow or
-            recurring marketplace access with intelligence tools.
+            Use this as a working outline for how Rare Earth Rescue can support one-off trades,
+            recurring marketplace participation, and tailored service-led programs.
           </p>
         </div>
 
         <div class="plan-comparison-shell">
-          <div class="plan-selector plan-selector-inline">
-            <button class="plan-card active" type="button" data-plan="free">
-              <span class="plan-badge">Start free</span>
-              <strong>One-Time Order</strong>
-              <p>Best for a single lot, quick buyer access, and testing the network.</p>
-            </button>
-            <button class="plan-card" type="button" data-plan="subscription">
+          <div class="plan-showcase-grid">
+            <article class="tier-showcase-card tier-showcase-card-free float-hover">
+              <span class="tier-icon-shell" aria-hidden="true">
+                <span class="tier-icon">1</span>
+              </span>
+              <span class="plan-badge">One-time</span>
+              <h3>One-Time Order</h3>
+              <p>For a single material movement, fast buyer discovery, and initial platform use.</p>
+              <a class="button button-secondary" data-plan-jump="free" href="#account-access">Start account</a>
+            </article>
+
+            <article class="tier-showcase-card tier-showcase-card-subscription tier-showcase-card-featured float-hover">
+              <span class="tier-feature-pill">Preferred ongoing path</span>
+              <span class="tier-icon-shell" aria-hidden="true">
+                <span class="tier-icon">2</span>
+              </span>
               <span class="plan-badge plan-badge-subscription">Subscription</span>
-              <strong>Full Access</strong>
-              <p>Best for repeat sourcing, pricing intelligence, and ongoing supply discovery.</p>
-            </button>
+              <h3>Marketplace Access</h3>
+              <p>For repeat buying and selling, recurring visibility, alerts, and procurement intelligence.</p>
+              <a class="button button-primary" data-plan-jump="subscription" href="#account-access">Request subscription access</a>
+            </article>
+
+            <article class="tier-showcase-card tier-showcase-card-enterprise float-hover">
+              <span class="tier-icon-shell" aria-hidden="true">
+                <span class="tier-icon">3</span>
+              </span>
+              <span class="plan-badge">Services</span>
+              <h3>Strategic Services</h3>
+              <p>For larger operators who need tailored workflows, coordinated sourcing, and managed support.</p>
+              <a class="button button-secondary" href="contact.html">Request services</a>
+            </article>
           </div>
 
           <div class="plan-table-panel panel">
             <table class="plan-table">
               <thead>
                 <tr>
-                  <th>Capability</th>
+                  <th>Plans</th>
                   <th>One-Time Order</th>
-                  <th>Subscription</th>
+                  <th>Marketplace Access</th>
+                  <th>Strategic Services</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Single transaction execution</td>
-                  <td>Included</td>
-                  <td>Included</td>
+                  <td>Best for</td>
+                  <td>Single lot execution and first-time participation</td>
+                  <td>Recurring sourcing, repeat listings, and active buyer programs</td>
+                  <td>High-touch supply programs, managed support, and tailored workflows</td>
                 </tr>
                 <tr>
-                  <td>Verified buyer and seller access</td>
-                  <td>Included</td>
-                  <td>Included</td>
+                  <td>Marketplace access</td>
+                  <td>Focused access to complete one transaction</td>
+                  <td>Ongoing access to verified marketplace opportunities</td>
+                  <td>Coordinated access shaped around your operating model</td>
                 </tr>
                 <tr>
-                  <td>Recurring listing visibility</td>
-                  <td>Limited</td>
-                  <td>Full access</td>
+                  <td>Visibility and discovery</td>
+                  <td>Basic listing visibility and direct matching support</td>
+                  <td>Broader listing exposure, saved workflows, and recurring discovery</td>
+                  <td>Priority routing, service-led support, and structured engagement paths</td>
                 </tr>
                 <tr>
-                  <td>Saved searches and alerts</td>
-                  <td>Not included</td>
-                  <td>Included</td>
+                  <td>Commercial intelligence</td>
+                  <td>High-level context around demand and counterparties</td>
+                  <td>Expanded signals, alerts, and procurement-facing intelligence layers</td>
+                  <td>Custom reporting, tailored oversight, and strategic planning support</td>
                 </tr>
                 <tr>
-                  <td>Pricing intelligence and market signals</td>
-                  <td>Summary level</td>
-                  <td>Full access</td>
+                  <td>Operations support</td>
+                  <td>Standard coordination for transaction completion</td>
+                  <td>Ongoing operational support for repeat marketplace activity</td>
+                  <td>White-glove coordination across sourcing, logistics, and account workflows</td>
                 </tr>
                 <tr>
-                  <td>Procurement pipeline tools</td>
-                  <td>Not included</td>
-                  <td>Included</td>
-                </tr>
-                <tr>
-                  <td>Priority support and onboarding</td>
-                  <td>Standard</td>
-                  <td>Priority</td>
+                  <td>Commercial path</td>
+                  <td>Create account and place an order</td>
+                  <td>Request subscription access</td>
+                  <td>Request services through the Rare Earth Rescue team</td>
                 </tr>
               </tbody>
             </table>
@@ -223,7 +355,8 @@
 
           <div class="plan-comparison-actions">
             <a class="button button-secondary" data-plan-jump="free" href="#account-access">Create Free Account</a>
-            <a class="button button-primary" data-plan-jump="subscription" href="#account-access">Create Subscription Account</a>
+            <a class="button button-primary" data-plan-jump="subscription" href="#account-access">Request Subscription Access</a>
+            <a class="button button-secondary" href="contact.html">Request Services</a>
           </div>
         </div>
       </section>
