@@ -116,23 +116,23 @@ const commodityTickers = [
 const issues = [
   {
     index: "01",
-    title: "Fragmented supply",
-    body: "Rare-earth-bearing scrap sits across scrapyards, ITAD operators, dismantlers, industrial salvage, and OEM reverse logistics programs.",
+    title: "Fragmented feedstock",
+    body: "Recycler demand is real, but origin points are scattered across scrapyards, dismantlers, ITAD operators, and industrial salvage networks.",
   },
   {
     index: "02",
-    title: "Opaque quality",
-    body: "Lots are rarely described with consistent magnet type, composition estimates, contamination notes, or packaging details.",
+    title: "Opaque material quality",
+    body: "Magnet chemistry, contamination, and recoverable content are often poorly described, making pricing and plant planning harder than they should be.",
   },
   {
     index: "03",
-    title: "Weak price discovery",
-    body: "Suppliers often sell high-value scrap too generically because specialist recycler demand and pricing signals are hard to access.",
+    title: "Hidden value pools",
+    body: "Scrappers and dismantlers may be underpricing rare-earth-bearing equipment because specialist recycler demand is rarely visible at the point of sale.",
   },
   {
     index: "04",
-    title: "Critical mineral pressure",
-    body: "EVs, wind, robotics, electronics, and defense are all pushing buyers to secure more traceable and local secondary supply.",
+    title: "Strategic urgency",
+    body: "Domestic recovery matters more as electrification, robotics, electronics, and defense push critical mineral security higher on the industrial agenda.",
   },
 ] as const;
 
@@ -164,19 +164,6 @@ const networkNodes = [
   { cx: 392, cy: 150, fill: "#3f7d6f" },
   { cx: 514, cy: 148, fill: "#c59a4f" },
   { cx: 464, cy: 266, fill: "#3f7d6f" },
-] as const;
-
-const northAmericaSignals = [
-  {
-    label: "Supplier density",
-    title: "Scrapyards, dismantlers, ITAD operators",
-    body: "Collection strength builds around industrial and transport corridors.",
-  },
-  {
-    label: "Buyer pull",
-    title: "Refiners, processors, and magnet recyclers",
-    body: "Verified demand turns scattered lots into visible procurement flow.",
-  },
 ] as const;
 
 const marketChartBars = [42, 58, 52, 74, 69, 88, 84, 102, 94, 112, 108, 124] as const;
@@ -871,25 +858,32 @@ export function HomePage() {
           </div>
         </section>
 
-        <section id="why-this-matters" className="shell pt-8 lg:pt-12">
+        <section id="why-this-matters" className="shell pt-4 lg:pt-6">
           <SectionHeading
             eyebrow="Why this matters"
-            title="Rare earth metals sit inside critical equipment, but the scrap flows around them are still opaque."
-            body="Nd, Pr, Dy, and Tb-bearing magnets often sit inside motors, HDD assemblies, robotics, industrial machinery, and e-waste fractions. The material is valuable, fragmented, and strategically under-coordinated just as geopolitical pressure is pushing buyers to build more local, resilient supply."
+            title="Rare earth metals sit inside critical equipment. Coordinating their recovery is now a U.S. supply chain priority."
+            body="Rare earth-bearing magnets are embedded in motors, HDD assemblies, robotics, industrial equipment, and e-waste. Recyclers need steadier sourcing to keep facilities utilized. Scrappers, dismantlers, and ITAD operators need better visibility into the value of magnet-bearing scrap they may be overlooking. Rare Earth Rescue helps connect both sides of that bottleneck."
           />
 
-          <div className="mt-10 grid gap-8 xl:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]">
-            <div className="grid gap-5 md:grid-cols-2">
+          <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(0,0.68fr)_minmax(0,1.32fr)]">
+            <div className="grid items-start gap-4 md:grid-cols-2">
               {issues.map((issue) => (
                 <article
                   key={issue.title}
-                  className="gsap-reveal rounded-[28px] border border-[#dccfbe] bg-[rgba(255,252,247,0.9)] p-6 shadow-[0_20px_60px_rgba(46,41,31,0.06)] transition duration-300 hover:-translate-y-1.5 hover:border-[#bf9956]/25"
+                  className="gsap-reveal self-start rounded-[26px] border border-[#dccfbe] bg-[rgba(255,252,247,0.9)] p-5 shadow-[0_18px_52px_rgba(46,41,31,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#bf9956]/25"
                 >
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#f3e7d3] font-display text-sm font-bold tracking-[-0.02em] text-[#9a7337]">
-                    {issue.index}
-                  </span>
-                  <h3 className="mt-5 heading-3">{issue.title}</h3>
-                  <p className="mt-3 text-base leading-8 text-[#5d6c79]">{issue.body}</p>
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#f3e7d3] font-display text-[0.76rem] font-bold tracking-[-0.02em] text-[#9a7337]">
+                      {issue.index}
+                    </span>
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8c7b64]">
+                      Market friction
+                    </span>
+                  </div>
+                  <h3 className="mt-4 font-display text-[1.2rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
+                    {issue.title}
+                  </h3>
+                  <p className="mt-2.5 text-[0.95rem] leading-7 text-[#5d6c79]">{issue.body}</p>
                 </article>
               ))}
             </div>
@@ -899,29 +893,29 @@ export function HomePage() {
                 <div className="gsap-network-drift absolute left-[10%] top-[10%] h-32 w-32 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.16),transparent_68%)] blur-3xl" />
                 <div className="gsap-network-drift absolute bottom-[12%] right-[14%] h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.16),transparent_70%)] blur-3xl" />
 
-                <div className="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                  <div className="max-w-[28rem]">
+                <div className="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="max-w-[34rem]">
                     <span className="badge">North America network</span>
                     <strong className="mt-4 block font-display text-[1.45rem] tracking-[-0.04em] text-[#11283d]">
-                      A regional supply graph connecting scattered origin points with verified buyers.
+                      A recovery network connecting fragmented scrap origin points with verified recycler demand.
                     </strong>
                     <p className="mt-3 text-[0.98rem] leading-7 text-[#556576]">
-                      The map shows where fragmented feedstock can originate and how Rare Earth Rescue structures demand across North American recovery corridors.
+                      Rare Earth Rescue helps recyclers source fragmented feedstock more reliably and helps scrappers, dismantlers, and ITAD operators identify and monetize rare-earth-bearing material that may otherwise trade below value.
                     </p>
                   </div>
 
-                  <article className="rounded-[24px] border border-[#dccfbe] bg-[rgba(255,252,247,0.9)] p-4 shadow-[0_16px_40px_rgba(46,41,31,0.06)] lg:max-w-[16rem]">
-                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
-                      Supply concentration
+                  <article className="rounded-[22px] border border-[#dccfbe] bg-[rgba(255,252,247,0.9)] px-4 py-3 shadow-[0_14px_34px_rgba(46,41,31,0.05)] lg:max-w-[15rem]">
+                    <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
+                      Context only
                     </span>
-                    <div className="mt-3 grid gap-3">
+                    <div className="mt-2.5 grid gap-2.5">
                       {[
                         { label: "China-led processing", value: "~90%", width: "90%", tone: "bg-[#c59a4f]" },
                         { label: "North America buildout", value: "~6%", width: "6%", tone: "bg-[#4f7f6f]" },
                         { label: "Other regions", value: "~4%", width: "4%", tone: "bg-[#c9827e]" },
                       ].map((item) => (
                         <div key={item.label}>
-                          <div className="flex items-center justify-between gap-3 text-[0.74rem] font-semibold text-[#445567]">
+                          <div className="flex items-center justify-between gap-3 text-[0.7rem] font-semibold text-[#445567]">
                             <span>{item.label}</span>
                             <strong>{item.value}</strong>
                           </div>
@@ -934,20 +928,20 @@ export function HomePage() {
                   </article>
                 </div>
 
-                <div className="relative mt-8 overflow-hidden rounded-[30px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(244,237,225,0.84))] px-3 py-4 sm:px-5">
+                <div className="relative mt-6 overflow-hidden rounded-[30px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(244,237,225,0.84))] px-3 py-4 sm:px-5">
                   <svg viewBox="0 0 620 340" className="h-full w-full">
                     <path
-                      d="M42 77 68 59 95 71 112 58 129 62 158 86 184 94 205 102 217 110 242 116 266 112 287 124 304 138 320 148 350 152 378 150 406 140 436 134 462 137 482 153 505 177 532 186 554 210 562 237 550 258 518 268 490 277 470 291 449 309 418 311 392 301 364 292 336 292 316 283 297 270 268 259 243 248 218 243 194 235 168 233 145 220 119 202 98 179 78 170 62 150 52 129 42 104Z"
+                      d="M52 84 73 68 95 66 112 73 132 87 145 104 170 109 190 121 206 136 225 145 249 151 277 150 301 160 322 176 344 182 370 184 398 176 425 168 450 168 474 176 499 194 525 204 548 226 556 250 545 268 523 278 505 291 485 296 470 306 447 311 419 304 396 293 373 290 351 292 326 283 305 267 282 259 258 251 234 243 212 232 191 229 170 215 150 197 132 185 113 168 92 156 77 139 62 118 55 101Z"
                       fill="rgba(255,255,255,0.58)"
                       stroke="rgba(17,40,61,0.16)"
                       strokeWidth="1.8"
                       strokeLinejoin="round"
                     />
-                    <path className="gsap-network-route" d="M212 104C246 120 277 138 311 167" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
-                    <path className="gsap-network-route" d="M311 167C365 160 426 152 490 154" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
-                    <path className="gsap-network-route" d="M311 167C350 192 387 222 425 258" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
-                    <path className="gsap-network-route" d="M311 167C260 183 220 205 178 238" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
-                    <path className="gsap-network-route" d="M311 167C290 128 255 93 211 70" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
+                    <path id="corridor-west" className="gsap-network-route" d="M205 124C237 134 274 149 308 170" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
+                    <path id="corridor-east" className="gsap-network-route" d="M308 170C367 162 426 155 487 160" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
+                    <path id="corridor-south" className="gsap-network-route" d="M308 170C348 196 385 224 423 257" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
+                    <path id="corridor-interior" className="gsap-network-route" d="M308 170C260 186 219 207 181 232" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
+                    <path id="corridor-north" className="gsap-network-route" d="M308 170C286 130 250 96 208 76" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
 
                     {networkNodes.map((node, index) => (
                       <g key={`network-node-${node.cx}-${node.cy}`}>
@@ -958,24 +952,20 @@ export function HomePage() {
                         </circle>
                       </g>
                     ))}
-                  </svg>
-                </div>
 
-                <div className="mt-5 grid gap-4 md:grid-cols-2">
-                  {northAmericaSignals.map((signal) => (
-                    <article
-                      key={signal.title}
-                      className="rounded-[24px] border border-[#dccfbe] bg-[rgba(255,252,247,0.88)] p-4 shadow-[0_14px_36px_rgba(46,41,31,0.06)]"
-                    >
-                      <span className="inline-flex rounded-full bg-[#eef3ef] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#315e53]">
-                        {signal.label}
-                      </span>
-                      <strong className="mt-3 block font-display text-[1rem] tracking-[-0.03em] text-[#11283d]">
-                        {signal.title}
-                      </strong>
-                      <p className="mt-2 text-sm leading-6 text-[#596977]">{signal.body}</p>
-                    </article>
-                  ))}
+                    {[
+                      { href: "#corridor-west", color: "#c59a4f", begin: "0s" },
+                      { href: "#corridor-east", color: "#3f7d6f", begin: "0.7s" },
+                      { href: "#corridor-south", color: "#173550", begin: "1.2s" },
+                      { href: "#corridor-interior", color: "#c59a4f", begin: "1.8s" },
+                    ].map((particle) => (
+                      <circle key={`${particle.href}-${particle.begin}`} r="3.8" fill={particle.color} opacity="0.9">
+                        <animateMotion dur="4.8s" begin={particle.begin} repeatCount="indefinite" rotate="auto">
+                          <mpath href={particle.href} />
+                        </animateMotion>
+                      </circle>
+                    ))}
+                  </svg>
                 </div>
               </div>
 
