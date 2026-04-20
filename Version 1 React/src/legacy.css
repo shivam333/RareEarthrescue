@@ -1232,6 +1232,28 @@ body.home-page.fullpage-enabled .hero {
   margin-top: auto;
 }
 
+.pricing-card-link {
+  width: fit-content;
+  margin-top: -4px;
+  border: 0;
+  background: transparent;
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.pricing-card-link:hover {
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.pricing-card-link-featured {
+  color: #4b6540;
+}
+
 .plan-faq-shell {
   position: relative;
   overflow: hidden;

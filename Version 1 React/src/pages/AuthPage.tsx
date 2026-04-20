@@ -33,6 +33,8 @@ const planComparisonCards = [
       { label: "Ongoing marketplace workflow depth", included: false },
     ],
     cta: "Create free account",
+    detailAction: "one-time",
+    detailLabel: "Know more about one-time orders",
   },
   {
     id: "subscription",
@@ -49,6 +51,8 @@ const planComparisonCards = [
     ],
     cta: "Request subscription access",
     featured: true,
+    detailAction: "subscription",
+    detailLabel: "Know more about subscription",
   },
   {
     id: "services",
@@ -65,6 +69,8 @@ const planComparisonCards = [
       { label: "Enterprise coordination across regions", included: true },
     ],
     cta: "Talk to our team",
+    detailAction: "services",
+    detailLabel: "Know more about custom services",
   },
 ] as const;
 
@@ -216,6 +222,21 @@ export function AuthPage() {
 
   const focusAccountAccess = () => {
     document.getElementById("account-access")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const openPlanDetail = (detailAction: "one-time" | "subscription" | "services") => {
+    if (detailAction === "services") {
+      navigate("/contact");
+      return;
+    }
+
+    const nextFaq = detailAction === "one-time" ? "one-time" : "subscription";
+    setActiveFaq(nextFaq);
+
+    const nextSection = detailAction === "subscription" ? "subscription-plan" : "plan-comparison";
+    window.requestAnimationFrame(() => {
+      document.getElementById(nextSection)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   };
 
   const handlePlanJump = (plan: PlanType) => {
@@ -886,6 +907,14 @@ export function AuthPage() {
                       }}
                     >
                       {plan.cta}
+                    </button>
+
+                    <button
+                      className={`pricing-card-link ${plan.featured ? "pricing-card-link-featured" : ""}`}
+                      type="button"
+                      onClick={() => openPlanDetail(plan.detailAction)}
+                    >
+                      {plan.detailLabel}
                     </button>
                   </motion.article>
                 ))}
