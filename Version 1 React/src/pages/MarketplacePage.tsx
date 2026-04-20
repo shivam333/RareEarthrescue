@@ -1,9 +1,16 @@
 import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { BidListingTable } from "../components/dashboard/BidListingTable";
 import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
 import { WidgetCard } from "../components/marketplace/WidgetCard";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
-import { dashboardBidListings, dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
+import {
+  dashboardBidListings,
+  dashboardMaterialTiles,
+  dashboardSourceContent,
+  DashboardSourceId,
+} from "../data/dashboardMarketplaceData";
 import { pricingWidgets, trustItems, logisticsSteps, testimonials } from "../data/marketplaceData";
 import { pageEnter } from "../lib/motion";
 
@@ -15,7 +22,15 @@ const pageMotionProps = {
 };
 
 export function MarketplacePage() {
+  const [searchParams] = useSearchParams();
+  const sourceParam = searchParams.get("source") as DashboardSourceId | null;
+  const activeSource = sourceParam && sourceParam in dashboardSourceContent ? sourceParam : "hdd";
   const previewRows = dashboardBidListings.slice(0, 4);
+  const sourceListings = useMemo(
+    () => dashboardBidListings.filter((listing) => listing.sourceId === activeSource),
+    [activeSource]
+  );
+  const sourceContent = dashboardSourceContent[activeSource];
 
   return (
     <motion.main className="page" {...pageMotionProps}>
@@ -77,6 +92,45 @@ export function MarketplacePage() {
 
       <section className="section-gap shell">
         <MotionSection className="table-shell">
+          <MotionItem className="rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
+            <div className="flex flex-col gap-4 border-b border-[#e0d7c9] pb-5 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-3xl">
+                <p className="eyebrow mb-0">{sourceContent.eyebrow}</p>
+                <h2 className="mt-2 font-display text-[1.95rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
+                  {sourceContent.title}
+                </h2>
+                <p className="mt-3 text-[0.98rem] leading-7 text-[#5a6a78]">{sourceContent.body}</p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <span className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
+                  {sourceListings.length} active listings
+                </span>
+                <span className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
+                  Concentration + verification visible
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <MaterialTileGrid tiles={dashboardMaterialTiles} compact />
+            </div>
+
+            <div className="mt-6 grid gap-3 lg:grid-cols-5">
+              {sourceContent.scrapTypes.map((scrapType) => (
+                <div
+                  key={scrapType}
+                  className="rounded-[22px] border border-[#ddd4c7] bg-white/78 px-4 py-4 text-center text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-[#5f6d79]"
+                >
+                  {scrapType}
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6">
+              <BidListingTable listings={sourceListings} showTechnicalColumns />
+            </div>
+          </MotionItem>
+
           <div className="widget-grid">
             {pricingWidgets.map((widget) => (
               <MotionItem key={widget.label}>

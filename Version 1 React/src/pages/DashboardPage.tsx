@@ -6,9 +6,10 @@ import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
 import {
   dashboardBidListings,
   dashboardMaterialTiles,
+  DashboardSourceId,
   DashboardLocationFilter,
   DashboardLotSize,
-  DashboardScrapType,
+  dashboardSourceContent,
 } from "../data/dashboardMarketplaceData";
 import { pageEnter } from "../lib/motion";
 
@@ -26,11 +27,11 @@ const lotSizeFilters: { label: string; value: DashboardLotSize | "all" }[] = [
   { label: "25+ MT", value: "large" },
 ];
 
-const scrapTypeFilters: { label: string; value: DashboardScrapType | "all" }[] = [
+const sourceFilters: { label: string; value: DashboardSourceId | "all" }[] = [
   { label: "All scrap", value: "all" },
   { label: "HDDs", value: "hdd" },
-  { label: "EV / Hybrid", value: "ev-hybrid" },
-  { label: "Industrial", value: "industrial-motor" },
+  { label: "Auto motors", value: "auto-motors" },
+  { label: "Industrial", value: "industrial-motors" },
   { label: "MRI", value: "mri" },
 ];
 
@@ -83,20 +84,20 @@ function FilterGroup<T extends string>({
 
 export function DashboardPage() {
   const [lotSize, setLotSize] = useState<DashboardLotSize | "all">("all");
-  const [scrapType, setScrapType] = useState<DashboardScrapType | "all">("all");
+  const [sourceId, setSourceId] = useState<DashboardSourceId | "all">("all");
   const [locationFilter, setLocationFilter] = useState<DashboardLocationFilter | "all">("all");
 
   const filteredListings = useMemo(
     () =>
       dashboardBidListings.filter((listing) => {
         const matchesLotSize = lotSize === "all" || listing.lotSize === lotSize;
-        const matchesScrapType = scrapType === "all" || listing.scrapType === scrapType;
+        const matchesSource = sourceId === "all" || listing.sourceId === sourceId;
         const matchesLocation =
           locationFilter === "all" || listing.locationFilter === locationFilter;
 
-        return matchesLotSize && matchesScrapType && matchesLocation;
+        return matchesLotSize && matchesSource && matchesLocation;
       }),
-    [lotSize, scrapType, locationFilter]
+    [lotSize, sourceId, locationFilter]
   );
 
   return (
@@ -133,7 +134,7 @@ export function DashboardPage() {
                 type="button"
                 onClick={() => {
                   setLotSize("all");
-                  setScrapType("all");
+                  setSourceId("all");
                   setLocationFilter("all");
                 }}
                 className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#8d6d39] transition hover:text-[#173550]"
@@ -151,9 +152,9 @@ export function DashboardPage() {
               />
               <FilterGroup
                 label="Scrap type"
-                options={scrapTypeFilters}
-                value={scrapType}
-                onChange={setScrapType}
+                options={sourceFilters}
+                value={sourceId}
+                onChange={setSourceId}
               />
               <FilterGroup
                 label="Location"
@@ -187,7 +188,10 @@ export function DashboardPage() {
                 <span className="rounded-full border border-[#ddd4c7] bg-white/84 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
                   {filteredListings.length} live lots
                 </span>
-                <Link className="button-ghost" to="/marketplace">
+                <Link
+                  className="button-ghost"
+                  to={sourceId === "all" ? "/marketplace" : `/marketplace?source=${sourceId}`}
+                >
                   Open marketplace view
                 </Link>
               </div>
@@ -196,6 +200,18 @@ export function DashboardPage() {
             <div className="mt-6">
               <BidListingTable listings={filteredListings} />
             </div>
+
+            {sourceId !== "all" ? (
+              <div className="mt-6 rounded-[28px] border border-[#ddd4c7] bg-white/72 p-5">
+                <span className="badge">{dashboardSourceContent[sourceId].eyebrow}</span>
+                <strong className="mt-4 block font-display text-[1.2rem] tracking-[-0.04em] text-[#11283d]">
+                  {dashboardSourceContent[sourceId].title}
+                </strong>
+                <p className="mt-3 max-w-[44rem] text-[0.96rem] leading-7 text-[#5a6a78]">
+                  {dashboardSourceContent[sourceId].body}
+                </p>
+              </div>
+            ) : null}
           </motion.div>
         </div>
       </section>
