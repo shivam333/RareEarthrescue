@@ -766,16 +766,16 @@ body.home-page.fullpage-enabled .hero {
 }
 
 .auth-card-centered {
-  width: min(100%, 680px);
-  padding: 20px;
+  width: min(100%, 720px);
+  padding: 22px;
 }
 
 .clerk-auth-root {
-  min-height: 408px;
+  min-height: 430px;
 }
 
 .clerk-auth-root-compact {
-  min-height: 390px;
+  min-height: 414px;
 }
 
 .auth-helper-text {
@@ -845,14 +845,14 @@ body.home-page.fullpage-enabled .hero {
 
 .auth-panel-title {
   max-width: none;
-  font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
   line-height: 1.04;
   letter-spacing: -0.03em;
 }
 
 .auth-panel-subtext {
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 1.05rem;
   line-height: 1.7;
 }
 

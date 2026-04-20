@@ -101,51 +101,19 @@ export function DashboardPage() {
 
   return (
     <motion.main className="page bg-transparent" {...pageMotionProps}>
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,175,103,0.16),transparent_24%),radial-gradient(circle_at_88%_12%,rgba(121,161,144,0.16),transparent_30%),linear-gradient(180deg,#fbf7ef_0%,#f4ebdb_56%,#f5efe4_100%)] pb-12 pt-32">
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,175,103,0.16),transparent_24%),radial-gradient(circle_at_88%_12%,rgba(121,161,144,0.16),transparent_30%),linear-gradient(180deg,#fbf7ef_0%,#f4ebdb_56%,#f5efe4_100%)] pb-12 pt-28">
         <div className="absolute inset-0 opacity-[0.18] [background-image:linear-gradient(rgba(17,40,61,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(17,40,61,0.05)_1px,transparent_1px)] [background-size:32px_32px]" />
         <div className="absolute left-[-6rem] top-[-2rem] h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.2),transparent_68%)] blur-3xl" />
         <div className="absolute right-[-5rem] top-[6rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.18),transparent_70%)] blur-3xl" />
 
         <div className="shell relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
-            className="max-w-4xl"
-          >
-            <p className="eyebrow !text-[#7e7668]">Verified buyer workspace</p>
-            <h1 className="max-w-[12.5ch] font-display text-[clamp(3rem,5vw,5.3rem)] leading-[0.95] tracking-[-0.06em] text-[#11283d]">
-              Bid on rare-earth-bearing lots through one clean industrial marketplace.
-            </h1>
-            <p className="mt-5 max-w-[46rem] text-[1.05rem] leading-8 text-[#445567] sm:text-[1.14rem]">
-              A landscape workspace for verified buyers to scan key material streams, compare live
-              lots, and act on openings across hard disc drives, EV and hybrid motors, industrial
-              motors, and MRI equipment.
-            </p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              {[
-                "Bidding-ready lots",
-                "Premium buyer flow",
-                "Fragmented supply, structured cleanly",
-              ].map((pill) => (
-                <span
-                  key={pill}
-                  className="rounded-full border border-[#d8cebd] bg-[rgba(255,252,247,0.86)] px-4 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#5d6f62]"
-                >
-                  {pill}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-
-          <div className="mt-10">
+          <div>
             <MaterialTileGrid tiles={dashboardMaterialTiles} />
           </div>
         </div>
       </section>
 
-      <section className="shell section-gap pt-10">
+      <section className="shell section-gap pt-8">
         <div className="grid gap-6 xl:grid-cols-[300px_minmax(0,1fr)]">
           <motion.aside
             initial={{ opacity: 0, x: -18 }}

@@ -110,15 +110,55 @@ export function MarketplacePage() {
             ))}
           </div>
 
-          <div className="testimonial-grid compact">
-            {testimonials.slice(0, 2).map((testimonial) => (
-              <MotionItem key={testimonial.role}>
-                <article className="testimonial-card compact panel">
-                  <p>{testimonial.quote}</p>
-                  <span className="testimonial-role">{testimonial.role}</span>
-                </article>
-              </MotionItem>
-            ))}
+          <div className="quote-section">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-3xl">
+                <p className="eyebrow mb-0">Market voice</p>
+                <h2 className="mt-2 font-display text-[1.8rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
+                  Floating perspective from operators already navigating rare earth recovery workflows.
+                </h2>
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-6 xl:grid-cols-2">
+              {testimonials.slice(0, 2).map((testimonial, index) => (
+                <MotionItem key={testimonial.role}>
+                  <motion.article
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.25 }}
+                    transition={{ duration: 0.5, delay: index * 0.08 }}
+                    whileHover={{ y: -6 }}
+                    className="relative overflow-hidden rounded-[32px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,252,247,0.82),rgba(245,237,225,0.74))] p-7 shadow-[0_24px_70px_rgba(46,41,31,0.08)]"
+                  >
+                    <div className="absolute right-6 top-3 font-display text-[5rem] leading-none text-[#e7dbc7]">
+                      "
+                    </div>
+                    <p className="relative z-10 max-w-[30rem] font-display text-[1.35rem] leading-[1.22] tracking-[-0.04em] text-[#11283d]">
+                      {testimonial.quote}
+                    </p>
+                    <div className="mt-6 flex items-center gap-4">
+                      <div className="h-14 w-14 overflow-hidden rounded-full border border-[#ddd4c7] bg-white shadow-[0_10px_24px_rgba(46,41,31,0.08)]">
+                        <img
+                          src={testimonial.image}
+                          alt={testimonial.name}
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="grid gap-1">
+                        <strong className="font-display text-[1rem] tracking-[-0.03em] text-[#11283d]">
+                          {testimonial.name}
+                        </strong>
+                        <span className="text-[0.72rem] font-semibold uppercase tracking-[0.18em] text-[#7d7568]">
+                          {testimonial.role}
+                        </span>
+                      </div>
+                    </div>
+                  </motion.article>
+                </MotionItem>
+              ))}
+            </div>
           </div>
         </MotionSection>
       </section>

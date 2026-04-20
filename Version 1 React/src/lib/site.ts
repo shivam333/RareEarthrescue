@@ -49,3 +49,7 @@ export function getSignInUrl() {
 export function getSignUpUrl() {
   return toAbsoluteAppUrl("/sign-in?mode=sign-up");
 }
+
+export function getHomeUrl() {
+  return toAbsoluteAppUrl("/");
+}

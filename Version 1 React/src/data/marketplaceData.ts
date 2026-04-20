@@ -396,22 +396,33 @@ export const testimonials = [
   {
     quote:
       "Rare Earth Rescue gave us a serious route to specialist buyers for HDD and magnet-bearing e-waste streams we used to sell too generically.",
+    name: "Evan Clark",
     role: "Operations Director, Midwest ITAD Network",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
   },
   {
     quote:
       "The value is not just discovery. It is the structure around assay data, logistics assumptions, and verified counterparties.",
+    name: "Maya Sato",
     role: "Procurement Lead, Magnet Recycling Company",
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
   },
   {
     quote:
       "For industrial sustainability teams, secondary rare earth sourcing becomes much more actionable when the data and counterparties are organized.",
+    name: "Northline Manufacturing",
     role: "Circularity Program Manager, Industrial OEM",
+    image: "https://logo.clearbit.com/siemens.com",
   },
   {
     quote:
       "The platform helps us translate fragmented motor and magnet supply into a real procurement pipeline rather than an unstructured inbox.",
+    name: "Daniel Reyes",
     role: "Commercial Lead, Rare Earth Processor",
+    image:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80",
   },
 ];
 

@@ -27,6 +27,12 @@ type LogoBadge = {
   src: string;
 };
 
+const heroCommodityTickers = [
+  { label: "Copper", value: "$4.38/lb", move: "+1.2%", tone: "text-[#2f7c62]" },
+  { label: "ReO Index", value: "118.4", move: "+2.1%", tone: "text-[#8d6d39]" },
+  { label: "NdFeB", value: "$57.8/kg", move: "+4.2%", tone: "text-[#2f7c62]" },
+] as const;
+
 const heroPaths = [
   {
     badge: "Marketplace",
@@ -475,6 +481,19 @@ export function HomePage() {
         );
       });
 
+      gsap.utils.toArray<HTMLElement>(".gsap-hero-ticker-track").forEach((track, index) => {
+        gsap.fromTo(
+          track,
+          { xPercent: index % 2 === 0 ? 0 : -50 },
+          {
+            xPercent: index % 2 === 0 ? -50 : 0,
+            duration: 16,
+            repeat: -1,
+            ease: "none",
+          }
+        );
+      });
+
       gsap.utils.toArray<HTMLElement>(".gsap-dashboard-bar").forEach((bar, index) => {
         gsap.fromTo(
           bar,
@@ -573,14 +592,14 @@ export function HomePage() {
       <main className="page bg-transparent">
         <section
           id="top"
-          className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,175,103,0.24),transparent_24%),radial-gradient(circle_at_88%_12%,rgba(121,161,144,0.24),transparent_30%),linear-gradient(180deg,#fbf7ef_0%,#f4ebdb_48%,#f5efe4_100%)] pb-8 pt-32 lg:pb-10"
+          className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,175,103,0.24),transparent_24%),radial-gradient(circle_at_88%_12%,rgba(121,161,144,0.24),transparent_30%),linear-gradient(180deg,#fbf7ef_0%,#f4ebdb_48%,#f5efe4_100%)] pb-3 pt-24 lg:pb-4 lg:pt-28"
         >
           <div className="gsap-grid-shift absolute inset-0 opacity-[0.2] [background-image:linear-gradient(rgba(17,40,61,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(17,40,61,0.06)_1px,transparent_1px)] [background-size:32px_32px]" />
           <div className="gsap-orb absolute left-[-8rem] top-[-3rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.28),transparent_70%)] blur-3xl" />
           <div className="gsap-orb absolute bottom-[-10rem] right-[-7rem] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.2),transparent_68%)] blur-3xl" />
 
-          <div className="shell relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1.18fr)_minmax(520px,0.82fr)] lg:items-start">
-            <div className="gsap-hero-copy pt-3">
+          <div className="shell relative z-10 grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(500px,0.92fr)] lg:items-center">
+            <div className="gsap-hero-copy pt-1">
               <div className="gsap-hero-logo mb-7 inline-flex h-24 w-24 items-center justify-center rounded-[2rem] border border-[#d8cfbf] bg-[rgba(255,252,247,0.88)] shadow-[0_18px_40px_rgba(46,41,31,0.08)] backdrop-blur">
                 <svg viewBox="0 0 100 100" className="h-14 w-14 text-[#173550]">
                   <circle cx="50" cy="50" r="39" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
@@ -609,7 +628,7 @@ export function HomePage() {
                 ))}
               </div>
 
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="mt-7 grid gap-4 sm:grid-cols-2">
                 {heroPaths.map((path) => (
                   <Link
                     key={path.title}
@@ -628,7 +647,7 @@ export function HomePage() {
               </div>
             </div>
 
-            <div className="gsap-hero-visual relative min-h-[620px] overflow-hidden rounded-[34px] border border-[#d9cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(239,231,218,0.9))] shadow-[0_34px_90px_rgba(46,41,31,0.1)]">
+            <div className="gsap-hero-visual relative min-h-[520px] overflow-hidden rounded-[34px] border border-[#d9cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(239,231,218,0.9))] shadow-[0_34px_90px_rgba(46,41,31,0.1)] lg:min-h-[540px]">
               <div className="gsap-parallax absolute inset-0 opacity-[0.16]">
                 <img
                   src="https://images.unsplash.com/photo-1513828742140-ccaa28f3eda0?auto=format&fit=crop&w=1600&q=80"
@@ -644,7 +663,19 @@ export function HomePage() {
               <div className="gsap-network-drift absolute bottom-[16%] left-[36%] h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(23,53,80,0.12),transparent_72%)] blur-2xl" />
               <div className="absolute inset-[12%_10%_18%] rounded-[32px] border border-white/30 opacity-60" />
 
-              <div className="pointer-events-none absolute inset-x-0 bottom-[15rem] top-16 z-[1]">
+              <div className="absolute left-5 right-5 top-5 z-10 overflow-hidden rounded-full border border-[#ddd4c7] bg-white/84 px-3 py-2 shadow-[0_14px_32px_rgba(31,40,31,0.06)]">
+                <div className="gsap-hero-ticker-track flex min-w-max items-center gap-6">
+                  {[...heroCommodityTickers, ...heroCommodityTickers].map((ticker, index) => (
+                    <div key={`${ticker.label}-${index}`} className="flex items-center gap-3 text-sm">
+                      <span className="font-semibold uppercase tracking-[0.14em] text-[#7b7367]">{ticker.label}</span>
+                      <span className="font-bold text-[#173550]">{ticker.value}</span>
+                      <span className={`font-bold ${ticker.tone}`}>{ticker.move}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pointer-events-none absolute inset-x-0 bottom-[10rem] top-24 z-[1]">
                 <svg viewBox="0 0 800 680" className="h-full w-full">
                   <path
                     className="gsap-network-route"
@@ -677,6 +708,25 @@ export function HomePage() {
                     </g>
                   ))}
                 </svg>
+              </div>
+
+              <div className="absolute bottom-5 left-5 right-5 z-10 grid gap-3 md:grid-cols-3">
+                {heroCommodityTickers.map((ticker) => (
+                  <div
+                    key={ticker.label}
+                    className="rounded-[22px] border border-[#ddd4c7] bg-white/84 p-4 shadow-[0_16px_36px_rgba(31,40,31,0.06)] backdrop-blur"
+                  >
+                    <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
+                      {ticker.label}
+                    </span>
+                    <div className="mt-3 flex items-end justify-between gap-3">
+                      <strong className="font-display text-[1.15rem] tracking-[-0.03em] text-[#11283d]">
+                        {ticker.value}
+                      </strong>
+                      <span className={`text-sm font-bold ${ticker.tone}`}>{ticker.move}</span>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
