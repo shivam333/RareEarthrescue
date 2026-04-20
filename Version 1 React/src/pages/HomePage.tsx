@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { commodityTickers } from "../data/newsData";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -25,15 +26,6 @@ type ServiceModule = {
 type LogoBadge = {
   name: string;
   src: string;
-};
-
-type NewsCard = {
-  badge: string;
-  title: string;
-  body: string;
-  meta: string;
-  image: string;
-  href?: string;
 };
 
 const heroPaths = [
@@ -98,30 +90,6 @@ const ribbonLogos: LogoBadge[] = [
   },
 ] as const;
 
-const commodityTickers = [
-  {
-    label: "Copper",
-    venue: "LME spot",
-    value: "$9,486",
-    move: "+1.8%",
-    tone: "text-[#2f7c62]",
-  },
-  {
-    label: "Steel",
-    venue: "HRC Midwest",
-    value: "$812",
-    move: "+0.7%",
-    tone: "text-[#2f7c62]",
-  },
-  {
-    label: "Rare earth",
-    venue: "NdPr oxide",
-    value: "$57.8",
-    move: "+4.2%",
-    tone: "text-[#9a7337]",
-  },
-] as const;
-
 const issues = [
   {
     index: "01",
@@ -142,43 +110,6 @@ const issues = [
     index: "04",
     title: "Strategic urgency",
     body: "Domestic recovery matters more as electrification, robotics, electronics, and defense push critical mineral security higher on the industrial agenda.",
-  },
-] as const;
-
-const articleCards: NewsCard[] = [
-  {
-    badge: "Public announcement",
-    title: "White House proclamation on processed critical minerals imports",
-    body: "Policy now links processed critical mineral dependence directly to domestic industrial resilience.",
-    meta: "Source: The White House",
-    href: "https://www.whitehouse.gov/presidential-actions/2026/01/adjusting-imports-of-processed-critical-minerals-and-their-derivative-products-into-the-united-states/",
-    image:
-      "https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    badge: "REO market note",
-    title: "NdPr pricing remains the signal feedstock operators watch most closely",
-    body: "Rare earth oxide pricing continues to shape how recyclers assess magnet-bearing scrap and intermediate material demand.",
-    meta: "Source: Rare Earth Rescue desk note",
-    image:
-      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    badge: "Industry article",
-    title: "Sorting rare earth motors without opening them",
-    body: "Better sorting methods are making REE-bearing motor streams easier to identify before teardown and recovery.",
-    meta: "Source: Scientific Reports",
-    href: "https://www.nature.com/articles/s41598-025-94667-x",
-    image:
-      "https://images.unsplash.com/photo-1581091870622-2cf1f3c71f54?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    badge: "Customer testimonial",
-    title: "“We were likely underpricing magnet-bearing scrap before we had specialist demand in view.”",
-    body: "ITAD and dismantling operators use better buyer visibility to uncover value pools that were previously treated as generic mixed scrap.",
-    meta: "Perspective from a recovery partner",
-    image:
-      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1400&q=80",
   },
 ] as const;
 
@@ -748,13 +679,13 @@ export function HomePage() {
 
               <div className="gsap-hero-signal absolute left-6 top-6 z-10 max-w-[22rem] rounded-[24px] border border-[#cc9f64]/30 bg-[linear-gradient(135deg,rgba(255,248,239,0.95),rgba(255,255,255,0.84))] p-5 text-[#11283d] shadow-[0_18px_50px_rgba(31,40,31,0.12)]">
                 <span className="inline-flex rounded-full bg-[#f0e4d0] px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#9a7337]">
-                  Commodity pulse
+                  RER market monitor
                 </span>
                 <strong className="mt-3 block font-display text-[1.08rem] tracking-[-0.03em]">
-                  NdPr oxide index: $57.8/kg
+                  North American scrap buyers are tracking a firmer magnet-input tape.
                 </strong>
                 <p className="mt-2 text-sm leading-7 text-[#566777]">
-                  Three-day move: +4.2% as magnet demand tightened across transport and defense supply.
+                  A live-style view of the inputs shaping recycled metal conversations across magnets, motors, and industrial recovery streams.
                 </p>
               </div>
 
@@ -801,7 +732,7 @@ export function HomePage() {
                         Live commodity pulse
                       </span>
                       <strong className="mt-3 block font-display text-[1.1rem] tracking-[-0.03em]">
-                        Trading signals across copper, steel, and rare earth inputs.
+                        Trading signals across copper, steel, and magnet-linked rare earth inputs.
                       </strong>
                     </div>
                     <div className="overflow-hidden rounded-full border border-[#d9cfbf] bg-white/80 px-3 py-2">
@@ -832,6 +763,7 @@ export function HomePage() {
                             <span className="text-[1.08rem] font-bold text-[#173550]">{ticker.value}</span>
                             <span className={`text-sm font-bold ${ticker.tone}`}>{ticker.move}</span>
                           </div>
+                          <p className="mt-2 text-[0.78rem] leading-5 text-[#667686]">{ticker.note}</p>
                         </div>
                       ))}
                     </div>
@@ -842,7 +774,7 @@ export function HomePage() {
                           Multi-market trend
                         </span>
                         <span className="rounded-full bg-[#edf4ef] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#315e53]">
-                          Simulated live feed
+                          Desk-led market tape
                         </span>
                       </div>
                       <div className="mt-4 h-28 overflow-hidden rounded-[22px] border border-[#e3dacd] bg-white/72 p-4">
@@ -891,90 +823,26 @@ export function HomePage() {
           />
 
           <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
-            <div className="grid gap-5">
-              <div className="grid items-start gap-4 md:grid-cols-2">
-                {issues.map((issue) => (
-                  <article
-                    key={issue.title}
-                    className="gsap-reveal self-start rounded-[26px] border border-[#dccfbe] bg-[rgba(255,252,247,0.9)] p-5 shadow-[0_18px_52px_rgba(46,41,31,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#bf9956]/25"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#f3e7d3] font-display text-[0.76rem] font-bold tracking-[-0.02em] text-[#9a7337]">
-                        {issue.index}
-                      </span>
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8c7b64]">
-                        Market friction
-                      </span>
-                    </div>
-                    <h3 className="mt-4 font-display text-[1.2rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
-                      {issue.title}
-                    </h3>
-                    <p className="mt-2.5 text-[0.95rem] leading-7 text-[#5d6c79]">{issue.body}</p>
-                  </article>
-                ))}
-              </div>
-
-              <div id="news" className="grid gap-4">
-                <div className="gsap-reveal flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                  <div>
-                    <p className="eyebrow !mb-0">News</p>
-                    <h3 className="font-display text-[1.45rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
-                      Articles, announcements, REO market notes, and customer perspective.
-                    </h3>
+            <div className="grid items-start gap-4 md:grid-cols-2">
+              {issues.map((issue) => (
+                <article
+                  key={issue.title}
+                  className="gsap-reveal self-start rounded-[26px] border border-[#dccfbe] bg-[rgba(255,252,247,0.9)] p-5 shadow-[0_18px_52px_rgba(46,41,31,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#bf9956]/25"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#f3e7d3] font-display text-[0.76rem] font-bold tracking-[-0.02em] text-[#9a7337]">
+                      {issue.index}
+                    </span>
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8c7b64]">
+                      Market friction
+                    </span>
                   </div>
-                  <p className="max-w-[18rem] text-sm leading-6 text-[#5d6c79]">
-                    A single stream for public signals, recovery intelligence, and market validation.
-                  </p>
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  {articleCards.map((article) => {
-                    const content = (
-                      <>
-                        <div className="relative h-44 overflow-hidden">
-                          <img
-                            src={article.image}
-                            alt={article.title}
-                            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
-                          />
-                          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,40,61,0.06),rgba(17,40,61,0.58))]" />
-                          <div className="absolute left-5 top-5">
-                            <span className="inline-flex rounded-full border border-white/20 bg-white/12 px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-white backdrop-blur">
-                              {article.badge}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="p-5">
-                          <strong className="block font-display text-[1.05rem] tracking-[-0.03em] text-[#11283d]">
-                            {article.title}
-                          </strong>
-                          <p className="mt-2 text-sm leading-6 text-[#5d6c79]">{article.body}</p>
-                          <span className="mt-4 block text-[0.8rem] font-semibold text-[#8a7b65]">{article.meta}</span>
-                        </div>
-                      </>
-                    );
-
-                    return article.href ? (
-                      <a
-                        key={article.title}
-                        href={article.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="gsap-reveal group overflow-hidden rounded-[30px] border border-[#dacfbf] bg-[rgba(255,252,247,0.92)] shadow-[0_22px_60px_rgba(46,41,31,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#315e53]/24"
-                      >
-                        {content}
-                      </a>
-                    ) : (
-                      <article
-                        key={article.title}
-                        className="gsap-reveal group overflow-hidden rounded-[30px] border border-[#dacfbf] bg-[rgba(255,252,247,0.92)] shadow-[0_22px_60px_rgba(46,41,31,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#315e53]/24"
-                      >
-                        {content}
-                      </article>
-                    );
-                  })}
-                </div>
-              </div>
+                  <h3 className="mt-4 font-display text-[1.2rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
+                    {issue.title}
+                  </h3>
+                  <p className="mt-2.5 text-[0.95rem] leading-7 text-[#5d6c79]">{issue.body}</p>
+                </article>
+              ))}
             </div>
 
             <div className="grid gap-5">
