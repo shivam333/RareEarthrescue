@@ -44,11 +44,10 @@ export type PricingWidget =
     };
 
 export const navItems = [
-  { label: "Marketplace", href: "/marketplace" },
-  { label: "Suppliers", href: "/supplier-onboarding" },
-  { label: "Recyclers", href: "/recycler-onboarding" },
-  { label: "Intelligence", href: "/#intelligence" },
+  { label: "Home", href: "/" },
+  { label: "Product", href: "/marketplace" },
   { label: "About", href: "/about" },
+  { label: "News", href: "/#news" },
   { label: "Contact", href: "/contact" },
 ];
 
