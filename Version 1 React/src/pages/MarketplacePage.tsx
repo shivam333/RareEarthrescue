@@ -1,12 +1,10 @@
 import { motion } from "framer-motion";
 import { BidListingTable } from "../components/dashboard/BidListingTable";
 import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
-import { ListingTable } from "../components/marketplace/ListingTable";
 import { WidgetCard } from "../components/marketplace/WidgetCard";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
-import { SectionIntro } from "../components/ui/SectionIntro";
 import { dashboardBidListings, dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
-import { listings, pricingWidgets, trustItems, logisticsSteps, testimonials } from "../data/marketplaceData";
+import { pricingWidgets, trustItems, logisticsSteps, testimonials } from "../data/marketplaceData";
 import { pageEnter } from "../lib/motion";
 
 const pageMotionProps = {
@@ -77,110 +75,8 @@ export function MarketplacePage() {
         </MotionItem>
       </section>
 
-      <section className="section-gap shell marketplace-layout">
-        <aside className="filters-sidebar">
-          <div className="panel">
-            <h3 className="heading-3 mb-4">Filter listings</h3>
-            <div className="panel-stack">
-              <div className="filter-group">
-                <span className="filter-label">Material type</span>
-                <div className="filter-row">
-                  <button className="chip active" type="button">
-                    All
-                  </button>
-                  <button className="chip" type="button">
-                    NdFeB
-                  </button>
-                  <button className="chip" type="button">
-                    SmCo
-                  </button>
-                  <button className="chip" type="button">
-                    Motors
-                  </button>
-                </div>
-              </div>
-              <div className="filter-group">
-                <span className="filter-label">Geography</span>
-                <div className="filter-row">
-                  <button className="chip active" type="button">
-                    Global
-                  </button>
-                  <button className="chip" type="button">
-                    North America
-                  </button>
-                  <button className="chip" type="button">
-                    Europe
-                  </button>
-                  <button className="chip" type="button">
-                    Asia
-                  </button>
-                </div>
-              </div>
-              <div className="filter-group">
-                <span className="filter-label">Quantity</span>
-                <div className="filter-row">
-                  <button className="chip active" type="button">
-                    Any
-                  </button>
-                  <button className="chip" type="button">
-                    &lt; 5 MT
-                  </button>
-                  <button className="chip" type="button">
-                    5-20 MT
-                  </button>
-                  <button className="chip" type="button">
-                    20+ MT
-                  </button>
-                </div>
-              </div>
-              <div className="filter-group">
-                <span className="filter-label">Quality signals</span>
-                <div className="filter-row">
-                  <button className="chip active" type="button">
-                    Any
-                  </button>
-                  <button className="chip" type="button">
-                    Assay available
-                  </button>
-                  <button className="chip" type="button">
-                    Verified seller
-                  </button>
-                  <button className="chip" type="button">
-                    Logistics available
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
-
+      <section className="section-gap shell">
         <MotionSection className="table-shell">
-          <MotionItem className="toolbar flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <SectionIntro
-              eyebrow="Marketplace"
-              title="Live marketplace snapshot"
-              copy="Example feedstock currently visible to verified buyers across regions and categories."
-            />
-            <div className="filter-row">
-              <button className="chip active" type="button">
-                Newest
-              </button>
-              <button className="chip" type="button">
-                Highest quantity
-              </button>
-              <button className="chip" type="button">
-                Best assay
-              </button>
-              <button className="chip" type="button">
-                Nearest
-              </button>
-            </div>
-          </MotionItem>
-
-          <MotionItem>
-            <ListingTable listings={listings} />
-          </MotionItem>
-
           <div className="widget-grid">
             {pricingWidgets.map((widget) => (
               <MotionItem key={widget.label}>

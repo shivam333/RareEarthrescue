@@ -33,14 +33,19 @@ export function toAbsoluteAppUrl(path: string) {
   return new URL(normalizedPath, base).toString();
 }
 
+export function toAppRelativeUrl(path: string) {
+  const absolute = new URL(toAbsoluteAppUrl(path));
+  return `${absolute.pathname}${absolute.search}${absolute.hash}`;
+}
+
 export function getAuthRedirectTarget(searchParams: URLSearchParams) {
   return normalizeRedirectPath(searchParams.get("redirect_url") || searchParams.get("redirect"));
 }
 
 export function getSignInUrl() {
-  return "/sign-in";
+  return toAbsoluteAppUrl("/sign-in");
 }
 
 export function getSignUpUrl() {
-  return "/sign-in?mode=sign-up";
+  return toAbsoluteAppUrl("/sign-in?mode=sign-up");
 }

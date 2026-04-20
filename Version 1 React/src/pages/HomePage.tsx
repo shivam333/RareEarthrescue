@@ -4,10 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { BidListingTable } from "../components/dashboard/BidListingTable";
-import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
-import { dashboardBidListings, dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
-import { commodityTickers } from "../data/newsData";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -124,8 +120,6 @@ const networkNodes = [
   { cx: 514, cy: 148, fill: "#c59a4f" },
   { cx: 464, cy: 266, fill: "#3f7d6f" },
 ] as const;
-
-const marketChartBars = [42, 58, 52, 74, 69, 88, 84, 102, 94, 112, 108, 124] as const;
 
 const workflowContent = {
   suppliers: {
@@ -517,34 +511,6 @@ export function HomePage() {
         );
       });
 
-      gsap.utils.toArray<HTMLElement>(".gsap-market-bar").forEach((bar, index) => {
-        gsap.fromTo(
-          bar,
-          { scaleY: 0.28, transformOrigin: "bottom center" },
-          {
-            scaleY: 1,
-            duration: 0.9,
-            delay: index * 0.04,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-          }
-        );
-      });
-
-      gsap.utils.toArray<HTMLElement>(".gsap-ticker-track").forEach((track, index) => {
-        gsap.fromTo(
-          track,
-          { xPercent: index % 2 === 0 ? 0 : -50 },
-          {
-            xPercent: index % 2 === 0 ? -50 : 0,
-            duration: 18,
-            repeat: -1,
-            ease: "none",
-          }
-        );
-      });
-
       gsap.utils.toArray<HTMLElement>(".gsap-reveal").forEach((node) => {
         gsap.fromTo(
           node,
@@ -601,7 +567,6 @@ export function HomePage() {
   );
 
   const workflowPanel = workflowContent[workflowAudience];
-  const dashboardPreviewRows = dashboardBidListings.slice(0, 5);
 
   return (
     <div ref={rootRef} className="bg-[#f7f1e6] text-[#11283d]">
@@ -626,7 +591,7 @@ export function HomePage() {
 
               <p className="eyebrow !text-[#7e7668]">Circular critical mineral supply chains built for North America</p>
               <h1 className="max-w-[12.5ch] font-display text-[clamp(3.1rem,5.4vw,5.6rem)] leading-[0.95] tracking-[-0.06em] text-[#11283d]">
-                Trade rare-earth-bearing scrap into local circular supply.
+                The Marketplace for America's Rare Earth Elements.
               </h1>
               <p className="mt-5 max-w-[42rem] text-[1.05rem] leading-8 text-[#445567] sm:text-[1.16rem]">
                 Rare Earth Rescue connects suppliers, scrappers, and processors with verified
@@ -679,18 +644,6 @@ export function HomePage() {
               <div className="gsap-network-drift absolute bottom-[16%] left-[36%] h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(23,53,80,0.12),transparent_72%)] blur-2xl" />
               <div className="absolute inset-[12%_10%_18%] rounded-[32px] border border-white/30 opacity-60" />
 
-              <div className="gsap-hero-signal absolute left-6 top-6 z-10 max-w-[19rem] rounded-[24px] border border-[#cc9f64]/30 bg-[linear-gradient(135deg,rgba(255,248,239,0.95),rgba(255,255,255,0.84))] p-4 text-[#11283d] shadow-[0_18px_50px_rgba(31,40,31,0.12)]">
-                <span className="inline-flex rounded-full bg-[#f0e4d0] px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#9a7337]">
-                  RER market monitor
-                </span>
-                <strong className="mt-3 block font-display text-[1rem] leading-[1.06] tracking-[-0.03em]">
-                  Buyers are tracking a firmer magnet-input tape across North America.
-                </strong>
-                <p className="mt-2 text-[0.84rem] leading-6 text-[#566777]">
-                  A tighter market view across copper, steel, and rare-earth-linked feedstock.
-                </p>
-              </div>
-
               <div className="pointer-events-none absolute inset-x-0 bottom-[15rem] top-16 z-[1]">
                 <svg viewBox="0 0 800 680" className="h-full w-full">
                   <path
@@ -725,93 +678,6 @@ export function HomePage() {
                   ))}
                 </svg>
               </div>
-
-              <div className="absolute bottom-6 left-6 right-6 z-10">
-                <article className="gsap-hero-card overflow-hidden rounded-[28px] border border-[#d9cfbf] bg-[rgba(255,252,247,0.9)] p-4 text-[#11283d] shadow-[0_22px_50px_rgba(31,40,31,0.08)] backdrop-blur lg:p-5">
-                  <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                    <div className="min-w-0">
-                      <span className="inline-flex rounded-full bg-[#edf4ef] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#315e53]">
-                        Live commodity pulse
-                      </span>
-                      <strong className="mt-3 block max-w-[20rem] font-display text-[1rem] leading-[1.06] tracking-[-0.03em] sm:text-[1.05rem]">
-                        Trading signals across copper, steel, and magnet-linked inputs.
-                      </strong>
-                    </div>
-                    <div className="min-w-0 overflow-hidden rounded-full border border-[#d9cfbf] bg-white/80 px-3 py-2">
-                      <div className="gsap-ticker-track flex min-w-max items-center gap-5">
-                        {[...commodityTickers, ...commodityTickers].map((ticker, index) => (
-                          <div key={`${ticker.label}-${index}`} className="flex items-center gap-3 text-sm">
-                            <span className="font-semibold uppercase tracking-[0.14em] text-[#7b7367]">{ticker.label}</span>
-                            <span className="font-bold text-[#173550]">{ticker.value}</span>
-                            <span className="text-[#6b7b86]">{ticker.venue}</span>
-                            <span className={`font-bold ${ticker.tone}`}>{ticker.move}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,0.76fr)_minmax(0,1.24fr)]">
-                    <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-                      {commodityTickers.map((ticker) => (
-                        <div key={ticker.label} className="min-w-0 rounded-[22px] border border-[#ddd4c7] bg-white/76 p-3.5">
-                          <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
-                            {ticker.venue}
-                          </span>
-                          <strong className="mt-2 block font-display text-[1.02rem] leading-[1.04] tracking-[-0.03em] text-[#11283d]">
-                            {ticker.label}
-                          </strong>
-                          <div className="mt-2 flex items-end justify-between gap-3">
-                            <span className="text-[0.98rem] font-bold text-[#173550]">{ticker.value}</span>
-                            <span className={`text-sm font-bold ${ticker.tone}`}>{ticker.move}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="rounded-[24px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(245,238,226,0.88))] p-4">
-                      <div className="flex items-center justify-between gap-3">
-                        <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
-                          Multi-market trend
-                        </span>
-                        <span className="rounded-full bg-[#edf4ef] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#315e53]">
-                          Desk-led market tape
-                        </span>
-                      </div>
-                      <div className="mt-4 h-28 overflow-hidden rounded-[22px] border border-[#e3dacd] bg-white/72 p-4">
-                        <svg viewBox="0 0 440 140" className="h-full w-full">
-                          <defs>
-                            <linearGradient id="marketLine" x1="0%" x2="100%" y1="0%" y2="0%">
-                              <stop offset="0%" stopColor="#c59a4f" />
-                              <stop offset="100%" stopColor="#4f7f6f" />
-                            </linearGradient>
-                            <linearGradient id="marketFill" x1="0%" x2="0%" y1="0%" y2="100%">
-                              <stop offset="0%" stopColor="rgba(79,127,111,0.28)" />
-                              <stop offset="100%" stopColor="rgba(79,127,111,0.02)" />
-                            </linearGradient>
-                          </defs>
-                          <path d="M0 116 36 106 72 110 108 92 144 98 180 84 216 72 252 78 288 58 324 66 360 46 396 52 440 26 440 140 0 140Z" fill="url(#marketFill)" />
-                          <path className="gsap-chart-line" d="M0 116 36 106 72 110 108 92 144 98 180 84 216 72 252 78 288 58 324 66 360 46 396 52 440 26" fill="none" stroke="url(#marketLine)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-                          <circle cx="440" cy="26" r="5" fill="#4f7f6f">
-                            <animate attributeName="r" values="4;7;4" dur="2.4s" repeatCount="indefinite" />
-                          </circle>
-                        </svg>
-                      </div>
-                      <div className="mt-4 flex items-end gap-2">
-                        {marketChartBars.map((height, index) => (
-                          <span
-                            key={`market-bar-${height}-${index}`}
-                            className={`gsap-market-bar w-full rounded-t-full ${
-                              index % 4 === 0 ? "bg-[#c59a4f]" : index % 3 === 0 ? "bg-[#4f7f6f]" : "bg-[#d9d0c3]"
-                            }`}
-                            style={{ height }}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </div>
             </div>
           </div>
         </section>
@@ -819,8 +685,8 @@ export function HomePage() {
         <section id="why-this-matters" className="shell pt-4 lg:pt-6">
           <SectionHeading
             eyebrow="Why this matters"
-            title="Rare earth metals sit inside critical equipment. Coordinating their recovery is now a U.S. supply chain priority."
-            body="Rare earth-bearing magnets are embedded in motors, HDD assemblies, robotics, industrial equipment, and e-waste. Recyclers need steadier sourcing to keep facilities utilized. Scrappers, dismantlers, and ITAD operators need better visibility into the value of magnet-bearing scrap they may be overlooking. Rare Earth Rescue helps connect both sides of that bottleneck."
+            title="Trade rare-earth-bearing scrap into a local U.S. circular supply."
+            body="Rare Earth Rescue helps suppliers, dismantlers, ITAD operators, and recyclers turn fragmented rare-earth-bearing scrap into a more resilient domestic recovery network. Better coordination keeps recycler capacity utilized and helps sellers surface hidden value in magnet-bearing equipment."
           />
 
           <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
@@ -1027,62 +893,6 @@ export function HomePage() {
               </motion.div>
             </AnimatePresence>
           </div>
-        </section>
-
-        <section id="dashboard-preview" className="shell section-gap">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              eyebrow="Workspace preview"
-              title="A premium bidding workspace for verified buyers."
-              body="The logged-in experience opens into a landscape marketplace with key feedstock types on top and a live bidding board below. On the public homepage, material and location fields stay intentionally blurred."
-            />
-            <Link className="button-ghost gsap-reveal" to="/dashboard">
-              Open buyer workspace
-            </Link>
-          </div>
-
-          <motion.div
-            {...panelTransition}
-            className="mt-10 rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]"
-          >
-            <div className="flex flex-col gap-4 border-b border-[#e0d7c9] pb-5 lg:flex-row lg:items-end lg:justify-between">
-              <div className="max-w-3xl">
-                <span className="badge">Snapshot of logged-in dashboard</span>
-                <strong className="mt-4 block font-display text-[1.7rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
-                  Verified buyers see key item types first, then a clean bidding board with filtered lots.
-                </strong>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {["Material hidden", "Location hidden", "Bid-ready format"].map((pill) => (
-                  <span
-                    key={pill}
-                    className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#173550]"
-                  >
-                    {pill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <MaterialTileGrid tiles={dashboardMaterialTiles} compact />
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              {["All lots", "EV / Hybrid", "Industrial", "USA"].map((chip) => (
-                <span
-                  key={chip}
-                  className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#5f6d79]"
-                >
-                  {chip}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-6">
-              <BidListingTable listings={dashboardPreviewRows} blurred compact />
-            </div>
-          </motion.div>
         </section>
 
         <section id="service-stack" className="shell section-gap">

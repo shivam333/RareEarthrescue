@@ -3,7 +3,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { pageEnter } from "../lib/motion";
-import { getAuthRedirectTarget, normalizeRedirectPath } from "../lib/site";
+import {
+  getAuthRedirectTarget,
+  getSignInUrl,
+  getSignUpUrl,
+  normalizeRedirectPath,
+  toAbsoluteAppUrl,
+} from "../lib/site";
 
 type AuthMode = "sign-in" | "sign-up";
 type PlanType = "free" | "subscription";
@@ -362,10 +368,10 @@ export function AuthPage() {
     navigate(`${nextUrl.pathname}${nextUrl.search}`, { replace: true });
   };
 
-  const signInForceRedirectUrl = redirectTarget;
-  const signUpRoleRedirectUrl = `/sign-in?mode=sign-up&step=role&redirect_url=${encodeURIComponent(
-    redirectTarget
-  )}`;
+  const signInForceRedirectUrl = toAbsoluteAppUrl(redirectTarget);
+  const signUpRoleRedirectUrl = toAbsoluteAppUrl(
+    `/sign-in?mode=sign-up&step=role&redirect_url=${encodeURIComponent(redirectTarget)}`
+  );
 
   const signInInitialValues = useMemo(() => {
     const email = searchParams.get("email_address") || "";
@@ -433,7 +439,7 @@ export function AuthPage() {
                       <SignIn
                         routing="hash"
                         appearance={clerkAppearance}
-                        signUpUrl="/sign-in?mode=sign-up"
+                        signUpUrl={getSignUpUrl()}
                         fallbackRedirectUrl={signInForceRedirectUrl}
                         forceRedirectUrl={signInForceRedirectUrl}
                         initialValues={signInInitialValues}
@@ -484,7 +490,7 @@ export function AuthPage() {
                         <SignUp
                           routing="hash"
                           appearance={clerkAppearance}
-                          signInUrl="/sign-in"
+                          signInUrl={getSignInUrl()}
                           fallbackRedirectUrl={signUpRoleRedirectUrl}
                           forceRedirectUrl={signUpRoleRedirectUrl}
                           unsafeMetadata={{ plan: activePlan }}
