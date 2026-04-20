@@ -4,6 +4,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { BidListingTable } from "../components/dashboard/BidListingTable";
+import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
+import { dashboardBidListings, dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
 import { commodityTickers } from "../data/newsData";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -409,7 +412,6 @@ function SectionHeading({
 export function HomePage() {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [workflowAudience, setWorkflowAudience] = useState<"suppliers" | "buyers">("suppliers");
-  const [dashboardView, setDashboardView] = useState<"buyer" | "supplier">("buyer");
   const [isPricingModalOpen, setIsPricingModalOpen] = useState(false);
 
   useGSAP(
@@ -599,7 +601,7 @@ export function HomePage() {
   );
 
   const workflowPanel = workflowContent[workflowAudience];
-  const dashboardPanel = dashboardContent[dashboardView];
+  const dashboardPreviewRows = dashboardBidListings.slice(0, 5);
 
   return (
     <div ref={rootRef} className="bg-[#f7f1e6] text-[#11283d]">
@@ -1031,105 +1033,57 @@ export function HomePage() {
         <section id="dashboard-preview" className="shell section-gap">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
-              eyebrow="Sample dashboard"
-              title="A cleaner operating layer for sourcing, bids, and settlement."
-              body="The dashboard turns fragmented industrial scrap into something searchable, comparable, and commercially actionable."
+              eyebrow="Workspace preview"
+              title="A premium bidding workspace for verified buyers."
+              body="The logged-in experience opens into a landscape marketplace with key feedstock types on top and a live bidding board below. On the public homepage, material and location fields stay intentionally blurred."
             />
-
-            <div className="gsap-reveal inline-flex rounded-full border border-[#d8cfbf] bg-white/80 p-1 shadow-[0_10px_30px_rgba(46,41,31,0.06)]">
-              {[
-                { key: "buyer", label: "Buyer Workspace" },
-                { key: "supplier", label: "Supplier Workspace" },
-              ].map((tab) => {
-                const isActive = dashboardView === tab.key;
-                return (
-                  <button
-                    key={tab.key}
-                    type="button"
-                    onClick={() => setDashboardView(tab.key as "buyer" | "supplier")}
-                    className={`rounded-full px-5 py-3 text-sm font-bold transition ${
-                      isActive ? "bg-[#11283d] text-white" : "text-[#6a7782] hover:text-[#11283d]"
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
+            <Link className="button-ghost gsap-reveal" to="/dashboard">
+              Open buyer workspace
+            </Link>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={dashboardView}
-              {...panelTransition}
-              className="mt-10 grid gap-5 xl:grid-cols-[minmax(0,0.24fr)_minmax(0,1fr)_minmax(0,0.24fr)]"
-            >
-              <div className="grid gap-5">
-                {dashboardPanel.sideCards.map((card) => (
-                  <HomeLinkCard key={card.title} {...card} />
+          <motion.div
+            {...panelTransition}
+            className="mt-10 rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]"
+          >
+            <div className="flex flex-col gap-4 border-b border-[#e0d7c9] pb-5 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-3xl">
+                <span className="badge">Snapshot of logged-in dashboard</span>
+                <strong className="mt-4 block font-display text-[1.7rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
+                  Verified buyers see key item types first, then a clean bidding board with filtered lots.
+                </strong>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                {["Material hidden", "Location hidden", "Bid-ready format"].map((pill) => (
+                  <span
+                    key={pill}
+                    className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#173550]"
+                  >
+                    {pill}
+                  </span>
                 ))}
               </div>
+            </div>
 
-              <div className="rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.88))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
-                <div className="flex flex-col gap-4 border-b border-[#e0d7c9] pb-5 sm:flex-row sm:items-center sm:justify-between">
-                  <span className="badge">{dashboardPanel.badge}</span>
-                  <Link className="button-ghost" to="/dashboard">
-                    Open full dashboard preview
-                  </Link>
-                </div>
+            <div className="mt-6">
+              <MaterialTileGrid tiles={dashboardMaterialTiles} compact />
+            </div>
 
-                <div className="mt-6 flex items-end gap-2 rounded-[22px] border border-[#ddd4c7] bg-white/70 p-4">
-                  {[38, 52, 64, 58, 76, 72, 90, 84, 98, 88, 104, 112].map((height, index) => (
-                    <span
-                      key={`dashboard-bar-${height}-${index}`}
-                      className={`gsap-dashboard-bar w-full rounded-t-full ${
-                        index % 3 === 0 ? "bg-[#c59a4f]" : index % 2 === 0 ? "bg-[#739b8d]" : "bg-[#d9d0c3]"
-                      }`}
-                      style={{ height }}
-                    />
-                  ))}
-                </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {["All lots", "EV / Hybrid", "Industrial", "USA"].map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#5f6d79]"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
 
-                <div className="mt-6 grid gap-4 md:grid-cols-2">
-                  {dashboardPanel.widgets.map((widget, index) => (
-                    <article
-                      key={widget.label}
-                      className="rounded-[26px] border border-[#ddd4c7] bg-white/76 p-5 shadow-[0_14px_36px_rgba(46,41,31,0.05)]"
-                    >
-                      <span className="text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-[#7e7669]">
-                        {widget.label}
-                      </span>
-                      <strong className="mt-4 block font-display text-[1.8rem] tracking-[-0.04em] text-[#11283d]">
-                        {widget.value}
-                      </strong>
-                      {index === 1 ? (
-                        <div className="mt-4 grid grid-cols-4 gap-2">
-                          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((square) => (
-                            <span
-                              key={square}
-                              className={`h-6 rounded-md ${
-                                [1, 5, 9].includes(square)
-                                  ? "bg-[#c59a4f]"
-                                  : [3, 4, 6, 11].includes(square)
-                                    ? "bg-[#79a190]"
-                                    : "bg-[#e6dece]"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      ) : <p className="mt-3 text-sm leading-6 text-[#5c6b79]">{widget.body}</p>}
-                    </article>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid gap-5">
-                {dashboardPanel.oppositeCards.map((card) => (
-                  <HomeLinkCard key={card.title} {...card} />
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
+            <div className="mt-6">
+              <BidListingTable listings={dashboardPreviewRows} blurred compact />
+            </div>
+          </motion.div>
         </section>
 
         <section id="service-stack" className="shell section-gap">
