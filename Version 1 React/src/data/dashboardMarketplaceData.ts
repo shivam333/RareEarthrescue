@@ -47,7 +47,7 @@ export const dashboardMaterialTiles: DashboardMaterialTile[] = [
     image:
       "https://images.unsplash.com/photo-1591799265444-d66432b91588?auto=format&fit=crop&w=1400&q=80",
     accent: "from-[#18344c]/80 via-[#18344c]/30 to-transparent",
-    href: "/marketplace?source=hdd",
+    href: "/marketplace/source/hdd",
   },
   {
     id: "auto-motors",
@@ -56,7 +56,7 @@ export const dashboardMaterialTiles: DashboardMaterialTile[] = [
     image:
       "https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1400&q=80",
     accent: "from-[#345b50]/80 via-[#345b50]/30 to-transparent",
-    href: "/marketplace?source=auto-motors",
+    href: "/marketplace/source/auto-motors",
   },
   {
     id: "industrial-motors",
@@ -65,7 +65,7 @@ export const dashboardMaterialTiles: DashboardMaterialTile[] = [
     image:
       "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=1400&q=80",
     accent: "from-[#8f6d38]/78 via-[#8f6d38]/24 to-transparent",
-    href: "/marketplace?source=industrial-motors",
+    href: "/marketplace/source/industrial-motors",
   },
   {
     id: "mri",
@@ -74,7 +74,7 @@ export const dashboardMaterialTiles: DashboardMaterialTile[] = [
     image:
       "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1400&q=80",
     accent: "from-[#203244]/78 via-[#203244]/24 to-transparent",
-    href: "/marketplace?source=mri",
+    href: "/marketplace/source/mri",
   },
 ];
 

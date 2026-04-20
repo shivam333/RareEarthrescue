@@ -190,7 +190,7 @@ export function DashboardPage() {
                 </span>
                 <Link
                   className="button-ghost"
-                  to={sourceId === "all" ? "/marketplace" : `/marketplace?source=${sourceId}`}
+                  to={sourceId === "all" ? "/marketplace" : `/marketplace/source/${sourceId}`}
                 >
                   Open marketplace view
                 </Link>
