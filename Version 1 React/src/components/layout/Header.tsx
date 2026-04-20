@@ -19,7 +19,7 @@ export function Header() {
   const { isLoaded, isSignedIn } = useAuth();
 
   return (
-    <header className={`site-header ${isHome ? "site-header-home" : ""}`}>
+    <header className="site-header">
       <div className="shell header-shell">
         <Link className="brand" to="/">
           <span className="brand-mark">
@@ -31,7 +31,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav aria-label="Primary" className={`site-nav ${isHome ? "site-nav-home" : ""}`}>
+        <nav aria-label="Primary" className="site-nav">
           {navItems.map((item) => (
             <NavLink key={item.label} to={item.href}>
               {item.label}
@@ -39,19 +39,19 @@ export function Header() {
           ))}
         </nav>
 
-        <div className={`header-actions ${isHome ? "header-actions-home" : ""}`}>
+        <div className="header-actions">
           {!isLoaded || !isSignedIn ? (
             <>
               <Button href="/sign-in" variant={isHome ? "secondary" : "ghost"}>
                 Sign In
               </Button>
-              <Button href="/sign-in?mode=sign-up" variant={isHome ? "secondary" : "primary"}>
+              <Button href="/sign-in?mode=sign-up" variant="primary">
                 Get Started
               </Button>
             </>
           ) : (
             <>
-              <Button href="/dashboard" variant={isHome ? "secondary" : "primary"}>
+              <Button href="/dashboard" variant="primary">
                 Dashboard
               </Button>
               <div className="flex items-center">

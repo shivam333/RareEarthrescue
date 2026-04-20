@@ -26,25 +26,25 @@ const heroPaths = [
   {
     badge: "Marketplace",
     title: "Explore Marketplace",
-    body: "See how different feedstock formats are matched to recycler and buyer demand.",
+    body: "See live rare-earth-bearing lots and buyer demand.",
     href: "/marketplace",
   },
   {
     badge: "Subscription",
     title: "Join as Buyer",
-    body: "Onboard as a recurring buyer with deeper visibility into live listings and procurement signals.",
+    body: "Access recurring supply, watchlists, and procurement signals.",
     href: "/recycler-onboarding",
   },
   {
     badge: "Custom order",
     title: "Place an Order",
-    body: "Request a one-time sourcing mandate and let Rare Earth Rescue manage procurement support.",
+    body: "Use Rare Earth Rescue for a guided one-time sourcing mandate.",
     href: "/contact",
   },
   {
     badge: "One-time supply",
     title: "List Feedstock",
-    body: "Submit a single lot and receive a targeted bid process with logistics coordination.",
+    body: "List one lot fast and route it to verified industrial buyers.",
     href: "/supplier-onboarding",
   },
 ] as const;
@@ -57,12 +57,15 @@ const metrics: Metric[] = [
   { value: 1920, suffix: " MT", label: "recirculated" },
 ];
 
-const recognition = [
-  "Auto dismantlers",
-  "ITAD networks",
-  "Industrial salvage groups",
-  "Specialty magnet recyclers",
-  "OEM circularity programs",
+const ribbonItems = [
+  "Strategic OEM programs",
+  "ITAD recovery networks",
+  "Auto dismantler groups",
+  "Magnet recycler partners",
+  "KYC verified sellers",
+  "Assay-backed listings",
+  "Traceability reporting",
+  "Industrial compliance checks",
 ] as const;
 
 const issues = [
@@ -92,16 +95,20 @@ const articleCards = [
   {
     badge: "Government signal",
     title: "White House proclamation on processed critical minerals imports",
-    body: "January 14, 2026: U.S. policy language explicitly tied critical minerals import reliance to national security and domestic capacity gaps.",
+    body: "U.S. policy is now tying critical mineral dependence directly to national resilience and domestic capacity.",
     meta: "Source: The White House",
     href: "https://www.whitehouse.gov/presidential-actions/2026/01/adjusting-imports-of-processed-critical-minerals-and-their-derivative-products-into-the-united-states/",
+    image:
+      "https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&w=1400&q=80",
   },
   {
     badge: "Tech advancement",
     title: "Sorting rare earth motors without opening them",
-    body: "April 10, 2025: Scientific Reports published a sorting method that improves identification of REE-bearing motors before dismantling.",
+    body: "Better sorting methods are making REE-bearing motor streams easier to identify before teardown and recovery.",
     meta: "Source: Scientific Reports",
     href: "https://www.nature.com/articles/s41598-025-94667-x",
+    image:
+      "https://images.unsplash.com/photo-1581091870622-2cf1f3c71f54?auto=format&fit=crop&w=1400&q=80",
   },
 ] as const;
 
@@ -109,22 +116,22 @@ const heroCards = [
   {
     badge: "Featured listing",
     title: "NdFeB Magnet Scrap - 18 MT - Texas, USA",
-    body: "Verified seller. Assay-backed. Logistics support available.",
+    body: "Verified seller and assay-backed material.",
   },
   {
     badge: "Impact created",
     title: "1,920 MT of waste recirculated",
-    body: "Recovered into local circular supply across magnets, motors, and electronics streams.",
+    body: "Recovered into local circular supply.",
   },
   {
     badge: "Bid activity",
     title: "14 active recycler buyers",
-    body: "Traction motor and HDD magnet categories are seeing the highest open buyer activity.",
+    body: "Strongest interest in motors and HDD magnet streams.",
   },
   {
     badge: "Pricing signal",
     title: "Motor scrap spread tightened 6.4%",
-    body: "Higher verified assay rates are improving confidence on North American lots.",
+    body: "Verified assays are tightening buyer spread.",
   },
 ] as const;
 
@@ -185,12 +192,12 @@ const dashboardContent = {
     sideCards: [
       {
         title: "Available catalogs",
-        body: "Category-aware discovery for magnets, motors, HDD assemblies, and manufacturing scrap.",
+        body: "Category-aware discovery across core feedstock types.",
         href: "/marketplace",
       },
       {
         title: "Material heatmap",
-        body: "See where supplier density is rising by form factor and quality level.",
+        body: "See where supply density is building.",
         href: "/marketplace",
       },
     ],
@@ -198,33 +205,33 @@ const dashboardContent = {
       {
         label: "Open sourcing mandates",
         value: "07",
-        body: "Custom orders for NdFeB magnets, traction motors, and monthly HDD assembly lots.",
+        body: "Mandates across magnets, motors, and HDD lots.",
       },
       {
         label: "Top category heat",
         value: "NdFeB",
-        body: "Buyer attention is strongest where assay-backed magnet material is available.",
+        body: "Assay-backed magnet material is driving attention.",
       },
       {
         label: "Predictive intelligence",
         value: "+6.1%",
-        body: "Model indicates rising buyer competition for REE-rich motor fractions over the next 30 days.",
+        body: "Buyer competition is rising in REE-rich motor fractions.",
       },
       {
         label: "Price transparency",
         value: "Live spread",
-        body: "HDD assemblies at $4,950/MT, loose NdFeB request-bid, and motor fractions at $2,680/MT.",
+        body: "HDD, NdFeB, and motor fractions benchmarked live.",
       },
     ],
     oppositeCards: [
       {
         title: "Inventory and watchlists",
-        body: "Track recurring sellers, saved searches, and active procurement pipelines in one place.",
+        body: "Track recurring sellers and saved searches.",
         href: "/dashboard",
       },
       {
         title: "Order support",
-        body: "Escalate hard-to-source categories into a managed order request with logistics assumptions.",
+        body: "Escalate hard-to-source categories into managed requests.",
         href: "/contact",
       },
     ],
@@ -234,12 +241,12 @@ const dashboardContent = {
     sideCards: [
       {
         title: "Live listings",
-        body: "See every active lot, batch status, and buyer engagement signal across your listings.",
+        body: "See active lots and buyer engagement in one place.",
         href: "/supplier-onboarding",
       },
       {
         title: "Pickup scheduling",
-        body: "Coordinate packaging readiness, pickup windows, and documentation without manual back-and-forth.",
+        body: "Coordinate readiness, pickup windows, and documents.",
         href: "/supplier-onboarding",
       },
     ],
@@ -247,33 +254,33 @@ const dashboardContent = {
       {
         label: "Active feedstock lots",
         value: "11",
-        body: "Traction motors, HDD assemblies, magnet offcuts, and one MRI decommissioning project.",
+        body: "Traction motors, HDD assemblies, and magnet offcuts.",
       },
       {
         label: "Bid transparency",
         value: "14 bids",
-        body: "Texas magnet lot is leading buyer activity with stronger assay-backed participation.",
+        body: "Texas magnet lots are leading buyer activity.",
       },
       {
         label: "Market heatmap",
         value: "Ontario + Texas",
-        body: "Buyer pull is strongest where assay-backed motor and magnet material is available.",
+        body: "Buyer pull is strongest where verified material is available.",
       },
       {
         label: "Settlement pipeline",
         value: "$1.9M",
-        body: "Pending settlement value across shipped lots, sampled inventory, and accepted offers.",
+        body: "Pending value across shipped and accepted lots.",
       },
     ],
     oppositeCards: [
       {
         title: "Catalog intelligence",
-        body: "Learn which forms, grades, and descriptions generate stronger buyer engagement.",
+        body: "Learn which lots generate stronger buyer engagement.",
         href: "/marketplace",
       },
       {
         title: "Managed logistics",
-        body: "Use Rare Earth Rescue for bid support, documentation flow, and freight coordination.",
+        body: "Use Rare Earth Rescue for bid and freight coordination.",
         href: "/contact",
       },
     ],
@@ -284,31 +291,31 @@ const serviceModules: ServiceModule[] = [
   {
     index: "01",
     title: "Feedstock Intelligence",
-    body: "Built around actual rare-earth-bearing material streams, forms, and recovery notes.",
+    body: "Classification built around real material streams.",
     href: "/marketplace",
   },
   {
     index: "02",
     title: "Marketplace Discovery",
-    body: "Institutional-grade listings, custom orders, and supply visibility for fragmented categories.",
+    body: "Listings and demand visibility for fragmented categories.",
     href: "/marketplace",
   },
   {
     index: "03",
     title: "Pricing Intelligence",
-    body: "Bid spreads, demand pressure, and market signals that make recycled material easier to price.",
+    body: "Bid spread and demand signals for recycled material.",
     action: "modal",
   },
   {
     index: "04",
     title: "Trust and Verification",
-    body: "Structured classification, assay support, onboarding checks, and counterparty validation.",
+    body: "Assays, onboarding checks, and counterparty validation.",
     href: "/recycler-onboarding",
   },
   {
     index: "05",
     title: "Logistics and Transactions",
-    body: "Pickup, documentation, settlement, and execution support across cross-party workflows.",
+    body: "Pickup, documentation, settlement, and execution support.",
     href: "/contact",
   },
 ];
@@ -316,15 +323,15 @@ const serviceModules: ServiceModule[] = [
 const flywheelNotes = [
   {
     title: "Competitive edge",
-    body: "Rare Earth Rescue compounds operational data across supply, pricing, and execution instead of treating listings as isolated deals.",
+    body: "Operational data compounds across supply, pricing, and execution.",
   },
   {
     title: "Value creation",
-    body: "Suppliers get better monetization. Buyers get structured access. The platform gets sharper intelligence with every successful lot.",
+    body: "Suppliers monetize better. Buyers source with more structure.",
   },
   {
     title: "Why it matters now",
-    body: "Local circular supply becomes more investable when quality, logistics, and market context are all visible in one system.",
+    body: "Visible quality and logistics make local circular supply more investable.",
   },
 ] as const;
 
@@ -447,6 +454,55 @@ export function HomePage() {
         });
       });
 
+      gsap.utils.toArray<HTMLElement>(".gsap-ribbon-track").forEach((track, index) => {
+        gsap.fromTo(
+          track,
+          { xPercent: index % 2 === 0 ? 0 : -50 },
+          {
+            xPercent: index % 2 === 0 ? -50 : 0,
+            duration: 28,
+            repeat: -1,
+            ease: "none",
+          }
+        );
+      });
+
+      gsap.utils.toArray<HTMLElement>(".gsap-dashboard-bar").forEach((bar, index) => {
+        gsap.fromTo(
+          bar,
+          { scaleY: 0.25, transformOrigin: "bottom center" },
+          {
+            scaleY: 1,
+            duration: 1.2,
+            delay: index * 0.05,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: bar,
+              start: "top 92%",
+              once: true,
+            },
+          }
+        );
+      });
+
+      gsap.utils.toArray<HTMLElement>(".gsap-service-line").forEach((line, index) => {
+        gsap.fromTo(
+          line,
+          { scaleX: 0.18, transformOrigin: "left center" },
+          {
+            scaleX: 1,
+            duration: 1.1,
+            delay: index * 0.08,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: line,
+              start: "top 92%",
+              once: true,
+            },
+          }
+        );
+      });
+
       gsap.utils.toArray<HTMLElement>(".gsap-reveal").forEach((node) => {
         gsap.fromTo(
           node,
@@ -510,53 +566,62 @@ export function HomePage() {
       <main className="page bg-transparent">
         <section
           id="top"
-          className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(202,161,85,0.22),transparent_24%),radial-gradient(circle_at_88%_18%,rgba(68,122,107,0.26),transparent_28%),linear-gradient(180deg,#0c1d30_0%,#14324a_54%,#1a3f51_100%)] pb-20 pt-32 text-white lg:pb-24"
+          className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,175,103,0.24),transparent_24%),radial-gradient(circle_at_88%_12%,rgba(121,161,144,0.24),transparent_30%),linear-gradient(180deg,#fbf7ef_0%,#f4ebdb_48%,#f5efe4_100%)] pb-16 pt-32 lg:pb-20"
         >
-          <div className="gsap-grid-shift absolute inset-0 opacity-[0.12] [background-image:linear-gradient(rgba(255,255,255,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.12)_1px,transparent_1px)] [background-size:32px_32px]" />
-          <div className="gsap-orb absolute left-[-8rem] top-[-3rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.35),transparent_70%)] blur-3xl" />
-          <div className="gsap-orb absolute bottom-[-10rem] right-[-7rem] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.24),transparent_68%)] blur-3xl" />
+          <div className="gsap-grid-shift absolute inset-0 opacity-[0.2] [background-image:linear-gradient(rgba(17,40,61,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(17,40,61,0.06)_1px,transparent_1px)] [background-size:32px_32px]" />
+          <div className="gsap-orb absolute left-[-8rem] top-[-3rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.28),transparent_70%)] blur-3xl" />
+          <div className="gsap-orb absolute bottom-[-10rem] right-[-7rem] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.2),transparent_68%)] blur-3xl" />
 
-          <div className="shell relative z-10 grid gap-10 lg:grid-cols-[minmax(0,0.96fr)_minmax(0,1.04fr)] lg:items-center">
-            <div className="gsap-hero-copy">
-              <div className="gsap-hero-logo mb-8 inline-flex h-28 w-28 items-center justify-center rounded-[2rem] border border-white/15 bg-white/8 shadow-[0_24px_60px_rgba(6,14,24,0.25)] backdrop-blur">
-                <svg viewBox="0 0 100 100" className="h-16 w-16">
+          <div className="shell relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1.18fr)_minmax(520px,0.82fr)] lg:items-start">
+            <div className="gsap-hero-copy pt-3">
+              <div className="gsap-hero-logo mb-7 inline-flex h-24 w-24 items-center justify-center rounded-[2rem] border border-[#d8cfbf] bg-[rgba(255,252,247,0.88)] shadow-[0_18px_40px_rgba(46,41,31,0.08)] backdrop-blur">
+                <svg viewBox="0 0 100 100" className="h-14 w-14 text-[#173550]">
                   <circle cx="50" cy="50" r="39" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M73 17l15 8-1 18-7-8" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M22 64L45 40l13 17 11-9 15 16" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
 
-              <p className="eyebrow !text-[#d7ddd6]">Circular critical mineral supply chains built for North America</p>
-              <h1 className="max-w-[13ch] font-display text-[clamp(3.15rem,6vw,6.3rem)] leading-[0.96] tracking-[-0.055em] text-white">
-                Transparently trade high-density rare-earth-bearing scrap with verified industrial buyers.
+              <p className="eyebrow !text-[#7e7668]">Circular critical mineral supply chains built for North America</p>
+              <h1 className="max-w-[12.5ch] font-display text-[clamp(3.1rem,5.4vw,5.6rem)] leading-[0.95] tracking-[-0.06em] text-[#11283d]">
+                Trade rare-earth-bearing scrap into local circular supply.
               </h1>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-[#d8e0e6] sm:text-xl">
-                Rare Earth Rescue is the marketplace and operating layer for suppliers, scrappers,
-                aggregators, and processors moving NdFeB magnets, traction motors, HDD assemblies,
-                industrial magnet systems, and other rare-earth-bearing feedstock into local circular
-                supply.
+              <p className="mt-5 max-w-[42rem] text-[1.05rem] leading-8 text-[#445567] sm:text-[1.16rem]">
+                Rare Earth Rescue connects suppliers, scrappers, and processors with verified
+                industrial buyers across magnets, motors, HDD assemblies, and other rare-earth-bearing feedstock.
               </p>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                {["Verified industrial buyers", "Localized circular supply", "Structured execution"].map((pill) => (
+                  <span
+                    key={pill}
+                    className="rounded-full border border-[#d8cebd] bg-[rgba(255,252,247,0.86)] px-4 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#5d6f62]"
+                  >
+                    {pill}
+                  </span>
+                ))}
+              </div>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 {heroPaths.map((path) => (
                   <Link
                     key={path.title}
                     to={path.href}
-                    className="gsap-hero-path group rounded-[26px] border border-white/10 bg-white/8 p-5 backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:border-[#dcb467]/35 hover:bg-white/[0.11]"
+                    className="gsap-hero-path group rounded-[24px] border border-[#d8cfbf] bg-[rgba(255,252,247,0.8)] p-5 shadow-[0_18px_48px_rgba(46,41,31,0.05)] backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:border-[#c89c57]/35 hover:bg-[rgba(255,255,255,0.92)]"
                   >
-                    <span className="inline-flex rounded-full border border-white/12 px-3 py-1 text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#d8e0e6]">
+                    <span className="inline-flex rounded-full border border-[#ded5c6] px-3 py-1 text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#6f7b77]">
                       {path.badge}
                     </span>
-                    <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-white">
+                    <strong className="mt-4 block font-display text-[1.02rem] tracking-[-0.03em] text-[#11283d]">
                       {path.title}
                     </strong>
-                    <p className="mt-2 text-sm leading-7 text-[#d4dde5]">{path.body}</p>
+                    <p className="mt-2 text-sm leading-6 text-[#5b6c7c]">{path.body}</p>
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="gsap-hero-visual relative min-h-[720px] overflow-hidden rounded-[34px] border border-white/10 bg-[linear-gradient(180deg,rgba(247,242,233,0.92),rgba(234,225,211,0.86))] shadow-[0_40px_120px_rgba(2,8,15,0.36)]">
+            <div className="gsap-hero-visual relative min-h-[620px] overflow-hidden rounded-[34px] border border-[#d9cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(239,231,218,0.9))] shadow-[0_34px_90px_rgba(46,41,31,0.1)]">
               <div className="gsap-parallax absolute inset-0 opacity-[0.16]">
                 <img
                   src="https://images.unsplash.com/photo-1513828742140-ccaa28f3eda0?auto=format&fit=crop&w=1600&q=80"
@@ -626,7 +691,7 @@ export function HomePage() {
                 {heroCards.map((card) => (
                   <article
                     key={card.title}
-                    className="gsap-hero-card gsap-float-card rounded-[24px] border border-[#d9cfbf] bg-[rgba(255,252,247,0.86)] p-4 text-[#11283d] shadow-[0_20px_45px_rgba(31,40,31,0.08)] backdrop-blur"
+                    className="gsap-hero-card gsap-float-card rounded-[24px] border border-[#d9cfbf] bg-[rgba(255,252,247,0.88)] p-4 text-[#11283d] shadow-[0_20px_45px_rgba(31,40,31,0.08)] backdrop-blur"
                   >
                     <span className="inline-flex rounded-full bg-[#edf4ef] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#315e53]">
                       {card.badge}
@@ -693,23 +758,39 @@ export function HomePage() {
                 </div>
               </article>
 
-              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-1">
+              <div className="grid gap-5 md:relative md:block md:min-h-[34rem]">
                 {articleCards.map((article) => (
                   <a
                     key={article.title}
                     href={article.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="gsap-reveal group rounded-[28px] border border-[#dacfbf] bg-[rgba(255,252,247,0.85)] p-6 shadow-[0_18px_50px_rgba(46,41,31,0.06)] transition duration-300 hover:-translate-y-1.5 hover:border-[#315e53]/24"
+                    className={`gsap-reveal gsap-float-card group w-full overflow-hidden rounded-[30px] border border-[#dacfbf] bg-[rgba(255,252,247,0.9)] shadow-[0_24px_70px_rgba(46,41,31,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#315e53]/24 md:absolute md:max-w-[24rem] ${
+                      article.badge === "Government signal"
+                        ? "md:left-0 md:top-0 md:-rotate-[3deg]"
+                        : "md:bottom-0 md:right-0 md:rotate-[2.5deg]"
+                    }`}
                   >
-                    <span className="inline-flex rounded-full border border-[#d8cfbf] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6a7782]">
-                      {article.badge}
-                    </span>
-                    <strong className="mt-4 block font-display text-[1.1rem] tracking-[-0.03em] text-[#11283d]">
-                      {article.title}
-                    </strong>
-                    <p className="mt-3 text-sm leading-7 text-[#5d6c79]">{article.body}</p>
-                    <span className="mt-4 block text-[0.8rem] font-semibold text-[#8a7b65]">{article.meta}</span>
+                    <div className="relative h-56 overflow-hidden">
+                      <img
+                        src={article.image}
+                        alt={article.title}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,40,61,0.06),rgba(17,40,61,0.58))]" />
+                      <div className="absolute left-5 top-5">
+                        <span className="inline-flex rounded-full border border-white/20 bg-white/12 px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-white backdrop-blur">
+                          {article.badge}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="p-5">
+                      <strong className="block font-display text-[1.08rem] tracking-[-0.03em] text-[#11283d]">
+                        {article.title}
+                      </strong>
+                      <p className="mt-2 text-sm leading-6 text-[#5d6c79]">{article.body}</p>
+                      <span className="mt-4 block text-[0.8rem] font-semibold text-[#8a7b65]">{article.meta}</span>
+                    </div>
                   </a>
                 ))}
               </div>
@@ -738,42 +819,44 @@ export function HomePage() {
             title="The network is already shaped around the categories and counterparties that matter."
           />
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-5">
             {metrics.map((metric) => (
-              <article
-                key={metric.label}
-                className="gsap-reveal rounded-[26px] border border-[#dccfbe] bg-[rgba(255,252,247,0.88)] p-6 shadow-[0_20px_60px_rgba(46,41,31,0.06)]"
-              >
+              <article key={metric.label} className="gsap-reveal">
                 <span
-                  className="gsap-count block font-display text-[clamp(2rem,4vw,3.3rem)] leading-none tracking-[-0.05em] text-[#11283d]"
+                  className="gsap-count block bg-[linear-gradient(180deg,#173550_0%,#b48637_100%)] bg-clip-text font-display text-[clamp(3rem,5vw,5rem)] leading-none tracking-[-0.08em] text-transparent"
                   data-value={metric.value}
                   data-prefix={metric.prefix ?? ""}
                   data-suffix={metric.suffix}
                 >
                   0
                 </span>
-                <span className="mt-3 block text-sm font-semibold uppercase tracking-[0.16em] text-[#7b7367]">
+                <span className="mt-3 block max-w-[12rem] text-sm font-semibold uppercase tracking-[0.16em] text-[#7b7367]">
                   {metric.label}
                 </span>
               </article>
             ))}
           </div>
 
-          <div className="gsap-reveal mt-8 rounded-[26px] border border-[#dccfbe] bg-[linear-gradient(180deg,rgba(255,252,247,0.9),rgba(246,239,228,0.86))] p-5 shadow-[0_20px_60px_rgba(46,41,31,0.05)]">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <span className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#7c7569]">
-                Pilot recognition across
-              </span>
-              <div className="flex flex-wrap gap-3">
-                {recognition.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-[#d8cdbd] bg-white/70 px-4 py-2 text-sm font-semibold text-[#415364]"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
+          <div className="gsap-reveal mt-10 overflow-hidden rounded-[999px] border border-[#ddcfbc] bg-[rgba(255,252,247,0.74)] py-3 shadow-[0_16px_40px_rgba(46,41,31,0.04)]">
+            <div className="gsap-ribbon-track flex min-w-max items-center gap-3 px-4">
+              {[...ribbonItems, ...ribbonItems].map((item, index) => (
+                <span
+                  key={`${item}-${index}`}
+                  className="whitespace-nowrap rounded-full border border-[#d8cdbd] bg-white/80 px-4 py-2 text-sm font-semibold text-[#415364]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="gsap-ribbon-track mt-3 flex min-w-max items-center gap-3 px-4 opacity-75">
+              {[...ribbonItems.slice().reverse(), ...ribbonItems.slice().reverse()].map((item, index) => (
+                <span
+                  key={`${item}-reverse-${index}`}
+                  className="whitespace-nowrap rounded-full border border-[#d9d0c1] bg-[#f6efe3] px-4 py-2 text-sm font-semibold text-[#6f7b77]"
+                >
+                  {item}
+                </span>
+              ))}
             </div>
           </div>
         </section>
@@ -846,8 +929,8 @@ export function HomePage() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
               eyebrow="Sample dashboard"
-              title="Paying members unlock the workflow, intelligence, and transparency layer behind the listings."
-              body="The dashboard is designed to make fragmented industrial scrap feel searchable, comparable, and commercially actionable for both the buy side and the supply side."
+              title="A cleaner operating layer for sourcing, bids, and settlement."
+              body="The dashboard turns fragmented industrial scrap into something searchable, comparable, and commercially actionable."
             />
 
             <div className="gsap-reveal inline-flex rounded-full border border-[#d8cfbf] bg-white/80 p-1 shadow-[0_10px_30px_rgba(46,41,31,0.06)]">
@@ -876,7 +959,7 @@ export function HomePage() {
             <motion.div
               key={dashboardView}
               {...panelTransition}
-              className="mt-10 grid gap-5 xl:grid-cols-[minmax(0,0.28fr)_minmax(0,1fr)_minmax(0,0.28fr)]"
+              className="mt-10 grid gap-5 xl:grid-cols-[minmax(0,0.24fr)_minmax(0,1fr)_minmax(0,0.24fr)]"
             >
               <div className="grid gap-5">
                 {dashboardPanel.sideCards.map((card) => (
@@ -890,6 +973,18 @@ export function HomePage() {
                   <Link className="button-ghost" to="/dashboard">
                     Open full dashboard preview
                   </Link>
+                </div>
+
+                <div className="mt-6 flex items-end gap-2 rounded-[22px] border border-[#ddd4c7] bg-white/70 p-4">
+                  {[38, 52, 64, 58, 76, 72, 90, 84, 98, 88, 104, 112].map((height, index) => (
+                    <span
+                      key={`dashboard-bar-${height}-${index}`}
+                      className={`gsap-dashboard-bar w-full rounded-t-full ${
+                        index % 3 === 0 ? "bg-[#c59a4f]" : index % 2 === 0 ? "bg-[#739b8d]" : "bg-[#d9d0c3]"
+                      }`}
+                      style={{ height }}
+                    />
+                  ))}
                 </div>
 
                 <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -919,9 +1014,7 @@ export function HomePage() {
                             />
                           ))}
                         </div>
-                      ) : (
-                        <p className="mt-3 text-sm leading-7 text-[#5c6b79]">{widget.body}</p>
-                      )}
+                      ) : <p className="mt-3 text-sm leading-6 text-[#5c6b79]">{widget.body}</p>}
                     </article>
                   ))}
                 </div>
@@ -939,8 +1032,8 @@ export function HomePage() {
         <section id="service-stack" className="shell section-gap">
           <SectionHeading
             eyebrow="Service stack and why us"
-            title="Rare Earth Rescue is not just a listing surface. It is the infrastructure stack behind quality-assured material flow."
-            body="Every completed transaction sharpens classification, improves pricing confidence, and increases local supply visibility. That is the moat: data, trust, and execution reinforcing one another over time."
+            title="The infrastructure stack behind quality-assured material flow."
+            body="Classification, pricing, verification, and execution reinforce one another over time."
           />
 
           <div className="mt-10 grid gap-5 lg:grid-cols-5">
@@ -955,10 +1048,11 @@ export function HomePage() {
                   <span className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#9a7337]">
                     {module.index}
                   </span>
-                  <strong className="mt-5 block font-display text-[1.16rem] tracking-[-0.03em] text-[#11283d]">
+                  <div className="gsap-service-line mt-4 h-[3px] w-full rounded-full bg-[linear-gradient(90deg,#c59a4f_0%,#7aa292_100%)]" />
+                  <strong className="mt-5 block font-display text-[1.12rem] tracking-[-0.03em] text-[#11283d]">
                     {module.title}
                   </strong>
-                  <p className="mt-3 text-sm leading-7 text-[#5d6c79]">{module.body}</p>
+                  <p className="mt-3 text-sm leading-6 text-[#5d6c79]">{module.body}</p>
                 </button>
               ) : (
                 <Link
@@ -969,10 +1063,11 @@ export function HomePage() {
                   <span className="text-sm font-extrabold uppercase tracking-[0.18em] text-[#9a7337]">
                     {module.index}
                   </span>
-                  <strong className="mt-5 block font-display text-[1.16rem] tracking-[-0.03em] text-[#11283d]">
+                  <div className="gsap-service-line mt-4 h-[3px] w-full rounded-full bg-[linear-gradient(90deg,#c59a4f_0%,#7aa292_100%)]" />
+                  <strong className="mt-5 block font-display text-[1.12rem] tracking-[-0.03em] text-[#11283d]">
                     {module.title}
                   </strong>
-                  <p className="mt-3 text-sm leading-7 text-[#5d6c79]">{module.body}</p>
+                  <p className="mt-3 text-sm leading-6 text-[#5d6c79]">{module.body}</p>
                 </Link>
               )
             )}
@@ -985,16 +1080,16 @@ export function HomePage() {
                 Moat flywheel
               </div>
               {[
-                { title: "Classification", sub: "Better feedstock labels", pos: "left-[12%] top-[14%]" },
-                { title: "Listings", sub: "Higher quality discovery", pos: "right-[15%] top-[16%]" },
-                { title: "Pricing", sub: "Cleaner market signals", pos: "right-[8%] top-[42%]" },
-                { title: "Trust", sub: "Less counterparty friction", pos: "right-[16%] bottom-[14%]" },
+                { title: "Classification", sub: "Better labels", pos: "left-[12%] top-[14%]" },
+                { title: "Listings", sub: "Cleaner discovery", pos: "right-[15%] top-[16%]" },
+                { title: "Pricing", sub: "Better signals", pos: "right-[8%] top-[42%]" },
+                { title: "Trust", sub: "Less friction", pos: "right-[16%] bottom-[14%]" },
                 { title: "Transactions", sub: "More completed deals", pos: "left-[14%] bottom-[14%]" },
                 { title: "Data", sub: "Feedback into intelligence", pos: "left-[7%] top-[44%]" },
               ].map((node) => (
                 <div
                   key={node.title}
-                  className={`absolute ${node.pos} max-w-[10rem] rounded-[22px] border border-[#ddd2c4] bg-white/80 p-4 shadow-[0_14px_36px_rgba(46,41,31,0.05)]`}
+                  className={`gsap-float-card absolute ${node.pos} max-w-[10rem] rounded-[22px] border border-[#ddd2c4] bg-white/80 p-4 shadow-[0_14px_36px_rgba(46,41,31,0.05)]`}
                 >
                   <strong className="block font-display text-[0.98rem] tracking-[-0.03em] text-[#11283d]">
                     {node.title}
@@ -1016,10 +1111,10 @@ export function HomePage() {
                   key={note.title}
                   className="gsap-reveal rounded-[28px] border border-[#d8cfbf] bg-[rgba(255,252,247,0.9)] p-6 shadow-[0_18px_56px_rgba(46,41,31,0.06)]"
                 >
-                  <strong className="block font-display text-[1.08rem] tracking-[-0.03em] text-[#11283d]">
+                  <strong className="block font-display text-[1.06rem] tracking-[-0.03em] text-[#11283d]">
                     {note.title}
                   </strong>
-                  <p className="mt-3 text-sm leading-7 text-[#5d6c79]">{note.body}</p>
+                  <p className="mt-3 text-sm leading-6 text-[#5d6c79]">{note.body}</p>
                 </article>
               ))}
             </div>

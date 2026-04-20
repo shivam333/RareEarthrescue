@@ -1,5 +1,5 @@
 import { UserButton, useAuth, useClerk } from "@clerk/react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { pageEnter } from "../lib/motion";
@@ -16,6 +16,78 @@ const pageMotionProps = {
   animate: "visible" as const,
   exit: "exit" as const,
 };
+
+const planComparisonCards = [
+  {
+    id: "free",
+    kicker: "Start free",
+    title: "One-Time Order",
+    value: "Single lot",
+    featured: false,
+    meta: "For a first transaction, a targeted sell-side mandate, or a single procurement need.",
+    features: [
+      { label: "Guided onboarding for one transaction", included: true },
+      { label: "Targeted buyer or seller matching", included: true },
+      { label: "Transaction-level logistics coordination", included: true },
+      { label: "Light market context and support", included: true },
+      { label: "Ongoing marketplace workflow depth", included: false },
+    ],
+    cta: "Create free account",
+  },
+  {
+    id: "subscription",
+    kicker: "Preferred for repeat operators",
+    title: "Marketplace Access",
+    value: "Subscription",
+    meta: "Built for recurring discovery, repeat listings, and stronger internal procurement workflows.",
+    features: [
+      { label: "Always-on listing and sourcing visibility", included: true },
+      { label: "Saved searches and recurring workflows", included: true },
+      { label: "Pricing signals and bid awareness", included: true },
+      { label: "Shared access for active teams", included: true },
+      { label: "Dedicated managed sourcing desk", included: false },
+    ],
+    cta: "Request subscription access",
+    featured: true,
+  },
+  {
+    id: "services",
+    kicker: "Custom programs",
+    title: "Strategic Services",
+    value: "Request services",
+    featured: false,
+    meta: "For high-touch sourcing, tailored operating models, and managed execution support.",
+    features: [
+      { label: "Managed procurement and sourcing support", included: true },
+      { label: "Custom commercial and workflow design", included: true },
+      { label: "Batch consolidation and logistics planning", included: true },
+      { label: "High-touch onboarding and advisory", included: true },
+      { label: "Enterprise coordination across regions", included: true },
+    ],
+    cta: "Talk to our team",
+  },
+] as const;
+
+const planFaqItems = [
+  {
+    id: "one-time",
+    question: "What is included in a one-time order?",
+    answer:
+      "A one-time order is designed for teams testing the network or moving a specific lot. You get secure account creation, focused matching, and guided transaction support without committing to an ongoing subscription.",
+  },
+  {
+    id: "subscription",
+    question: "When should I choose subscription?",
+    answer:
+      "Choose subscription when rare-earth-bearing scrap is part of your ongoing operating rhythm. It is the better fit for repeat sourcing, recurring listings, team visibility, and stronger commercial intelligence.",
+  },
+  {
+    id: "services",
+    question: "How do strategic services work?",
+    answer:
+      "Strategic services are tailored around your workflow. We scope the supply challenge with your team, then design a support model around sourcing, logistics, commercial structure, or managed execution.",
+  },
+] as const;
 
 function getErrorMessage(error: any, fallback = "Something went wrong. Please try again.") {
   if (Array.isArray(error?.errors) && error.errors[0]) {
@@ -77,6 +149,7 @@ export function AuthPage() {
 
   const [activePlan, setActivePlan] = useState<PlanType>("free");
   const [activeRole, setActiveRole] = useState("");
+  const [activeFaq, setActiveFaq] = useState<string>("subscription");
   const [signInStep, setSignInStep] = useState<AuthStep>("form");
   const [signUpStep, setSignUpStep] = useState<AuthStep>("form");
 
@@ -749,138 +822,122 @@ export function AuthPage() {
           <section id="plan-comparison" className="section shell auth-secondary-section">
             <div className="section-header auth-secondary-header">
               <p className="eyebrow">Compare Access Paths</p>
-              <h2>Choose the right operating model for your recovery workflow.</h2>
+              <h2>Simple, structured access for every recovery workflow.</h2>
               <p className="section-copy">
-                Use this as a working outline for how Rare Earth Rescue can support one-off trades,
-                recurring marketplace participation, and tailored service-led programs.
+                Keep sign-up light, then choose the level of marketplace depth that matches how your
+                team buys, sells, and scales rare earth recovery activity.
               </p>
             </div>
 
             <div className="plan-comparison-shell">
-              <div className="plan-showcase-grid plan-showcase-grid-refined">
-                <article className="tier-showcase-card tier-showcase-card-free tier-showcase-card-visual float-hover">
-                  <span className="tier-icon-shell" aria-hidden="true">
-                    <span className="tier-icon">1</span>
-                  </span>
-                  <span className="plan-badge">One-time</span>
-                  <h3>One-Time Order</h3>
-                  <p>For a single lot, fast onboarding, and guided transaction execution.</p>
-                  <div className="tier-benefit-stack">
-                    <span className="tier-benefit-pill">Single transaction</span>
-                    <span className="tier-benefit-pill">Fast buyer match</span>
-                    <span className="tier-benefit-pill">Guided logistics</span>
-                    <span className="tier-benefit-pill">Low friction start</span>
-                  </div>
-                  <button className="button button-secondary" type="button" onClick={() => handlePlanJump("free")}>
-                    Start account
-                  </button>
-                </article>
-
-                <article className="tier-showcase-card tier-showcase-card-subscription tier-showcase-card-featured tier-showcase-card-visual float-hover">
-                  <span className="tier-feature-pill">Preferred ongoing path</span>
-                  <span className="tier-icon-shell" aria-hidden="true">
-                    <span className="tier-icon">2</span>
-                  </span>
-                  <span className="plan-badge plan-badge-subscription">Subscription</span>
-                  <h3>Marketplace Access</h3>
-                  <p>For repeat sourcing, recurring listings, and stronger market visibility.</p>
-                  <div className="tier-benefit-stack">
-                    <span className="tier-benefit-pill tier-benefit-pill-subscription">Recurring access</span>
-                    <span className="tier-benefit-pill tier-benefit-pill-subscription">Saved discovery</span>
-                    <span className="tier-benefit-pill tier-benefit-pill-subscription">Pricing signals</span>
-                    <span className="tier-benefit-pill tier-benefit-pill-subscription">Team workflows</span>
-                  </div>
-                  <button
-                    className="button button-primary"
-                    type="button"
-                    onClick={() => handlePlanJump("subscription")}
+              <div className="plan-pricing-grid">
+                {planComparisonCards.map((plan, index) => (
+                  <motion.article
+                    key={plan.id}
+                    className={`pricing-card panel float-hover ${plan.featured ? "pricing-card-featured" : ""}`}
+                    initial={{ opacity: 0, y: 26 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    Request subscription access
-                  </button>
-                </article>
+                    <div className="pricing-card-topline">
+                      <span className={`pricing-card-kicker ${plan.featured ? "pricing-card-kicker-featured" : ""}`}>
+                        {plan.kicker}
+                      </span>
+                    </div>
 
-                <article className="tier-showcase-card tier-showcase-card-enterprise tier-showcase-card-services float-hover">
-                  <span className="tier-icon-shell" aria-hidden="true">
-                    <span className="tier-icon">3</span>
-                  </span>
-                  <span className="plan-badge">Services</span>
-                  <h3>Strategic Services</h3>
-                  <p>
-                    For operators who need tailored sourcing support, custom workflows, and managed
-                    execution.
-                  </p>
-                  <div className="tier-service-points">
-                    <span>Managed procurement</span>
-                    <span>High-touch support</span>
-                    <span>Custom supply programs</span>
-                  </div>
-                  <button className="button button-secondary" type="button" onClick={() => navigate("/contact")}>
-                    Request services
-                  </button>
-                </article>
+                    <div className="pricing-card-header">
+                      <h3>{plan.title}</h3>
+                      <div className="pricing-card-value-block">
+                        <strong className="pricing-card-value">{plan.value}</strong>
+                        <p className="pricing-card-meta">{plan.meta}</p>
+                      </div>
+                    </div>
+
+                    <div className="pricing-card-features">
+                      {plan.features.map((feature) => (
+                        <div
+                          key={feature.label}
+                          className={`pricing-card-feature ${feature.included ? "" : "is-muted"}`}
+                        >
+                          <span className="pricing-card-feature-mark" aria-hidden="true">
+                            {feature.included ? "✓" : "−"}
+                          </span>
+                          <span>{feature.label}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <button
+                      className={`button ${plan.featured ? "button-primary" : "button-secondary"}`}
+                      type="button"
+                      onClick={() => {
+                        if (plan.id === "free") {
+                          handlePlanJump("free");
+                          return;
+                        }
+
+                        if (plan.id === "subscription") {
+                          handlePlanJump("subscription");
+                          return;
+                        }
+
+                        navigate("/contact");
+                      }}
+                    >
+                      {plan.cta}
+                    </button>
+                  </motion.article>
+                ))}
               </div>
 
-              <div className="plan-visual-panel panel">
-                <div className="plan-visual-header">
+              <div className="plan-faq-shell panel">
+                <div className="plan-faq-header">
                   <div>
                     <span className="plan-visual-label">Visual comparison</span>
-                    <h3>Choose the model that matches your operating cadence.</h3>
+                    <h3>Keep account creation fast. Choose the depth after that.</h3>
                   </div>
                   <p>
-                    Less setup for a single order. More visibility and workflow depth for repeat
-                    users.
+                    Role selection still happens after sign-up, so this section is here to clarify
+                    the commercial path, not slow down account creation.
                   </p>
                 </div>
 
-                <div className="plan-visual-matrix">
-                  <div className="plan-visual-column plan-visual-column-labels">
-                    <span>Best fit</span>
-                    <span>Marketplace access</span>
-                    <span>Commercial signals</span>
-                    <span>Workflow support</span>
-                    <span>Ideal user</span>
-                  </div>
+                <div className="plan-faq-list">
+                  {planFaqItems.map((item) => {
+                    const isOpen = activeFaq === item.id;
 
-                  <div className="plan-visual-column">
-                    <div className="plan-visual-title">
-                      <strong>One-Time</strong>
-                      <span>Focused execution</span>
-                    </div>
-                    <span className="plan-visual-chip">One lot or first order</span>
-                    <span className="plan-visual-chip">Targeted match</span>
-                    <span className="plan-visual-chip">Basic market context</span>
-                    <span className="plan-visual-chip">Guided completion</span>
-                    <span className="plan-visual-chip">New or occasional users</span>
-                  </div>
+                    return (
+                      <div key={item.id} className={`plan-faq-item ${isOpen ? "active" : ""}`}>
+                        <button
+                          className="plan-faq-trigger"
+                          type="button"
+                          aria-expanded={isOpen}
+                          onClick={() => setActiveFaq(isOpen ? "" : item.id)}
+                        >
+                          <span>{item.question}</span>
+                          <span className="plan-faq-icon" aria-hidden="true">
+                            {isOpen ? "−" : "+"}
+                          </span>
+                        </button>
 
-                  <div className="plan-visual-column plan-visual-column-featured">
-                    <div className="plan-visual-title">
-                      <strong>Subscription</strong>
-                      <span>Ongoing access</span>
-                    </div>
-                    <span className="plan-visual-chip plan-visual-chip-featured">Repeat buying or selling</span>
-                    <span className="plan-visual-chip plan-visual-chip-featured">Always-on discovery</span>
-                    <span className="plan-visual-chip plan-visual-chip-featured">Pricing and bid signals</span>
-                    <span className="plan-visual-chip plan-visual-chip-featured">Recurring team workflow</span>
-                    <span className="plan-visual-chip plan-visual-chip-featured">Active marketplace participants</span>
-                  </div>
+                        <AnimatePresence initial={false}>
+                          {isOpen ? (
+                            <motion.div
+                              className="plan-faq-answer"
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                            >
+                              <p>{item.answer}</p>
+                            </motion.div>
+                          ) : null}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
-
-              <div className="plan-comparison-actions">
-                <button className="button button-secondary" type="button" onClick={() => handlePlanJump("free")}>
-                  Create Free Account
-                </button>
-                <button
-                  className="button button-primary"
-                  type="button"
-                  onClick={() => handlePlanJump("subscription")}
-                >
-                  Request Subscription Access
-                </button>
-                <button className="button button-secondary" type="button" onClick={() => navigate("/contact")}>
-                  Request Services
-                </button>
               </div>
             </div>
           </section>
