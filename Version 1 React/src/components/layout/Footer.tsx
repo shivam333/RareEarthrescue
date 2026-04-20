@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const groups = [
   {
@@ -35,12 +35,6 @@ const groups = [
 ];
 
 export function Footer() {
-  const location = useLocation();
-
-  if (location.pathname === "/") {
-    return null;
-  }
-
   return (
     <footer className="footer">
       <div className="shell footer-grid">
