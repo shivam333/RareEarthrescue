@@ -7,6 +7,18 @@ export function normalizeRedirectPath(input?: string | null) {
     return "/dashboard";
   }
 
+  try {
+    const url = new URL(input, window.location.origin);
+    if (url.origin === window.location.origin) {
+      const combinedPath = `${url.pathname}${url.search}${url.hash}`;
+      if (combinedPath && combinedPath !== "/index.html") {
+        return combinedPath.replace(/\.html(?=($|[?#]))/, "") || "/";
+      }
+    }
+  } catch {
+    // Fall through to string normalization.
+  }
+
   if (input === "/" || input === "index.html" || input === "/index.html") {
     return "/";
   }
@@ -19,4 +31,16 @@ export function toAbsoluteAppUrl(path: string) {
   const base = new URL(import.meta.env.BASE_URL, window.location.origin);
   const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
   return new URL(normalizedPath, base).toString();
+}
+
+export function getAuthRedirectTarget(searchParams: URLSearchParams) {
+  return normalizeRedirectPath(searchParams.get("redirect_url") || searchParams.get("redirect"));
+}
+
+export function getSignInUrl() {
+  return "/sign-in";
+}
+
+export function getSignUpUrl() {
+  return "/sign-in?mode=sign-up";
 }

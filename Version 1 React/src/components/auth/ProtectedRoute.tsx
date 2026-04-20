@@ -24,7 +24,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
 
   if (!isSignedIn) {
     const redirectPath = `${location.pathname}${location.search}${location.hash}`;
-    return <Navigate replace to={`/sign-in?redirect=${encodeURIComponent(redirectPath)}`} />;
+    return <Navigate replace to={`/sign-in?redirect_url=${encodeURIComponent(redirectPath)}`} />;
   }
 
   return <>{children}</>;

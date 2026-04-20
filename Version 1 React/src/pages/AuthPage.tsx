@@ -1,13 +1,11 @@
-import { UserButton, useAuth, useClerk } from "@clerk/react";
+import { SignIn, SignUp, UserButton, useAuth } from "@clerk/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { pageEnter } from "../lib/motion";
-import { normalizeRedirectPath, toAbsoluteAppUrl } from "../lib/site";
+import { getAuthRedirectTarget, normalizeRedirectPath } from "../lib/site";
 
-type FeedbackTone = "error" | "success" | "neutral";
 type AuthMode = "sign-in" | "sign-up";
-type AuthStep = "form" | "verify";
 type PlanType = "free" | "subscription";
 
 const pageMotionProps = {
@@ -95,107 +93,238 @@ const planFaqItems = [
   },
 ] as const;
 
-function getErrorMessage(error: any, fallback = "Something went wrong. Please try again.") {
-  if (Array.isArray(error?.errors) && error.errors[0]) {
-    return error.errors[0].longMessage || error.errors[0].message || fallback;
-  }
+const clerkAppearance = {
+  variables: {
+    colorPrimary: "#173550",
+    colorText: "#11283d",
+    colorTextSecondary: "#5c6b79",
+    colorBackground: "#fffaf2",
+    colorInputBackground: "#fffdf9",
+    colorInputText: "#11283d",
+    borderRadius: "18px",
+  },
+  elements: {
+    rootBox: "w-full",
+    cardBox: "w-full shadow-none",
+    card: "shadow-none border-0 bg-transparent p-0",
+    headerTitle: "hidden",
+    headerSubtitle: "hidden",
+    socialButtonsBlockButton:
+      "!rounded-[18px] !border !border-[#ddd4c7] !bg-white/86 !text-[#11283d] !shadow-none hover:!bg-white",
+    socialButtonsBlockButtonText: "!font-semibold",
+    socialButtonsProviderIcon__google: "!grayscale-0",
+    socialButtonsProviderIcon__microsoft: "!grayscale-0",
+    socialButtonsProviderIcon__linkedin_oidc: "!grayscale-0",
+    dividerLine: "!bg-[#e6ddcf]",
+    dividerText: "!text-[0.68rem] !font-extrabold !uppercase !tracking-[0.18em] !text-[#8a7b65]",
+    formFieldLabel: "!text-[#5b6b79] !font-semibold",
+    formFieldInput:
+      "!rounded-[18px] !border !border-[#ddd4c7] !bg-white/88 !text-[#11283d] !shadow-none focus:!border-[#b38a4e] focus:!ring-0",
+    formButtonPrimary:
+      "!rounded-full !bg-[#173550] !text-white !shadow-[0_16px_40px_rgba(23,53,80,0.18)] hover:!bg-[#0f2a40]",
+    footer: "!hidden",
+    footerAction: "!hidden",
+    identityPreviewText: "!text-[#5c6b79]",
+    formFieldSuccessText: "!text-[#315e53]",
+    alertText: "!text-[#8c473c]",
+    formResendCodeLink: "!text-[#8d6d39] hover:!text-[#173550]",
+  },
+  layout: {
+    socialButtonsPlacement: "top" as const,
+    socialButtonsVariant: "blockButton" as const,
+    showOptionalFields: false,
+    shimmer: false,
+    animations: true,
+  },
+};
 
-  return error?.message || fallback;
-}
-
-function AuthFeedback({
-  text,
-  tone,
+function PlanComparison({
+  activeFaq,
+  setActiveFaq,
+  handlePlanJump,
+  navigate,
 }: {
-  text: string;
-  tone: FeedbackTone;
+  activeFaq: string;
+  setActiveFaq: (next: string) => void;
+  handlePlanJump: (plan: PlanType) => void;
+  navigate: ReturnType<typeof useNavigate>;
 }) {
-  if (!text) {
-    return null;
-  }
+  const openPlanDetail = (detailAction: "one-time" | "subscription" | "services") => {
+    if (detailAction === "services") {
+      navigate("/contact");
+      return;
+    }
+
+    const nextFaq = detailAction === "one-time" ? "one-time" : "subscription";
+    setActiveFaq(nextFaq);
+
+    const nextSection = detailAction === "subscription" ? "subscription-plan" : "plan-comparison";
+    window.requestAnimationFrame(() => {
+      document.getElementById(nextSection)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
 
   return (
-    <div className="auth-feedback" data-tone={tone}>
-      {text}
-    </div>
-  );
-}
+    <>
+      <section id="plan-comparison" className="section shell auth-secondary-section">
+        <div className="section-header auth-secondary-header">
+          <p className="eyebrow">Compare Access Paths</p>
+          <h2>Simple, structured access for every recovery workflow.</h2>
+          <p className="section-copy">
+            Keep sign-up light, then choose the level of marketplace depth that matches how your
+            team buys, sells, and scales rare earth recovery activity.
+          </p>
+        </div>
 
-function SocialButton({
-  label,
-  mark,
-  onClick,
-  disabled,
-}: {
-  label: string;
-  mark: string;
-  onClick: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <button className="oauth-button" type="button" onClick={onClick} disabled={disabled}>
-      <span className="oauth-button-mark">{mark}</span>
-      <span>{label}</span>
-    </button>
+        <div className="plan-comparison-shell">
+          <div className="plan-pricing-grid">
+            {planComparisonCards.map((plan, index) => (
+              <motion.article
+                key={plan.id}
+                className={`pricing-card panel float-hover ${plan.featured ? "pricing-card-featured" : ""}`}
+                initial={{ opacity: 0, y: 26 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="pricing-card-topline">
+                  <span className={`pricing-card-kicker ${plan.featured ? "pricing-card-kicker-featured" : ""}`}>
+                    {plan.kicker}
+                  </span>
+                </div>
+
+                <div className="pricing-card-header">
+                  <h3>{plan.title}</h3>
+                  <div className="pricing-card-value-block">
+                    <strong className="pricing-card-value">{plan.value}</strong>
+                    <p className="pricing-card-meta">{plan.meta}</p>
+                  </div>
+                </div>
+
+                <div className="pricing-card-features">
+                  {plan.features.map((feature) => (
+                    <div
+                      key={feature.label}
+                      className={`pricing-card-feature ${feature.included ? "" : "is-muted"}`}
+                    >
+                      <span className="pricing-card-feature-mark" aria-hidden="true">
+                        {feature.included ? "✓" : "−"}
+                      </span>
+                      <span>{feature.label}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  className={`button ${plan.featured ? "button-primary" : "button-secondary"}`}
+                  type="button"
+                  onClick={() => {
+                    if (plan.id === "free") {
+                      handlePlanJump("free");
+                      return;
+                    }
+
+                    if (plan.id === "subscription") {
+                      handlePlanJump("subscription");
+                      return;
+                    }
+
+                    navigate("/contact");
+                  }}
+                >
+                  {plan.cta}
+                </button>
+
+                <button
+                  className={`pricing-card-link ${plan.featured ? "pricing-card-link-featured" : ""}`}
+                  type="button"
+                  onClick={() => openPlanDetail(plan.detailAction)}
+                >
+                  {plan.detailLabel}
+                </button>
+              </motion.article>
+            ))}
+          </div>
+
+          <div className="plan-faq-shell panel">
+            <div className="plan-faq-header">
+              <div>
+                <span className="plan-visual-label">Visual comparison</span>
+                <h3>Keep account creation fast. Choose the depth after that.</h3>
+              </div>
+              <p>
+                Role selection still happens after sign-up, so this section is here to clarify the
+                commercial path, not slow down account creation.
+              </p>
+            </div>
+
+            <div className="plan-faq-list">
+              {planFaqItems.map((item) => {
+                const isOpen = activeFaq === item.id;
+
+                return (
+                  <div key={item.id} className={`plan-faq-item ${isOpen ? "active" : ""}`}>
+                    <button
+                      className="plan-faq-trigger"
+                      type="button"
+                      aria-expanded={isOpen}
+                      onClick={() => setActiveFaq(isOpen ? "" : item.id)}
+                    >
+                      <span>{item.question}</span>
+                      <span className="plan-faq-icon" aria-hidden="true">
+                        {isOpen ? "−" : "+"}
+                      </span>
+                    </button>
+
+                    <AnimatePresence initial={false}>
+                      {isOpen ? (
+                        <motion.div
+                          className="plan-faq-answer"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          <p>{item.answer}</p>
+                        </motion.div>
+                      ) : null}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="subscription-plan" className="section shell auth-secondary-section">
+        <div className="subscription-knowmore panel">
+          <div className="subscription-copy">
+            <p className="eyebrow">Know More</p>
+            <h2>Subscription is built for repeat operators across the rare earth recovery chain.</h2>
+            <p className="section-copy">
+              Choose subscription if your team needs continuing access to fragmented supply,
+              recurring discovery, internal team visibility, and stronger commercial intelligence.
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
 export function AuthPage() {
-  const clerk = useClerk();
   const { isLoaded, isSignedIn } = useAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentMode: AuthMode = searchParams.get("mode") === "sign-up" ? "sign-up" : "sign-in";
   const stepParam = searchParams.get("step");
-  const redirectTarget = normalizeRedirectPath(searchParams.get("redirect"));
-
-  const signInAttemptRef = useRef<any>(null);
-  const signUpAttemptRef = useRef<any>(null);
+  const redirectTarget = getAuthRedirectTarget(searchParams);
 
   const [activePlan, setActivePlan] = useState<PlanType>("free");
   const [activeRole, setActiveRole] = useState("");
   const [activeFaq, setActiveFaq] = useState<string>("subscription");
-  const [signInStep, setSignInStep] = useState<AuthStep>("form");
-  const [signUpStep, setSignUpStep] = useState<AuthStep>("form");
-
-  const [signInEmail, setSignInEmail] = useState("");
-  const [signInPassword, setSignInPassword] = useState("");
-  const [signInCode, setSignInCode] = useState("");
-
-  const [signUpEmail, setSignUpEmail] = useState("");
-  const [signUpPassword, setSignUpPassword] = useState("");
-  const [signUpCompany, setSignUpCompany] = useState("");
-  const [signUpCode, setSignUpCode] = useState("");
-
-  const [signInFeedback, setSignInFeedback] = useState<{ text: string; tone: FeedbackTone }>({
-    text: "",
-    tone: "neutral",
-  });
-  const [signInVerifyFeedback, setSignInVerifyFeedback] = useState<{
-    text: string;
-    tone: FeedbackTone;
-  }>({
-    text: "",
-    tone: "neutral",
-  });
-  const [signUpFeedback, setSignUpFeedback] = useState<{ text: string; tone: FeedbackTone }>({
-    text: "",
-    tone: "neutral",
-  });
-  const [signUpVerifyFeedback, setSignUpVerifyFeedback] = useState<{
-    text: string;
-    tone: FeedbackTone;
-  }>({
-    text: "",
-    tone: "neutral",
-  });
-
-  const [signInLoading, setSignInLoading] = useState(false);
-  const [signInVerifyLoading, setSignInVerifyLoading] = useState(false);
-  const [signUpLoading, setSignUpLoading] = useState(false);
-  const [signUpVerifyLoading, setSignUpVerifyLoading] = useState(false);
-  const [oauthLoadingKey, setOauthLoadingKey] = useState("");
 
   useEffect(() => {
     document.body.dataset.authPage = "sign-in";
@@ -212,31 +341,10 @@ export function AuthPage() {
     params.set("mode", mode);
     params.delete("step");
     setSearchParams(params, { replace: true });
-    setSignInStep("form");
-    setSignUpStep("form");
-    setSignInFeedback({ text: "", tone: "neutral" });
-    setSignUpFeedback({ text: "", tone: "neutral" });
-    setSignInVerifyFeedback({ text: "", tone: "neutral" });
-    setSignUpVerifyFeedback({ text: "", tone: "neutral" });
   };
 
   const focusAccountAccess = () => {
     document.getElementById("account-access")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const openPlanDetail = (detailAction: "one-time" | "subscription" | "services") => {
-    if (detailAction === "services") {
-      navigate("/contact");
-      return;
-    }
-
-    const nextFaq = detailAction === "one-time" ? "one-time" : "subscription";
-    setActiveFaq(nextFaq);
-
-    const nextSection = detailAction === "subscription" ? "subscription-plan" : "plan-comparison";
-    window.requestAnimationFrame(() => {
-      document.getElementById(nextSection)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
   };
 
   const handlePlanJump = (plan: PlanType) => {
@@ -245,215 +353,24 @@ export function AuthPage() {
     window.requestAnimationFrame(focusAccountAccess);
   };
 
-  const handleSignInSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!isLoaded) return;
-
-    setSignInLoading(true);
-    setSignInFeedback({ text: "", tone: "neutral" });
-
-    try {
-      const attempt: any = await clerk.client.signIn.create({
-        identifier: signInEmail,
-        password: signInPassword,
-      });
-
-      signInAttemptRef.current = attempt;
-
-      if (attempt.status === "complete") {
-        await clerk.setActive({ session: attempt.createdSessionId });
-        navigate(redirectTarget, { replace: true });
-        return;
-      }
-
-      if (
-        (attempt.status === "needs_second_factor" || attempt.status === "needs_client_trust") &&
-        attempt.mfa?.sendEmailCode
-      ) {
-        await attempt.mfa.sendEmailCode();
-        setSignInStep("verify");
-        setSignInVerifyFeedback({
-          text: "Enter the code from your email to continue.",
-          tone: "neutral",
-        });
-        return;
-      }
-
-      throw new Error("This account needs a verification method that is not yet enabled.");
-    } catch (error) {
-      setSignInFeedback({ text: getErrorMessage(error), tone: "error" });
-    } finally {
-      setSignInLoading(false);
-    }
-  };
-
-  const handleSignInVerify = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const attempt = signInAttemptRef.current;
-    if (!attempt) return;
-
-    setSignInVerifyLoading(true);
-    setSignInVerifyFeedback({ text: "", tone: "neutral" });
-
-    try {
-      await attempt.mfa.verifyEmailCode({ code: signInCode });
-
-      if (attempt.status === "complete") {
-        await clerk.setActive({ session: attempt.createdSessionId });
-        navigate(redirectTarget, { replace: true });
-        return;
-      }
-
-      throw new Error("Verification is incomplete. Please request a new code.");
-    } catch (error) {
-      setSignInVerifyFeedback({ text: getErrorMessage(error), tone: "error" });
-    } finally {
-      setSignInVerifyLoading(false);
-    }
-  };
-
-  const handleSignUpSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!isLoaded) return;
-
-    setSignUpLoading(true);
-    setSignUpFeedback({ text: "", tone: "neutral" });
-
-    try {
-      const attempt: any = await clerk.client.signUp.create({
-        emailAddress: signUpEmail,
-        password: signUpPassword,
-        unsafeMetadata: {
-          plan: activePlan,
-          companyName: signUpCompany,
-        },
-      });
-
-      signUpAttemptRef.current = attempt;
-      await attempt.prepareEmailAddressVerification({ strategy: "email_code" });
-      setSignUpStep("verify");
-      setSignUpVerifyFeedback({
-        text: "Enter the code from your email to activate the account.",
-        tone: "neutral",
-      });
-    } catch (error) {
-      setSignUpFeedback({ text: getErrorMessage(error), tone: "error" });
-    } finally {
-      setSignUpLoading(false);
-    }
-  };
-
-  const handleSignUpVerify = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const attempt = signUpAttemptRef.current;
-    if (!attempt) return;
-
-    setSignUpVerifyLoading(true);
-    setSignUpVerifyFeedback({ text: "", tone: "neutral" });
-
-    try {
-      const result: any = await attempt.attemptEmailAddressVerification({ code: signUpCode });
-
-      if (result.status === "complete") {
-        await clerk.setActive({ session: result.createdSessionId });
-        navigate(
-          `/sign-in?mode=sign-up&step=role&redirect=${encodeURIComponent(redirectTarget)}`,
-          { replace: true }
-        );
-        return;
-      }
-
-      throw new Error("Verification is incomplete. Please request a new code.");
-    } catch (error) {
-      setSignUpVerifyFeedback({ text: getErrorMessage(error), tone: "error" });
-    } finally {
-      setSignUpVerifyLoading(false);
-    }
-  };
-
-  const resendSignInCode = async () => {
-    try {
-      await signInAttemptRef.current?.mfa?.sendEmailCode?.();
-      setSignInVerifyFeedback({ text: "A new verification code has been sent.", tone: "success" });
-    } catch (error) {
-      setSignInVerifyFeedback({ text: getErrorMessage(error), tone: "error" });
-    }
-  };
-
-  const resendSignUpCode = async () => {
-    try {
-      await signUpAttemptRef.current?.prepareEmailAddressVerification?.({ strategy: "email_code" });
-      setSignUpVerifyFeedback({ text: "A new verification code has been sent.", tone: "success" });
-    } catch (error) {
-      setSignUpVerifyFeedback({ text: getErrorMessage(error), tone: "error" });
-    }
-  };
-
-  const resetSignIn = () => {
-    signInAttemptRef.current = null;
-    setSignInCode("");
-    setSignInStep("form");
-    setSignInVerifyFeedback({ text: "", tone: "neutral" });
-  };
-
-  const resetSignUp = () => {
-    signUpAttemptRef.current = null;
-    setSignUpCode("");
-    setSignUpStep("form");
-    setSignUpVerifyFeedback({ text: "", tone: "neutral" });
-  };
-
-  const startOAuth = async (flow: AuthMode, strategy: string) => {
-    const loadingKey = `${flow}:${strategy}`;
-    setOauthLoadingKey(loadingKey);
-
-    const callbackUrl = toAbsoluteAppUrl(
-      `/oauth-callback?redirect=${encodeURIComponent(redirectTarget)}&mode=${flow}`
-    );
-    const completeUrl =
-      flow === "sign-up"
-        ? toAbsoluteAppUrl(`/sign-in?mode=sign-up&step=role&redirect=${encodeURIComponent(redirectTarget)}`)
-        : toAbsoluteAppUrl(redirectTarget);
-    const resource: any = flow === "sign-up" ? clerk.client.signUp : clerk.client.signIn;
-
-    try {
-      if (resource?.authenticateWithRedirect) {
-        await resource.authenticateWithRedirect({
-          strategy,
-          redirectUrl: callbackUrl,
-          redirectUrlComplete: completeUrl,
-        });
-        return;
-      }
-
-      if (resource?.sso) {
-        await resource.sso({
-          strategy,
-          redirectCallbackUrl: callbackUrl,
-          redirectUrl: completeUrl,
-        });
-        return;
-      }
-
-      throw new Error("Social sign-in is not available for this configuration.");
-    } catch (error) {
-      const nextFeedback = { text: getErrorMessage(error), tone: "error" as FeedbackTone };
-      if (flow === "sign-up") {
-        setSignUpFeedback(nextFeedback);
-      } else {
-        setSignInFeedback(nextFeedback);
-      }
-      setOauthLoadingKey("");
-    }
-  };
-
   const continueWithRole = () => {
     if (!activeRole) return;
 
-    const nextUrl = new URL(redirectTarget, window.location.origin);
+    const nextTarget = normalizeRedirectPath(redirectTarget);
+    const nextUrl = new URL(nextTarget, window.location.origin);
     nextUrl.searchParams.set("role", activeRole);
     navigate(`${nextUrl.pathname}${nextUrl.search}`, { replace: true });
   };
+
+  const signInForceRedirectUrl = redirectTarget;
+  const signUpRoleRedirectUrl = `/sign-in?mode=sign-up&step=role&redirect_url=${encodeURIComponent(
+    redirectTarget
+  )}`;
+
+  const signInInitialValues = useMemo(() => {
+    const email = searchParams.get("email_address") || "";
+    return email ? { emailAddress: email } : undefined;
+  }, [searchParams]);
 
   return (
     <motion.main className="page" {...pageMotionProps}>
@@ -475,7 +392,16 @@ export function AuthPage() {
           </div>
 
           <div className="auth-card auth-card-centered panel">
-            {!isSignedIn ? (
+            {!isLoaded ? (
+              <div className="auth-mode-panel active">
+                <div className="auth-panel-copy">
+                  <h2 className="auth-panel-title">Loading secure access</h2>
+                  <p className="auth-panel-subtext">
+                    Rare Earth Rescue is preparing the authentication workspace.
+                  </p>
+                </div>
+              </div>
+            ) : !isSignedIn ? (
               <>
                 <div className="auth-tabs" role="tablist" aria-label="Authentication">
                   <button
@@ -502,112 +428,19 @@ export function AuthPage() {
                     </p>
                   </div>
 
-                  {signInStep === "form" ? (
-                    <div className="custom-auth-step active">
-                      <div className="custom-social-stack">
-                        <SocialButton
-                          label="Continue with Google"
-                          mark="G"
-                          onClick={() => startOAuth("sign-in", "oauth_google")}
-                          disabled={oauthLoadingKey === "sign-in:oauth_google"}
-                        />
-                        <SocialButton
-                          label="Continue with Microsoft"
-                          mark="M"
-                          onClick={() => startOAuth("sign-in", "oauth_microsoft")}
-                          disabled={oauthLoadingKey === "sign-in:oauth_microsoft"}
-                        />
-                        <SocialButton
-                          label="Continue with LinkedIn"
-                          mark="in"
-                          onClick={() => startOAuth("sign-in", "oauth_linkedin_oidc")}
-                          disabled={oauthLoadingKey === "sign-in:oauth_linkedin_oidc"}
-                        />
-                      </div>
-
-                      <div className="auth-divider">
-                        <span>or use your work email</span>
-                      </div>
-
-                      <form className="auth-form" onSubmit={handleSignInSubmit}>
-                        <label className="auth-label" htmlFor="sign-in-email">
-                          Work email
-                        </label>
-                        <input
-                          id="sign-in-email"
-                          className="auth-input"
-                          type="email"
-                          autoComplete="email"
-                          placeholder="name@company.com"
-                          value={signInEmail}
-                          onChange={(event) => setSignInEmail(event.target.value)}
-                        />
-
-                        <label className="auth-label" htmlFor="sign-in-password">
-                          Password
-                        </label>
-                        <input
-                          id="sign-in-password"
-                          className="auth-input"
-                          type="password"
-                          autoComplete="current-password"
-                          placeholder="Enter your password"
-                          value={signInPassword}
-                          onChange={(event) => setSignInPassword(event.target.value)}
-                        />
-
-                        <button className="button button-primary button-block auth-submit" type="submit" disabled={signInLoading}>
-                          {signInLoading ? "Continuing..." : "Continue"}
-                        </button>
-                      </form>
-
-                      <AuthFeedback {...signInFeedback} />
-                      <p className="auth-helper-text">
-                        Use the email and password configured for your Rare Earth Rescue account.
-                      </p>
+                  {currentMode === "sign-in" ? (
+                    <div className="clerk-auth-root clerk-auth-root-compact">
+                      <SignIn
+                        routing="hash"
+                        appearance={clerkAppearance}
+                        signUpUrl="/sign-in?mode=sign-up"
+                        fallbackRedirectUrl={signInForceRedirectUrl}
+                        forceRedirectUrl={signInForceRedirectUrl}
+                        initialValues={signInInitialValues}
+                        oauthFlow="redirect"
+                      />
                     </div>
-                  ) : (
-                    <div className="custom-auth-step active">
-                      <div className="verify-panel-copy">
-                        <span className="plan-badge">Verification required</span>
-                        <h3>Check your inbox</h3>
-                        <p>
-                          Enter the security code sent to {signInEmail || "your email"} to finish
-                          signing in.
-                        </p>
-                      </div>
-
-                      <form className="auth-form" onSubmit={handleSignInVerify}>
-                        <label className="auth-label" htmlFor="sign-in-code">
-                          Verification code
-                        </label>
-                        <input
-                          id="sign-in-code"
-                          className="auth-input auth-code-input"
-                          inputMode="numeric"
-                          autoComplete="one-time-code"
-                          placeholder="123456"
-                          value={signInCode}
-                          onChange={(event) => setSignInCode(event.target.value)}
-                        />
-
-                        <button className="button button-primary button-block auth-submit" type="submit" disabled={signInVerifyLoading}>
-                          {signInVerifyLoading ? "Verifying..." : "Verify and continue"}
-                        </button>
-                      </form>
-
-                      <div className="auth-secondary-actions">
-                        <button className="button button-secondary" type="button" onClick={resendSignInCode}>
-                          Resend code
-                        </button>
-                        <button className="button button-ghost" type="button" onClick={resetSignIn}>
-                          Start over
-                        </button>
-                      </div>
-
-                      <AuthFeedback {...signInVerifyFeedback} />
-                    </div>
-                  )}
+                  ) : null}
                 </div>
 
                 <div className={`auth-mode-panel ${currentMode === "sign-up" ? "active" : ""}`}>
@@ -619,7 +452,7 @@ export function AuthPage() {
                     </p>
                   </div>
 
-                  {signUpStep === "form" ? (
+                  {currentMode === "sign-up" ? (
                     <div className="custom-auth-step active">
                       <div className="plan-selector plan-selector-inline">
                         <button
@@ -642,77 +475,22 @@ export function AuthPage() {
                         </button>
                       </div>
 
-                      <form className="auth-form" onSubmit={handleSignUpSubmit}>
-                        <label className="auth-label" htmlFor="sign-up-email">
-                          Work email
-                        </label>
-                        <input
-                          id="sign-up-email"
-                          className="auth-input"
-                          type="email"
-                          autoComplete="email"
-                          placeholder="name@company.com"
-                          value={signUpEmail}
-                          onChange={(event) => setSignUpEmail(event.target.value)}
-                        />
-
-                        <label className="auth-label" htmlFor="sign-up-password">
-                          Create password
-                        </label>
-                        <input
-                          id="sign-up-password"
-                          className="auth-input"
-                          type="password"
-                          autoComplete="new-password"
-                          placeholder="Create a secure password"
-                          value={signUpPassword}
-                          onChange={(event) => setSignUpPassword(event.target.value)}
-                        />
-
-                        <label className="auth-label" htmlFor="sign-up-company">
-                          Company name
-                        </label>
-                        <input
-                          id="sign-up-company"
-                          className="auth-input"
-                          type="text"
-                          autoComplete="organization"
-                          placeholder="Your company or operating entity"
-                          value={signUpCompany}
-                          onChange={(event) => setSignUpCompany(event.target.value)}
-                        />
-
-                        <button className="button button-primary button-block auth-submit" type="submit" disabled={signUpLoading}>
-                          {signUpLoading ? "Creating account..." : "Create account"}
-                        </button>
-                      </form>
-
-                      <div className="auth-divider">
-                        <span>or continue with a connected account</span>
+                      <div className="rounded-[22px] border border-[#e3dacd] bg-white/58 px-4 py-3 text-sm leading-7 text-[#5d6c79]">
+                        Company details and role selection can be completed after secure account
+                        creation, so users can get through sign-up with less friction.
                       </div>
 
-                      <div className="custom-social-stack">
-                        <SocialButton
-                          label="Sign up with Google"
-                          mark="G"
-                          onClick={() => startOAuth("sign-up", "oauth_google")}
-                          disabled={oauthLoadingKey === "sign-up:oauth_google"}
-                        />
-                        <SocialButton
-                          label="Sign up with Microsoft"
-                          mark="M"
-                          onClick={() => startOAuth("sign-up", "oauth_microsoft")}
-                          disabled={oauthLoadingKey === "sign-up:oauth_microsoft"}
-                        />
-                        <SocialButton
-                          label="Sign up with LinkedIn"
-                          mark="in"
-                          onClick={() => startOAuth("sign-up", "oauth_linkedin_oidc")}
-                          disabled={oauthLoadingKey === "sign-up:oauth_linkedin_oidc"}
+                      <div className="clerk-auth-root clerk-auth-root-compact">
+                        <SignUp
+                          routing="hash"
+                          appearance={clerkAppearance}
+                          signInUrl="/sign-in"
+                          fallbackRedirectUrl={signUpRoleRedirectUrl}
+                          forceRedirectUrl={signUpRoleRedirectUrl}
+                          unsafeMetadata={{ plan: activePlan }}
+                          oauthFlow="redirect"
                         />
                       </div>
-
-                      <AuthFeedback {...signUpFeedback} />
 
                       <div className="auth-signup-links">
                         <a className="ghost-link" href="#plan-comparison">
@@ -723,54 +501,7 @@ export function AuthPage() {
                         </a>
                       </div>
                     </div>
-                  ) : (
-                    <div className="custom-auth-step active">
-                      <div className="verify-panel-copy">
-                        <span className="plan-badge">Email verification</span>
-                        <h3>Verify your work email</h3>
-                        <p>
-                          Enter the one-time code sent to {signUpEmail || "your inbox"} to activate
-                          the account.
-                        </p>
-                      </div>
-
-                      <form className="auth-form" onSubmit={handleSignUpVerify}>
-                        <label className="auth-label" htmlFor="sign-up-code">
-                          Verification code
-                        </label>
-                        <input
-                          id="sign-up-code"
-                          className="auth-input auth-code-input"
-                          inputMode="numeric"
-                          autoComplete="one-time-code"
-                          placeholder="123456"
-                          value={signUpCode}
-                          onChange={(event) => setSignUpCode(event.target.value)}
-                        />
-
-                        <button className="button button-primary button-block auth-submit" type="submit" disabled={signUpVerifyLoading}>
-                          {signUpVerifyLoading ? "Verifying..." : "Verify and continue"}
-                        </button>
-                      </form>
-
-                      <div className="auth-secondary-actions">
-                        <button className="button button-secondary" type="button" onClick={resendSignUpCode}>
-                          Resend code
-                        </button>
-                        <button className="button button-ghost" type="button" onClick={resetSignUp}>
-                          Start over
-                        </button>
-                      </div>
-
-                      <AuthFeedback {...signUpVerifyFeedback} />
-
-                      <div className="auth-signup-links">
-                        <a className="ghost-link" href="#plan-comparison">
-                          Compare plans while you wait
-                        </a>
-                      </div>
-                    </div>
-                  )}
+                  ) : null}
                 </div>
               </>
             ) : stepParam === "role" ? (
@@ -839,187 +570,12 @@ export function AuthPage() {
       </section>
 
       {!isSignedIn ? (
-        <>
-          <section id="plan-comparison" className="section shell auth-secondary-section">
-            <div className="section-header auth-secondary-header">
-              <p className="eyebrow">Compare Access Paths</p>
-              <h2>Simple, structured access for every recovery workflow.</h2>
-              <p className="section-copy">
-                Keep sign-up light, then choose the level of marketplace depth that matches how your
-                team buys, sells, and scales rare earth recovery activity.
-              </p>
-            </div>
-
-            <div className="plan-comparison-shell">
-              <div className="plan-pricing-grid">
-                {planComparisonCards.map((plan, index) => (
-                  <motion.article
-                    key={plan.id}
-                    className={`pricing-card panel float-hover ${plan.featured ? "pricing-card-featured" : ""}`}
-                    initial={{ opacity: 0, y: 26 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  >
-                    <div className="pricing-card-topline">
-                      <span className={`pricing-card-kicker ${plan.featured ? "pricing-card-kicker-featured" : ""}`}>
-                        {plan.kicker}
-                      </span>
-                    </div>
-
-                    <div className="pricing-card-header">
-                      <h3>{plan.title}</h3>
-                      <div className="pricing-card-value-block">
-                        <strong className="pricing-card-value">{plan.value}</strong>
-                        <p className="pricing-card-meta">{plan.meta}</p>
-                      </div>
-                    </div>
-
-                    <div className="pricing-card-features">
-                      {plan.features.map((feature) => (
-                        <div
-                          key={feature.label}
-                          className={`pricing-card-feature ${feature.included ? "" : "is-muted"}`}
-                        >
-                          <span className="pricing-card-feature-mark" aria-hidden="true">
-                            {feature.included ? "✓" : "−"}
-                          </span>
-                          <span>{feature.label}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <button
-                      className={`button ${plan.featured ? "button-primary" : "button-secondary"}`}
-                      type="button"
-                      onClick={() => {
-                        if (plan.id === "free") {
-                          handlePlanJump("free");
-                          return;
-                        }
-
-                        if (plan.id === "subscription") {
-                          handlePlanJump("subscription");
-                          return;
-                        }
-
-                        navigate("/contact");
-                      }}
-                    >
-                      {plan.cta}
-                    </button>
-
-                    <button
-                      className={`pricing-card-link ${plan.featured ? "pricing-card-link-featured" : ""}`}
-                      type="button"
-                      onClick={() => openPlanDetail(plan.detailAction)}
-                    >
-                      {plan.detailLabel}
-                    </button>
-                  </motion.article>
-                ))}
-              </div>
-
-              <div className="plan-faq-shell panel">
-                <div className="plan-faq-header">
-                  <div>
-                    <span className="plan-visual-label">Visual comparison</span>
-                    <h3>Keep account creation fast. Choose the depth after that.</h3>
-                  </div>
-                  <p>
-                    Role selection still happens after sign-up, so this section is here to clarify
-                    the commercial path, not slow down account creation.
-                  </p>
-                </div>
-
-                <div className="plan-faq-list">
-                  {planFaqItems.map((item) => {
-                    const isOpen = activeFaq === item.id;
-
-                    return (
-                      <div key={item.id} className={`plan-faq-item ${isOpen ? "active" : ""}`}>
-                        <button
-                          className="plan-faq-trigger"
-                          type="button"
-                          aria-expanded={isOpen}
-                          onClick={() => setActiveFaq(isOpen ? "" : item.id)}
-                        >
-                          <span>{item.question}</span>
-                          <span className="plan-faq-icon" aria-hidden="true">
-                            {isOpen ? "−" : "+"}
-                          </span>
-                        </button>
-
-                        <AnimatePresence initial={false}>
-                          {isOpen ? (
-                            <motion.div
-                              className="plan-faq-answer"
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                            >
-                              <p>{item.answer}</p>
-                            </motion.div>
-                          ) : null}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section id="subscription-plan" className="section shell auth-secondary-section">
-            <div className="subscription-knowmore panel">
-              <div className="subscription-copy">
-                <p className="eyebrow">Know More</p>
-                <h2>Subscription is built for repeat operators across the rare earth recovery chain.</h2>
-                <p className="section-copy">
-                  Choose subscription if your team needs continuing access to fragmented supply,
-                  ongoing pricing visibility, and a cleaner workflow for repeated buying or selling.
-                </p>
-                <div className="subscription-signal-row">
-                  <span>Repeat sourcing</span>
-                  <span>Recurring supply</span>
-                  <span>Shared team access</span>
-                </div>
-                <div className="workflow-links">
-                  <button
-                    className="button button-primary"
-                    type="button"
-                    onClick={() => handlePlanJump("subscription")}
-                  >
-                    Continue with Subscription
-                  </button>
-                  <button className="button button-secondary" type="button" onClick={() => navigate("/contact")}>
-                    Talk to Our Team
-                  </button>
-                </div>
-              </div>
-
-              <div className="subscription-grid">
-                <article className="mini-card float-hover">
-                  <strong>Always-on discovery</strong>
-                  <p>Stay close to live supplier activity, buyer demand, and recurring opportunities.</p>
-                </article>
-                <article className="mini-card float-hover">
-                  <strong>Stronger market context</strong>
-                  <p>Track bid spreads, category demand, and buyer interest across magnets, motors, and HDD assemblies.</p>
-                </article>
-                <article className="mini-card float-hover">
-                  <strong>Team workflows</strong>
-                  <p>Support procurement, sales, and operations teams through one shared marketplace layer.</p>
-                </article>
-                <article className="mini-card float-hover">
-                  <strong>Better continuity</strong>
-                  <p>Best when supply resilience, repeat orders, and long-term buyer discovery matter more than a single trade.</p>
-                </article>
-              </div>
-            </div>
-          </section>
-        </>
+        <PlanComparison
+          activeFaq={activeFaq}
+          setActiveFaq={setActiveFaq}
+          handlePlanJump={handlePlanJump}
+          navigate={navigate}
+        />
       ) : null}
     </motion.main>
   );

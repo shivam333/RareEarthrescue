@@ -679,15 +679,15 @@ export function HomePage() {
               <div className="gsap-network-drift absolute bottom-[16%] left-[36%] h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(23,53,80,0.12),transparent_72%)] blur-2xl" />
               <div className="absolute inset-[12%_10%_18%] rounded-[32px] border border-white/30 opacity-60" />
 
-              <div className="gsap-hero-signal absolute left-6 top-6 z-10 max-w-[22rem] rounded-[24px] border border-[#cc9f64]/30 bg-[linear-gradient(135deg,rgba(255,248,239,0.95),rgba(255,255,255,0.84))] p-5 text-[#11283d] shadow-[0_18px_50px_rgba(31,40,31,0.12)]">
+              <div className="gsap-hero-signal absolute left-6 top-6 z-10 max-w-[19rem] rounded-[24px] border border-[#cc9f64]/30 bg-[linear-gradient(135deg,rgba(255,248,239,0.95),rgba(255,255,255,0.84))] p-4 text-[#11283d] shadow-[0_18px_50px_rgba(31,40,31,0.12)]">
                 <span className="inline-flex rounded-full bg-[#f0e4d0] px-3 py-1 text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#9a7337]">
                   RER market monitor
                 </span>
-                <strong className="mt-3 block font-display text-[1.08rem] tracking-[-0.03em]">
-                  North American scrap buyers are tracking a firmer magnet-input tape.
+                <strong className="mt-3 block font-display text-[1rem] leading-[1.06] tracking-[-0.03em]">
+                  Buyers are tracking a firmer magnet-input tape across North America.
                 </strong>
-                <p className="mt-2 text-sm leading-7 text-[#566777]">
-                  A live-style view of the inputs shaping recycled metal conversations across magnets, motors, and industrial recovery streams.
+                <p className="mt-2 text-[0.84rem] leading-6 text-[#566777]">
+                  A tighter market view across copper, steel, and rare-earth-linked feedstock.
                 </p>
               </div>
 
@@ -727,17 +727,17 @@ export function HomePage() {
               </div>
 
               <div className="absolute bottom-6 left-6 right-6 z-10">
-                <article className="gsap-hero-card overflow-hidden rounded-[28px] border border-[#d9cfbf] bg-[rgba(255,252,247,0.9)] p-5 text-[#11283d] shadow-[0_22px_50px_rgba(31,40,31,0.08)] backdrop-blur">
+                <article className="gsap-hero-card overflow-hidden rounded-[28px] border border-[#d9cfbf] bg-[rgba(255,252,247,0.9)] p-4 text-[#11283d] shadow-[0_22px_50px_rgba(31,40,31,0.08)] backdrop-blur lg:p-5">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                    <div>
+                    <div className="min-w-0">
                       <span className="inline-flex rounded-full bg-[#edf4ef] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#315e53]">
                         Live commodity pulse
                       </span>
-                      <strong className="mt-3 block font-display text-[1.1rem] tracking-[-0.03em]">
-                        Trading signals across copper, steel, and magnet-linked rare earth inputs.
+                      <strong className="mt-3 block max-w-[20rem] font-display text-[1rem] leading-[1.06] tracking-[-0.03em] sm:text-[1.05rem]">
+                        Trading signals across copper, steel, and magnet-linked inputs.
                       </strong>
                     </div>
-                    <div className="overflow-hidden rounded-full border border-[#d9cfbf] bg-white/80 px-3 py-2">
+                    <div className="min-w-0 overflow-hidden rounded-full border border-[#d9cfbf] bg-white/80 px-3 py-2">
                       <div className="gsap-ticker-track flex min-w-max items-center gap-5">
                         {[...commodityTickers, ...commodityTickers].map((ticker, index) => (
                           <div key={`${ticker.label}-${index}`} className="flex items-center gap-3 text-sm">
@@ -751,21 +751,20 @@ export function HomePage() {
                     </div>
                   </div>
 
-                  <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,0.74fr)_minmax(0,1.26fr)]">
+                  <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,0.76fr)_minmax(0,1.24fr)]">
                     <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
                       {commodityTickers.map((ticker) => (
-                        <div key={ticker.label} className="rounded-[22px] border border-[#ddd4c7] bg-white/76 p-4">
+                        <div key={ticker.label} className="min-w-0 rounded-[22px] border border-[#ddd4c7] bg-white/76 p-3.5">
                           <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
                             {ticker.venue}
                           </span>
-                          <strong className="mt-2 block font-display text-[1.18rem] tracking-[-0.03em] text-[#11283d]">
+                          <strong className="mt-2 block font-display text-[1.02rem] leading-[1.04] tracking-[-0.03em] text-[#11283d]">
                             {ticker.label}
                           </strong>
                           <div className="mt-2 flex items-end justify-between gap-3">
-                            <span className="text-[1.08rem] font-bold text-[#173550]">{ticker.value}</span>
+                            <span className="text-[0.98rem] font-bold text-[#173550]">{ticker.value}</span>
                             <span className={`text-sm font-bold ${ticker.tone}`}>{ticker.move}</span>
                           </div>
-                          <p className="mt-2 text-[0.78rem] leading-5 text-[#667686]">{ticker.note}</p>
                         </div>
                       ))}
                     </div>

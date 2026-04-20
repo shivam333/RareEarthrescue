@@ -5,7 +5,7 @@ import { ClerkProvider } from "@clerk/react";
 import App from "./App";
 import "./index.css";
 import "./legacy.css";
-import { clerkPublishableKey } from "./lib/site";
+import { clerkPublishableKey, getSignInUrl, getSignUpUrl } from "./lib/site";
 
 const routerBase =
   import.meta.env.BASE_URL && import.meta.env.BASE_URL !== "/"
@@ -14,7 +14,12 @@ const routerBase =
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={clerkPublishableKey}>
+    <ClerkProvider
+      publishableKey={clerkPublishableKey}
+      signInUrl={getSignInUrl()}
+      signUpUrl={getSignUpUrl()}
+      allowedRedirectOrigins={[window.location.origin]}
+    >
       <BrowserRouter basename={routerBase}>
         <App />
       </BrowserRouter>
