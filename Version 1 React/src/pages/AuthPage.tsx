@@ -1,8 +1,18 @@
 import { SignIn, SignUp, UserButton, useAuth } from "@clerk/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { pageEnter } from "../lib/motion";
+import {
+  AuthPlanType,
+  AuthRole,
+  comparisonHelperItems,
+  getPlanDetailPath,
+  planCards,
+  PlanSlug,
+  planRouteMap,
+  roleLabels,
+} from "../data/authPlansData";
 import {
   getAuthRedirectTarget,
   getSignInUrl,
@@ -12,7 +22,6 @@ import {
 } from "../lib/site";
 
 type AuthMode = "sign-in" | "sign-up";
-type PlanType = "free" | "subscription";
 
 const pageMotionProps = {
   variants: pageEnter,
@@ -21,92 +30,18 @@ const pageMotionProps = {
   exit: "exit" as const,
 };
 
-const planComparisonCards = [
-  {
-    id: "free",
-    kicker: "Start free",
-    title: "One-Time Order",
-    value: "Single lot",
-    featured: false,
-    meta: "For a first transaction, a targeted sell-side mandate, or a single procurement need.",
-    features: [
-      { label: "Guided onboarding for one transaction", included: true },
-      { label: "Targeted buyer or seller matching", included: true },
-      { label: "Transaction-level logistics coordination", included: true },
-      { label: "Light market context and support", included: true },
-      { label: "Ongoing marketplace workflow depth", included: false },
-    ],
-    cta: "Create free account",
-    detailAction: "one-time",
-    detailLabel: "Know more about one-time orders",
-  },
-  {
-    id: "subscription",
-    kicker: "Preferred for repeat operators",
-    title: "Marketplace Access",
-    value: "Subscription",
-    meta: "Built for recurring discovery, repeat listings, and stronger internal procurement workflows.",
-    features: [
-      { label: "Always-on listing and sourcing visibility", included: true },
-      { label: "Saved searches and recurring workflows", included: true },
-      { label: "Pricing signals and bid awareness", included: true },
-      { label: "Shared access for active teams", included: true },
-      { label: "Dedicated managed sourcing desk", included: false },
-    ],
-    cta: "Request subscription access",
-    featured: true,
-    detailAction: "subscription",
-    detailLabel: "Know more about subscription",
-  },
-  {
-    id: "services",
-    kicker: "Custom programs",
-    title: "Strategic Services",
-    value: "Request services",
-    featured: false,
-    meta: "For high-touch sourcing, tailored operating models, and managed execution support.",
-    features: [
-      { label: "Managed procurement and sourcing support", included: true },
-      { label: "Custom commercial and workflow design", included: true },
-      { label: "Batch consolidation and logistics planning", included: true },
-      { label: "High-touch onboarding and advisory", included: true },
-      { label: "Enterprise coordination across regions", included: true },
-    ],
-    cta: "Talk to our team",
-    detailAction: "services",
-    detailLabel: "Know more about custom services",
-  },
-] as const;
-
-const planFaqItems = [
-  {
-    id: "one-time",
-    question: "What is included in a one-time order?",
-    answer:
-      "A one-time order is designed for teams testing the network or moving a specific lot. You get secure account creation, focused matching, and guided transaction support without committing to an ongoing subscription.",
-  },
-  {
-    id: "subscription",
-    question: "When should I choose subscription?",
-    answer:
-      "Choose subscription when rare-earth-bearing scrap is part of your ongoing operating rhythm. It is the better fit for repeat sourcing, recurring listings, team visibility, and stronger commercial intelligence.",
-  },
-  {
-    id: "services",
-    question: "How do strategic services work?",
-    answer:
-      "Strategic services are tailored around your workflow. We scope the supply challenge with your team, then design a support model around sourcing, logistics, commercial structure, or managed execution.",
-  },
-] as const;
+function isRoleDrivenPlan(planId: string): planId is PlanSlug {
+  return planId === "one-time-order" || planId === "subscription";
+}
 
 const clerkAppearance = {
   variables: {
-    colorPrimary: "#173550",
-    colorText: "#11283d",
-    colorTextSecondary: "#5c6b79",
+    colorPrimary: "#a77b2f",
+    colorText: "#2f3426",
+    colorTextSecondary: "#6f6b57",
     colorBackground: "#fffaf2",
     colorInputBackground: "#fffdf9",
-    colorInputText: "#11283d",
+    colorInputText: "#2f3426",
     borderRadius: "18px",
   },
   elements: {
@@ -116,24 +51,24 @@ const clerkAppearance = {
     headerTitle: "hidden",
     headerSubtitle: "hidden",
     socialButtonsBlockButton:
-      "!min-h-[3.6rem] !rounded-[20px] !border !border-[#ddd4c7] !bg-white/86 !text-[#11283d] !shadow-none hover:!bg-white",
+      "!min-h-[3.6rem] !rounded-[20px] !border !border-[#ddd4c7] !bg-white/86 !text-[#2f3426] !shadow-none hover:!bg-white",
     socialButtonsBlockButtonText: "!text-[1rem] !font-semibold !tracking-[-0.01em]",
     socialButtonsProviderIcon__google: "!grayscale-0",
     socialButtonsProviderIcon__microsoft: "!grayscale-0",
     socialButtonsProviderIcon__linkedin_oidc: "!grayscale-0",
     dividerLine: "!bg-[#e6ddcf]",
     dividerText: "!text-[0.72rem] !font-extrabold !uppercase !tracking-[0.18em] !text-[#8a7b65]",
-    formFieldLabel: "!text-[0.95rem] !text-[#5b6b79] !font-semibold",
+    formFieldLabel: "!text-[0.95rem] !text-[#6f6b57] !font-semibold",
     formFieldInput:
-      "!min-h-[3.7rem] !rounded-[20px] !border !border-[#ddd4c7] !bg-white/88 !px-4 !text-[1rem] !font-medium !text-[#11283d] !shadow-none focus:!border-[#b38a4e] focus:!ring-0",
+      "!min-h-[3.7rem] !rounded-[20px] !border !border-[#ddd4c7] !bg-white/88 !px-4 !text-[1rem] !font-medium !text-[#2f3426] !shadow-none focus:!border-[#b38a4e] focus:!ring-0",
     formButtonPrimary:
-      "!mt-1 !min-h-[3.6rem] !rounded-full !bg-[#173550] !text-[1rem] !font-semibold !text-white !shadow-[0_16px_40px_rgba(23,53,80,0.18)] hover:!bg-[#0f2a40]",
+      "!mt-1 !min-h-[3.6rem] !rounded-full !bg-[#a77b2f] !text-[1rem] !font-semibold !text-white !shadow-[0_16px_40px_rgba(167,123,47,0.18)] hover:!bg-[#946a27]",
     footer: "!hidden",
     footerAction: "!hidden",
-    identityPreviewText: "!text-[0.98rem] !text-[#5c6b79]",
-    formFieldSuccessText: "!text-[#315e53]",
+    identityPreviewText: "!text-[0.98rem] !text-[#6f6b57]",
+    formFieldSuccessText: "!text-[#526946]",
     alertText: "!text-[#8c473c]",
-    formResendCodeLink: "!text-[#8d6d39] hover:!text-[#173550]",
+    formResendCodeLink: "!text-[#8d6d39] hover:!text-[#2f3426]",
   },
   layout: {
     socialButtonsPlacement: "top" as const,
@@ -145,177 +80,274 @@ const clerkAppearance = {
 };
 
 function PlanComparison({
-  activeFaq,
-  setActiveFaq,
   handlePlanJump,
   navigate,
 }: {
-  activeFaq: string;
-  setActiveFaq: (next: string) => void;
-  handlePlanJump: (plan: PlanType) => void;
+  handlePlanJump: (plan: AuthPlanType) => void;
   navigate: ReturnType<typeof useNavigate>;
 }) {
-  const openPlanDetail = (detailAction: "one-time" | "subscription" | "services") => {
-    if (detailAction === "services") {
-      navigate("/contact");
-      return;
-    }
+  const [selectedRoles, setSelectedRoles] = useState<Record<PlanSlug, AuthRole>>({
+    "one-time-order": "recycler",
+    subscription: "recycler",
+  });
+  const [activeHelper, setActiveHelper] = useState("subscription");
 
-    const nextFaq = detailAction === "one-time" ? "one-time" : "subscription";
-    setActiveFaq(nextFaq);
-
-    const nextSection = detailAction === "subscription" ? "subscription-plan" : "plan-comparison";
-    window.requestAnimationFrame(() => {
-      document.getElementById(nextSection)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  };
+  const accessStory = [
+    "Start fast with a one-time transaction",
+    "Scale into subscription when recovery activity becomes repeatable",
+    "Move into enterprise services when operational complexity increases",
+  ];
 
   return (
-    <>
-      <section id="plan-comparison" className="section shell auth-secondary-section">
-        <div className="section-header auth-secondary-header">
-          <p className="eyebrow">Compare Access Paths</p>
-          <h2>Simple, structured access for every recovery workflow.</h2>
-          <p className="section-copy">
-            Keep sign-up light, then choose the level of marketplace depth that matches how your
-            team buys, sells, and scales rare earth recovery activity.
+    <section id="plan-comparison" className="section shell auth-secondary-section">
+      <div className="section-header auth-secondary-header">
+        <p className="eyebrow">Access Paths</p>
+        <h2>Choose the operating depth that matches how you buy, sell, and scale recovery activity.</h2>
+        <p className="section-copy">
+          Keep account creation light, then move from a first transaction into recurring access or
+          tailored enterprise support as your workflow becomes more complex.
+        </p>
+      </div>
+
+      <div className="mt-8 rounded-[30px] border border-[rgba(104,90,59,0.12)] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(247,239,227,0.84))] p-5 shadow-[0_18px_50px_rgba(87,68,35,0.08)]">
+        <div className="grid gap-3 lg:grid-cols-3">
+          {accessStory.map((item, index) => (
+            <div
+              key={item}
+              className="rounded-[22px] border border-[rgba(104,90,59,0.08)] bg-[rgba(255,255,255,0.56)] px-4 py-4"
+            >
+              <span className="text-[0.74rem] font-bold uppercase tracking-[0.18em] text-[#8d6d39]">
+                0{index + 1}
+              </span>
+              <p className="mt-3 text-[0.98rem] leading-7 text-[#44505b]">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-5 xl:grid-cols-3">
+        {planCards.map((plan, index) => {
+          const rolePlanId: PlanSlug | null = isRoleDrivenPlan(plan.id) ? plan.id : null;
+          const currentRole = rolePlanId ? selectedRoles[rolePlanId] : undefined;
+          const planVariant = rolePlanId ? plan.variants?.[selectedRoles[rolePlanId]] : undefined;
+
+          return (
+            <motion.article
+              key={plan.id}
+              className={`panel float-hover relative overflow-hidden rounded-[30px] border p-6 shadow-[0_20px_60px_rgba(87,68,35,0.08)] ${
+                plan.featured
+                  ? "border-[rgba(111,138,85,0.22)] bg-[linear-gradient(180deg,rgba(255,252,247,1),rgba(242,238,226,0.96))]"
+                  : "border-[rgba(104,90,59,0.14)] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(246,239,227,0.94))]"
+              }`}
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -6 }}
+            >
+              <div
+                className={`absolute right-[-3rem] top-[-3rem] h-36 w-36 rounded-full blur-3xl ${
+                  plan.featured ? "bg-[rgba(111,138,85,0.14)]" : "bg-[rgba(184,139,60,0.12)]"
+                }`}
+                aria-hidden="true"
+              />
+
+              <div className="relative z-10 flex min-h-full flex-col">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <span
+                      className={`inline-flex rounded-full px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] ${
+                        plan.featured
+                          ? "bg-[rgba(111,138,85,0.14)] text-[#526946]"
+                          : "bg-[rgba(184,139,60,0.14)] text-[#9f742c]"
+                      }`}
+                    >
+                      {plan.shortLabel}
+                    </span>
+                    <h3 className="mt-4 text-[1.42rem] tracking-[-0.05em] text-[#2f3426]">
+                      {plan.title}
+                    </h3>
+                    <p className="mt-2 text-[0.98rem] leading-7 text-[#6f6b57]">
+                      {plan.summary}
+                    </p>
+                  </div>
+
+                  {plan.featured ? (
+                    <span className="rounded-full border border-[rgba(111,138,85,0.2)] bg-[rgba(111,138,85,0.1)] px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#526946]">
+                      Recommended
+                    </span>
+                  ) : null}
+                </div>
+
+                <p className="mt-5 text-[0.78rem] font-bold uppercase tracking-[0.18em] text-[#8a7b65]">
+                  {plan.progression}
+                </p>
+
+                {planVariant ? (
+                  <>
+                    <div className="mt-5 inline-flex rounded-full border border-[rgba(104,90,59,0.12)] bg-[rgba(255,255,255,0.7)] p-1">
+                      {(["recycler", "supplier"] as const).map((role) => {
+                        const isActive = currentRole === role;
+                        return (
+                          <button
+                            key={role}
+                            type="button"
+                            onClick={() => {
+                              if (!rolePlanId) return;
+                              setSelectedRoles((current) => ({
+                                ...current,
+                                [rolePlanId]: role,
+                              }));
+                            }}
+                            className={`rounded-full px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] transition ${
+                              isActive
+                                ? "bg-[linear-gradient(145deg,#b88b3c,#9f742c)] text-white shadow-[0_10px_24px_rgba(184,139,60,0.2)]"
+                                : "text-[#6f6b57] hover:text-[#2f3426]"
+                            }`}
+                          >
+                            {roleLabels[role]}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={`${plan.id}-${currentRole}`}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                        className="mt-5"
+                      >
+                        <p className="text-[0.98rem] leading-7 text-[#44505b]">
+                          {planVariant.summary}
+                        </p>
+
+                        <div className="mt-5 grid gap-3">
+                          {planVariant.bullets.slice(0, 6).map((bullet: string) => (
+                            <div key={bullet} className="flex items-start gap-3">
+                              <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(111,138,85,0.14)] text-[0.82rem] font-bold text-[#526946]">
+                                ✓
+                              </span>
+                              <span className="text-[0.95rem] leading-7 text-[#44505b]">{bullet}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <div className="mt-5">
+                    <div className="grid gap-3">
+                      {plan.bullets?.map((bullet) => (
+                        <div key={bullet} className="flex items-start gap-3">
+                          <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(184,139,60,0.14)] text-[0.82rem] font-bold text-[#9f742c]">
+                            ✓
+                          </span>
+                          <span className="text-[0.95rem] leading-7 text-[#44505b]">{bullet}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-6 flex flex-col gap-3">
+                  <button
+                    className={`button ${plan.featured ? "button-primary" : "button-secondary"} button-block`}
+                    type="button"
+                    onClick={() => {
+                      if (plan.planType) {
+                        handlePlanJump(plan.planType);
+                        return;
+                      }
+
+                      navigate("/contact");
+                    }}
+                  >
+                    {plan.cta}
+                  </button>
+
+                  {planVariant && rolePlanId ? (
+                    <Link
+                      className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-[#8d6d39] transition hover:text-[#2f3426]"
+                      to={getPlanDetailPath(rolePlanId, selectedRoles[rolePlanId])}
+                    >
+                      Know more
+                    </Link>
+                  ) : (
+                    <button
+                      className="w-fit border-0 bg-transparent px-0 text-left text-[0.8rem] font-bold uppercase tracking-[0.16em] text-[#8d6d39] transition hover:text-[#2f3426]"
+                      type="button"
+                      onClick={() => navigate("/contact")}
+                    >
+                      Know more
+                    </button>
+                  )}
+                </div>
+              </div>
+            </motion.article>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 rounded-[30px] border border-[rgba(104,90,59,0.12)] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(247,239,227,0.92))] p-6 shadow-[0_18px_50px_rgba(87,68,35,0.08)]">
+        <div className="flex flex-col gap-4 border-b border-[rgba(104,90,59,0.1)] pb-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <span className="plan-visual-label">Comparison helper</span>
+            <h3 className="mt-3 text-[1.5rem] tracking-[-0.04em] text-[#2f3426]">
+              A simple progression from first transaction to scaled operating model.
+            </h3>
+          </div>
+          <p className="max-w-[38rem] text-[0.96rem] leading-7 text-[#6f6b57]">
+            Use one-time access to start, move into subscription when activity becomes repeatable,
+            and step into enterprise support when the workflow needs tailored coordination.
           </p>
         </div>
 
-        <div className="plan-comparison-shell">
-          <div className="plan-pricing-grid">
-            {planComparisonCards.map((plan, index) => (
+        <div className="mt-2 grid">
+          {comparisonHelperItems.map((item) => {
+            const isOpen = activeHelper === item.id;
+
+            return (
               <motion.article
-                key={plan.id}
-                className={`pricing-card panel float-hover ${plan.featured ? "pricing-card-featured" : ""}`}
-                initial={{ opacity: 0, y: 26 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.45, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                key={item.id}
+                className="border-b border-[rgba(104,90,59,0.1)] last:border-b-0"
               >
-                <div className="pricing-card-topline">
-                  <span className={`pricing-card-kicker ${plan.featured ? "pricing-card-kicker-featured" : ""}`}>
-                    {plan.kicker}
+                <button
+                  className="flex w-full items-center justify-between gap-4 border-0 bg-transparent py-5 text-left"
+                  type="button"
+                  onClick={() => setActiveHelper(isOpen ? "" : item.id)}
+                  aria-expanded={isOpen}
+                >
+                  <span className="text-[1rem] font-semibold tracking-[-0.02em] text-[#2f3426]">
+                    {item.question}
                   </span>
-                </div>
-
-                <div className="pricing-card-header">
-                  <h3>{plan.title}</h3>
-                  <div className="pricing-card-value-block">
-                    <strong className="pricing-card-value">{plan.value}</strong>
-                    <p className="pricing-card-meta">{plan.meta}</p>
-                  </div>
-                </div>
-
-                <div className="pricing-card-features">
-                  {plan.features.map((feature) => (
-                    <div
-                      key={feature.label}
-                      className={`pricing-card-feature ${feature.included ? "" : "is-muted"}`}
+                  <span className="text-[1.4rem] leading-none text-[#8d6d39]">
+                    {isOpen ? "−" : "+"}
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen ? (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
                     >
-                      <span className="pricing-card-feature-mark" aria-hidden="true">
-                        {feature.included ? "✓" : "−"}
-                      </span>
-                      <span>{feature.label}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  className={`button ${plan.featured ? "button-primary" : "button-secondary"}`}
-                  type="button"
-                  onClick={() => {
-                    if (plan.id === "free") {
-                      handlePlanJump("free");
-                      return;
-                    }
-
-                    if (plan.id === "subscription") {
-                      handlePlanJump("subscription");
-                      return;
-                    }
-
-                    navigate("/contact");
-                  }}
-                >
-                  {plan.cta}
-                </button>
-
-                <button
-                  className={`pricing-card-link ${plan.featured ? "pricing-card-link-featured" : ""}`}
-                  type="button"
-                  onClick={() => openPlanDetail(plan.detailAction)}
-                >
-                  {plan.detailLabel}
-                </button>
+                      <p className="max-w-[64rem] pb-5 text-[0.96rem] leading-7 text-[#6f6b57]">
+                        {item.answer}
+                      </p>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
               </motion.article>
-            ))}
-          </div>
-
-          <div className="plan-faq-shell panel">
-            <div className="plan-faq-header">
-              <div>
-                <span className="plan-visual-label">Visual comparison</span>
-                <h3>Keep account creation fast. Choose the depth after that.</h3>
-              </div>
-              <p>
-                Role selection still happens after sign-up, so this section is here to clarify the
-                commercial path, not slow down account creation.
-              </p>
-            </div>
-
-            <div className="plan-faq-list">
-              {planFaqItems.map((item) => {
-                const isOpen = activeFaq === item.id;
-
-                return (
-                  <div key={item.id} className={`plan-faq-item ${isOpen ? "active" : ""}`}>
-                    <button
-                      className="plan-faq-trigger"
-                      type="button"
-                      aria-expanded={isOpen}
-                      onClick={() => setActiveFaq(isOpen ? "" : item.id)}
-                    >
-                      <span>{item.question}</span>
-                      <span className="plan-faq-icon" aria-hidden="true">
-                        {isOpen ? "−" : "+"}
-                      </span>
-                    </button>
-
-                    <AnimatePresence initial={false}>
-                      {isOpen ? (
-                        <motion.div
-                          className="plan-faq-answer"
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                        >
-                          <p>{item.answer}</p>
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+            );
+          })}
         </div>
-      </section>
-
-      <section id="subscription-plan" className="section shell auth-secondary-section">
-        <div className="subscription-knowmore panel">
-          <div className="subscription-copy">
-            <p className="eyebrow">Know More</p>
-            <h2>Subscription is built for repeat operators across the rare earth recovery chain.</h2>
-            <p className="section-copy">
-              Choose subscription if your team needs continuing access to fragmented supply,
-              recurring discovery, internal team visibility, and stronger commercial intelligence.
-            </p>
-          </div>
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -328,9 +360,8 @@ export function AuthPage() {
   const stepParam = searchParams.get("step");
   const redirectTarget = getAuthRedirectTarget(searchParams);
 
-  const [activePlan, setActivePlan] = useState<PlanType>("free");
+  const [activePlan, setActivePlan] = useState<AuthPlanType>("free");
   const [activeRole, setActiveRole] = useState("");
-  const [activeFaq, setActiveFaq] = useState<string>("subscription");
 
   useEffect(() => {
     document.body.dataset.authPage = "sign-in";
@@ -341,6 +372,13 @@ export function AuthPage() {
       document.body.classList.remove("home-page", "auth-page-body");
     };
   }, []);
+
+  useEffect(() => {
+    const queryPlan = searchParams.get("plan");
+    if (queryPlan && queryPlan in planRouteMap) {
+      setActivePlan(planRouteMap[queryPlan as PlanSlug]);
+    }
+  }, [searchParams]);
 
   const setMode = (mode: AuthMode) => {
     const params = new URLSearchParams(searchParams);
@@ -353,7 +391,7 @@ export function AuthPage() {
     document.getElementById("account-access")?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const handlePlanJump = (plan: PlanType) => {
+  const handlePlanJump = (plan: AuthPlanType) => {
     setActivePlan(plan);
     setMode("sign-up");
     window.requestAnimationFrame(focusAccountAccess);
@@ -466,18 +504,18 @@ export function AuthPage() {
                           type="button"
                           onClick={() => setActivePlan("free")}
                         >
-                          <span className="plan-badge">Start free</span>
+                          <span className="plan-badge">One-time</span>
                           <strong>One-Time Order</strong>
-                          <p>Single transaction, guided execution, and a lighter start.</p>
+                          <p>Single transaction, guided execution, and a low-friction start.</p>
                         </button>
                         <button
                           className={`plan-card ${activePlan === "subscription" ? "active" : ""}`}
                           type="button"
                           onClick={() => setActivePlan("subscription")}
                         >
-                          <span className="plan-badge plan-badge-subscription">Subscription</span>
-                          <strong>Marketplace Access</strong>
-                          <p>Repeat sourcing, recurring visibility, and stronger workflow support.</p>
+                          <span className="plan-badge plan-badge-subscription">Recommended</span>
+                          <strong>Subscription</strong>
+                          <p>Recurring access, stronger intelligence, and deeper workflow support.</p>
                         </button>
                       </div>
 
@@ -500,11 +538,11 @@ export function AuthPage() {
 
                       <div className="auth-signup-links">
                         <a className="ghost-link" href="#plan-comparison">
-                          Compare one-time vs subscription
+                          Compare access paths
                         </a>
-                        <a className="ghost-link" href="#subscription-plan">
+                        <Link className="ghost-link" to={getPlanDetailPath("subscription", "recycler")}>
                           Know more about subscription
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   ) : null}
@@ -576,12 +614,7 @@ export function AuthPage() {
       </section>
 
       {!isSignedIn ? (
-        <PlanComparison
-          activeFaq={activeFaq}
-          setActiveFaq={setActiveFaq}
-          handlePlanJump={handlePlanJump}
-          navigate={navigate}
-        />
+        <PlanComparison handlePlanJump={handlePlanJump} navigate={navigate} />
       ) : null}
     </motion.main>
   );

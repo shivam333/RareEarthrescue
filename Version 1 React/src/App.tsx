@@ -11,6 +11,7 @@ import { ListingDetailPage } from "./pages/ListingDetailPage";
 import { MarketplacePage } from "./pages/MarketplacePage";
 import { NewsPage } from "./pages/NewsPage";
 import { OAuthCallbackPage } from "./pages/OAuthCallbackPage";
+import { PlanDetailPage } from "./pages/PlanDetailPage";
 import { RecyclerOnboardingPage } from "./pages/RecyclerOnboardingPage";
 import { SourceMarketplacePage } from "./pages/SourceMarketplacePage";
 import { SupplierOnboardingPage } from "./pages/SupplierOnboardingPage";
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/oauth-callback" element={<OAuthCallbackPage />} />
           <Route path="/marketplace" element={<MarketplacePage />} />
           <Route path="/marketplace/source/:sourceId" element={<SourceMarketplacePage />} />
+          <Route path="/plans/:planSlug/:role" element={<PlanDetailPage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/listing/:id" element={<ListingDetailPage />} />
           <Route path="/supplier-onboarding" element={<SupplierOnboardingPage />} />
