@@ -45,37 +45,48 @@ export const commodityTickers: CommodityTicker[] = [
 
 export const articleCards: NewsCard[] = [
   {
-    badge: "Public announcement",
-    title: "White House proclamation on processed critical minerals imports",
-    body: "Recent federal signaling ties processed critical mineral dependence directly to industrial resilience and domestic capacity priorities.",
-    meta: "Policy signal | The White House",
-    href: "https://www.whitehouse.gov/presidential-actions/2026/01/adjusting-imports-of-processed-critical-minerals-and-their-derivative-products-into-the-united-states/",
+    badge: "Strategy report",
+    title: "McKinsey: Powering the energy transition’s motor: Circular rare earth elements",
+    body: "McKinsey frames postconsumer rare earth magnet scrap as an emerging supply pool, especially as EVs, wind turbines, MRIs, and industrial motors reach end of life.",
+    meta: "McKinsey | July 24, 2025",
+    href: "https://www.mckinsey.com/industries/metals-and-mining/our-insights/powering-the-energy-transitions-motor-circular-rare-earth-elements",
+    image:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80",
+  },
+  {
+    badge: "Policy signal",
+    title: "White House Section 232 action on processed critical minerals",
+    body: "The White House tied processed critical minerals directly to national security and resilient domestic manufacturing, reinforcing the strategic case for local circular recovery.",
+    meta: "The White House | April 15, 2025",
+    href: "https://www.whitehouse.gov/presidential-actions/2025/04/ensuring-national-security-and-economic-resilience-through-section-232-actions-on-processed-critical-minerals-and-derivative-products/?query-11-page=3",
     image:
       "https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&w=1400&q=80",
   },
   {
-    badge: "REO market note",
-    title: "NdPr pricing remains the signal most recyclers watch",
-    body: "Rare earth oxide movements continue to shape bid behavior for magnet-bearing motors, HDD assemblies, and intermediate magnet scrap.",
-    meta: "Market intelligence | Rare Earth Rescue",
-    image:
-      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=80",
-  },
-  {
-    badge: "Industry article",
-    title: "Sorting rare earth motors without opening them",
-    body: "Newer sorting methods are improving how operators identify REE-bearing motor streams before teardown, helping recovery economics.",
-    meta: "Technology signal | Scientific Reports",
+    badge: "Technology research",
+    title: "Sorting rare earth magnet motors for recycling without opening the motors",
+    body: "Scientific Reports describes a two-step screening method that improves how operators identify REE-bearing motors before teardown and unnecessary labor cost.",
+    meta: "Scientific Reports | April 10, 2025",
     href: "https://www.nature.com/articles/s41598-025-94667-x",
     image:
       "https://images.unsplash.com/photo-1581091870622-2cf1f3c71f54?auto=format&fit=crop&w=1400&q=80",
   },
   {
-    badge: "Customer perspective",
-    title: "“We were likely underpricing magnet-bearing scrap before specialist demand was visible.”",
-    body: "Recovery operators use better buyer visibility to separate valuable rare-earth-bearing material from generic mixed industrial scrap.",
-    meta: "Operator feedback | Recovery partner",
+    badge: "Funding and scale-up",
+    title: "DOE announces $134 million to strengthen rare earth element supply chains",
+    body: "DOE is explicitly backing commercial pathways that recover and refine rare earths from unconventional feedstocks including e-waste, tailings, and industrial residues.",
+    meta: "U.S. Department of Energy | December 1, 2025",
+    href: "https://www.energy.gov/articles/energy-department-announces-134-million-funding-strengthen-rare-earth-element-supply",
     image:
-      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80",
+  },
+  {
+    badge: "E-scrap tech",
+    title: "DOE E-SCRAP Prize winners push critical material recovery from electronics waste",
+    body: "DOE’s electronics-scrap program highlights how HDDs, devices, and embedded magnets are becoming a more serious rare earth recovery stream.",
+    meta: "U.S. Department of Energy | January 8, 2025",
+    href: "https://www.energy.gov/node/4848137",
+    image:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
   },
 ];

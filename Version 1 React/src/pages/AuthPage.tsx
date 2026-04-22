@@ -4,12 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { pageEnter } from "../lib/motion";
 import {
-  AuthPlanType,
-  getPlanDetailPath,
-  PlanSlug,
-  planRouteMap,
-} from "../data/authPlansData";
-import {
   getAuthRedirectTarget,
   getSignInUrl,
   getSignUpUrl,
@@ -80,7 +74,6 @@ export function AuthPage() {
   const stepParam = searchParams.get("step");
   const redirectTarget = getAuthRedirectTarget(searchParams);
 
-  const [activePlan, setActivePlan] = useState<AuthPlanType>("free");
   const [activeRole, setActiveRole] = useState("");
 
   useEffect(() => {
@@ -92,13 +85,6 @@ export function AuthPage() {
       document.body.classList.remove("home-page", "auth-page-body");
     };
   }, []);
-
-  useEffect(() => {
-    const queryPlan = searchParams.get("plan");
-    if (queryPlan && queryPlan in planRouteMap) {
-      setActivePlan(planRouteMap[queryPlan as PlanSlug]);
-    }
-  }, [searchParams]);
 
   const setMode = (mode: AuthMode) => {
     const params = new URLSearchParams(searchParams);
@@ -201,37 +187,15 @@ export function AuthPage() {
                   <div className="auth-panel-copy">
                     <h2 className="auth-panel-title">Create your account</h2>
                     <p className="auth-panel-subtext">
-                      Start with secure account creation, then compare one-time and subscription
-                      access below.
+                      Create your account first. We will tailor your access path once sign-up is complete.
                     </p>
                   </div>
 
                   {currentMode === "sign-up" ? (
                     <div className="custom-auth-step active">
-                      <div className="plan-selector plan-selector-inline">
-                        <button
-                          className={`plan-card ${activePlan === "free" ? "active" : ""}`}
-                          type="button"
-                          onClick={() => setActivePlan("free")}
-                        >
-                          <span className="plan-badge">One-time</span>
-                          <strong>One-Time Order</strong>
-                          <p>Single transaction, guided execution, and a low-friction start.</p>
-                        </button>
-                        <button
-                          className={`plan-card ${activePlan === "subscription" ? "active" : ""}`}
-                          type="button"
-                          onClick={() => setActivePlan("subscription")}
-                        >
-                          <span className="plan-badge plan-badge-subscription">Recommended</span>
-                          <strong>Subscription</strong>
-                          <p>Recurring access, stronger intelligence, and deeper workflow support.</p>
-                        </button>
-                      </div>
-
                       <div className="rounded-[22px] border border-[#e3dacd] bg-white/58 px-4 py-3 text-sm leading-7 text-[#5d6c79]">
-                        Company details and role selection can be completed after secure account
-                        creation, so users can get through sign-up with less friction.
+                        Account setup stays lightweight here. Role selection and access-path choices
+                        happen after secure account creation so users can get through sign-up with less friction.
                       </div>
 
                       <div className="clerk-auth-root clerk-auth-root-compact">
@@ -241,7 +205,6 @@ export function AuthPage() {
                           signInUrl={getSignInUrl()}
                           fallbackRedirectUrl={signUpRoleRedirectUrl}
                           forceRedirectUrl={signUpRoleRedirectUrl}
-                          unsafeMetadata={{ plan: activePlan }}
                           oauthFlow="redirect"
                         />
                       </div>
@@ -250,8 +213,8 @@ export function AuthPage() {
                         <Link className="ghost-link" to="/get-started">
                           Compare access paths
                         </Link>
-                        <Link className="ghost-link" to={getPlanDetailPath("subscription", "recycler")}>
-                          Know more about subscription
+                        <Link className="ghost-link" to="/contact">
+                          Talk to our team
                         </Link>
                       </div>
                     </div>

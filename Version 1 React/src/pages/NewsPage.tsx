@@ -9,16 +9,16 @@ const sectionTransition = {
 
 const newsTracks = [
   {
-    title: "Public announcements",
-    body: "Federal policy, domestic critical mineral strategy, and industrial policy signals shaping recovery economics.",
+    title: "Strategy and market reports",
+    body: "Long-form research, consultant viewpoints, and market framing that help explain where rare earth recycling economics are moving.",
   },
   {
-    title: "REO and feedstock signals",
-    body: "Practical market context around NdPr, magnet-bearing scrap, buyer pull, and feedstock utilization.",
+    title: "Policy and funding",
+    body: "White House actions, DOE programs, and public capital signals affecting domestic recovery and processing buildout.",
   },
   {
-    title: "Customer perspective",
-    body: "Operator feedback from scrappers, dismantlers, ITAD teams, and recyclers navigating fragmented supply.",
+    title: "Technical recovery developments",
+    body: "Research and engineering signals around motor sorting, e-scrap recovery, and magnet recycling technologies.",
   },
 ];
 
@@ -26,17 +26,17 @@ const editorialNotes = [
   {
     label: "Coverage lens",
     value: "North America first",
-    body: "Focused on domestic recovery capacity, recycler utilization, and supply chain resilience.",
+    body: "Focused on domestic recovery capacity, recycler utilization, and circular supply-chain resilience.",
   },
   {
     label: "Signal quality",
-    value: "Commercially relevant",
-    body: "We prioritize announcements and articles that affect sourcing, pricing, and operating decisions.",
+    value: "Source-backed",
+    body: "We prioritize public reports, technical publications, and official announcements that affect sourcing and operating decisions.",
   },
   {
     label: "Why it matters",
-    value: "Better coordination",
-    body: "Public signals matter when they help buyers secure supply and help suppliers uncover hidden value pools.",
+    value: "Commercial relevance",
+    body: "The best signals are the ones that help buyers secure supply and help sellers understand hidden value in rare-earth-bearing scrap.",
   },
 ];
 
@@ -107,8 +107,8 @@ export function NewsPage() {
                 Policy, market, and recovery signals that move the network.
               </h1>
               <p className="mt-5 max-w-[44rem] text-[1.05rem] leading-8 text-[#445567] sm:text-[1.14rem]">
-                Rare Earth Rescue curates public announcements, REO market context, technology signals,
-                and operator perspective relevant to buyers, suppliers, and industrial recovery teams.
+                Rare Earth Rescue curates public announcements, technology signals, research notes,
+                and strategy reports relevant to buyers, suppliers, and industrial recovery teams.
               </p>
             </motion.div>
 
@@ -138,7 +138,7 @@ export function NewsPage() {
                         rel="noreferrer"
                         className="button-primary"
                       >
-                        Read announcement
+                        Read report
                       </a>
                       <Link className="button-ghost" to="/contact">
                         Request strategic briefing
@@ -225,7 +225,8 @@ export function NewsPage() {
               <h2 className="heading-2">A more detailed stream of public signals, technical developments, and operator validation.</h2>
             </div>
             <p className="max-w-[24rem] text-[0.98rem] leading-7 text-[#556576]">
-              This is where public announcements, REO developments, and real marketplace perspective live instead of interrupting the main homepage narrative.
+              This is where public reports, technology developments, policy actions, and strategic
+              sourcing context live instead of interrupting the main homepage narrative.
             </p>
           </motion.div>
 

@@ -787,12 +787,9 @@ export function HomePage() {
                         {issue.index}
                       </span>
                       <div className="min-w-0">
-                        <span
-                          className={`text-[0.68rem] font-extrabold uppercase tracking-[0.18em] ${accent.chip}`}
+                        <h3
+                          className={`font-display text-[1.35rem] leading-[1.02] tracking-[-0.045em] ${accent.chip}`}
                         >
-                          Market friction
-                        </span>
-                        <h3 className="mt-2 font-display text-[1.35rem] leading-[1.02] tracking-[-0.045em] text-[#1b2430]">
                           {issue.title}
                         </h3>
                         <p className="mt-3 text-[0.97rem] leading-7 text-[#5d6c79]">{issue.body}</p>

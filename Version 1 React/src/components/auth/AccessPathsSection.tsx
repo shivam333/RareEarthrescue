@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@clerk/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -14,8 +15,23 @@ function isRoleDrivenPlan(planId: string): planId is PlanSlug {
   return planId === "one-time-order" || planId === "subscription";
 }
 
-export function AccessPathsSection() {
+type AccessPathsSectionProps = {
+  eyebrow?: string;
+  title?: string;
+  copy?: string;
+  compactIntro?: boolean;
+  hideAccessStory?: boolean;
+};
+
+export function AccessPathsSection({
+  eyebrow = "Access Paths",
+  title = "Choose the operating depth that matches how you buy, sell, and scale recovery activity.",
+  copy = "Keep account creation light, then move from a first transaction into recurring access or tailored enterprise support as your workflow becomes more complex.",
+  compactIntro = false,
+  hideAccessStory = false,
+}: AccessPathsSectionProps) {
   const navigate = useNavigate();
+  const { isSignedIn } = useAuth();
   const [selectedRole, setSelectedRole] = useState<AuthRole>("recycler");
   const [activeHelper, setActiveHelper] = useState("subscription");
 
@@ -27,30 +43,33 @@ export function AccessPathsSection() {
 
   return (
     <section id="plan-comparison" className="section shell auth-secondary-section">
-      <div className="section-header auth-secondary-header">
-        <p className="eyebrow">Access Paths</p>
-        <h2>Choose the operating depth that matches how you buy, sell, and scale recovery activity.</h2>
-        <p className="section-copy">
-          Keep account creation light, then move from a first transaction into recurring access or
-          tailored enterprise support as your workflow becomes more complex.
+      <div className={`section-header auth-secondary-header ${compactIntro ? "max-w-[56rem]" : ""}`}>
+        <p className="eyebrow">{eyebrow}</p>
+        <h2 className={compactIntro ? "max-w-[18ch] text-[clamp(2rem,3.6vw,3.35rem)] leading-[1.02] tracking-[-0.05em]" : ""}>
+          {title}
+        </h2>
+        <p className={`section-copy ${compactIntro ? "max-w-[44rem] text-[1rem] leading-7 text-[#5d6c79]" : ""}`}>
+          {copy}
         </p>
       </div>
 
-      <div className="mt-8 rounded-[30px] border border-[rgba(104,90,59,0.12)] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(247,239,227,0.84))] p-5 shadow-[0_18px_50px_rgba(87,68,35,0.08)]">
-        <div className="grid gap-3 lg:grid-cols-3">
-          {accessStory.map((item, index) => (
-            <div
-              key={item}
-              className="rounded-[22px] border border-[rgba(104,90,59,0.08)] bg-[rgba(255,255,255,0.56)] px-4 py-4"
-            >
-              <span className="text-[0.74rem] font-bold uppercase tracking-[0.18em] text-[#8d6d39]">
-                0{index + 1}
-              </span>
-              <p className="mt-3 text-[0.98rem] leading-7 text-[#44505b]">{item}</p>
-            </div>
-          ))}
+      {!hideAccessStory ? (
+        <div className="mt-8 rounded-[30px] border border-[rgba(104,90,59,0.12)] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(247,239,227,0.84))] p-5 shadow-[0_18px_50px_rgba(87,68,35,0.08)]">
+          <div className="grid gap-3 lg:grid-cols-3">
+            {accessStory.map((item, index) => (
+              <div
+                key={item}
+                className="rounded-[22px] border border-[rgba(104,90,59,0.08)] bg-[rgba(255,255,255,0.56)] px-4 py-4"
+              >
+                <span className="text-[0.74rem] font-bold uppercase tracking-[0.18em] text-[#8d6d39]">
+                  0{index + 1}
+                </span>
+                <p className="mt-3 text-[0.98rem] leading-7 text-[#44505b]">{item}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <div className="mt-8 flex items-center justify-center">
         <div className="inline-flex rounded-full border border-[rgba(104,90,59,0.12)] bg-[rgba(255,255,255,0.82)] p-1 shadow-[0_10px_30px_rgba(46,41,31,0.06)]">
@@ -180,7 +199,12 @@ export function AccessPathsSection() {
                     type="button"
                     onClick={() => {
                       if (plan.planType) {
-                        navigate(`/sign-in?mode=sign-up&plan=${plan.id}`);
+                        if (isSignedIn && rolePlanId) {
+                          navigate(getPlanDetailPath(rolePlanId, selectedRole));
+                          return;
+                        }
+
+                        navigate("/sign-in?mode=sign-up");
                         return;
                       }
                       navigate("/contact");
