@@ -33,6 +33,7 @@ const sourceFilters: { label: string; value: DashboardSourceId | "all" }[] = [
   { label: "Auto motors", value: "auto-motors" },
   { label: "Industrial", value: "industrial-motors" },
   { label: "MRI", value: "mri" },
+  { label: "Other items", value: "other-items" },
 ];
 
 const locationFilters: { label: string; value: DashboardLocationFilter | "all" }[] = [
@@ -86,6 +87,7 @@ export function DashboardPage() {
   const [lotSize, setLotSize] = useState<DashboardLotSize | "all">("all");
   const [sourceId, setSourceId] = useState<DashboardSourceId | "all">("all");
   const [locationFilter, setLocationFilter] = useState<DashboardLocationFilter | "all">("all");
+  const [bidQuantities, setBidQuantities] = useState<Record<string, string>>({});
 
   const filteredListings = useMemo(
     () =>
@@ -100,6 +102,15 @@ export function DashboardPage() {
     [lotSize, sourceId, locationFilter]
   );
 
+  const handleQuantityChange = (listingId: string, nextValue: string) => {
+    if (!/^\d*(\.\d{0,2})?$/.test(nextValue)) return;
+
+    setBidQuantities((current) => ({
+      ...current,
+      [listingId]: nextValue,
+    }));
+  };
+
   return (
     <motion.main className="page bg-transparent" {...pageMotionProps}>
       <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,175,103,0.16),transparent_24%),radial-gradient(circle_at_88%_12%,rgba(121,161,144,0.16),transparent_30%),linear-gradient(180deg,#fbf7ef_0%,#f4ebdb_56%,#f5efe4_100%)] pb-12 pt-28">
@@ -108,8 +119,19 @@ export function DashboardPage() {
         <div className="absolute right-[-5rem] top-[6rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.18),transparent_70%)] blur-3xl" />
 
         <div className="shell relative z-10">
-          <div>
-            <MaterialTileGrid tiles={dashboardMaterialTiles} />
+          <div className="max-w-4xl">
+            <p className="eyebrow">Recycler dashboard</p>
+            <h1 className="max-w-[12ch] font-display text-[clamp(3rem,5.2vw,5.2rem)] leading-[0.95] tracking-[-0.06em] text-[#11283d]">
+              Open live category boards built for rare earth recovery buyers.
+            </h1>
+            <p className="mt-5 max-w-[46rem] text-[1.04rem] leading-8 text-[#4b5b69]">
+              Start from a feedstock family, move into a category-specific live marketplace, and
+              stage lots into an order workflow with clearer pricing, availability, and purity context.
+            </p>
+          </div>
+
+          <div className="mt-8">
+            <MaterialTileGrid tiles={dashboardMaterialTiles} hrefMode="dashboard" />
           </div>
         </div>
       </section>
@@ -179,8 +201,8 @@ export function DashboardPage() {
                   Live bidding board for verified rare-earth recovery opportunities.
                 </h2>
                 <p className="mt-3 max-w-[42rem] text-[0.98rem] leading-7 text-[#5a6a78]">
-                  Compare lots by material, category, location, quantity, purity notes, and timing.
-                  The bid action is staged now and can connect to a dedicated bid flow next.
+                  Enter a custom bid quantity in tons, compare opening bid levels in dollars per
+                  kilogram, and move directly into a finalize-order workflow built for recycler procurement.
                 </p>
               </div>
 
@@ -190,15 +212,23 @@ export function DashboardPage() {
                 </span>
                 <Link
                   className="button-ghost"
-                  to={sourceId === "all" ? "/marketplace" : `/marketplace/source/${sourceId}`}
+                  to={sourceId === "all" ? "/dashboard/live/hdd" : `/dashboard/live/${sourceId}`}
                 >
-                  Open marketplace view
+                  Open live marketplace
                 </Link>
               </div>
             </div>
 
             <div className="mt-6">
-              <BidListingTable listings={filteredListings} />
+              <BidListingTable
+                listings={filteredListings}
+                quantityInputs={bidQuantities}
+                onQuantityChange={handleQuantityChange}
+                actionLabel="Place bid"
+                getPlaceBidHref={(listing, quantityTons) =>
+                  `/dashboard/place-order/${listing.id}?quantity=${encodeURIComponent(quantityTons || "0.00")}`
+                }
+              />
             </div>
 
             {sourceId !== "all" ? (

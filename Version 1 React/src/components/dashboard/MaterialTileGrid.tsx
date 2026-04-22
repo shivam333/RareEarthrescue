@@ -5,12 +5,14 @@ import { DashboardMaterialTile } from "../../data/dashboardMarketplaceData";
 export function MaterialTileGrid({
   tiles,
   compact = false,
+  hrefMode = "public",
 }: {
   tiles: DashboardMaterialTile[];
   compact?: boolean;
+  hrefMode?: "public" | "dashboard";
 }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
       {tiles.map((tile, index) => (
         <motion.div
           key={tile.title}
@@ -21,7 +23,7 @@ export function MaterialTileGrid({
           whileHover={{ y: -6 }}
         >
           <Link
-            to={tile.href}
+            to={hrefMode === "dashboard" ? tile.dashboardHref : tile.publicHref}
             className={`group relative block overflow-hidden rounded-[28px] border border-[#d9cfbf] shadow-[0_24px_70px_rgba(46,41,31,0.08)] ${
               compact ? "min-h-[11.5rem]" : "min-h-[14rem]"
             }`}

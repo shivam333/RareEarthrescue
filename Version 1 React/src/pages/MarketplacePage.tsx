@@ -5,6 +5,7 @@ import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
 import { dashboardBidListings, dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
 import { pageEnter } from "../lib/motion";
+import { toAppRelativeUrl } from "../lib/site";
 
 const ExecutiveInsightsGrid = lazy(() =>
   import("../components/charts/ExecutiveInsightsGrid").then((module) => ({
@@ -137,7 +138,17 @@ export function MarketplacePage() {
           </div>
 
           <div className="mt-6">
-            <BidListingTable listings={previewRows} blurred compact />
+            <BidListingTable
+              listings={previewRows}
+              blurred
+              compact
+              actionLabel="Sign in to view"
+              getDetailHref={(listing) =>
+                `/sign-in?redirect_url=${encodeURIComponent(
+                  toAppRelativeUrl(`/dashboard/live/${listing.sourceId}/listing/${listing.id}`)
+                )}`
+              }
+            />
           </div>
         </MotionItem>
       </section>

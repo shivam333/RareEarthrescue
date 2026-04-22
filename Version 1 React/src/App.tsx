@@ -6,8 +6,11 @@ import { AboutPage } from "./pages/AboutPage";
 import { AuthPage } from "./pages/AuthPage";
 import { ContactPage } from "./pages/ContactPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import { FinalizeOrderPage } from "./pages/FinalizeOrderPage";
 import { GetStartedPage } from "./pages/GetStartedPage";
 import { HomePage } from "./pages/HomePage";
+import { LiveRecyclerDashboardPage } from "./pages/LiveRecyclerDashboardPage";
+import { DashboardListingDetailPage } from "./pages/DashboardListingDetailPage";
 import { ListingDetailPage } from "./pages/ListingDetailPage";
 import { MarketplacePage } from "./pages/MarketplacePage";
 import { NewsPage } from "./pages/NewsPage";
@@ -42,6 +45,30 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/live/:sourceId"
+            element={
+              <ProtectedRoute>
+                <LiveRecyclerDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/live/:sourceId/listing/:listingId"
+            element={
+              <ProtectedRoute>
+                <DashboardListingDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/place-order/:listingId"
+            element={
+              <ProtectedRoute>
+                <FinalizeOrderPage />
               </ProtectedRoute>
             }
           />

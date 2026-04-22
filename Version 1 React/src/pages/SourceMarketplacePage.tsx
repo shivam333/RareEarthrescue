@@ -9,6 +9,7 @@ import {
   DashboardSourceId,
 } from "../data/dashboardMarketplaceData";
 import { pageEnter } from "../lib/motion";
+import { toAppRelativeUrl } from "../lib/site";
 
 const pageMotionProps = {
   variants: pageEnter,
@@ -67,7 +68,16 @@ export function SourceMarketplacePage() {
             </div>
 
             <div className="mt-6">
-              <BidListingTable listings={sourceListings} showTechnicalColumns />
+              <BidListingTable
+                listings={sourceListings}
+                showTechnicalColumns
+                actionLabel="Open secure view"
+                getDetailHref={(listing) =>
+                  `/sign-in?redirect_url=${encodeURIComponent(
+                    toAppRelativeUrl(`/dashboard/live/${listing.sourceId}/listing/${listing.id}`)
+                  )}`
+                }
+              />
             </div>
           </MotionItem>
         </MotionSection>
