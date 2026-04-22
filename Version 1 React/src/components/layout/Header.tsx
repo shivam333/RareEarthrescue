@@ -1,6 +1,7 @@
 import { UserButton, useAuth } from "@clerk/react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { navItems } from "../../data/marketplaceData";
+import { useRecyclerOrderBook } from "../../hooks/useRecyclerOrderBook";
 import { Button } from "../ui/Button";
 
 function BrandMark() {
@@ -17,6 +18,7 @@ export function Header() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const { isLoaded, isSignedIn } = useAuth();
+  const { totalItems, totalLots } = useRecyclerOrderBook();
 
   return (
     <header className="site-header">
@@ -51,6 +53,18 @@ export function Header() {
             </>
           ) : (
             <>
+              <Link
+                to="/dashboard/checkout"
+                className="inline-flex items-center gap-3 rounded-full border border-[#d8cfbf] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e]"
+              >
+                <span>Cart</span>
+                <span className="inline-flex min-w-8 items-center justify-center rounded-full bg-[#173550] px-2 py-1 text-[0.68rem] text-white">
+                  {totalLots}
+                </span>
+                <span className="text-[0.66rem] text-[#8a7b65] normal-case tracking-normal">
+                  {totalItems} listing{totalItems === 1 ? "" : "s"}
+                </span>
+              </Link>
               <Button href="/dashboard" variant="primary">
                 Dashboard
               </Button>

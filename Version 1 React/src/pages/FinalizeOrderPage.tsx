@@ -33,7 +33,7 @@ export function FinalizeOrderPage() {
     [listingId]
   );
   const [activeImage, setActiveImage] = useState(0);
-  const [quantityTons, setQuantityTons] = useState(searchParams.get("quantity") || "1.00");
+  const [quantityTons, setQuantityTons] = useState(searchParams.get("quantity") || "0.00");
   const cleanQuantity = listing.quantity.replace(/\s*per lot/i, "");
 
   const unitPricePerKg = parsePricePerKg(listing.pricePerTon);
@@ -109,6 +109,15 @@ export function FinalizeOrderPage() {
                 </span>
               </div>
 
+              <div className="mt-5 rounded-[24px] border border-[#cddfce] bg-[linear-gradient(135deg,rgba(233,244,235,0.92),rgba(247,241,232,0.92))] px-5 py-4">
+                <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#315e53]">
+                  Seller-managed logistics
+                </span>
+                <p className="mt-2 text-[0.96rem] leading-7 text-[#44505b]">
+                  Pickup scheduling, shipment handling, and lot handoff are managed by the seller after commercial confirmation.
+                </p>
+              </div>
+
               <div className="mt-5 grid gap-4">
                 <div>
                   <label
@@ -117,7 +126,7 @@ export function FinalizeOrderPage() {
                   >
                     Quantity to bid
                   </label>
-                  <div className="mt-2 rounded-[22px] border border-[#ddd4c7] bg-[#fbf7ef] px-4 py-3">
+                  <div className="mt-3 rounded-[28px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(251,247,239,0.96))] px-6 py-5 shadow-[0_16px_40px_rgba(46,41,31,0.06)]">
                     <input
                       id="final-bid-quantity"
                       type="text"
@@ -129,9 +138,9 @@ export function FinalizeOrderPage() {
                           setQuantityTons(nextValue);
                         }
                       }}
-                      className="w-full border-0 bg-transparent text-[1rem] font-semibold text-[#173550] outline-none"
+                      className="w-full border-0 bg-transparent font-display text-[2.4rem] tracking-[-0.05em] text-[#173550] outline-none placeholder:text-[#9c927f]"
                     />
-                    <span className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                    <span className="mt-2 block text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
                       Tons · max 2 decimals
                     </span>
                   </div>
@@ -185,7 +194,7 @@ export function FinalizeOrderPage() {
                 {[
                   ["Available lot", cleanQuantity],
                   ["Packaging", listing.packaging],
-                  ["Logistics", listing.logistics],
+                  ["Logistics", "Managed by seller after bid confirmation"],
                   ["Due diligence pack", "$50 request fee"],
                 ].map(([label, value]) => (
                   <div key={label}>

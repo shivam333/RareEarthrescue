@@ -5,6 +5,7 @@ import { AppShell } from "./components/layout/AppShell";
 import { AboutPage } from "./pages/AboutPage";
 import { AuthPage } from "./pages/AuthPage";
 import { ContactPage } from "./pages/ContactPage";
+import { CheckoutPage } from "./pages/CheckoutPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { FinalizeOrderPage } from "./pages/FinalizeOrderPage";
 import { GetStartedPage } from "./pages/GetStartedPage";
@@ -45,6 +46,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/checkout"
+            element={
+              <ProtectedRoute>
+                <CheckoutPage />
               </ProtectedRoute>
             }
           />

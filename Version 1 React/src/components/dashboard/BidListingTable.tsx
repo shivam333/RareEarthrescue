@@ -39,6 +39,7 @@ export function BidListingTable({
   blurred = false,
   compact = false,
   showTechnicalColumns = false,
+  dashboardBidMode = false,
   getDetailHref,
   actionLabel = "View details",
   quantityInputs,
@@ -49,6 +50,7 @@ export function BidListingTable({
   blurred?: boolean;
   compact?: boolean;
   showTechnicalColumns?: boolean;
+  dashboardBidMode?: boolean;
   getDetailHref?: (listing: DashboardBidListing) => string;
   actionLabel?: string;
   quantityInputs?: Record<string, string>;
@@ -56,6 +58,7 @@ export function BidListingTable({
   getPlaceBidHref?: (listing: DashboardBidListing, quantityTons: string) => string;
 }) {
   const isInteractiveBidTable = Boolean(quantityInputs && onQuantityChange && getPlaceBidHref);
+  const isDashboardBidTable = dashboardBidMode && Boolean(getPlaceBidHref);
 
   const columns = useMemo<ColumnDef<DashboardBidListing, any>[]>(() => {
     const base: ColumnDef<DashboardBidListing, any>[] = [
@@ -89,14 +92,18 @@ export function BidListingTable({
         header: "Category",
         cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
       }),
-      columnHelper.accessor("location", {
-        header: "Location",
-        cell: (info) => (
-          <span className="text-[0.94rem] leading-7 text-[#5c6b79]">
-            <MaybeBlur blurred={blurred}>{info.getValue()}</MaybeBlur>
-          </span>
-        ),
-      }),
+      ...(!isDashboardBidTable
+        ? [
+            columnHelper.accessor("location", {
+              header: "Location",
+              cell: (info) => (
+                <span className="text-[0.94rem] leading-7 text-[#5c6b79]">
+                  <MaybeBlur blurred={blurred}>{info.getValue()}</MaybeBlur>
+                </span>
+              ),
+            }),
+          ]
+        : []),
     ];
 
     const bidColumns: ColumnDef<DashboardBidListing, any>[] = isInteractiveBidTable
@@ -136,6 +143,36 @@ export function BidListingTable({
             ),
           }),
         ]
+      : isDashboardBidTable
+        ? [
+            columnHelper.display({
+              id: "availableLots",
+              header: "Available lot",
+              cell: ({ row }) => (
+                <span className="text-[0.94rem] font-semibold text-[#173550]">
+                  {row.original.availableLots} lot{row.original.availableLots === 1 ? "" : "s"}
+                </span>
+              ),
+            }),
+            columnHelper.display({
+              id: "minimumLotSize",
+              header: "Minimum lot size",
+              cell: ({ row }) => (
+                <span className="text-[0.94rem] font-semibold text-[#173550]">
+                  {cleanLotQuantity(row.original.quantity)}
+                </span>
+              ),
+            }),
+            columnHelper.display({
+              id: "openingBidPerKg",
+              header: "Opening bid",
+              cell: ({ row }) => (
+                <span className="text-[0.94rem] font-semibold text-[#8d6d39]">
+                  ${parsePricePerKg(row.original).toFixed(2)} / kg
+                </span>
+              ),
+            }),
+          ]
       : [
           columnHelper.accessor("quantity", {
             header: "Quantity",
@@ -201,21 +238,23 @@ export function BidListingTable({
           ]
         : []),
       columnHelper.display({
-        id: "action",
-        header: "Action",
-        cell: ({ row }) => (
-          <Link
-            className="inline-flex items-center rounded-full border border-[#d8cebd] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e] hover:text-[#0f2a40]"
-            to={
-              isInteractiveBidTable
-                ? getPlaceBidHref?.(row.original, quantityInputs?.[row.original.id] ?? "0.00") ??
-                  `/listing/${row.original.id}`
-                : getDetailHref
-                  ? getDetailHref(row.original)
-                  : `/listing/${row.original.id}`
-            }
-          >
-            {actionLabel}
+              id: "action",
+              header: "Action",
+              cell: ({ row }) => (
+                <Link
+                  className="inline-flex items-center rounded-full border border-[#d8cebd] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e] hover:text-[#0f2a40]"
+                  to={
+                    isInteractiveBidTable
+                      ? getPlaceBidHref?.(row.original, quantityInputs?.[row.original.id] ?? "0.00") ??
+                        `/listing/${row.original.id}`
+                      : getPlaceBidHref
+                        ? getPlaceBidHref(row.original, "0.00")
+                        : getDetailHref
+                          ? getDetailHref(row.original)
+                          : `/listing/${row.original.id}`
+                  }
+                >
+                  {actionLabel}
           </Link>
         ),
       }),
@@ -224,9 +263,11 @@ export function BidListingTable({
     return [...base, ...bidColumns, ...technical, ...tail];
   }, [
     actionLabel,
+    dashboardBidMode,
     blurred,
     getDetailHref,
     getPlaceBidHref,
+    isDashboardBidTable,
     isInteractiveBidTable,
     onQuantityChange,
     quantityInputs,
@@ -244,7 +285,7 @@ export function BidListingTable({
       <div className="overflow-x-auto">
         <table
           className={`w-full text-left ${
-            isInteractiveBidTable
+            isInteractiveBidTable || isDashboardBidTable
               ? "min-w-[1420px]"
               : showTechnicalColumns
                 ? "min-w-[1380px]"

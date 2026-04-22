@@ -89,7 +89,6 @@ export function DashboardPage() {
   const [lotSize, setLotSize] = useState<DashboardLotSize | "all">("all");
   const [sourceId, setSourceId] = useState<DashboardSourceId | "all">("all");
   const [locationFilter, setLocationFilter] = useState<DashboardLocationFilter | "all">("all");
-  const [bidQuantities, setBidQuantities] = useState<Record<string, string>>({});
   const [currentPage, setCurrentPage] = useState(1);
 
   const filteredListings = useMemo(
@@ -117,15 +116,6 @@ export function DashboardPage() {
   useEffect(() => {
     setCurrentPage(1);
   }, [lotSize, sourceId, locationFilter]);
-
-  const handleQuantityChange = (listingId: string, nextValue: string) => {
-    if (!/^\d*(\.\d{0,2})?$/.test(nextValue)) return;
-
-    setBidQuantities((current) => ({
-      ...current,
-      [listingId]: nextValue,
-    }));
-  };
 
   return (
     <motion.main className="page bg-transparent" {...pageMotionProps}>
@@ -217,8 +207,8 @@ export function DashboardPage() {
                   Live bidding board for verified rare-earth recovery opportunities.
                 </h2>
                 <p className="mt-3 max-w-[42rem] text-[0.98rem] leading-7 text-[#5a6a78]">
-                  Enter a custom bid quantity in tons, compare opening bid levels in dollars per
-                  kilogram, and open the detail view when you want deeper diligence before placing a bid.
+                  Scan live lots by category, available volume, minimum lot size, and opening bid
+                  basis, then move into the bid screen when you are ready to enter tonnage.
                 </p>
               </div>
 
@@ -241,13 +231,10 @@ export function DashboardPage() {
             <div className="mt-6">
               <BidListingTable
                 listings={pagedListings}
-                quantityInputs={bidQuantities}
-                onQuantityChange={handleQuantityChange}
+                dashboardBidMode
                 actionLabel="Place bid"
                 getDetailHref={(listing) => `/dashboard/live/${listing.sourceId}/listing/${listing.id}`}
-                getPlaceBidHref={(listing, quantityTons) =>
-                  `/dashboard/place-order/${listing.id}?quantity=${encodeURIComponent(quantityTons || "0.00")}`
-                }
+                getPlaceBidHref={(listing) => `/dashboard/place-order/${listing.id}`}
               />
             </div>
 
