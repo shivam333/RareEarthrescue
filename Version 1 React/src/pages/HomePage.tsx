@@ -1,9 +1,17 @@
-import { useRef, useState } from "react";
+import { Suspense, lazy, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { ShadButton } from "../components/ui/ShadButton";
+import { ShadTabs, ShadTabsContent, ShadTabsList, ShadTabsTrigger } from "../components/ui/ShadTabs";
+
+const MarketplaceWorkflowFlow = lazy(() =>
+  import("../components/workflow/MarketplaceWorkflowFlow").then((module) => ({
+    default: module.MarketplaceWorkflowFlow,
+  }))
+);
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -350,12 +358,6 @@ const comparisonRows = [
   },
 ] as const;
 
-const panelTransition = {
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } },
-  exit: { opacity: 0, y: -12, transition: { duration: 0.22, ease: [0.4, 0, 1, 1] } },
-};
-
 function HomeLinkCard({
   title,
   body,
@@ -584,9 +586,6 @@ export function HomePage() {
     },
     { scope: rootRef }
   );
-
-  const workflowPanel = workflowContent[workflowAudience];
-
   return (
     <div ref={rootRef} className="bg-[#f7f1e6] text-[#11283d]">
       <main className="page bg-transparent">
@@ -888,35 +887,38 @@ export function HomePage() {
               title="One marketplace that works for recurring buyers and one-time suppliers."
             />
 
-            <div className="gsap-reveal inline-flex rounded-full border border-[#d8cfbf] bg-white/80 p-1 shadow-[0_10px_30px_rgba(46,41,31,0.06)]">
-              {[
-                { key: "suppliers", label: "For Suppliers" },
-                { key: "buyers", label: "For Buyers" },
-              ].map((tab) => {
-                const isActive = workflowAudience === tab.key;
-                return (
-                  <button
-                    key={tab.key}
-                    type="button"
-                    onClick={() => setWorkflowAudience(tab.key as "suppliers" | "buyers")}
-                    className={`rounded-full px-5 py-3 text-sm font-bold transition ${
-                      isActive ? "bg-[#11283d] text-white" : "text-[#6a7782] hover:text-[#11283d]"
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
+            <div className="gsap-reveal">
+              <ShadTabs
+                value={workflowAudience}
+                onValueChange={(value) => setWorkflowAudience(value as "suppliers" | "buyers")}
+              >
+                <ShadTabsList>
+                  <ShadTabsTrigger value="suppliers">For Suppliers</ShadTabsTrigger>
+                  <ShadTabsTrigger value="buyers">For Buyers</ShadTabsTrigger>
+                </ShadTabsList>
+              </ShadTabs>
             </div>
           </div>
 
-          <div className="relative mt-10 overflow-hidden rounded-[34px] border border-[#dacfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(244,236,224,0.88))] p-6 shadow-[0_24px_80px_rgba(46,41,31,0.08)] md:p-8">
-            <div className="absolute right-0 top-0 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(196,157,84,0.18),transparent_70%)] blur-2xl" />
-
-            <AnimatePresence mode="wait">
-              <motion.div key={workflowAudience} {...panelTransition}>
-                <div className="grid gap-5 xl:grid-cols-4">
-                  {workflowPanel.steps.map((step, index) => (
+          <ShadTabs
+            value={workflowAudience}
+            onValueChange={(value) => setWorkflowAudience(value as "suppliers" | "buyers")}
+            className="mt-10 block"
+          >
+            <ShadTabsContent value="suppliers">
+              <div className="space-y-5">
+                <Suspense
+                  fallback={
+                    <div className="h-[420px] rounded-[30px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(244,236,224,0.88))]" />
+                  }
+                >
+                  <MarketplaceWorkflowFlow
+                    audienceLabel="Supplier operating path"
+                    steps={workflowContent.suppliers.steps}
+                  />
+                </Suspense>
+                <div className="grid gap-4 xl:grid-cols-4">
+                  {workflowContent.suppliers.steps.map((step, index) => (
                     <article
                       key={step.title}
                       className="rounded-[26px] border border-[#ddd3c5] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
@@ -931,18 +933,55 @@ export function HomePage() {
                     </article>
                   ))}
                 </div>
-
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-                  <Link className="button-primary" to={workflowPanel.cta}>
-                    {workflowPanel.ctaLabel}
-                  </Link>
-                  <Link className="button-ghost" to={workflowPanel.secondary}>
-                    {workflowPanel.secondaryLabel}
-                  </Link>
+                <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+                  <ShadButton asChild>
+                    <Link to={workflowContent.suppliers.cta}>{workflowContent.suppliers.ctaLabel}</Link>
+                  </ShadButton>
+                  <ShadButton asChild variant="secondary">
+                    <Link to={workflowContent.suppliers.secondary}>{workflowContent.suppliers.secondaryLabel}</Link>
+                  </ShadButton>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+              </div>
+            </ShadTabsContent>
+            <ShadTabsContent value="buyers">
+              <div className="space-y-5">
+                <Suspense
+                  fallback={
+                    <div className="h-[420px] rounded-[30px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(244,236,224,0.88))]" />
+                  }
+                >
+                  <MarketplaceWorkflowFlow
+                    audienceLabel="Buyer operating path"
+                    steps={workflowContent.buyers.steps}
+                  />
+                </Suspense>
+                <div className="grid gap-4 xl:grid-cols-4">
+                  {workflowContent.buyers.steps.map((step, index) => (
+                    <article
+                      key={step.title}
+                      className="rounded-[26px] border border-[#ddd3c5] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
+                    >
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#eef2ec] font-display text-sm font-bold text-[#9a7337]">
+                        {index + 1}
+                      </span>
+                      <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#11283d]">
+                        {step.title}
+                      </strong>
+                      <p className="mt-3 text-sm leading-7 text-[#5c6b79]">{step.body}</p>
+                    </article>
+                  ))}
+                </div>
+                <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+                  <ShadButton asChild>
+                    <Link to={workflowContent.buyers.cta}>{workflowContent.buyers.ctaLabel}</Link>
+                  </ShadButton>
+                  <ShadButton asChild variant="secondary">
+                    <Link to={workflowContent.buyers.secondary}>{workflowContent.buyers.secondaryLabel}</Link>
+                  </ShadButton>
+                </div>
+              </div>
+            </ShadTabsContent>
+          </ShadTabs>
         </section>
 
         <section id="service-stack" className="shell section-gap">

@@ -1,9 +1,16 @@
+import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { BidListingTable } from "../components/dashboard/BidListingTable";
 import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
 import { dashboardBidListings, dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
 import { pageEnter } from "../lib/motion";
+
+const ExecutiveInsightsGrid = lazy(() =>
+  import("../components/charts/ExecutiveInsightsGrid").then((module) => ({
+    default: module.ExecutiveInsightsGrid,
+  }))
+);
 
 const pageMotionProps = {
   variants: pageEnter,
@@ -162,129 +169,21 @@ export function MarketplacePage() {
               </div>
             </div>
 
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              {productInsightCards.map((card, index) => (
-                <motion.article
-                  key={card.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.45, delay: index * 0.06 }}
-                  className="rounded-[30px] border border-[#e2d8c9] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(249,244,236,0.86))] p-5 shadow-[0_18px_55px_rgba(46,41,31,0.06)]"
-                >
-                  <div className="min-h-[13.5rem]">
-                    <div className="text-[2.6rem] font-display leading-none tracking-[-0.08em] text-[#11283d] sm:text-[3.1rem]">
-                      {card.value}
-                    </div>
-                    <p className="mt-4 text-[0.76rem] font-bold uppercase tracking-[0.22em] text-[#8b7d6a]">
-                      {card.label}
-                    </p>
-
-                    {card.type === "line" ? (
-                      <div className="mt-7 h-[8.5rem] rounded-[24px] bg-[linear-gradient(180deg,rgba(250,246,238,0.86),rgba(246,239,227,0.72))] p-4">
-                        <svg viewBox="0 0 320 140" className="h-full w-full" aria-hidden="true">
-                          <path
-                            d="M28 18C66 24 76 36 108 48C138 59 154 60 181 74C210 89 232 100 258 105C282 110 294 118 304 122"
-                            fill="none"
-                            stroke="#b88b31"
-                            strokeWidth="3.5"
-                            strokeLinecap="round"
-                          />
-                          <path
-                            d="M28 18C66 24 76 36 108 48C138 59 154 60 181 74C210 89 232 100 258 105C282 110 294 118 304 122L304 140L28 140Z"
-                            fill="rgba(184,139,49,0.12)"
-                          />
-                        </svg>
-                      </div>
-                    ) : null}
-
-                    {card.type === "bar" ? (
-                      <div className="mt-7 flex h-[8.5rem] items-end justify-center gap-5 rounded-[24px] bg-[linear-gradient(180deg,rgba(250,246,238,0.86),rgba(246,239,227,0.72))] px-6 pb-5 pt-4">
-                        {[54, 76, 96, 108, 86].map((height, barIndex) => (
-                          <motion.div
-                            key={height}
-                            initial={{ opacity: 0, y: 10, scaleY: 0.5 }}
-                            whileInView={{ opacity: 1, y: 0, scaleY: 1 }}
-                            viewport={{ once: true, amount: 0.5 }}
-                            transition={{ duration: 0.45, delay: barIndex * 0.06 }}
-                            className="w-8 rounded-t-[8px] bg-[#9caf81]"
-                            style={{ height }}
-                          />
-                        ))}
-                      </div>
-                    ) : null}
-
-                    {card.type === "list" ? (
-                      <div className="mt-6 grid gap-3">
-                        {card.points.map((point, pointIndex) => (
-                          <motion.div
-                            key={point.label}
-                            initial={{ opacity: 0, x: -10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, amount: 0.4 }}
-                            transition={{ duration: 0.35, delay: pointIndex * 0.06 }}
-                            className="flex items-center justify-between rounded-[18px] bg-[#eef2ec] px-4 py-3 text-[0.92rem] text-[#5a6a78]"
-                          >
-                            <span>{point.label}</span>
-                            <strong className="font-semibold text-[#173550]">{point.value}</strong>
-                          </motion.div>
-                        ))}
-                      </div>
-                    ) : null}
-
-                    {card.type === "map" ? (
-                      <div className="mt-6 flex h-[10rem] items-center justify-center rounded-[24px] bg-[linear-gradient(180deg,rgba(250,246,238,0.86),rgba(246,239,227,0.72))] p-4">
-                        <svg viewBox="0 0 360 170" className="h-full w-full" aria-hidden="true">
-                          <path
-                            d="M36 78C66 56 104 49 133 61C155 71 171 93 201 97C237 102 249 74 290 77C309 79 321 85 334 92"
-                            fill="none"
-                            stroke="rgba(189,173,141,0.9)"
-                            strokeWidth="2.2"
-                            strokeLinecap="round"
-                          />
-                          <path
-                            d="M62 117C94 96 130 92 154 106C173 118 179 136 207 138C236 140 258 122 289 121C312 120 329 125 344 130"
-                            fill="none"
-                            stroke="rgba(210,197,174,0.95)"
-                            strokeWidth="2.2"
-                            strokeLinecap="round"
-                          />
-                          <motion.circle
-                            cx="112"
-                            cy="78"
-                            r="7"
-                            fill="#c1933b"
-                            initial={{ scale: 0.8, opacity: 0.7 }}
-                            whileInView={{ scale: [0.9, 1.15, 0.9], opacity: [0.7, 1, 0.7] }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 2.2, repeat: Infinity, repeatType: "loop" }}
-                          />
-                          <motion.circle
-                            cx="187"
-                            cy="116"
-                            r="8"
-                            fill="#92aa74"
-                            initial={{ scale: 0.8, opacity: 0.7 }}
-                            whileInView={{ scale: [0.9, 1.15, 0.9], opacity: [0.7, 1, 0.7] }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 2.2, delay: 0.35, repeat: Infinity, repeatType: "loop" }}
-                          />
-                          <motion.circle
-                            cx="292"
-                            cy="84"
-                            r="7"
-                            fill="#c1933b"
-                            initial={{ scale: 0.8, opacity: 0.7 }}
-                            whileInView={{ scale: [0.9, 1.15, 0.9], opacity: [0.7, 1, 0.7] }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 2.2, delay: 0.7, repeat: Infinity, repeatType: "loop" }}
-                          />
-                        </svg>
-                      </div>
-                    ) : null}
+            <div className="mt-6">
+              <Suspense
+                fallback={
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <div
+                        key={`insight-skeleton-${index}`}
+                        className="h-[285px] rounded-[30px] border border-[#e2d8c9] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(249,244,236,0.86))]"
+                      />
+                    ))}
                   </div>
-                </motion.article>
-              ))}
+                }
+              >
+                <ExecutiveInsightsGrid cards={productInsightCards} />
+              </Suspense>
             </div>
 
             <div className="mt-4 grid gap-4 lg:grid-cols-3">

@@ -6,6 +6,14 @@ export default {
       colors: {
         ink: "#081220",
         "ink-soft": "#0f1d2f",
+        parchment: "#fffaf2",
+        "parchment-soft": "#f5ecdc",
+        sand: "#e8dcc7",
+        bronze: "#b88b3c",
+        "bronze-deep": "#9f742c",
+        sage: "#6f8a55",
+        "sage-soft": "#eef2ec",
+        slate: "#44505b",
         line: "rgba(154, 180, 212, 0.16)",
         muted: "#95a9c4",
         primary: "#5487ff",
@@ -25,7 +33,10 @@ export default {
         panel: "linear-gradient(180deg, rgba(16, 29, 49, 0.96), rgba(10, 20, 34, 0.92))",
         accent: "linear-gradient(145deg, rgba(84, 135, 255, 0.18), rgba(24, 169, 153, 0.16))",
         button: "linear-gradient(135deg, #5487ff, #315fce)",
-        teaser: "linear-gradient(145deg, rgba(84, 135, 255, 0.2), rgba(24, 169, 153, 0.16))"
+        teaser: "linear-gradient(145deg, rgba(84, 135, 255, 0.2), rgba(24, 169, 153, 0.16))",
+        "rer-card": "linear-gradient(180deg, rgba(255,252,247,0.98), rgba(246,239,227,0.94))",
+        "rer-card-soft": "linear-gradient(180deg, rgba(255,252,247,0.94), rgba(244,236,224,0.88))",
+        "rer-gold": "linear-gradient(145deg, #b88b3c, #9f742c)"
       },
       animation: {
         ticker: "ticker 24s linear infinite",
