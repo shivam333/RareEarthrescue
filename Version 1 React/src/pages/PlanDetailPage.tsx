@@ -40,8 +40,8 @@ export function PlanDetailPage() {
               a valid path.
             </p>
             <div className="hero-actions mt-6">
-              <Link className="button button-primary" to="/sign-in">
-                Back to sign in
+              <Link className="button button-primary" to="/get-started">
+                Back to get started
               </Link>
             </div>
           </div>
@@ -65,8 +65,8 @@ export function PlanDetailPage() {
         <div className="rounded-[36px] border border-[rgba(104,90,59,0.14)] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(245,237,225,0.92))] p-7 shadow-[0_24px_80px_rgba(87,68,35,0.12)] lg:p-10">
           <MotionItem>
             <div className="flex flex-wrap items-center gap-3 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[#87775f]">
-              <Link to="/sign-in" className="transition hover:text-[#2f3426]">
-                Sign in
+              <Link to="/get-started" className="transition hover:text-[#2f3426]">
+                Get started
               </Link>
               <span>/</span>
               <span>{planCard.title}</span>

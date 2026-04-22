@@ -45,7 +45,7 @@ export function Header() {
               <Button href="/sign-in" variant={isHome ? "secondary" : "ghost"}>
                 Sign In
               </Button>
-              <Button href="/sign-in?mode=sign-up" variant="primary">
+              <Button href="/get-started" variant="primary">
                 Get Started
               </Button>
             </>

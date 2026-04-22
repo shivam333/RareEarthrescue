@@ -1,4 +1,4 @@
-import { Suspense, lazy, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
@@ -6,12 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ShadButton } from "../components/ui/ShadButton";
 import { ShadTabs, ShadTabsContent, ShadTabsList, ShadTabsTrigger } from "../components/ui/ShadTabs";
-
-const MarketplaceWorkflowFlow = lazy(() =>
-  import("../components/workflow/MarketplaceWorkflowFlow").then((module) => ({
-    default: module.MarketplaceWorkflowFlow,
-  }))
-);
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -126,6 +120,29 @@ const issues = [
   },
 ] as const;
 
+const issueAccentStyles = [
+  {
+    icon: "bg-[#f0a36b]",
+    iconText: "text-white",
+    chip: "text-[#b5622e]",
+  },
+  {
+    icon: "bg-[#69b9a8]",
+    iconText: "text-white",
+    chip: "text-[#3d8678]",
+  },
+  {
+    icon: "bg-[#9a628f]",
+    iconText: "text-white",
+    chip: "text-[#8d4d7b]",
+  },
+  {
+    icon: "bg-[#7066b0]",
+    iconText: "text-white",
+    chip: "text-[#655aa8]",
+  },
+] as const;
+
 const networkNodes = [
   { cx: 148, cy: 130, fill: "#c59a4f" },
   { cx: 212, cy: 182, fill: "#3f7d6f" },
@@ -135,12 +152,22 @@ const networkNodes = [
   { cx: 464, cy: 266, fill: "#3f7d6f" },
 ] as const;
 
+const usRecoveryNodes = [
+  { cx: 92, cy: 170, fill: "#c59a4f", label: "Pacific Northwest" },
+  { cx: 140, cy: 222, fill: "#3f7d6f", label: "California" },
+  { cx: 245, cy: 194, fill: "#c59a4f", label: "Texas" },
+  { cx: 318, cy: 156, fill: "#3f7d6f", label: "Upper Midwest" },
+  { cx: 394, cy: 128, fill: "#c59a4f", label: "Great Lakes" },
+  { cx: 468, cy: 144, fill: "#3f7d6f", label: "Mid-Atlantic" },
+  { cx: 525, cy: 198, fill: "#c59a4f", label: "Southeast" },
+] as const;
+
 const workflowContent = {
   suppliers: {
-    cta: "/supplier-onboarding",
-    ctaLabel: "Start Supplier Onboarding",
-    secondary: "/contact",
-    secondaryLabel: "Prefer a one-time listing?",
+    cta: "/get-started",
+    ctaLabel: "Start onboarding",
+    secondary: "/sign-in?mode=sign-up",
+    secondaryLabel: "Prefer one-time access?",
     steps: [
       {
         title: "Sign up and choose your plan",
@@ -161,10 +188,10 @@ const workflowContent = {
     ],
   },
   buyers: {
-    cta: "/recycler-onboarding",
-    ctaLabel: "Start Buyer Onboarding",
-    secondary: "/marketplace",
-    secondaryLabel: "Browse current marketplace signals",
+    cta: "/get-started",
+    ctaLabel: "Start onboarding",
+    secondary: "/sign-in?mode=sign-up",
+    secondaryLabel: "Prefer one-time access?",
     steps: [
       {
         title: "Sign up and choose your plan",
@@ -732,94 +759,155 @@ export function HomePage() {
         </section>
 
         <section id="why-this-matters" className="shell pt-4 lg:pt-6">
-          <SectionHeading
-            eyebrow="Why this matters"
-            title="Trade rare-earth-bearing scrap into a local U.S. circular supply."
-            body="Rare Earth Rescue helps suppliers, dismantlers, ITAD operators, and recyclers turn fragmented rare-earth-bearing scrap into a more resilient domestic recovery network. Better coordination keeps recycler capacity utilized and helps sellers surface hidden value in magnet-bearing equipment."
-          />
+          <div className="grid items-start gap-10 xl:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)]">
+            <div>
+              <p className="eyebrow">Why this matters</p>
+              <h2 className="max-w-[14ch] font-display text-[clamp(2.7rem,5.2vw,4.8rem)] leading-[0.94] tracking-[-0.07em] text-[#11283d]">
+                Trade rare-earth-bearing scrap into a local U.S. circular supply.
+              </h2>
+              <p className="mt-5 max-w-[38rem] text-[1.03rem] leading-8 text-[#556576]">
+                Rare Earth Rescue helps recyclers keep recovery lines utilized by sourcing fragmented
+                feedstock more reliably, while helping scrappers, dismantlers, and ITAD operators
+                uncover value in magnet-bearing equipment that is often sold too generically.
+              </p>
+              <p className="mt-4 max-w-[36rem] text-[0.98rem] leading-7 text-[#7a7468]">
+                The result is a more resilient domestic recovery network built around verified
+                counterparties, clearer material signals, and a stronger local circular economy.
+              </p>
 
-          <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
-            <div className="grid items-start gap-4 md:grid-cols-2">
-              {issues.map((issue) => (
-                <article
-                  key={issue.title}
-                  className="gsap-reveal self-start rounded-[26px] border border-[#dccfbe] bg-[rgba(255,252,247,0.9)] p-5 shadow-[0_18px_52px_rgba(46,41,31,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#bf9956]/25"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#f3e7d3] font-display text-[0.76rem] font-bold tracking-[-0.02em] text-[#9a7337]">
-                      {issue.index}
-                    </span>
-                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8c7b64]">
-                      Market friction
-                    </span>
-                  </div>
-                  <h3 className="mt-4 font-display text-[1.2rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
-                    {issue.title}
-                  </h3>
-                  <p className="mt-2.5 text-[0.95rem] leading-7 text-[#5d6c79]">{issue.body}</p>
-                </article>
-              ))}
+              <div className="mt-10 grid gap-8 md:grid-cols-2">
+                {issues.map((issue, index) => {
+                  const accent = issueAccentStyles[index % issueAccentStyles.length];
+
+                  return (
+                    <article key={issue.title} className="gsap-reveal flex items-start gap-5">
+                      <span
+                        className={`mt-1 inline-flex h-16 w-16 shrink-0 items-center justify-center rounded-[20px] font-display text-[1rem] font-bold tracking-[-0.04em] shadow-[0_16px_36px_rgba(46,41,31,0.08)] ${accent.icon} ${accent.iconText}`}
+                      >
+                        {issue.index}
+                      </span>
+                      <div className="min-w-0">
+                        <span
+                          className={`text-[0.68rem] font-extrabold uppercase tracking-[0.18em] ${accent.chip}`}
+                        >
+                          Market friction
+                        </span>
+                        <h3 className="mt-2 font-display text-[1.35rem] leading-[1.02] tracking-[-0.045em] text-[#1b2430]">
+                          {issue.title}
+                        </h3>
+                        <p className="mt-3 text-[0.97rem] leading-7 text-[#5d6c79]">{issue.body}</p>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
             </div>
 
-            <div className="grid gap-5">
-              <div className="gsap-reveal relative overflow-hidden rounded-[34px] border border-[#dccfbe] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(245,236,221,0.94))] p-6 shadow-[0_26px_80px_rgba(46,41,31,0.08)] sm:p-8">
-                <div className="gsap-network-drift absolute left-[10%] top-[10%] h-32 w-32 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.16),transparent_68%)] blur-3xl" />
-                <div className="gsap-network-drift absolute bottom-[12%] right-[14%] h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.16),transparent_70%)] blur-3xl" />
+            <div className="gsap-reveal relative overflow-hidden rounded-[36px] border border-[#dccfbe] bg-[linear-gradient(180deg,rgba(255,252,247,0.97),rgba(244,236,223,0.95))] p-6 shadow-[0_28px_84px_rgba(46,41,31,0.08)] sm:p-8">
+              <div className="gsap-network-drift absolute left-[12%] top-[8%] h-32 w-32 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.15),transparent_68%)] blur-3xl" />
+              <div className="gsap-network-drift absolute bottom-[10%] right-[10%] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.16),transparent_70%)] blur-3xl" />
 
-                <div className="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="max-w-[34rem]">
-                    <span className="badge">North America network</span>
-                    <strong className="mt-4 block font-display text-[1.45rem] tracking-[-0.04em] text-[#11283d]">
-                      A recovery network connecting fragmented scrap origin points with verified recycler demand.
-                    </strong>
-                    <p className="mt-3 text-[0.98rem] leading-7 text-[#556576]">
-                      Rare Earth Rescue helps recyclers source fragmented feedstock more reliably and helps scrappers, dismantlers, and ITAD operators identify and monetize rare-earth-bearing material that may otherwise trade below value.
-                    </p>
-                  </div>
+              <div className="relative z-10">
+                <span className="badge">U.S. recovery network</span>
+                <h3 className="mt-4 max-w-[18ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
+                  A live market layer that connects scattered scrap origin points with verified
+                  recycler demand.
+                </h3>
+                <p className="mt-4 max-w-[34rem] text-[0.97rem] leading-7 text-[#556576]">
+                  Nodes pulse where rare-earth-bearing scrap originates. Corridors tighten where
+                  recycler demand is strongest. That coordination improves price discovery, lowers
+                  idle capacity risk, and keeps more recovery activity onshore.
+                </p>
 
-                  <article className="rounded-[22px] border border-[#dccfbe] bg-[rgba(255,252,247,0.9)] px-4 py-3 shadow-[0_14px_34px_rgba(46,41,31,0.05)] lg:max-w-[15rem]">
-                    <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
-                      Context only
-                    </span>
-                    <div className="mt-2.5 grid gap-2.5">
-                      {[
-                        { label: "China-led processing", value: "~90%", width: "90%", tone: "bg-[#c59a4f]" },
-                        { label: "North America buildout", value: "~6%", width: "6%", tone: "bg-[#4f7f6f]" },
-                        { label: "Other regions", value: "~4%", width: "4%", tone: "bg-[#c9827e]" },
-                      ].map((item) => (
-                        <div key={item.label}>
-                          <div className="flex items-center justify-between gap-3 text-[0.7rem] font-semibold text-[#445567]">
-                            <span>{item.label}</span>
-                            <strong>{item.value}</strong>
-                          </div>
-                          <div className="mt-1.5 h-2 rounded-full bg-[#efe8dc]">
-                            <div className={`h-2 rounded-full ${item.tone}`} style={{ width: item.width }} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </article>
+                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                  {[
+                    {
+                      label: "From export markets",
+                      value: "98%",
+                      width: "98%",
+                      tone: "bg-[#c59a4f]",
+                    },
+                    {
+                      label: "From local circular economy",
+                      value: "<1%",
+                      width: "1%",
+                      tone: "bg-[#4f7f6f]",
+                    },
+                  ].map((item) => (
+                    <article
+                      key={item.label}
+                      className="rounded-[20px] border border-[#ddd4c7] bg-white/82 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)]"
+                    >
+                      <div className="flex items-center justify-between gap-3 text-[0.7rem] font-bold uppercase tracking-[0.14em] text-[#7d7568]">
+                        <span>{item.label}</span>
+                        <strong className="text-[#11283d]">{item.value}</strong>
+                      </div>
+                      <div className="mt-2 h-2 rounded-full bg-[#efe8dc]">
+                        <div className={`h-2 rounded-full ${item.tone}`} style={{ width: item.width }} />
+                      </div>
+                    </article>
+                  ))}
                 </div>
 
-                <div className="relative mt-6 overflow-hidden rounded-[30px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(244,237,225,0.84))] px-3 py-4 sm:px-5">
-                  <svg viewBox="0 0 620 340" className="h-full w-full">
+                <div className="relative mt-6 overflow-hidden rounded-[30px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(244,237,225,0.86))] p-4">
+                  <svg viewBox="0 0 620 420" className="h-full w-full">
                     <path
-                      d="M52 84 73 68 95 66 112 73 132 87 145 104 170 109 190 121 206 136 225 145 249 151 277 150 301 160 322 176 344 182 370 184 398 176 425 168 450 168 474 176 499 194 525 204 548 226 556 250 545 268 523 278 505 291 485 296 470 306 447 311 419 304 396 293 373 290 351 292 326 283 305 267 282 259 258 251 234 243 212 232 191 229 170 215 150 197 132 185 113 168 92 156 77 139 62 118 55 101Z"
-                      fill="rgba(255,255,255,0.58)"
-                      stroke="rgba(17,40,61,0.16)"
+                      d="M75 145 92 126 116 112 145 110 173 115 205 109 233 114 262 126 298 125 330 118 365 116 396 122 430 122 462 118 491 123 516 133 544 139 567 153 584 174 589 196 582 209 568 214 554 225 545 235 527 238 512 250 509 266 494 276 482 292 456 302 427 310 398 313 367 322 336 327 308 322 280 325 250 336 223 342 193 338 168 329 144 320 123 302 106 289 91 271 83 251 76 227 73 204 67 180Z"
+                      fill="rgba(255,255,255,0.56)"
+                      stroke="rgba(17,40,61,0.15)"
                       strokeWidth="1.8"
                       strokeLinejoin="round"
                     />
-                    <path id="corridor-west" className="gsap-network-route" d="M205 124C237 134 274 149 308 170" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
-                    <path id="corridor-east" className="gsap-network-route" d="M308 170C367 162 426 155 487 160" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
-                    <path id="corridor-south" className="gsap-network-route" d="M308 170C348 196 385 224 423 257" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
-                    <path id="corridor-interior" className="gsap-network-route" d="M308 170C260 186 219 207 181 232" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
-                    <path id="corridor-north" className="gsap-network-route" d="M308 170C286 130 250 96 208 76" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.2" />
+                    <path
+                      d="M235 124C261 146 284 171 307 208"
+                      fill="none"
+                      stroke="rgba(17,40,61,0.09)"
+                      strokeWidth="1.4"
+                    />
+                    <path
+                      d="M375 118C402 149 435 185 510 241"
+                      fill="none"
+                      stroke="rgba(17,40,61,0.09)"
+                      strokeWidth="1.4"
+                    />
+                    <path
+                      d="M152 287C242 260 344 253 493 278"
+                      fill="none"
+                      stroke="rgba(17,40,61,0.08)"
+                      strokeWidth="1.4"
+                    />
 
-                    {networkNodes.map((node, index) => (
-                      <g key={`network-node-${node.cx}-${node.cy}`}>
-                        <circle cx={node.cx} cy={node.cy} r={index === 2 ? 9 : 7} fill={node.fill} />
-                        <circle cx={node.cx} cy={node.cy} r={index === 2 ? 16 : 12} fill="none" stroke={node.fill} strokeOpacity="0.24">
+                    <path id="corridor-west" className="gsap-network-route" d="M140 260C174 248 207 233 245 214" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.3" />
+                    <path id="corridor-central" className="gsap-network-route" d="M245 214C277 200 303 188 332 166" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.3" />
+                    <path id="corridor-lakes" className="gsap-network-route" d="M332 166C359 152 383 144 412 139" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.3" />
+                    <path id="corridor-atlantic" className="gsap-network-route" d="M412 139C450 138 482 149 514 175" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.3" />
+                    <path id="corridor-south" className="gsap-network-route" d="M245 214C326 213 420 228 517 277" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.3" />
+                    <path id="corridor-northwest" className="gsap-network-route" d="M110 187C156 177 202 182 245 214" fill="none" stroke="rgba(17,40,61,0.18)" strokeWidth="2" />
+
+                    {[
+                      { x: 102, y: 186, label: "Pacific NW" },
+                      { x: 140, y: 260, label: "California" },
+                      { x: 245, y: 214, label: "Texas" },
+                      { x: 332, y: 166, label: "Upper Midwest" },
+                      { x: 412, y: 139, label: "Great Lakes" },
+                      { x: 514, y: 175, label: "Mid-Atlantic" },
+                      { x: 518, y: 278, label: "Southeast" },
+                    ].map((label) => (
+                      <text
+                        key={label.label}
+                        x={label.x}
+                        y={label.y - 18}
+                        textAnchor="middle"
+                        className="fill-[#8a7b65] text-[9px] font-semibold uppercase tracking-[0.18em]"
+                      >
+                        {label.label}
+                      </text>
+                    ))}
+
+                    {usRecoveryNodes.map((node, index) => (
+                      <g key={`us-network-node-${node.cx}-${node.cy}`}>
+                        <circle cx={node.cx} cy={node.cy + 56} r={index === 2 ? 9 : 7} fill={node.fill} />
+                        <circle cx={node.cx} cy={node.cy + 56} r={index === 2 ? 16 : 12} fill="none" stroke={node.fill} strokeOpacity="0.24">
                           <animate attributeName="r" values={index === 2 ? "14;26;14" : "10;20;10"} dur="3.4s" begin={`${index * 0.24}s`} repeatCount="indefinite" />
                           <animate attributeName="stroke-opacity" values="0.3;0;0.3" dur="3.4s" begin={`${index * 0.24}s`} repeatCount="indefinite" />
                         </circle>
@@ -828,9 +916,10 @@ export function HomePage() {
 
                     {[
                       { href: "#corridor-west", color: "#c59a4f", begin: "0s" },
-                      { href: "#corridor-east", color: "#3f7d6f", begin: "0.7s" },
-                      { href: "#corridor-south", color: "#173550", begin: "1.2s" },
-                      { href: "#corridor-interior", color: "#c59a4f", begin: "1.8s" },
+                      { href: "#corridor-central", color: "#3f7d6f", begin: "0.6s" },
+                      { href: "#corridor-lakes", color: "#173550", begin: "1.1s" },
+                      { href: "#corridor-atlantic", color: "#c59a4f", begin: "1.7s" },
+                      { href: "#corridor-south", color: "#3f7d6f", begin: "2.1s" },
                     ].map((particle) => (
                       <circle key={`${particle.href}-${particle.begin}`} r="3.8" fill={particle.color} opacity="0.9">
                         <animateMotion dur="4.8s" begin={particle.begin} repeatCount="indefinite" rotate="auto">
@@ -839,6 +928,27 @@ export function HomePage() {
                       </circle>
                     ))}
                   </svg>
+
+                  <div className="pointer-events-none absolute inset-x-4 bottom-4 grid gap-3 md:grid-cols-2">
+                    <div className="rounded-[18px] border border-[#ddd4c7] bg-white/84 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)] backdrop-blur">
+                      <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
+                        Source nodes
+                      </span>
+                      <p className="mt-2 text-[0.86rem] leading-6 text-[#556576]">
+                        HDD recovery, traction motors, industrial salvage, and reverse logistics
+                        programs feed the network.
+                      </p>
+                    </div>
+                    <div className="rounded-[18px] border border-[#ddd4c7] bg-white/84 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)] backdrop-blur">
+                      <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
+                        Recycler pull
+                      </span>
+                      <p className="mt-2 text-[0.86rem] leading-6 text-[#556576]">
+                        Verified buyer demand consolidates scattered lots into credible domestic
+                        recovery corridors.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -907,16 +1017,34 @@ export function HomePage() {
           >
             <ShadTabsContent value="suppliers">
               <div className="space-y-5">
-                <Suspense
-                  fallback={
-                    <div className="h-[420px] rounded-[30px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(244,236,224,0.88))]" />
-                  }
-                >
-                  <MarketplaceWorkflowFlow
-                    audienceLabel="Supplier operating path"
-                    steps={workflowContent.suppliers.steps}
-                  />
-                </Suspense>
+                <div className="gsap-reveal rounded-[30px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
+                  <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
+                    <div>
+                      <span className="badge">Supplier path</span>
+                      <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
+                        Move from first listing to repeat recovery flow without building the process alone.
+                      </h3>
+                      <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#5c6b79]">
+                        Start with a single opportunity, standardize composition detail, and route
+                        material into a buyer network that can actually value rare-earth-bearing scrap.
+                      </p>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-3">
+                      {[
+                        "Structured lot intake",
+                        "Verified buyer routing",
+                        "Pickup and settlement visibility",
+                      ].map((item) => (
+                        <div
+                          key={item}
+                          className="rounded-[22px] border border-[#ddd3c5] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#44505b] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
                 <div className="grid gap-4 xl:grid-cols-4">
                   {workflowContent.suppliers.steps.map((step, index) => (
                     <article
@@ -945,16 +1073,34 @@ export function HomePage() {
             </ShadTabsContent>
             <ShadTabsContent value="buyers">
               <div className="space-y-5">
-                <Suspense
-                  fallback={
-                    <div className="h-[420px] rounded-[30px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(244,236,224,0.88))]" />
-                  }
-                >
-                  <MarketplaceWorkflowFlow
-                    audienceLabel="Buyer operating path"
-                    steps={workflowContent.buyers.steps}
-                  />
-                </Suspense>
+                <div className="gsap-reveal rounded-[30px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
+                  <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
+                    <div>
+                      <span className="badge">Buyer path</span>
+                      <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
+                        Turn fragmented feedstock into a recurring procurement workflow with better visibility.
+                      </h3>
+                      <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#5c6b79]">
+                        Review opportunities faster, refine sourcing requirements, and move from
+                        targeted lots into repeat commercial relationships across the recovery network.
+                      </p>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-3">
+                      {[
+                        "Category-based discovery",
+                        "Direct buy-side engagement",
+                        "Contract-ready operating flow",
+                      ].map((item) => (
+                        <div
+                          key={item}
+                          className="rounded-[22px] border border-[#ddd3c5] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#44505b] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
+                        >
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
                 <div className="grid gap-4 xl:grid-cols-4">
                   {workflowContent.buyers.steps.map((step, index) => (
                     <article

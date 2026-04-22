@@ -6,6 +6,7 @@ import { AboutPage } from "./pages/AboutPage";
 import { AuthPage } from "./pages/AuthPage";
 import { ContactPage } from "./pages/ContactPage";
 import { DashboardPage } from "./pages/DashboardPage";
+import { GetStartedPage } from "./pages/GetStartedPage";
 import { HomePage } from "./pages/HomePage";
 import { ListingDetailPage } from "./pages/ListingDetailPage";
 import { MarketplacePage } from "./pages/MarketplacePage";
@@ -24,6 +25,7 @@ export default function App() {
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/get-started" element={<GetStartedPage />} />
           <Route path="/sign-in" element={<AuthPage />} />
           <Route path="/oauth-callback" element={<OAuthCallbackPage />} />
           <Route path="/marketplace" element={<MarketplacePage />} />

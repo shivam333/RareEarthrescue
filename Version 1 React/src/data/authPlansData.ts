@@ -18,6 +18,7 @@ export type PlanCardConfig = {
   shortLabel: string;
   title: string;
   progression: string;
+  priceLabel?: string;
   summary: string;
   cta: string;
   featured?: boolean;
@@ -37,6 +38,7 @@ export const planCards: PlanCardConfig[] = [
     shortLabel: "Start fast",
     title: "One-Time Order",
     progression: "Best for a first transaction",
+    priceLabel: "Per transaction",
     summary: "Move a targeted lot with guided execution and low commitment.",
     cta: "Start one-time access",
     planType: "free",
@@ -126,6 +128,7 @@ export const planCards: PlanCardConfig[] = [
     shortLabel: "Scale repeat activity",
     title: "Subscription",
     progression: "Recommended for repeat operators",
+    priceLabel: "$599 / month",
     summary: "Unlock recurring access, stronger intelligence, and deeper workflow support.",
     cta: "Create subscription account",
     featured: true,
@@ -217,6 +220,7 @@ export const planCards: PlanCardConfig[] = [
     shortLabel: "Move into tailored services",
     title: "Custom Enterprise Solutions",
     progression: "For complex operators and programs",
+    priceLabel: "Custom engagement",
     summary:
       "Tailored support for managed sourcing, structured sell-side programs, and multi-site commercial workflows.",
     cta: "Talk to our team",

@@ -1,4 +1,9 @@
 .DS_Store
+node_modules
+node_modules/
+outputs/
+scripts/
+tmp/
 Version 1 React/node_modules/
 Version 1 React/dist/
 Version 1 React/*.tsbuildinfo
