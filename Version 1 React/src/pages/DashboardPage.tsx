@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { BidListingTable } from "../components/dashboard/BidListingTable";
 import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
@@ -43,6 +43,8 @@ const locationFilters: { label: string; value: DashboardLocationFilter | "all" }
   { label: "Europe", value: "europe" },
   { label: "Asia", value: "asia" },
 ];
+
+const DASHBOARD_PAGE_SIZE = 8;
 
 function FilterGroup<T extends string>({
   label,
@@ -88,6 +90,7 @@ export function DashboardPage() {
   const [sourceId, setSourceId] = useState<DashboardSourceId | "all">("all");
   const [locationFilter, setLocationFilter] = useState<DashboardLocationFilter | "all">("all");
   const [bidQuantities, setBidQuantities] = useState<Record<string, string>>({});
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filteredListings = useMemo(
     () =>
@@ -101,6 +104,19 @@ export function DashboardPage() {
       }),
     [lotSize, sourceId, locationFilter]
   );
+  const pageCount = Math.max(1, Math.ceil(filteredListings.length / DASHBOARD_PAGE_SIZE));
+  const pagedListings = useMemo(
+    () =>
+      filteredListings.slice(
+        (currentPage - 1) * DASHBOARD_PAGE_SIZE,
+        currentPage * DASHBOARD_PAGE_SIZE
+      ),
+    [currentPage, filteredListings]
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [lotSize, sourceId, locationFilter]);
 
   const handleQuantityChange = (listingId: string, nextValue: string) => {
     if (!/^\d*(\.\d{0,2})?$/.test(nextValue)) return;
@@ -202,13 +218,16 @@ export function DashboardPage() {
                 </h2>
                 <p className="mt-3 max-w-[42rem] text-[0.98rem] leading-7 text-[#5a6a78]">
                   Enter a custom bid quantity in tons, compare opening bid levels in dollars per
-                  kilogram, and move directly into a finalize-order workflow built for recycler procurement.
+                  kilogram, and open the detail view when you want deeper diligence before placing a bid.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-3">
                 <span className="rounded-full border border-[#ddd4c7] bg-white/84 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
                   {filteredListings.length} live lots
+                </span>
+                <span className="rounded-full border border-[#ddd4c7] bg-white/84 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#8d6d39]">
+                  Page {currentPage} / {pageCount}
                 </span>
                 <Link
                   className="button-ghost"
@@ -221,14 +240,39 @@ export function DashboardPage() {
 
             <div className="mt-6">
               <BidListingTable
-                listings={filteredListings}
+                listings={pagedListings}
                 quantityInputs={bidQuantities}
                 onQuantityChange={handleQuantityChange}
                 actionLabel="Place bid"
+                getDetailHref={(listing) => `/dashboard/live/${listing.sourceId}/listing/${listing.id}`}
                 getPlaceBidHref={(listing, quantityTons) =>
                   `/dashboard/place-order/${listing.id}?quantity=${encodeURIComponent(quantityTons || "0.00")}`
                 }
               />
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-4 rounded-[24px] border border-[#ddd4c7] bg-white/72 px-5 py-4">
+              <p className="text-[0.9rem] leading-7 text-[#5a6a78]">
+                Showing {pagedListings.length} listings on this page. Move to the next page to review more active lots.
+              </p>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+                  disabled={currentPage === 1}
+                  className="rounded-full border border-[#d8cfbf] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Previous
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage((page) => Math.min(pageCount, page + 1))}
+                  disabled={currentPage === pageCount}
+                  className="rounded-full border border-[#d8cfbf] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Next page
+                </button>
+              </div>
             </div>
 
             {sourceId !== "all" ? (

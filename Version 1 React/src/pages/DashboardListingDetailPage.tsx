@@ -22,9 +22,11 @@ export function DashboardListingDetailPage() {
     .filter((item) => item.id !== listing.id && item.sourceId === listing.sourceId)
     .slice(0, 3);
   const [activeImage, setActiveImage] = useState(0);
-  const [selectedLots, setSelectedLots] = useState(1);
+  const [selectedLots, setSelectedLots] = useState(0);
   const { orderBook, addLots } = useRecyclerOrderBook();
   const stagedLots = orderBook[listing.id] ?? 0;
+  const cleanQuantity = listing.quantity.replace(/\s*per lot/i, "");
+  const lotsToStage = Math.max(1, selectedLots);
 
   return (
     <motion.main className="page" {...pageMotionProps}>
@@ -78,9 +80,6 @@ export function DashboardListingDetailPage() {
             <p className="mt-4 text-[1rem] leading-8 text-[#556576]">{listing.detailSummary}</p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <span className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
-                {listing.location}
-              </span>
               <span className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#315e53]">
                 {listing.verification}
               </span>
@@ -91,13 +90,13 @@ export function DashboardListingDetailPage() {
                 {listing.pricePerTon}
               </strong>
               <p className="mt-2 text-[0.9rem] leading-7 text-[#6b756f]">
-                {listing.quantity} · {listing.availableLots} lot{listing.availableLots === 1 ? "" : "s"} available
+                Available lot: {cleanQuantity} · {listing.availableLots} lot{listing.availableLots === 1 ? "" : "s"} available
               </p>
 
               <div className="mt-5 flex items-center justify-between gap-3 rounded-full border border-[#d8cfbf] bg-[#fbf7ef] px-2 py-2">
                 <button
                   type="button"
-                  onClick={() => setSelectedLots((current) => Math.max(1, current - 1))}
+                  onClick={() => setSelectedLots((current) => Math.max(0, current - 1))}
                   className="grid h-10 w-10 place-items-center rounded-full border border-[#ddd4c7] bg-white text-lg font-bold text-[#173550]"
                 >
                   −
@@ -121,18 +120,26 @@ export function DashboardListingDetailPage() {
 
               <button
                 type="button"
-                onClick={() => addLots(listing.id, selectedLots)}
+                onClick={() => addLots(listing.id, lotsToStage)}
                 className="mt-4 w-full rounded-full bg-[linear-gradient(145deg,#b88b3c,#9f742c)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5"
               >
-                Add {selectedLots} lot{selectedLots === 1 ? "" : "s"} to order
+                {selectedLots === 0
+                  ? "Add 1 lot to order"
+                  : `Add ${selectedLots} lot${selectedLots === 1 ? "" : "s"} to order`}
               </button>
 
               <div className="mt-4 grid gap-3">
+                <Link
+                  to={`/dashboard/place-order/${listing.id}`}
+                  className="rounded-full border border-[#cabfae] bg-white/84 px-4 py-3 text-sm font-bold text-[#173550]"
+                >
+                  Bid from this listing
+                </Link>
                 <button
                   type="button"
                   className="rounded-full border border-[#cabfae] bg-white/84 px-4 py-3 text-sm font-bold text-[#173550]"
                 >
-                  Request due diligence pack
+                  Request due diligence pack · $50
                 </button>
                 <button
                   type="button"
@@ -143,6 +150,9 @@ export function DashboardListingDetailPage() {
               </div>
 
               <p className="mt-4 text-[0.78rem] leading-6 text-[#6b756f]">
+                A $50 diligence request unlocks assay references, media package review, and structured commercial notes.
+              </p>
+              <p className="mt-2 text-[0.78rem] leading-6 text-[#6b756f]">
                 {stagedLots > 0
                   ? `${stagedLots} lot${stagedLots === 1 ? "" : "s"} already staged from this listing.`
                   : "Nothing staged from this listing yet."}
@@ -151,8 +161,8 @@ export function DashboardListingDetailPage() {
 
             <div className="mt-6 grid gap-4">
               {[
-                ["Seller", `${listing.sellerName} · ${listing.sellerType}`],
                 ["Purity notes", listing.purityNotes],
+                ["Availability", listing.availability],
                 ["Concentration", listing.concentration],
                 ["Packaging", listing.packaging],
                 ["Source stream", listing.sourceStream],
@@ -190,9 +200,7 @@ export function DashboardListingDetailPage() {
                   <strong className="block font-display text-[1rem] tracking-[-0.04em] text-[#11283d]">
                     {item.category}
                   </strong>
-                  <p className="mt-2 text-[0.9rem] leading-7 text-[#556576]">
-                    {item.location} · {item.pricePerTon}
-                  </p>
+                  <p className="mt-2 text-[0.9rem] leading-7 text-[#556576]">{item.pricePerTon}</p>
                 </Link>
               ))}
             </div>

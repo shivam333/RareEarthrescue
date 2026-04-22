@@ -34,6 +34,7 @@ export function FinalizeOrderPage() {
   );
   const [activeImage, setActiveImage] = useState(0);
   const [quantityTons, setQuantityTons] = useState(searchParams.get("quantity") || "1.00");
+  const cleanQuantity = listing.quantity.replace(/\s*per lot/i, "");
 
   const unitPricePerKg = parsePricePerKg(listing.pricePerTon);
   const quantityValue = Number(quantityTons || 0);
@@ -148,6 +149,9 @@ export function FinalizeOrderPage() {
                   <p className="mt-3 text-[0.86rem] leading-7 text-[#6b756f]">
                     Calculated from {quantityTons || "0.00"} tons at ${unitPricePerKg.toFixed(2)} per kilogram.
                   </p>
+                  <p className="mt-2 text-[0.78rem] leading-6 text-[#6b756f]">
+                    Due diligence packs are available for a $50 request fee before commercial confirmation.
+                  </p>
                 </div>
               </div>
 
@@ -175,15 +179,14 @@ export function FinalizeOrderPage() {
 
             <div className="mt-6 rounded-[28px] border border-[#e0d7c9] bg-white/76 p-5">
               <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
-                Seller and fulfillment
+                Execution details
               </span>
               <div className="mt-4 grid gap-4">
                 {[
-                  ["Seller", `${listing.sellerName} · ${listing.sellerType}`],
-                  ["Location", listing.location],
-                  ["Available lot", listing.quantity],
+                  ["Available lot", cleanQuantity],
                   ["Packaging", listing.packaging],
                   ["Logistics", listing.logistics],
+                  ["Due diligence pack", "$50 request fee"],
                 ].map(([label, value]) => (
                   <div key={label}>
                     <span className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { DashboardBidListing } from "../../data/dashboardMarketplaceData";
 import { useRecyclerOrderBook } from "../../hooks/useRecyclerOrderBook";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 8;
 
 export function LiveMarketplaceBoard({
   listings,
@@ -67,8 +67,10 @@ export function LiveMarketplaceBoard({
 
       <div className="space-y-4">
         {activeListings.map((listing, index) => {
-          const selectedLots = lotSelections[listing.id] ?? 1;
+          const selectedLots = lotSelections[listing.id] ?? 0;
           const stagedLots = orderBook[listing.id] ?? 0;
+          const lotsToStage = Math.max(1, selectedLots);
+          const cleanQuantity = listing.quantity.replace(/\s*per lot/i, "");
 
           return (
             <motion.article
@@ -80,7 +82,10 @@ export function LiveMarketplaceBoard({
               className="overflow-hidden rounded-[30px] border border-[#d9cfbf] bg-[rgba(255,252,247,0.95)] shadow-[0_24px_70px_rgba(46,41,31,0.07)]"
             >
               <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)_270px]">
-                <div className="relative min-h-[14rem] overflow-hidden border-b border-[#e5dccf] xl:border-b-0 xl:border-r">
+                <Link
+                  to={`/dashboard/live/${sourceId}/listing/${listing.id}`}
+                  className="relative block min-h-[14rem] overflow-hidden border-b border-[#e5dccf] transition hover:opacity-95 xl:border-b-0 xl:border-r"
+                >
                   <img
                     src={listing.image}
                     alt={listing.category}
@@ -93,9 +98,12 @@ export function LiveMarketplaceBoard({
                       {listing.category}
                     </span>
                   </div>
-                </div>
+                </Link>
 
-                <div className="border-b border-[#e5dccf] px-5 py-5 xl:border-b-0 xl:border-r xl:px-6">
+                <Link
+                  to={`/dashboard/live/${sourceId}/listing/${listing.id}`}
+                  className="block border-b border-[#e5dccf] px-5 py-5 transition hover:bg-white/40 xl:border-b-0 xl:border-r xl:px-6"
+                >
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="max-w-[42rem]">
                       <strong className="block font-display text-[1.22rem] leading-[1.04] tracking-[-0.04em] text-[#11283d]">
@@ -112,7 +120,7 @@ export function LiveMarketplaceBoard({
 
                   <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                     <MarketMeta label="Location" value={listing.location} />
-                    <MarketMeta label="Lot quantity" value={listing.quantity} />
+                    <MarketMeta label="Lot quantity" value={cleanQuantity} />
                     <MarketMeta label="Availability" value={listing.availability} />
                     <MarketMeta label="Purity notes" value={listing.purityNotes} />
                   </div>
@@ -124,7 +132,7 @@ export function LiveMarketplaceBoard({
                       <MarketMeta label="Packaging" value={listing.packaging} />
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 <div className="px-5 py-5 xl:px-6">
                   <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
@@ -147,7 +155,7 @@ export function LiveMarketplaceBoard({
                         onClick={() =>
                           setLotSelections((current) => ({
                             ...current,
-                            [listing.id]: Math.max(1, selectedLots - 1),
+                            [listing.id]: Math.max(0, selectedLots - 1),
                           }))
                         }
                         className="grid h-10 w-10 place-items-center rounded-full border border-[#ddd4c7] bg-white text-lg font-bold text-[#173550]"
@@ -175,10 +183,12 @@ export function LiveMarketplaceBoard({
                     </div>
                     <button
                       type="button"
-                      onClick={() => addLots(listing.id, selectedLots)}
+                      onClick={() => addLots(listing.id, lotsToStage)}
                       className="mt-4 w-full rounded-full bg-[linear-gradient(145deg,#b88b3c,#9f742c)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5"
                     >
-                      Add {selectedLots} lot{selectedLots === 1 ? "" : "s"} to order
+                      {selectedLots === 0
+                        ? "Add 1 lot to order"
+                        : `Add ${selectedLots} lot${selectedLots === 1 ? "" : "s"} to order`}
                     </button>
                     <p className="mt-3 text-[0.76rem] leading-6 text-[#6b756f]">
                       {stagedLots > 0

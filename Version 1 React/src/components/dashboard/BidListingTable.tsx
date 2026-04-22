@@ -30,6 +30,10 @@ function parsePricePerKg(listing: DashboardBidListing) {
   return perTon / 1000;
 }
 
+function cleanLotQuantity(quantity: string) {
+  return quantity.replace(/\s*per lot/i, "");
+}
+
 export function BidListingTable({
   listings,
   blurred = false,
@@ -59,12 +63,23 @@ export function BidListingTable({
         header: "Material",
         cell: ({ row }) => (
           <div className="max-w-[20rem]">
-            <strong className="block font-display text-[1rem] leading-7 tracking-[-0.03em] text-[#11283d]">
-              <MaybeBlur blurred={blurred}>{row.original.material}</MaybeBlur>
-            </strong>
+            {getDetailHref ? (
+              <Link
+                to={getDetailHref(row.original)}
+                className="block transition hover:text-[#8d6d39]"
+              >
+                <strong className="block font-display text-[1rem] leading-7 tracking-[-0.03em] text-[#11283d]">
+                  <MaybeBlur blurred={blurred}>{row.original.material}</MaybeBlur>
+                </strong>
+              </Link>
+            ) : (
+              <strong className="block font-display text-[1rem] leading-7 tracking-[-0.03em] text-[#11283d]">
+                <MaybeBlur blurred={blurred}>{row.original.material}</MaybeBlur>
+              </strong>
+            )}
             {isInteractiveBidTable ? (
               <span className="mt-2 block text-[0.76rem] font-semibold uppercase tracking-[0.12em] text-[#8a7b65]">
-                Available lot: {row.original.quantity}
+                Available lot: {cleanLotQuantity(row.original.quantity)}
               </span>
             ) : null}
           </div>
@@ -150,14 +165,18 @@ export function BidListingTable({
       : [];
 
     const tail: ColumnDef<DashboardBidListing, any>[] = [
-      columnHelper.accessor("purityNotes", {
-        header: "Purity notes",
-        cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
-      }),
-      columnHelper.accessor("availability", {
-        header: "Availability",
-        cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
-      }),
+      ...(!isInteractiveBidTable
+        ? [
+            columnHelper.accessor("purityNotes", {
+              header: "Purity notes",
+              cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
+            }),
+            columnHelper.accessor("availability", {
+              header: "Availability",
+              cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
+            }),
+          ]
+        : []),
       ...(isInteractiveBidTable
         ? [
             columnHelper.display({
