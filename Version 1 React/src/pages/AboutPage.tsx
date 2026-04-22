@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { AppImage } from "../components/ui/AppImage";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
 import { SectionIntro } from "../components/ui/SectionIntro";
 import { pageEnter } from "../lib/motion";
@@ -100,7 +101,7 @@ export function AboutPage() {
                 className="group block h-full overflow-hidden rounded-[32px] border border-[#dacfbf] bg-[rgba(255,252,247,0.94)] shadow-[0_22px_60px_rgba(46,41,31,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#315e53]/24"
               >
                 <div className="relative h-64 overflow-hidden">
-                  <img
+                  <AppImage
                     src={voice.image}
                     alt={voice.alt}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
@@ -174,7 +175,7 @@ export function AboutPage() {
             </article>
           </MotionItem>
           <MotionItem className="page-hero-visual overflow-hidden">
-            <img
+            <AppImage
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=80"
               alt="Industrial team meeting around strategy and operations"

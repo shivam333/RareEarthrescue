@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
+import { AppImage } from "../components/ui/AppImage";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
 import { listings } from "../data/marketplaceData";
 import { pageEnter } from "../lib/motion";
@@ -36,12 +37,12 @@ export function ListingDetailPage() {
         <div className="detail-main">
           <MotionItem className="gallery-grid">
             <article className="gallery-card panel">
-              <img className="h-full w-full object-cover" src={listing.images[0]} alt={listing.title} />
+              <AppImage className="h-full w-full object-cover" src={listing.images[0]} alt={listing.title} />
             </article>
             <div className="gallery-stack">
               {listing.images.slice(1).map((image) => (
                 <article className="gallery-card panel" key={image}>
-                  <img className="h-full w-full object-cover" src={image} alt={listing.title} />
+                  <AppImage className="h-full w-full object-cover" src={image} alt={listing.title} />
                 </article>
               ))}
             </div>

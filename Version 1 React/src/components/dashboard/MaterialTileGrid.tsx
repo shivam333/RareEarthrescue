@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { DashboardMaterialTile } from "../../data/dashboardMarketplaceData";
+import { AppImage } from "../ui/AppImage";
 
 export function MaterialTileGrid({
   tiles,
@@ -28,7 +29,7 @@ export function MaterialTileGrid({
               compact ? "min-h-[11.5rem]" : "min-h-[14rem]"
             }`}
           >
-            <img
+            <AppImage
               src={tile.image}
               alt={tile.title}
               className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"

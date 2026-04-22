@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { dashboardBidListings } from "../data/dashboardMarketplaceData";
 import { useRecyclerOrderBook } from "../hooks/useRecyclerOrderBook";
 import { pageEnter } from "../lib/motion";
+import { AppImage } from "../components/ui/AppImage";
 
 const pageMotionProps = {
   variants: pageEnter,
@@ -80,7 +81,7 @@ export function CheckoutPage() {
                       transition={{ duration: 0.35, delay: index * 0.04 }}
                       className="grid gap-4 overflow-hidden rounded-[28px] border border-[#ddd4c7] bg-white/82 p-4 lg:grid-cols-[220px_minmax(0,1fr)_220px]"
                     >
-                      <img
+                      <AppImage
                         src={listing.image}
                         alt={listing.category}
                         className="h-44 w-full rounded-[22px] object-cover"

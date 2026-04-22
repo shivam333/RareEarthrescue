@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { AppImage } from "../components/ui/AppImage";
 import { ShadButton } from "../components/ui/ShadButton";
 import { ShadTabs, ShadTabsContent, ShadTabsList, ShadTabsTrigger } from "../components/ui/ShadTabs";
 
@@ -410,7 +411,7 @@ function HomeLinkCard({
 function LogoRibbonChip({ logo }: { logo: LogoBadge }) {
   return (
     <span className="inline-flex items-center justify-center px-5 py-2">
-      <img
+      <AppImage
         src={logo.src}
         alt={logo.name}
         className="h-8 w-auto object-contain opacity-95 saturate-[1.05]"
@@ -675,7 +676,7 @@ export function HomePage() {
 
             <div className="gsap-hero-visual relative min-h-[520px] overflow-hidden rounded-[34px] border border-[#d9cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(239,231,218,0.9))] shadow-[0_34px_90px_rgba(46,41,31,0.1)] lg:min-h-[540px]">
               <div className="gsap-parallax absolute inset-0 opacity-[0.16]">
-                <img
+                <AppImage
                   src="https://images.unsplash.com/photo-1513828742140-ccaa28f3eda0?auto=format&fit=crop&w=1600&q=80"
                   alt="Shiny metallic industrial material surface"
                   className="h-full w-full object-cover saturate-[0.7]"
@@ -846,7 +847,7 @@ export function HomePage() {
                   ))}
                 </div>
 
-                <div className="relative mt-6 overflow-hidden rounded-[30px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(244,237,225,0.86))] p-4">
+                <div className="relative mt-6 rounded-[30px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(244,237,225,0.86))] p-4">
                   <svg viewBox="0 0 620 420" className="h-full w-full">
                     <path
                       d="M75 145 92 126 116 112 145 110 173 115 205 109 233 114 262 126 298 125 330 118 365 116 396 122 430 122 462 118 491 123 516 133 544 139 567 153 584 174 589 196 582 209 568 214 554 225 545 235 527 238 512 250 509 266 494 276 482 292 456 302 427 310 398 313 367 322 336 327 308 322 280 325 250 336 223 342 193 338 168 329 144 320 123 302 106 289 91 271 83 251 76 227 73 204 67 180Z"
@@ -926,7 +927,7 @@ export function HomePage() {
                     ))}
                   </svg>
 
-                  <div className="pointer-events-none absolute inset-x-4 bottom-4 grid gap-3 md:grid-cols-2">
+                  <div className="mt-4 grid gap-3 md:grid-cols-2">
                     <div className="rounded-[18px] border border-[#ddd4c7] bg-white/84 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)] backdrop-blur">
                       <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#7d7568]">
                         Source nodes

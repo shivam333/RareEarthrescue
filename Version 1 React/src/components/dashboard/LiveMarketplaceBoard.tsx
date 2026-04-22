@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { DashboardBidListing } from "../../data/dashboardMarketplaceData";
 import { useRecyclerOrderBook } from "../../hooks/useRecyclerOrderBook";
+import { AppImage } from "../ui/AppImage";
 
 const PAGE_SIZE = 8;
 
@@ -52,7 +53,7 @@ export function LiveMarketplaceBoard({
             Previous
           </button>
           <span className="text-[0.8rem] font-bold uppercase tracking-[0.14em] text-[#7b7367]">
-            Page {page} / {pageCount}
+            {page}/{pageCount}
           </span>
           <button
             type="button"
@@ -81,12 +82,12 @@ export function LiveMarketplaceBoard({
               transition={{ duration: 0.4, delay: index * 0.04 }}
               className="overflow-hidden rounded-[30px] border border-[#d9cfbf] bg-[rgba(255,252,247,0.95)] shadow-[0_24px_70px_rgba(46,41,31,0.07)]"
             >
-              <div className="grid gap-0 xl:grid-cols-[240px_minmax(0,1fr)_270px]">
+              <div className="grid gap-0 xl:grid-cols-[200px_minmax(0,1fr)_270px]">
                 <Link
                   to={`/dashboard/live/${sourceId}/listing/${listing.id}`}
-                  className="relative block min-h-[14rem] overflow-hidden border-b border-[#e5dccf] transition hover:opacity-95 xl:border-b-0 xl:border-r"
+                  className="relative block min-h-[12.5rem] overflow-hidden border-b border-[#e5dccf] transition hover:opacity-95 xl:border-b-0 xl:border-r"
                 >
-                  <img
+                  <AppImage
                     src={listing.image}
                     alt={listing.category}
                     className="h-full w-full object-cover"
@@ -118,11 +119,10 @@ export function LiveMarketplaceBoard({
                     </span>
                   </div>
 
-                  <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  <div className="mt-5 grid gap-4 md:grid-cols-3">
                     <MarketMeta label="Location" value={listing.location} />
                     <MarketMeta label="Lot quantity" value={cleanQuantity} />
                     <MarketMeta label="Availability" value={listing.availability} />
-                    <MarketMeta label="Purity notes" value={listing.purityNotes} />
                   </div>
 
                   <div className="mt-5 rounded-[24px] border border-[#e4dbce] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(247,241,232,0.84))] px-4 py-4">
@@ -220,6 +220,9 @@ export function LiveMarketplaceBoard({
           Showing {activeListings.length} listings on this page. Use the navigation controls to move across the live category board.
         </p>
         <div className="flex items-center gap-3">
+          <span className="text-[0.8rem] font-bold uppercase tracking-[0.14em] text-[#7b7367]">
+            {page}/{pageCount}
+          </span>
           <button
             type="button"
             onClick={() => setPage((current) => Math.max(1, current - 1))}

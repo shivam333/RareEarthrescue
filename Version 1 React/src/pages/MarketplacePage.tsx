@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { BidListingTable } from "../components/dashboard/BidListingTable";
 import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
+import { AppImage } from "../components/ui/AppImage";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
 import { dashboardBidListings, dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
 import { pageEnter } from "../lib/motion";
@@ -99,7 +100,7 @@ export function MarketplacePage() {
             </p>
           </MotionItem>
           <MotionItem className="page-hero-visual overflow-hidden">
-            <img
+            <AppImage
               className="h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80"
               alt="Industrial data operations and intelligence screens"

@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { dashboardBidListings } from "../data/dashboardMarketplaceData";
 import { useRecyclerOrderBook } from "../hooks/useRecyclerOrderBook";
 import { pageEnter } from "../lib/motion";
+import { AppImage } from "../components/ui/AppImage";
 
 const pageMotionProps = {
   variants: pageEnter,
@@ -56,14 +57,14 @@ export function DashboardListingDetailPage() {
                     : "border-[#ddd4c7]"
                 }`}
               >
-                <img src={image} alt={listing.category} className="h-24 w-full object-cover" />
+                <AppImage src={image} alt={listing.category} className="h-24 w-full object-cover" />
               </button>
             ))}
           </div>
 
           <article className="overflow-hidden rounded-[34px] border border-[#d8cfbf] bg-[rgba(255,252,247,0.95)] shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
             <div className="relative min-h-[34rem]">
-              <img
+              <AppImage
                 src={listing.images[activeImage]}
                 alt={listing.detailTitle}
                 className="absolute inset-0 h-full w-full object-cover"

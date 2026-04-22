@@ -202,7 +202,7 @@ export function BidListingTable({
       : [];
 
     const tail: ColumnDef<DashboardBidListing, any>[] = [
-      ...(!isInteractiveBidTable
+      ...(!isInteractiveBidTable && !isDashboardBidTable
         ? [
             columnHelper.accessor("purityNotes", {
               header: "Purity notes",
@@ -238,25 +238,43 @@ export function BidListingTable({
           ]
         : []),
       columnHelper.display({
-              id: "action",
-              header: "Action",
-              cell: ({ row }) => (
-                <Link
-                  className="inline-flex items-center rounded-full border border-[#d8cebd] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e] hover:text-[#0f2a40]"
-                  to={
-                    isInteractiveBidTable
-                      ? getPlaceBidHref?.(row.original, quantityInputs?.[row.original.id] ?? "0.00") ??
-                        `/listing/${row.original.id}`
-                      : getPlaceBidHref
-                        ? getPlaceBidHref(row.original, "0.00")
-                        : getDetailHref
-                          ? getDetailHref(row.original)
-                          : `/listing/${row.original.id}`
-                  }
-                >
-                  {actionLabel}
-          </Link>
-        ),
+        id: "action",
+        header: "Action",
+        cell: ({ row }) => {
+          const detailHref = getDetailHref
+            ? getDetailHref(row.original)
+            : `/listing/${row.original.id}`;
+          const actionHref = isInteractiveBidTable
+            ? getPlaceBidHref?.(row.original, quantityInputs?.[row.original.id] ?? "0.00") ??
+              detailHref
+            : getPlaceBidHref
+              ? getPlaceBidHref(row.original, "0.00")
+              : detailHref;
+
+          return isDashboardBidTable ? (
+            <div className="flex flex-col items-start gap-2">
+              <Link
+                className="inline-flex items-center rounded-full border border-[#d8cebd] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e] hover:text-[#0f2a40]"
+                to={actionHref}
+              >
+                {actionLabel}
+              </Link>
+              <Link
+                className="text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#8d6d39] transition hover:text-[#173550]"
+                to={detailHref}
+              >
+                View details
+              </Link>
+            </div>
+          ) : (
+            <Link
+              className="inline-flex items-center rounded-full border border-[#d8cebd] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e] hover:text-[#0f2a40]"
+              to={actionHref}
+            >
+              {actionLabel}
+            </Link>
+          );
+        },
       }),
     ];
 

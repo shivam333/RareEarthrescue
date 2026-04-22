@@ -217,7 +217,7 @@ export function DashboardPage() {
                   {filteredListings.length} live lots
                 </span>
                 <span className="rounded-full border border-[#ddd4c7] bg-white/84 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#8d6d39]">
-                  Page {currentPage} / {pageCount}
+                  {currentPage}/{pageCount}
                 </span>
                 <Link
                   className="button-ghost"
@@ -243,6 +243,9 @@ export function DashboardPage() {
                 Showing {pagedListings.length} listings on this page. Move to the next page to review more active lots.
               </p>
               <div className="flex items-center gap-3">
+                <span className="text-[0.8rem] font-bold uppercase tracking-[0.14em] text-[#7b7367]">
+                  {currentPage}/{pageCount}
+                </span>
                 <button
                   type="button"
                   onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}

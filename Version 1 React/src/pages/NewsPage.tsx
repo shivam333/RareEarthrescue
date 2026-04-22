@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { AppImage } from "../components/ui/AppImage";
 import { articleCards, commodityTickers } from "../data/newsData";
 
 const sectionTransition = {
@@ -51,7 +52,7 @@ function NewsCard({
   const content = (
     <>
       <div className="relative h-56 overflow-hidden">
-        <img
+        <AppImage
           src={image}
           alt={title}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
@@ -147,7 +148,7 @@ export function NewsPage() {
                   </div>
 
                   <div className="relative min-h-[22rem] overflow-hidden">
-                    <img
+                    <AppImage
                       src={leadStory.image}
                       alt={leadStory.title}
                       className="h-full w-full object-cover"
