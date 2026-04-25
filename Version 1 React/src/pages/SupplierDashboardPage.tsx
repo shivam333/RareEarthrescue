@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { DashboardRoleSwitch } from "../components/dashboard/DashboardRoleSwitch";
+import { MarketplaceIntelligenceSection } from "../components/dashboard/MarketplaceIntelligenceSection";
 import { AppImage } from "../components/ui/AppImage";
 import { dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
 import { DashboardMode } from "../lib/accountRole";
@@ -134,6 +135,8 @@ export function SupplierDashboardPage({
           </div>
         </div>
       </section>
+
+      <MarketplaceIntelligenceSection mode="supplier" />
 
       <section className="shell pb-16 pt-8">
         <div className="grid gap-6 lg:grid-cols-3">
