@@ -18,6 +18,11 @@ function parsePricePerKg(pricePerTon: string) {
   return perTon / 1000;
 }
 
+function formatAuctionDate(offsetDays: number) {
+  const date = new Date(Date.UTC(2026, 3, 24 + offsetDays));
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
 function sanitizeQuantity(value: string) {
   if (!/^\d*(\.\d{0,2})?$/.test(value)) {
     return null;
@@ -36,10 +41,19 @@ export function FinalizeOrderPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [quantityTons, setQuantityTons] = useState(searchParams.get("quantity") || "0.00");
   const cleanQuantity = listing.quantity.replace(/\s*per lot/i, "");
+  const openingBidFloor = parsePricePerKg(listing.pricePerTon);
+  const [bidPricePerKg, setBidPricePerKg] = useState(
+    searchParams.get("price") || openingBidFloor.toFixed(2)
+  );
+  const listingIndex = dashboardBidListings.findIndex((item) => item.id === listing.id);
+  const bidCount = 4 + (listingIndex % 7);
+  const bidStartDate = formatAuctionDate(listingIndex % 3);
+  const bidEndDate = formatAuctionDate(5 + (listingIndex % 4));
 
-  const unitPricePerKg = parsePricePerKg(listing.pricePerTon);
+  const unitPricePerKg = Number(bidPricePerKg || 0);
   const quantityValue = Number(quantityTons || 0);
   const totalBid = quantityValue * 1000 * unitPricePerKg;
+  const isBidPriceValid = unitPricePerKg >= openingBidFloor;
 
   return (
     <motion.main className="page" {...pageMotionProps}>
@@ -102,12 +116,18 @@ export function FinalizeOrderPage() {
                     Bid basis
                   </span>
                   <strong className="mt-2 block font-display text-[2.1rem] leading-none tracking-[-0.06em] text-[#11283d]">
-                    ${unitPricePerKg.toFixed(2)} / kg
+                    ${openingBidFloor.toFixed(2)} / kg
                   </strong>
                 </div>
                 <span className="rounded-full border border-[#ddd4c7] bg-[#eef4ef] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#315e53]">
                   {listing.verification}
                 </span>
+              </div>
+
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                <BidMeta label="Bids received" value={`${bidCount}`} />
+                <BidMeta label="Bid start date" value={bidStartDate} />
+                <BidMeta label="Bid end date" value={bidEndDate} />
               </div>
 
               <div className="mt-5 rounded-[24px] border border-[#cddfce] bg-[linear-gradient(135deg,rgba(233,244,235,0.92),rgba(247,241,232,0.92))] px-5 py-4">
@@ -119,7 +139,36 @@ export function FinalizeOrderPage() {
                 </p>
               </div>
 
-              <div className="mt-5 grid gap-4">
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="final-bid-price"
+                    className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]"
+                  >
+                    Bid price / kg
+                  </label>
+                  <div className="mt-3 rounded-[28px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(251,247,239,0.96))] px-6 py-5 shadow-[0_16px_40px_rgba(46,41,31,0.06)]">
+                    <input
+                      id="final-bid-price"
+                      type="number"
+                      inputMode="decimal"
+                      min={openingBidFloor}
+                      step="0.01"
+                      value={bidPricePerKg}
+                      onChange={(event) => setBidPricePerKg(event.target.value)}
+                      className="w-full border-0 bg-transparent font-display text-[2.4rem] tracking-[-0.05em] text-[#173550] outline-none"
+                    />
+                    <span className="mt-2 block text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                      Opening floor: ${openingBidFloor.toFixed(2)} / kg
+                    </span>
+                    {!isBidPriceValid ? (
+                      <span className="mt-2 block text-[0.74rem] font-semibold text-[#8c3f2d]">
+                        Bid price must be at least the opening bid.
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+
                 <div>
                   <label
                     htmlFor="final-bid-quantity"
@@ -168,7 +217,8 @@ export function FinalizeOrderPage() {
               <div className="mt-5 grid gap-3">
                 <button
                   type="button"
-                  className="rounded-full bg-[linear-gradient(145deg,#b88b3c,#9f742c)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5"
+                  disabled={!isBidPriceValid || quantityValue <= 0}
+                  className="rounded-full bg-[linear-gradient(145deg,#b88b3c,#9f742c)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
                 >
                   Submit bid request
                 </button>
@@ -267,5 +317,16 @@ export function FinalizeOrderPage() {
         </section>
       </section>
     </motion.main>
+  );
+}
+
+function BidMeta({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-[22px] border border-[#e0d7c9] bg-white/76 px-4 py-4">
+      <span className="text-[0.64rem] font-extrabold uppercase tracking-[0.16em] text-[#8a7b65]">
+        {label}
+      </span>
+      <strong className="mt-2 block text-[1rem] tracking-[-0.02em] text-[#11283d]">{value}</strong>
+    </div>
   );
 }
