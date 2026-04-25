@@ -11,6 +11,7 @@ import { FinalizeOrderPage } from "./pages/FinalizeOrderPage";
 import { GetStartedPage } from "./pages/GetStartedPage";
 import { HomePage } from "./pages/HomePage";
 import { LiveRecyclerDashboardPage } from "./pages/LiveRecyclerDashboardPage";
+import { LiveBiddingTablePage } from "./pages/LiveBiddingTablePage";
 import { DashboardListingDetailPage } from "./pages/DashboardListingDetailPage";
 import { ListingDetailPage } from "./pages/ListingDetailPage";
 import { MarketplacePage } from "./pages/MarketplacePage";
@@ -54,6 +55,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/live-bids"
+            element={
+              <ProtectedRoute>
+                <LiveBiddingTablePage />
               </ProtectedRoute>
             }
           />

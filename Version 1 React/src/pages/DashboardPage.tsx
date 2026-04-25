@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ExtractionOutputNavigator } from "../components/dashboard/ExtractionOutputNavigator";
+import { LiveBiddingDashboard } from "../components/dashboard/LiveBiddingDashboard";
 import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
 import {
   dashboardBidListings,
@@ -137,18 +139,6 @@ export function DashboardPage() {
     buildExtractionRecommendations("")
   );
 
-  const ribbonCards = useMemo(
-    () =>
-      dashboardMaterialTiles.map((tile) => ({
-        id: tile.id,
-        title: tile.title,
-        href: tile.dashboardHref,
-        listings: dashboardBidListings.filter((listing) => listing.sourceId === tile.id).length,
-        description: dashboardSourceContent[tile.id].scrapTypes[0],
-      })),
-    []
-  );
-
   return (
     <motion.main className="page bg-transparent" {...pageMotionProps}>
       <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,175,103,0.16),transparent_24%),radial-gradient(circle_at_88%_12%,rgba(121,161,144,0.16),transparent_30%),linear-gradient(180deg,#fbf7ef_0%,#f4ebdb_56%,#f5efe4_100%)] pb-12 pt-28">
@@ -175,63 +165,39 @@ export function DashboardPage() {
       </section>
 
       <section className="shell section-gap pt-8">
-        <motion.article
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.12 }}
-          transition={{ duration: 0.5 }}
-          className="overflow-hidden rounded-[34px] border border-[#d9cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.95),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]"
-        >
-          <div className="flex flex-col gap-4 border-b border-[#e0d7c9] pb-5 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <p className="eyebrow !mb-0">Live bidding ribbon</p>
-              <h2 className="mt-2 font-display text-[2rem] leading-[0.98] tracking-[-0.05em] text-[#11283d]">
-                Open the live bidding table only when you want to work a specific feedstock stream.
-              </h2>
-              <p className="mt-3 max-w-[42rem] text-[0.98rem] leading-7 text-[#5a6a78]">
-                Each ribbon card opens the category-specific live bidding table with current lots,
-                staged ordering, and detail views for that scrap family.
-              </p>
-            </div>
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,0.72fr)]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.5 }}
+          >
+            <LiveBiddingDashboard listings={dashboardBidListings} />
+          </motion.div>
 
-            <div className="flex flex-wrap gap-3">
-              <span className="rounded-full border border-[#ddd4c7] bg-white/84 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
-                {dashboardBidListings.length} total live lots
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.12 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="space-y-4"
+          >
+            <ExtractionOutputNavigator />
+            <div className="rounded-[30px] border border-[#d9cfbf] bg-white/84 p-5 shadow-[0_20px_56px_rgba(46,41,31,0.06)]">
+              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+                Quick actions
               </span>
-              <Link className="button-ghost" to="/dashboard/checkout">
-                Review cart
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-6 grid gap-4 xl:grid-cols-5">
-            {ribbonCards.map((card, index) => (
-              <motion.div
-                key={card.id}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.12 }}
-                transition={{ duration: 0.42, delay: index * 0.05 }}
-              >
-                <Link
-                  to={card.href}
-                  className="group flex h-full flex-col rounded-[26px] border border-[#d9cfbf] bg-white/84 p-5 shadow-[0_20px_56px_rgba(46,41,31,0.06)] transition duration-300 hover:-translate-y-1.5 hover:border-[#b38a4e]"
-                >
-                  <span className="inline-flex w-fit rounded-full border border-[#ddd4c7] bg-[#f7f0e3] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8d6d39]">
-                    {card.listings} listings
-                  </span>
-                  <strong className="mt-4 block font-display text-[1.18rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
-                    {card.title}
-                  </strong>
-                  <p className="mt-3 text-[0.88rem] leading-7 text-[#5b6c7c]">{card.description}</p>
-                  <span className="mt-5 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
-                    Open live bidding table
-                  </span>
+              <div className="mt-4 flex flex-col gap-3">
+                <Link className="button-ghost justify-center" to="/dashboard/checkout">
+                  Review cart
                 </Link>
-              </motion.div>
-            ))}
-          </div>
-        </motion.article>
+                <Link className="button-ghost justify-center" to="/dashboard/live-bids">
+                  Open full table
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       <section className="shell pb-16">

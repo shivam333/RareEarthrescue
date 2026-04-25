@@ -156,6 +156,12 @@ export function FinalizeOrderPage() {
                       step="0.01"
                       value={bidPricePerKg}
                       onChange={(event) => setBidPricePerKg(event.target.value)}
+                      onBlur={() => {
+                        const nextValue = Number(bidPricePerKg || 0);
+                        if (!Number.isFinite(nextValue) || nextValue < openingBidFloor) {
+                          setBidPricePerKg(openingBidFloor.toFixed(2));
+                        }
+                      }}
                       className="w-full border-0 bg-transparent font-display text-[2.4rem] tracking-[-0.05em] text-[#173550] outline-none"
                     />
                     <span className="mt-2 block text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
