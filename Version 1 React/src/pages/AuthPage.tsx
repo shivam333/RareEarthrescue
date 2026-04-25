@@ -1,7 +1,8 @@
-import { SignIn, SignUp, UserButton, useAuth } from "@clerk/react";
+import { SignIn, UserButton, useAuth, useClerk, useUser } from "@clerk/react";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { normalizeAccountRole, persistDashboardMode, resolveActiveDashboardMode } from "../lib/accountRole";
 import { pageEnter } from "../lib/motion";
 import {
   getAuthRedirectTarget,
@@ -12,6 +13,7 @@ import {
 } from "../lib/site";
 
 type AuthMode = "sign-in" | "sign-up";
+type AuthRole = "supplier" | "recycler" | "both";
 
 const pageMotionProps = {
   variants: pageEnter,
@@ -65,16 +67,47 @@ const clerkAppearance = {
   },
 };
 
+function getClerkErrorMessage(error: any) {
+  return (
+    error?.errors?.[0]?.longMessage ||
+    error?.errors?.[0]?.message ||
+    error?.message ||
+    "We could not complete that authentication step."
+  );
+}
+
+function isExistingAccountError(error: any) {
+  return (error?.errors ?? []).some((issue: any) =>
+    ["form_identifier_exists", "form_identifier_exists__email_address"].includes(issue?.code)
+  );
+}
+
 export function AuthPage() {
   const { isLoaded, isSignedIn } = useAuth();
+  const clerk = useClerk();
+  const { user } = useUser();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentMode: AuthMode = searchParams.get("mode") === "sign-up" ? "sign-up" : "sign-in";
   const stepParam = searchParams.get("step");
   const redirectTarget = getAuthRedirectTarget(searchParams);
+  const signUp = isLoaded ? clerk.client?.signUp ?? null : null;
+  const isSignUpReady = Boolean(signUp);
 
-  const [activeRole, setActiveRole] = useState("");
+  const [activeRole, setActiveRole] = useState<AuthRole | "">("");
+  const [isSavingRole, setIsSavingRole] = useState(false);
+  const [signUpFields, setSignUpFields] = useState({
+    emailAddress: searchParams.get("email_address") || "",
+    password: "",
+    companyName: "",
+  });
+  const [verificationCode, setVerificationCode] = useState("");
+  const [pendingVerification, setPendingVerification] = useState(false);
+  const [signUpError, setSignUpError] = useState("");
+  const [signUpInfo, setSignUpInfo] = useState("");
+  const [isSubmittingSignUp, setIsSubmittingSignUp] = useState(false);
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
 
   useEffect(() => {
     document.body.dataset.authPage = "sign-in";
@@ -86,6 +119,14 @@ export function AuthPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (stepParam !== "role" || !user) return;
+
+    setActiveRole((currentRole) =>
+      currentRole || normalizeAccountRole(user.unsafeMetadata?.accountRole) || "recycler"
+    );
+  }, [stepParam, user]);
+
   const setMode = (mode: AuthMode) => {
     const params = new URLSearchParams(searchParams);
     params.set("mode", mode);
@@ -93,13 +134,28 @@ export function AuthPage() {
     setSearchParams(params, { replace: true });
   };
 
-  const continueWithRole = () => {
-    if (!activeRole) return;
+  const continueWithRole = async () => {
+    if (!activeRole || !user) return;
 
-    const nextTarget = normalizeRedirectPath(redirectTarget);
-    const nextUrl = new URL(nextTarget, window.location.origin);
-    nextUrl.searchParams.set("role", activeRole);
-    navigate(`${nextUrl.pathname}${nextUrl.search}`, { replace: true });
+    try {
+      setIsSavingRole(true);
+      await user.update({
+        unsafeMetadata: {
+          ...(user.unsafeMetadata ?? {}),
+          accountRole: activeRole,
+          initialAccountRole:
+            user.unsafeMetadata?.initialAccountRole ?? user.unsafeMetadata?.accountRole ?? activeRole,
+        },
+      });
+
+      persistDashboardMode(resolveActiveDashboardMode(activeRole));
+
+      const nextTarget = normalizeRedirectPath(redirectTarget);
+      const nextUrl = new URL(nextTarget, window.location.origin);
+      navigate(`${nextUrl.pathname}${nextUrl.search}`, { replace: true });
+    } finally {
+      setIsSavingRole(false);
+    }
   };
 
   const signInForceRedirectUrl = toAbsoluteAppUrl(redirectTarget);
@@ -111,6 +167,127 @@ export function AuthPage() {
     const email = searchParams.get("email_address") || "";
     return email ? { emailAddress: email } : undefined;
   }, [searchParams]);
+
+  const signInFeedback = useMemo(() => {
+    const message = searchParams.get("message");
+
+    if (message === "account-exists") {
+      return "That account already exists. Sign in to continue.";
+    }
+
+    return "";
+  }, [searchParams]);
+
+  const updateSignUpField = (field: "emailAddress" | "password" | "companyName", value: string) => {
+    setSignUpFields((current) => ({ ...current, [field]: value }));
+  };
+
+  const socialRedirectUrl = toAbsoluteAppUrl(
+    `/oauth-callback?redirect=${encodeURIComponent(redirectTarget)}`
+  );
+
+  const runSocialSignUp = async (strategy: "oauth_google" | "oauth_microsoft" | "oauth_linkedin_oidc") => {
+    if (!signUp) return;
+
+    setSignUpError("");
+
+    await signUp.authenticateWithRedirect({
+      strategy,
+      redirectUrl: socialRedirectUrl,
+      redirectUrlComplete: signUpRoleRedirectUrl,
+      continueSignIn: true,
+      continueSignUp: true,
+    });
+  };
+
+  const submitCustomSignUp = async () => {
+    if (!signUp) return;
+
+    const emailAddress = signUpFields.emailAddress.trim();
+    if (!emailAddress || !signUpFields.password) {
+      setSignUpError("Enter your work email and password to create an account.");
+      return;
+    }
+
+    try {
+      setIsSubmittingSignUp(true);
+      setSignUpError("");
+      setSignUpInfo("");
+
+      const signUpAttempt = await signUp.create({
+        emailAddress,
+        password: signUpFields.password,
+        unsafeMetadata: {
+          companyName: signUpFields.companyName.trim() || undefined,
+        },
+      });
+
+      if (signUpAttempt.status === "complete" && signUpAttempt.createdSessionId) {
+        await clerk.setActive({ session: signUpAttempt.createdSessionId });
+        navigate(`/sign-in?mode=sign-up&step=role&redirect_url=${encodeURIComponent(redirectTarget)}`, {
+          replace: true,
+        });
+        return;
+      }
+
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      setPendingVerification(true);
+      setSignUpInfo("We sent a verification code to your email. Enter it below to activate the account.");
+    } catch (error: any) {
+      if (isExistingAccountError(error)) {
+        navigate(
+          `/sign-in?mode=sign-in&message=account-exists&email_address=${encodeURIComponent(
+            emailAddress
+          )}&redirect_url=${encodeURIComponent(redirectTarget)}`,
+          { replace: true }
+        );
+        return;
+      }
+
+      setSignUpError(getClerkErrorMessage(error));
+    } finally {
+      setIsSubmittingSignUp(false);
+    }
+  };
+
+  const verifyEmailCode = async () => {
+    if (!signUp) return;
+
+    try {
+      setIsVerifyingEmail(true);
+      setSignUpError("");
+
+      const verificationAttempt = await signUp.attemptEmailAddressVerification({
+        code: verificationCode.trim(),
+      });
+
+      if (verificationAttempt.status !== "complete" || !verificationAttempt.createdSessionId) {
+        setSignUpError("We could not verify that code. Please check it and try again.");
+        return;
+      }
+
+      await clerk.setActive({ session: verificationAttempt.createdSessionId });
+      navigate(`/sign-in?mode=sign-up&step=role&redirect_url=${encodeURIComponent(redirectTarget)}`, {
+        replace: true,
+      });
+    } catch (error: any) {
+      setSignUpError(getClerkErrorMessage(error));
+    } finally {
+      setIsVerifyingEmail(false);
+    }
+  };
+
+  const resendVerificationCode = async () => {
+    if (!signUp) return;
+
+    try {
+      setSignUpError("");
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      setSignUpInfo("A fresh verification code has been sent to your email.");
+    } catch (error: any) {
+      setSignUpError(getClerkErrorMessage(error));
+    }
+  };
 
   return (
     <motion.main className="page" {...pageMotionProps}>
@@ -170,6 +347,11 @@ export function AuthPage() {
 
                   {currentMode === "sign-in" ? (
                     <div className="clerk-auth-root clerk-auth-root-compact">
+                      {signInFeedback ? (
+                        <div className="auth-feedback mb-4" data-tone="neutral">
+                          {signInFeedback}
+                        </div>
+                      ) : null}
                       <SignIn
                         routing="hash"
                         appearance={clerkAppearance}
@@ -194,20 +376,127 @@ export function AuthPage() {
                   {currentMode === "sign-up" ? (
                     <div className="custom-auth-step active">
                       <div className="rounded-[22px] border border-[#e3dacd] bg-white/58 px-4 py-3 text-sm leading-7 text-[#5d6c79]">
-                        Account setup stays lightweight here. Role selection and access-path choices
-                        happen after secure account creation so users can get through sign-up with less friction.
+                        Account creation stays lightweight here. Choose supplier, recycler, or both
+                        after secure sign-up is complete.
                       </div>
 
-                      <div className="clerk-auth-root clerk-auth-root-compact">
-                        <SignUp
-                          routing="hash"
-                          appearance={clerkAppearance}
-                          signInUrl={getSignInUrl()}
-                          fallbackRedirectUrl={signUpRoleRedirectUrl}
-                          forceRedirectUrl={signUpRoleRedirectUrl}
-                          oauthFlow="redirect"
-                        />
+                      <div className="grid gap-3 sm:grid-cols-3">
+                        {[
+                          { label: "Google", strategy: "oauth_google" as const },
+                          { label: "Microsoft", strategy: "oauth_microsoft" as const },
+                          { label: "LinkedIn", strategy: "oauth_linkedin_oidc" as const },
+                        ].map((provider) => (
+                          <button
+                            key={provider.label}
+                            type="button"
+                            onClick={() => runSocialSignUp(provider.strategy)}
+                            disabled={!isSignUpReady || isSubmittingSignUp || isVerifyingEmail}
+                            className="rounded-[20px] border border-[#ddd4c7] bg-white/86 px-4 py-4 text-[0.96rem] font-semibold text-[#2f3426] transition hover:bg-white disabled:opacity-60"
+                          >
+                            Continue with {provider.label}
+                          </button>
+                        ))}
                       </div>
+
+                      <div className="flex items-center gap-4 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+                        <span className="h-px flex-1 bg-[#e6ddcf]" />
+                        <span>or</span>
+                        <span className="h-px flex-1 bg-[#e6ddcf]" />
+                      </div>
+
+                      {signUpError ? (
+                        <div className="auth-feedback" data-tone="error">
+                          {signUpError}
+                        </div>
+                      ) : null}
+
+                      {signUpInfo ? (
+                        <div className="auth-feedback" data-tone="success">
+                          {signUpInfo}
+                        </div>
+                      ) : null}
+
+                      {!pendingVerification ? (
+                        <div className="grid gap-4">
+                          <label className="grid gap-2 text-left">
+                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                              Work email
+                            </span>
+                            <input
+                              type="email"
+                              value={signUpFields.emailAddress}
+                              onChange={(event) => updateSignUpField("emailAddress", event.target.value)}
+                              placeholder="name@company.com"
+                              className="min-h-[3.7rem] rounded-[20px] border border-[#ddd4c7] bg-white/88 px-4 text-[1rem] font-medium text-[#2f3426] outline-none"
+                            />
+                          </label>
+
+                          <label className="grid gap-2 text-left">
+                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                              Password
+                            </span>
+                            <input
+                              type="password"
+                              value={signUpFields.password}
+                              onChange={(event) => updateSignUpField("password", event.target.value)}
+                              placeholder="Create a secure password"
+                              className="min-h-[3.7rem] rounded-[20px] border border-[#ddd4c7] bg-white/88 px-4 text-[1rem] font-medium text-[#2f3426] outline-none"
+                            />
+                          </label>
+
+                          <label className="grid gap-2 text-left">
+                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                              Company name
+                            </span>
+                            <input
+                              type="text"
+                              value={signUpFields.companyName}
+                              onChange={(event) => updateSignUpField("companyName", event.target.value)}
+                              placeholder="Optional"
+                              className="min-h-[3.7rem] rounded-[20px] border border-[#ddd4c7] bg-white/88 px-4 text-[1rem] font-medium text-[#2f3426] outline-none"
+                            />
+                          </label>
+
+                          <button
+                            className={`button button-primary ${isSubmittingSignUp ? "is-disabled" : ""}`}
+                            type="button"
+                            onClick={submitCustomSignUp}
+                            disabled={isSubmittingSignUp}
+                          >
+                            {isSubmittingSignUp ? "Creating account..." : "Create Account"}
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="grid gap-4">
+                          <label className="grid gap-2 text-left">
+                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                              Email verification code
+                            </span>
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              value={verificationCode}
+                              onChange={(event) => setVerificationCode(event.target.value)}
+                              placeholder="Enter the code from your inbox"
+                              className="min-h-[3.7rem] rounded-[20px] border border-[#ddd4c7] bg-white/88 px-4 text-[1rem] font-medium text-[#2f3426] outline-none"
+                            />
+                          </label>
+
+                          <div className="auth-secondary-actions">
+                            <button
+                              className={`button button-primary ${isVerifyingEmail ? "is-disabled" : ""}`}
+                              type="button"
+                              onClick={verifyEmailCode}
+                              disabled={isVerifyingEmail}
+                            >
+                              {isVerifyingEmail ? "Verifying..." : "Verify Email"}
+                            </button>
+                            <button className="button button-secondary" type="button" onClick={resendVerificationCode}>
+                              Resend code
+                            </button>
+                          </div>
+                        </div>
+                      )}
 
                       <div className="auth-signup-links">
                         <Link className="ghost-link" to="/get-started">
@@ -229,11 +518,11 @@ export function AuthPage() {
                 </div>
 
                 <div className="role-selector">
-                  {[
+                  {([
                     { id: "supplier", title: "Supplier", copy: "List and sell feedstock." },
                     { id: "recycler", title: "Recycler", copy: "Discover and source materials." },
                     { id: "both", title: "Both", copy: "Operate on both sides of the network." },
-                  ].map((role) => (
+                  ] as { id: AuthRole; title: string; copy: string }[]).map((role) => (
                     <button
                       key={role.id}
                       className={`role-card ${activeRole === role.id ? "active" : ""}`}
@@ -248,12 +537,12 @@ export function AuthPage() {
 
                 <div className="auth-role-actions">
                   <button
-                    className={`button button-primary ${!activeRole ? "is-disabled" : ""}`}
+                    className={`button button-primary ${!activeRole || isSavingRole ? "is-disabled" : ""}`}
                     type="button"
                     onClick={continueWithRole}
-                    disabled={!activeRole}
+                    disabled={!activeRole || isSavingRole}
                   >
-                    Continue
+                    {isSavingRole ? "Saving..." : "Continue"}
                   </button>
                 </div>
               </div>

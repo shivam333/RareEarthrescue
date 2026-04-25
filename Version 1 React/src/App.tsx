@@ -3,6 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { AppShell } from "./components/layout/AppShell";
 import { AboutPage } from "./pages/AboutPage";
+import { AccountSettingsPage } from "./pages/AccountSettingsPage";
 import { AuthPage } from "./pages/AuthPage";
 import { ContactPage } from "./pages/ContactPage";
 import { CheckoutPage } from "./pages/CheckoutPage";
@@ -53,7 +54,7 @@ export default function App() {
           <Route
             path="/dashboard/checkout"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredMode="recycler">
                 <CheckoutPage />
               </ProtectedRoute>
             }
@@ -61,7 +62,7 @@ export default function App() {
           <Route
             path="/dashboard/live-bids"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredMode="recycler">
                 <LiveBiddingTablePage />
               </ProtectedRoute>
             }
@@ -69,7 +70,7 @@ export default function App() {
           <Route
             path="/dashboard/live/:sourceId"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredMode="recycler">
                 <LiveRecyclerDashboardPage />
               </ProtectedRoute>
             }
@@ -77,7 +78,7 @@ export default function App() {
           <Route
             path="/dashboard/live/:sourceId/listing/:listingId"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredMode="recycler">
                 <DashboardListingDetailPage />
               </ProtectedRoute>
             }
@@ -85,8 +86,16 @@ export default function App() {
           <Route
             path="/dashboard/place-order/:listingId"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredMode="recycler">
                 <FinalizeOrderPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/account"
+            element={
+              <ProtectedRoute>
+                <AccountSettingsPage />
               </ProtectedRoute>
             }
           />

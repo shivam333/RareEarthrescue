@@ -1,7 +1,9 @@
 import { UserButton, useAuth } from "@clerk/react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { navItems } from "../../data/marketplaceData";
+import { useAccountRole } from "../../hooks/useAccountRole";
 import { useRecyclerOrderBook } from "../../hooks/useRecyclerOrderBook";
+import { DashboardRoleSwitch } from "../dashboard/DashboardRoleSwitch";
 import { Button } from "../ui/Button";
 
 function BrandMark() {
@@ -18,7 +20,9 @@ export function Header() {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const { isLoaded, isSignedIn } = useAuth();
+  const { accountRole, activeMode, setActiveMode } = useAccountRole();
   const { totalItems, totalLots } = useRecyclerOrderBook();
+  const isDashboardRoute = location.pathname.startsWith("/dashboard");
 
   return (
     <header className="site-header">
@@ -53,6 +57,9 @@ export function Header() {
             </>
           ) : (
             <>
+              {isDashboardRoute && accountRole === "both" ? (
+                <DashboardRoleSwitch activeMode={activeMode} onChange={setActiveMode} compact />
+              ) : null}
               <Link
                 to="/dashboard/checkout"
                 className="inline-flex items-center gap-3 rounded-full border border-[#d8cfbf] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e]"
@@ -67,6 +74,9 @@ export function Header() {
               </Link>
               <Button href="/dashboard" variant="primary">
                 Dashboard
+              </Button>
+              <Button href="/dashboard/account" variant="ghost">
+                Account
               </Button>
               <div className="flex items-center">
                 <UserButton />
