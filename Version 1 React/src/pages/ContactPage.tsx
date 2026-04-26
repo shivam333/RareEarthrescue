@@ -16,7 +16,7 @@ export function ContactPage() {
       <section className="shell page-hero">
         <MotionItem>
           <p className="eyebrow">Talk to our team</p>
-          <h1 className="heading-1">Request a marketplace demo or discuss a live feedstock opportunity.</h1>
+          <h1 className="heading-1">Let us help you move a feedstock opportunity, sourcing need, or strategic request forward.</h1>
           <p className="lede">
             Connect with Rare Earth Rescue to list feedstock, join as a verified recycler, explore
             pricing intelligence, or discuss strategic secondary sourcing.
@@ -26,11 +26,13 @@ export function ContactPage() {
 
       <MotionSection className="section-gap shell contact-layout">
         <MotionItem className="form-panel panel">
-          <h2 className="heading-2">Request a demo</h2>
+          <h2 className="heading-2">Let us Help You</h2>
           <div className="form-grid mt-6">
             <Field label="Full name" defaultValue="Jordan Lee" />
             <Field label="Company" defaultValue="Continental Recovery Systems" />
             <Field label="Role" defaultValue="Director of Procurement" />
+            <Field label="Email ID" defaultValue="jordan.lee@continentalrecovery.com" />
+            <Field label="Contact number" defaultValue="+1 (312) 555-0188" />
             <SelectField
               label="Primary interest"
               options={["Buying feedstock", "Listing supply", "Pricing intelligence", "Strategic partnership"]}

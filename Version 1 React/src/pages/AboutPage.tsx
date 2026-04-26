@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { AppImage } from "../components/ui/AppImage";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
 import { SectionIntro } from "../components/ui/SectionIntro";
@@ -76,6 +77,37 @@ export function AboutPage() {
             We are building a marketplace, verification workflow, and procurement intelligence layer
             that helps rare-earth-bearing scrap move with more clarity, more trust, and more strategic value.
           </p>
+          <div className="group relative mt-8 inline-flex">
+            <div className="inline-flex items-center gap-3 rounded-full border border-[#DCE3EF] bg-white/88 px-5 py-3 shadow-[0_18px_42px_rgba(46,41,31,0.06)]">
+              <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                About ribbon
+              </span>
+              <span className="text-[0.9rem] font-semibold text-[#253B80]">Hover to explore</span>
+            </div>
+
+            <div className="pointer-events-none absolute left-0 top-full z-20 mt-3 min-w-[18rem] translate-y-2 rounded-[24px] border border-[#DCE3EF] bg-white/96 p-3 opacity-0 shadow-[0_24px_60px_rgba(46,41,31,0.08)] transition duration-200 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+              <Link
+                to="/about"
+                className="block rounded-[18px] border border-[#DCE3EF] bg-[#F6F8FC] px-4 py-3 transition hover:border-[#253B80]"
+              >
+                <span className="block text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#253B80]">
+                  What we do
+                </span>
+                <span className="mt-1 block text-[0.9rem] leading-6 text-[#6D7484]">
+                  Current company overview, thesis, and industry validation.
+                </span>
+              </Link>
+
+              <div className="mt-2 rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 opacity-80">
+                <span className="block text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                  Meet the team
+                </span>
+                <span className="mt-1 block text-[0.9rem] leading-6 text-[#6D7484]">
+                  Leadership and operating team view. Coming soon.
+                </span>
+              </div>
+            </div>
+          </div>
         </MotionItem>
       </section>
 

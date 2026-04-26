@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { DashboardRoleSwitch } from "../components/dashboard/DashboardRoleSwitch";
+import { ExtractionOutputNavigator } from "../components/dashboard/ExtractionOutputNavigator";
 import { LiveBiddingDashboard } from "../components/dashboard/LiveBiddingDashboard";
 import { MarketplaceIntelligenceSection } from "../components/dashboard/MarketplaceIntelligenceSection";
 import { MaterialTileGrid } from "../components/dashboard/MaterialTileGrid";
@@ -96,6 +97,9 @@ export function RecyclerDashboardPage({
                 </Link>
               </div>
             </div>
+
+            <ExtractionOutputNavigator mode="output" />
+            <ExtractionOutputNavigator mode="feedstock" />
           </motion.div>
         </div>
       </section>

@@ -203,6 +203,9 @@ export function NewsPage() {
 
                 <article className="rounded-[30px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(244,236,224,0.88))] p-6 shadow-[0_18px_50px_rgba(46,41,31,0.06)]">
                   <span className="badge">What this page covers</span>
+                  <p className="mt-3 max-w-[30rem] text-[0.88rem] leading-6 text-[#6D7484]">
+                    Public reports, policy actions, technical developments, and operator validation in one tighter stream.
+                  </p>
                   <div className="mt-4 grid gap-3">
                     {newsTracks.map((track) => (
                       <div key={track.title} className="rounded-[22px] border border-[#DCE3EF] bg-white/72 p-4">
@@ -220,15 +223,11 @@ export function NewsPage() {
         </section>
 
         <section className="shell section-gap pt-10">
-          <motion.div {...sectionTransition} className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <motion.div {...sectionTransition} className="max-w-4xl">
             <div className="max-w-3xl">
               <p className="eyebrow">Coverage</p>
               <h2 className="heading-2">A more detailed stream of public signals, technical developments, and operator validation.</h2>
             </div>
-            <p className="max-w-[24rem] text-[0.98rem] leading-7 text-[#6D7484]">
-              This is where public reports, technology developments, policy actions, and strategic
-              sourcing context live instead of interrupting the main homepage narrative.
-            </p>
           </motion.div>
 
           <div className="mt-8 grid gap-5 xl:grid-cols-3">
