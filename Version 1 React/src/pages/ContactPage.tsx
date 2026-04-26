@@ -46,8 +46,8 @@ export function ContactPage() {
           </div>
           <div className="hero-actions mt-6">
             <Button>Submit Request</Button>
-            <Button href="/marketplace" variant="secondary">
-              View Marketplace
+            <Button href="/our-offerings" variant="secondary">
+              View Our Offerings
             </Button>
           </div>
         </MotionItem>

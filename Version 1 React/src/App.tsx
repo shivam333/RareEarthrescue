@@ -15,9 +15,9 @@ import { LiveRecyclerDashboardPage } from "./pages/LiveRecyclerDashboardPage";
 import { LiveBiddingTablePage } from "./pages/LiveBiddingTablePage";
 import { DashboardListingDetailPage } from "./pages/DashboardListingDetailPage";
 import { ListingDetailPage } from "./pages/ListingDetailPage";
-import { MarketplacePage } from "./pages/MarketplacePage";
 import { NewsPage } from "./pages/NewsPage";
 import { OAuthCallbackPage } from "./pages/OAuthCallbackPage";
+import { OfferingsPage } from "./pages/OfferingsPage";
 import { PlanDetailPage } from "./pages/PlanDetailPage";
 import { RecyclerOnboardingPage } from "./pages/RecyclerOnboardingPage";
 import { SourceMarketplacePage } from "./pages/SourceMarketplacePage";
@@ -34,7 +34,8 @@ export default function App() {
           <Route path="/get-started" element={<GetStartedPage />} />
           <Route path="/sign-in" element={<AuthPage />} />
           <Route path="/oauth-callback" element={<OAuthCallbackPage />} />
-          <Route path="/marketplace" element={<MarketplacePage />} />
+          <Route path="/our-offerings" element={<OfferingsPage />} />
+          <Route path="/marketplace" element={<OfferingsPage />} />
           <Route path="/marketplace/source/:sourceId" element={<SourceMarketplacePage />} />
           <Route path="/plans/:planSlug/:role" element={<PlanDetailPage />} />
           <Route path="/news" element={<NewsPage />} />

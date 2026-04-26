@@ -45,7 +45,7 @@ export type PricingWidget =
 
 export const navItems = [
   { label: "Home", href: "/" },
-  { label: "Product", href: "/marketplace" },
+  { label: "Our Offerings", href: "/our-offerings" },
   { label: "About", href: "/about" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },

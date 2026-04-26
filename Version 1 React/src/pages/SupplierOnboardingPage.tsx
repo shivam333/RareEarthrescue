@@ -71,8 +71,8 @@ export function SupplierOnboardingPage() {
 
           <div className="hero-actions mt-6">
             <Button href="/contact">Continue to Verification</Button>
-            <Button href="/marketplace" variant="secondary">
-              Preview Marketplace
+            <Button href="/our-offerings" variant="secondary">
+              View Our Offerings
             </Button>
           </div>
         </MotionItem>

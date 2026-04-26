@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 const groups = [
   {
-    title: "Marketplace",
+    title: "Offerings",
     links: [
-      { label: "Listings", href: "/marketplace" },
+      { label: "Our Offerings", href: "/our-offerings" },
       { label: "Listing Detail", href: "/listing/ndfeb-texas-18mt" },
       { label: "Dashboard Preview", href: "/dashboard" },
     ],
