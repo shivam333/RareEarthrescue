@@ -246,9 +246,9 @@ function getTrendPath(points: TrendPoint[]) {
 }
 
 function toneClasses(tone: NetworkNode["tone"]) {
-  if (tone === "green") return "fill-[#6e9879]";
-  if (tone === "blue") return "fill-[#264862]";
-  return "fill-[#b88b3c]";
+  if (tone === "green") return "fill-[#3654A3]";
+  if (tone === "blue") return "fill-[#253B80]";
+  return "fill-[#D9C47A]";
 }
 
 export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMode }) {
@@ -265,18 +265,18 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.12 }}
         transition={{ duration: 0.5 }}
-        className="rounded-[34px] border border-[#d9cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.97),rgba(244,236,224,0.92))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-8"
+        className="rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.97),rgba(244,236,224,0.92))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-8"
       >
-        <div className="flex flex-col gap-5 border-b border-[#e0d7c9] pb-6 xl:flex-row xl:items-end xl:justify-between">
+        <div className="flex flex-col gap-5 border-b border-[#DCE3EF] pb-6 xl:flex-row xl:items-end xl:justify-between">
           <div className="max-w-4xl">
             <p className="eyebrow !mb-0">{config.eyebrow}</p>
-            <h2 className="mt-2 max-w-[18ch] font-display text-[clamp(2rem,3.2vw,3.25rem)] leading-[0.95] tracking-[-0.06em] text-[#11283d]">
+            <h2 className="mt-2 max-w-[18ch] font-display text-[clamp(2rem,3.2vw,3.25rem)] leading-[0.95] tracking-[-0.06em] text-[#0F1115]">
               {config.title}
             </h2>
-            <p className="mt-4 max-w-[52rem] text-[0.98rem] leading-8 text-[#556576]">{config.body}</p>
+            <p className="mt-4 max-w-[52rem] text-[0.98rem] leading-8 text-[#6D7484]">{config.body}</p>
           </div>
 
-          <div className="inline-flex w-fit items-center rounded-full border border-[#d8cfbf] bg-white/82 p-1 shadow-[0_16px_36px_rgba(46,41,31,0.05)]">
+          <div className="inline-flex w-fit items-center rounded-full border border-[#DCE3EF] bg-white/82 p-1 shadow-[0_16px_36px_rgba(46,41,31,0.05)]">
             {timeframes.map((option) => {
               const isActive = timeframe === option.id;
 
@@ -287,8 +287,8 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
                   onClick={() => setTimeframe(option.id)}
                   className={`rounded-full px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] transition ${
                     isActive
-                      ? "bg-[#173550] text-white shadow-[0_10px_26px_rgba(23,53,80,0.18)]"
-                      : "text-[#6d7680] hover:bg-[#f3ecdf] hover:text-[#173550]"
+                      ? "bg-[#253B80] text-white shadow-[0_10px_26px_rgba(23,53,80,0.18)]"
+                      : "text-[#6D7484] hover:bg-[#F6F8FC] hover:text-[#253B80]"
                   }`}
                 >
                   {option.label}
@@ -301,54 +301,54 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
         <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)]">
           <div className="grid gap-6">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-              <article className="rounded-[28px] border border-[#ddd4c7] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
-                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+              <article className="rounded-[28px] border border-[#DCE3EF] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
+                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                   {config.decisionLabel}
                 </span>
-                <strong className="mt-3 block font-display text-[1.7rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
+                <strong className="mt-3 block font-display text-[1.7rem] leading-[1.02] tracking-[-0.05em] text-[#0F1115]">
                   {config.recommendedMaterial}
                 </strong>
-                <p className="mt-4 text-[0.94rem] leading-7 text-[#556576]">{config.recommendationReason}</p>
+                <p className="mt-4 text-[0.94rem] leading-7 text-[#6D7484]">{config.recommendationReason}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {config.commoditySignals.map((signal) => (
                     <span
                       key={signal}
-                      className="rounded-full border border-[#ddd4c7] bg-[rgba(245,238,226,0.86)] px-3 py-2 text-[0.7rem] font-bold uppercase tracking-[0.12em] text-[#173550]"
+                      className="rounded-full border border-[#DCE3EF] bg-[rgba(245,238,226,0.86)] px-3 py-2 text-[0.7rem] font-bold uppercase tracking-[0.12em] text-[#253B80]"
                     >
                       {signal}
                     </span>
                   ))}
                 </div>
-                <div className="mt-5 inline-flex rounded-full bg-[linear-gradient(145deg,#b88b3c,#9f742c)] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-white shadow-[0_12px_28px_rgba(184,139,60,0.2)]">
+                <div className="mt-5 inline-flex rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-white shadow-[0_12px_28px_rgba(184,139,60,0.2)]">
                   {config.confidence}
                 </div>
               </article>
 
-              <article className="rounded-[28px] border border-[#ddd4c7] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
+              <article className="rounded-[28px] border border-[#DCE3EF] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
                 <div className="flex flex-wrap items-end justify-between gap-4">
                   <div>
-                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                       Transaction tracker
                     </span>
-                    <strong className="mt-2 block font-display text-[1.7rem] tracking-[-0.05em] text-[#11283d]">
+                    <strong className="mt-2 block font-display text-[1.7rem] tracking-[-0.05em] text-[#0F1115]">
                       {snapshot.quantity}
                     </strong>
                   </div>
                   <div className="text-right">
-                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                       Transacted amount
                     </span>
-                    <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.05em] text-[#173550]">
+                    <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.05em] text-[#253B80]">
                       {snapshot.amount}
                     </strong>
                   </div>
                 </div>
-                <p className="mt-3 text-[0.88rem] leading-7 text-[#6a756f]">{snapshot.subtitle}</p>
-                <div className="mt-5 overflow-hidden rounded-[24px] border border-[#e4dbcd] bg-[linear-gradient(180deg,rgba(249,245,238,0.95),rgba(255,255,255,0.9))] p-4">
+                <p className="mt-3 text-[0.88rem] leading-7 text-[#6D7484]">{snapshot.subtitle}</p>
+                <div className="mt-5 overflow-hidden rounded-[24px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(249,245,238,0.95),rgba(255,255,255,0.9))] p-4">
                   <svg viewBox="0 0 100 80" className="h-40 w-full" preserveAspectRatio="none">
                     <defs>
                       <linearGradient id={`trend-${mode}`} x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%" stopColor={mode === "recycler" ? "#173550" : "#6e9879"} stopOpacity="0.3" />
+                        <stop offset="0%" stopColor={mode === "recycler" ? "#253B80" : "#3654A3"} stopOpacity="0.3" />
                         <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
                       </linearGradient>
                     </defs>
@@ -358,7 +358,7 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
                       return (
                         <g key={point.label}>
                           <line x1={x} x2={x} y1="12" y2="76" stroke="rgba(23,53,80,0.08)" strokeDasharray="3 5" />
-                          <text x={x} y="79" textAnchor="middle" className="fill-[#8a7b65] text-[4px] font-bold uppercase tracking-[0.18em]">
+                          <text x={x} y="79" textAnchor="middle" className="fill-[#6D7484] text-[4px] font-bold uppercase tracking-[0.18em]">
                             {point.label}
                           </text>
                         </g>
@@ -368,7 +368,7 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
                     <path
                       d={trendPath}
                       fill="none"
-                      stroke={mode === "recycler" ? "#173550" : "#6e9879"}
+                      stroke={mode === "recycler" ? "#253B80" : "#3654A3"}
                       strokeWidth="2.4"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -379,18 +379,18 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
             </div>
 
             <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-              <article className="rounded-[28px] border border-[#ddd4c7] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
-                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+              <article className="rounded-[28px] border border-[#DCE3EF] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
+                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                   Average bid spread by category
                 </span>
                 <div className="mt-5 space-y-4">
                   {config.spreadData.map((item) => (
                     <div key={item.label}>
-                      <div className="flex items-center justify-between gap-4 text-[0.84rem] leading-6 text-[#556576]">
+                      <div className="flex items-center justify-between gap-4 text-[0.84rem] leading-6 text-[#6D7484]">
                         <span>{item.label}</span>
-                        <span className="font-bold text-[#173550]">{item.value}%</span>
+                        <span className="font-bold text-[#253B80]">{item.value}%</span>
                       </div>
-                      <div className="mt-2 h-2.5 rounded-full bg-[#efe7da]">
+                      <div className="mt-2 h-2.5 rounded-full bg-[#F6F8FC]">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${(item.value / maxSpread) * 100}%` }}
@@ -398,8 +398,8 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
                           transition={{ duration: 0.5 }}
                           className={`h-full rounded-full ${
                             item.value === maxSpread
-                              ? "bg-[linear-gradient(145deg,#b88b3c,#9f742c)]"
-                              : "bg-[linear-gradient(145deg,#173550,#2d5677)]"
+                              ? "bg-[linear-gradient(145deg,#D9C47A,#C8AA48)]"
+                              : "bg-[linear-gradient(145deg,#253B80,#3654A3)]"
                           }`}
                         />
                       </div>
@@ -408,26 +408,26 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
                 </div>
               </article>
 
-              <article className="rounded-[28px] border border-[#ddd4c7] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
-                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+              <article className="rounded-[28px] border border-[#DCE3EF] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
+                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                   Hot {mode === "recycler" ? "products" : "listing lanes"}
                 </span>
                 <div className="mt-5 grid gap-4">
                   {config.hotProducts.map((product, index) => (
                     <div
                       key={product.name}
-                      className="rounded-[22px] border border-[#e3dacd] bg-[linear-gradient(180deg,rgba(250,246,239,0.95),rgba(255,255,255,0.9))] p-4"
+                      className="rounded-[22px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(250,246,239,0.95),rgba(255,255,255,0.9))] p-4"
                     >
                       <div className="flex items-start justify-between gap-4">
-                        <strong className="font-display text-[1.06rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
+                        <strong className="font-display text-[1.06rem] leading-[1.02] tracking-[-0.04em] text-[#0F1115]">
                           {product.name}
                         </strong>
-                        <span className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-[#8d6d39]">
+                        <span className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-[#C8AA48]">
                           0{index + 1}
                         </span>
                       </div>
-                      <p className="mt-3 text-[0.88rem] leading-7 text-[#556576]">{product.subtext}</p>
-                      <span className="mt-3 inline-flex rounded-full border border-[#ddd4c7] bg-white/82 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
+                      <p className="mt-3 text-[0.88rem] leading-7 text-[#6D7484]">{product.subtext}</p>
+                      <span className="mt-3 inline-flex rounded-full border border-[#DCE3EF] bg-white/82 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
                         {product.momentum}
                       </span>
                     </div>
@@ -437,16 +437,16 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
             </div>
           </div>
 
-          <article className="rounded-[28px] border border-[#ddd4c7] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
-            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+          <article className="rounded-[28px] border border-[#DCE3EF] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
+            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
               {config.mapTitle}
             </span>
-            <strong className="mt-3 block font-display text-[1.45rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
+            <strong className="mt-3 block font-display text-[1.45rem] leading-[1.02] tracking-[-0.04em] text-[#0F1115]">
               North American recovery corridors
             </strong>
-            <p className="mt-3 text-[0.94rem] leading-7 text-[#556576]">{config.mapBody}</p>
+            <p className="mt-3 text-[0.94rem] leading-7 text-[#6D7484]">{config.mapBody}</p>
 
-            <div className="mt-5 overflow-hidden rounded-[24px] border border-[#e4dbcd] bg-[linear-gradient(180deg,rgba(249,245,238,0.95),rgba(255,255,255,0.9))] p-4">
+            <div className="mt-5 overflow-hidden rounded-[24px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(249,245,238,0.95),rgba(255,255,255,0.9))] p-4">
               <svg viewBox="0 0 220 170" className="h-[280px] w-full" preserveAspectRatio="xMidYMid meet">
                 <path
                   d="M24 94C42 67 65 48 88 38c22-10 44-14 63-10 15 3 27 11 39 23 13 14 18 31 15 50-4 18-17 31-38 38-21 8-44 10-71 7-29-4-52-15-68-35-9-11-11-27-3-43Z"
@@ -478,7 +478,7 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
                   cx="86"
                   cy="101"
                   r="3"
-                  fill="#173550"
+                  fill="#253B80"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1, x: [0, 44, 91], y: [0, -13, -4] }}
                   viewport={{ once: false, amount: 0.2 }}
@@ -488,7 +488,7 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
                   cx="64"
                   cy="124"
                   r="3"
-                  fill="#b88b3c"
+                  fill="#D9C47A"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1, x: [0, 51, 102], y: [0, -25, -28] }}
                   viewport={{ once: false, amount: 0.2 }}
@@ -501,7 +501,7 @@ export function MarketplaceIntelligenceSection({ mode }: { mode: IntelligenceMod
               {config.networkNotes.map((note) => (
                 <div
                   key={note}
-                  className="rounded-[20px] border border-[#e3dacd] bg-[rgba(251,247,239,0.9)] px-4 py-3 text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#173550]"
+                  className="rounded-[20px] border border-[#DCE3EF] bg-[rgba(251,247,239,0.9)] px-4 py-3 text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#253B80]"
                 >
                   {note}
                 </div>

@@ -53,7 +53,7 @@ function lineOption() {
         smooth: true,
         data: [168, 158, 136, 122, 96, 82],
         symbol: "none",
-        lineStyle: { width: 3.5, color: "#b88b31" },
+        lineStyle: { width: 3.5, color: "#C8AA48" },
         areaStyle: {
           color: {
             type: "linear",
@@ -88,7 +88,7 @@ function barOption() {
         data: [54, 76, 96, 108, 86],
         barWidth: 28,
         itemStyle: {
-          color: "#9caf81",
+          color: "#DDF1E8",
           borderRadius: [8, 8, 0, 0],
         },
       },
@@ -119,7 +119,7 @@ function flowMapOption() {
         effect: {
           show: true,
           symbolSize: 5,
-          color: "#b88b3c",
+          color: "#D9C47A",
           trailLength: 0.08,
           constantSpeed: 22,
         },
@@ -135,7 +135,7 @@ function flowMapOption() {
         rippleEffect: { scale: 3.4, brushType: "stroke" },
         itemStyle: {
           color: (params: { dataIndex: number }) =>
-            params.dataIndex === 1 ? "#92aa74" : "#c1933b",
+            params.dataIndex === 1 ? "#DDF1E8" : "#D9C47A",
         },
         symbolSize: 10,
       },
@@ -154,12 +154,12 @@ export function ExecutiveInsightsGrid({ cards }: { cards: InsightCard[] }) {
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.45, delay: index * 0.06 }}
         >
-          <ShadCard className="h-full border-[#e2d8c9] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(249,244,236,0.86))]">
+          <ShadCard className="h-full border-[#F6F8FC] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(249,244,236,0.86))]">
             <ShadCardHeader className="pb-4">
-              <div className="text-[2.6rem] font-display leading-none tracking-[-0.08em] text-[#11283d] sm:text-[3.1rem]">
+              <div className="text-[2.6rem] font-display leading-none tracking-[-0.08em] text-[#0F1115] sm:text-[3.1rem]">
                 {card.value}
               </div>
-              <ShadCardDescription className="text-[0.76rem] font-bold uppercase tracking-[0.22em] text-[#8b7d6a]">
+              <ShadCardDescription className="text-[0.76rem] font-bold uppercase tracking-[0.22em] text-[#6D7484]">
                 {card.label}
               </ShadCardDescription>
             </ShadCardHeader>
@@ -185,10 +185,10 @@ export function ExecutiveInsightsGrid({ cards }: { cards: InsightCard[] }) {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true, amount: 0.4 }}
                       transition={{ duration: 0.35, delay: pointIndex * 0.06 }}
-                      className="flex items-center justify-between rounded-[18px] bg-[#eef2ec] px-4 py-3 text-[0.92rem] text-[#5a6a78]"
+                      className="flex items-center justify-between rounded-[18px] bg-[#DDF1E8] px-4 py-3 text-[0.92rem] text-[#6D7484]"
                     >
                       <span>{point.label}</span>
-                      <strong className="font-semibold text-[#173550]">{point.value}</strong>
+                      <strong className="font-semibold text-[#253B80]">{point.value}</strong>
                     </motion.div>
                   ))}
                 </div>

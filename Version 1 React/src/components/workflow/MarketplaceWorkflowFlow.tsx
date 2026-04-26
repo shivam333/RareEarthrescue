@@ -29,13 +29,13 @@ function WorkflowNode(props: NodeProps) {
   const data = props.data as WorkflowNodeData;
   return (
     <div>
-      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#ddcfbc] bg-white/88 font-display text-sm font-bold text-[#9a7337]">
+      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#DCE3EF] bg-white/88 font-display text-sm font-bold text-[#C8AA48]">
         {data.step}
       </span>
-      <strong className="mt-4 block font-display text-[1.02rem] tracking-[-0.03em] text-[#11283d]">
+      <strong className="mt-4 block font-display text-[1.02rem] tracking-[-0.03em] text-[#0F1115]">
         {data.title}
       </strong>
-      <p className="mt-3 text-sm leading-7 text-[#5d6c79]">{data.body}</p>
+      <p className="mt-3 text-sm leading-7 text-[#6D7484]">{data.body}</p>
     </div>
   );
 }
@@ -68,9 +68,9 @@ function buildEdges(steps: ReadonlyArray<WorkflowStep>): Edge[] {
     target: String(index + 2),
     type: "smoothstep",
     animated: true,
-    markerEnd: { type: MarkerType.ArrowClosed, color: "#b88b3c" },
+    markerEnd: { type: MarkerType.ArrowClosed, color: "#D9C47A" },
     style: {
-      stroke: "#b88b3c",
+      stroke: "#D9C47A",
       strokeWidth: 2.2,
     },
   }));
@@ -93,18 +93,18 @@ export function MarketplaceWorkflowFlow({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.45 }}
-      className="overflow-hidden rounded-[30px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(244,236,224,0.88))] shadow-[0_24px_80px_rgba(46,41,31,0.08)]"
+      className="overflow-hidden rounded-[30px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(244,236,224,0.88))] shadow-[0_24px_80px_rgba(46,41,31,0.08)]"
     >
-      <div className="flex items-center justify-between border-b border-[#e0d7c9] px-5 py-4">
+      <div className="flex items-center justify-between border-b border-[#DCE3EF] px-5 py-4">
         <div>
-          <p className="text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[#8a7b65]">
+          <p className="text-[0.72rem] font-bold uppercase tracking-[0.18em] text-[#6D7484]">
             Workflow diagram
           </p>
-          <h3 className="mt-2 font-display text-[1.2rem] tracking-[-0.04em] text-[#2f3426]">
+          <h3 className="mt-2 font-display text-[1.2rem] tracking-[-0.04em] text-[#0F1115]">
             {audienceLabel}
           </h3>
         </div>
-        <span className="rounded-full border border-[#ddd4c7] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#8d6d39]">
+        <span className="rounded-full border border-[#DCE3EF] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#C8AA48]">
           React Flow
         </span>
       </div>
@@ -130,7 +130,7 @@ export function MarketplaceWorkflowFlow({
               pannable={false}
               zoomable={false}
               className="!hidden xl:!block"
-              nodeColor={() => "#d6c5aa"}
+              nodeColor={() => "#D9C47A"}
               maskColor="rgba(255,250,242,0.78)"
             />
             <Controls showInteractive={false} className="!shadow-none" />

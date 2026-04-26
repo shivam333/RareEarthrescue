@@ -1,22 +1,22 @@
 :root {
-  --bg: #faf5ea;
-  --bg-soft: #f1e7d6;
-  --panel: rgba(255, 250, 242, 0.88);
-  --panel-strong: #fffaf2;
-  --panel-soft: rgba(247, 240, 228, 0.82);
-  --line: rgba(104, 90, 59, 0.12);
-  --line-strong: rgba(104, 90, 59, 0.2);
-  --text: #2f3426;
-  --muted: #6f6b57;
-  --primary: #b88b3c;
-  --primary-strong: #9f742c;
-  --accent: #6f8a55;
-  --accent-soft: rgba(111, 138, 85, 0.14);
-  --accent-red: #c26a73;
-  --gold: #b78d43;
-  --danger: #c67869;
-  --success: #6f8a55;
-  --shadow: 0 24px 80px rgba(87, 68, 35, 0.12);
+  --bg: #ffffff;
+  --bg-soft: #f6f8fc;
+  --panel: rgba(255, 255, 255, 0.9);
+  --panel-strong: #ffffff;
+  --panel-soft: rgba(246, 248, 252, 0.84);
+  --line: rgba(37, 59, 128, 0.12);
+  --line-strong: rgba(37, 59, 128, 0.22);
+  --text: #0f1115;
+  --muted: #6d7484;
+  --primary: #253b80;
+  --primary-strong: #3654a3;
+  --accent: #c8aa48;
+  --accent-soft: rgba(221, 241, 232, 0.92);
+  --accent-red: #6D7484;
+  --gold: #c8aa48;
+  --danger: #6D7484;
+  --success: #253b80;
+  --shadow: 0 24px 80px rgba(37, 59, 128, 0.1);
   --radius-xl: 32px;
   --radius-lg: 22px;
   --radius-md: 16px;
@@ -35,11 +35,11 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--text);
-  font-family: "Manrope", sans-serif;
+  font-family: "Aptos", "Segoe UI", system-ui, sans-serif;
   background:
-    radial-gradient(circle at 10% 0%, rgba(184, 139, 60, 0.12), transparent 28%),
-    radial-gradient(circle at 90% 10%, rgba(111, 138, 85, 0.1), transparent 24%),
-    linear-gradient(180deg, #fffaf2 0%, #f5ecdc 100%);
+    radial-gradient(circle at 10% 0%, rgba(221, 241, 232, 0.88), transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(37, 59, 128, 0.08), transparent 24%),
+    linear-gradient(180deg, #ffffff 0%, #f6f8fc 100%);
 }
 
 img {
@@ -100,8 +100,8 @@ button {
   width: 52px;
   height: 52px;
   border-radius: 18px;
-  border: 1px solid rgba(184, 139, 60, 0.22);
-  background: linear-gradient(145deg, rgba(184, 139, 60, 0.12), rgba(111, 138, 85, 0.1));
+  border: 1px solid rgba(37, 59, 128, 0.16);
+  background: linear-gradient(145deg, rgba(221, 241, 232, 0.94), rgba(246, 248, 252, 0.92));
 }
 
 .brand-mark svg {
@@ -144,7 +144,7 @@ h4,
 .timeline-step strong,
 .widget-value,
 .modal-card strong {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Aptos Display", "Aptos", "Segoe UI", system-ui, sans-serif;
   letter-spacing: -0.03em;
 }
 
@@ -254,7 +254,7 @@ h4,
 .badge {
   padding: 7px 12px;
   background: rgba(111, 138, 85, 0.16);
-  color: #5b7444;
+  color: #253B80;
   font-size: 0.76rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -907,7 +907,7 @@ body.home-page.fullpage-enabled .hero {
   height: 42px;
   border-radius: 14px;
   background: linear-gradient(145deg, rgba(184, 139, 60, 0.16), rgba(111, 138, 85, 0.12));
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Aptos Display", sans-serif;
   font-size: 0.96rem;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -957,7 +957,7 @@ body.home-page.fullpage-enabled .hero {
   outline: none;
   border-color: rgba(184, 139, 60, 0.44);
   box-shadow: 0 0 0 4px rgba(184, 139, 60, 0.12);
-  background: #fffdf8;
+  background: #FFFFFF;
 }
 
 .auth-code-input {
@@ -980,13 +980,13 @@ body.home-page.fullpage-enabled .hero {
 .auth-feedback[data-tone="error"] {
   border-color: rgba(198, 120, 105, 0.28);
   background: rgba(198, 120, 105, 0.12);
-  color: #8c473c;
+  color: #C8AA48;
 }
 
 .auth-feedback[data-tone="success"] {
   border-color: rgba(111, 138, 85, 0.26);
   background: rgba(111, 138, 85, 0.14);
-  color: #50663a;
+  color: #253B80;
 }
 
 .auth-feedback[data-tone="neutral"] {
@@ -1160,7 +1160,7 @@ body.home-page.fullpage-enabled .hero {
 
 .pricing-card-kicker-featured {
   background: rgba(111, 138, 85, 0.14);
-  color: #4b6540;
+  color: #253B80;
 }
 
 .pricing-card-header {
@@ -1180,7 +1180,7 @@ body.home-page.fullpage-enabled .hero {
 }
 
 .pricing-card-value {
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Aptos Display", sans-serif;
   font-size: clamp(2rem, 3vw, 3rem);
   line-height: 1;
   letter-spacing: -0.06em;
@@ -1220,7 +1220,7 @@ body.home-page.fullpage-enabled .hero {
   margin-top: 2px;
   border-radius: 999px;
   background: rgba(111, 138, 85, 0.14);
-  color: #4b6540;
+  color: #253B80;
   font-size: 0.8rem;
   font-weight: 900;
 }
@@ -1254,7 +1254,7 @@ body.home-page.fullpage-enabled .hero {
 }
 
 .pricing-card-link-featured {
-  color: #4b6540;
+  color: #253B80;
 }
 
 .plan-faq-shell {
@@ -1418,7 +1418,7 @@ body.home-page.fullpage-enabled .hero {
   border-radius: 999px;
   background: rgba(255, 251, 244, 0.95);
   color: var(--text);
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Aptos Display", sans-serif;
   font-size: 0.98rem;
   font-weight: 800;
 }
@@ -1466,7 +1466,7 @@ body.home-page.fullpage-enabled .hero {
 .plan-visual-chip-featured {
   background: rgba(111, 138, 85, 0.12);
   border-color: rgba(111, 138, 85, 0.18);
-  color: #4b6540;
+  color: #253B80;
 }
 
 .tier-showcase-card-services {
@@ -1836,7 +1836,7 @@ body.home-page.fullpage-enabled .hero {
   border-radius: 50%;
   background: linear-gradient(145deg, rgba(184, 139, 60, 0.16), rgba(111, 138, 85, 0.12));
   border: 1px solid rgba(184, 139, 60, 0.24);
-  font-family: "Plus Jakarta Sans", sans-serif;
+  font-family: "Aptos Display", sans-serif;
   font-size: 1.02rem;
   letter-spacing: -0.03em;
 }
@@ -2308,7 +2308,7 @@ body.home-page.fullpage-enabled .hero {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #a6edd1;
+  color: #DDF1E8;
   font-size: 0.84rem;
 }
 

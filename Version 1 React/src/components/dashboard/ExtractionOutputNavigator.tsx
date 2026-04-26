@@ -1,15 +1,15 @@
 export function ExtractionOutputNavigator() {
   return (
-    <article className="relative overflow-hidden rounded-[34px] border border-[#d9cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.92))] p-6 shadow-[0_24px_72px_rgba(46,41,31,0.07)]">
+    <article className="relative overflow-hidden rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.92))] p-6 shadow-[0_24px_72px_rgba(46,41,31,0.07)]">
       <div className="absolute right-[-3rem] top-[-2rem] h-28 w-28 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.18),transparent_70%)] blur-2xl" />
       <div className="absolute bottom-[-2rem] left-[-2rem] h-24 w-24 rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.16),transparent_72%)] blur-2xl" />
 
       <div className="relative z-10">
         <p className="eyebrow !mb-0">Extraction output navigator</p>
-        <h3 className="mt-2 font-display text-[1.55rem] leading-[1.02] tracking-[-0.05em] text-[#11283d]">
+        <h3 className="mt-2 font-display text-[1.55rem] leading-[1.02] tracking-[-0.05em] text-[#0F1115]">
           From scrap input to extractable output.
         </h3>
-        <p className="mt-3 max-w-[28rem] text-[0.92rem] leading-7 text-[#5a6a78]">
+        <p className="mt-3 max-w-[28rem] text-[0.92rem] leading-7 text-[#6D7484]">
           A quick visual guide to how listed feedstock moves through recovery logic into metal outputs.
         </p>
 
@@ -17,19 +17,19 @@ export function ExtractionOutputNavigator() {
           <FlowNode
             title="Input"
             body="Motors, HDDs, MRI systems, robotics"
-            tone="bg-[#173550] text-white"
+            tone="bg-[#253B80] text-white"
           />
           <FlowArrow />
           <FlowNode
             title="Processing"
             body="Sorting, teardown, verification, extraction"
-            tone="bg-[#eef4ef] text-[#173550]"
+            tone="bg-[#DDF1E8] text-[#253B80]"
           />
           <FlowArrow />
           <FlowNode
             title="Output"
             body="NdPr, SmCo, copper, steel, aluminum"
-            tone="bg-[#f4ead8] text-[#173550]"
+            tone="bg-[#F6F8FC] text-[#253B80]"
           />
         </div>
       </div>
@@ -47,7 +47,7 @@ function FlowNode({
   tone: string;
 }) {
   return (
-    <div className={`rounded-[24px] border border-[#ddd4c7] px-5 py-4 shadow-[0_14px_34px_rgba(46,41,31,0.05)] ${tone}`}>
+    <div className={`rounded-[24px] border border-[#DCE3EF] px-5 py-4 shadow-[0_14px_34px_rgba(46,41,31,0.05)] ${tone}`}>
       <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] opacity-80">
         {title}
       </span>
@@ -59,7 +59,7 @@ function FlowNode({
 function FlowArrow() {
   return (
     <div className="flex justify-center">
-      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#ddd4c7] bg-white/84 text-[1rem] text-[#8d6d39] shadow-[0_10px_24px_rgba(46,41,31,0.04)]">
+      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#DCE3EF] bg-white/84 text-[1rem] text-[#C8AA48] shadow-[0_10px_24px_rgba(46,41,31,0.04)]">
         →
       </div>
     </div>

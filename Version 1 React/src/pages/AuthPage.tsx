@@ -24,12 +24,12 @@ const pageMotionProps = {
 
 const clerkAppearance = {
   variables: {
-    colorPrimary: "#a77b2f",
-    colorText: "#2f3426",
-    colorTextSecondary: "#6f6b57",
-    colorBackground: "#fffaf2",
-    colorInputBackground: "#fffdf9",
-    colorInputText: "#2f3426",
+    colorPrimary: "#C8AA48",
+    colorText: "#0F1115",
+    colorTextSecondary: "#6D7484",
+    colorBackground: "#FFFFFF",
+    colorInputBackground: "#FFFFFF",
+    colorInputText: "#0F1115",
     borderRadius: "18px",
   },
   elements: {
@@ -39,24 +39,24 @@ const clerkAppearance = {
     headerTitle: "hidden",
     headerSubtitle: "hidden",
     socialButtonsBlockButton:
-      "!min-h-[3.6rem] !rounded-[20px] !border !border-[#ddd4c7] !bg-white/86 !text-[#2f3426] !shadow-none hover:!bg-white",
+      "!min-h-[3.6rem] !rounded-[20px] !border !border-[#DCE3EF] !bg-white/86 !text-[#0F1115] !shadow-none hover:!bg-white",
     socialButtonsBlockButtonText: "!text-[1rem] !font-semibold !tracking-[-0.01em]",
     socialButtonsProviderIcon__google: "!grayscale-0",
     socialButtonsProviderIcon__microsoft: "!grayscale-0",
     socialButtonsProviderIcon__linkedin_oidc: "!grayscale-0",
-    dividerLine: "!bg-[#e6ddcf]",
-    dividerText: "!text-[0.72rem] !font-extrabold !uppercase !tracking-[0.18em] !text-[#8a7b65]",
-    formFieldLabel: "!text-[0.95rem] !text-[#6f6b57] !font-semibold",
+    dividerLine: "!bg-[#DCE3EF]",
+    dividerText: "!text-[0.72rem] !font-extrabold !uppercase !tracking-[0.18em] !text-[#6D7484]",
+    formFieldLabel: "!text-[0.95rem] !text-[#6D7484] !font-semibold",
     formFieldInput:
-      "!min-h-[3.7rem] !rounded-[20px] !border !border-[#ddd4c7] !bg-white/88 !px-4 !text-[1rem] !font-medium !text-[#2f3426] !shadow-none focus:!border-[#b38a4e] focus:!ring-0",
+      "!min-h-[3.7rem] !rounded-[20px] !border !border-[#DCE3EF] !bg-white/88 !px-4 !text-[1rem] !font-medium !text-[#0F1115] !shadow-none focus:!border-[#D9C47A] focus:!ring-0",
     formButtonPrimary:
-      "!mt-1 !min-h-[3.6rem] !rounded-full !bg-[#a77b2f] !text-[1rem] !font-semibold !text-white !shadow-[0_16px_40px_rgba(167,123,47,0.18)] hover:!bg-[#946a27]",
+      "!mt-1 !min-h-[3.6rem] !rounded-full !bg-[#C8AA48] !text-[1rem] !font-semibold !text-white !shadow-[0_16px_40px_rgba(167,123,47,0.18)] hover:!bg-[#C8AA48]",
     footer: "!hidden",
     footerAction: "!hidden",
-    identityPreviewText: "!text-[0.98rem] !text-[#6f6b57]",
-    formFieldSuccessText: "!text-[#526946]",
-    alertText: "!text-[#8c473c]",
-    formResendCodeLink: "!text-[#8d6d39] hover:!text-[#2f3426]",
+    identityPreviewText: "!text-[0.98rem] !text-[#6D7484]",
+    formFieldSuccessText: "!text-[#253B80]",
+    alertText: "!text-[#C8AA48]",
+    formResendCodeLink: "!text-[#C8AA48] hover:!text-[#0F1115]",
   },
   layout: {
     socialButtonsPlacement: "top" as const,
@@ -375,7 +375,7 @@ export function AuthPage() {
 
                   {currentMode === "sign-up" ? (
                     <div className="custom-auth-step active">
-                      <div className="rounded-[22px] border border-[#e3dacd] bg-white/58 px-4 py-3 text-sm leading-7 text-[#5d6c79]">
+                      <div className="rounded-[22px] border border-[#DCE3EF] bg-white/58 px-4 py-3 text-sm leading-7 text-[#6D7484]">
                         Account creation stays lightweight here. Choose supplier, recycler, or both
                         after secure sign-up is complete.
                       </div>
@@ -391,17 +391,17 @@ export function AuthPage() {
                             type="button"
                             onClick={() => runSocialSignUp(provider.strategy)}
                             disabled={!isSignUpReady || isSubmittingSignUp || isVerifyingEmail}
-                            className="rounded-[20px] border border-[#ddd4c7] bg-white/86 px-4 py-4 text-[0.96rem] font-semibold text-[#2f3426] transition hover:bg-white disabled:opacity-60"
+                            className="rounded-[20px] border border-[#DCE3EF] bg-white/86 px-4 py-4 text-[0.96rem] font-semibold text-[#0F1115] transition hover:bg-white disabled:opacity-60"
                           >
                             Continue with {provider.label}
                           </button>
                         ))}
                       </div>
 
-                      <div className="flex items-center gap-4 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
-                        <span className="h-px flex-1 bg-[#e6ddcf]" />
+                      <div className="flex items-center gap-4 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                        <span className="h-px flex-1 bg-[#DCE3EF]" />
                         <span>or</span>
-                        <span className="h-px flex-1 bg-[#e6ddcf]" />
+                        <span className="h-px flex-1 bg-[#DCE3EF]" />
                       </div>
 
                       {signUpError ? (
@@ -419,7 +419,7 @@ export function AuthPage() {
                       {!pendingVerification ? (
                         <div className="grid gap-4">
                           <label className="grid gap-2 text-left">
-                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#6D7484]">
                               Work email
                             </span>
                             <input
@@ -427,12 +427,12 @@ export function AuthPage() {
                               value={signUpFields.emailAddress}
                               onChange={(event) => updateSignUpField("emailAddress", event.target.value)}
                               placeholder="name@company.com"
-                              className="min-h-[3.7rem] rounded-[20px] border border-[#ddd4c7] bg-white/88 px-4 text-[1rem] font-medium text-[#2f3426] outline-none"
+                              className="min-h-[3.7rem] rounded-[20px] border border-[#DCE3EF] bg-white/88 px-4 text-[1rem] font-medium text-[#0F1115] outline-none"
                             />
                           </label>
 
                           <label className="grid gap-2 text-left">
-                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#6D7484]">
                               Password
                             </span>
                             <input
@@ -440,12 +440,12 @@ export function AuthPage() {
                               value={signUpFields.password}
                               onChange={(event) => updateSignUpField("password", event.target.value)}
                               placeholder="Create a secure password"
-                              className="min-h-[3.7rem] rounded-[20px] border border-[#ddd4c7] bg-white/88 px-4 text-[1rem] font-medium text-[#2f3426] outline-none"
+                              className="min-h-[3.7rem] rounded-[20px] border border-[#DCE3EF] bg-white/88 px-4 text-[1rem] font-medium text-[#0F1115] outline-none"
                             />
                           </label>
 
                           <label className="grid gap-2 text-left">
-                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#6D7484]">
                               Company name
                             </span>
                             <input
@@ -453,7 +453,7 @@ export function AuthPage() {
                               value={signUpFields.companyName}
                               onChange={(event) => updateSignUpField("companyName", event.target.value)}
                               placeholder="Optional"
-                              className="min-h-[3.7rem] rounded-[20px] border border-[#ddd4c7] bg-white/88 px-4 text-[1rem] font-medium text-[#2f3426] outline-none"
+                              className="min-h-[3.7rem] rounded-[20px] border border-[#DCE3EF] bg-white/88 px-4 text-[1rem] font-medium text-[#0F1115] outline-none"
                             />
                           </label>
 
@@ -469,7 +469,7 @@ export function AuthPage() {
                       ) : (
                         <div className="grid gap-4">
                           <label className="grid gap-2 text-left">
-                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#8a7b65]">
+                            <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#6D7484]">
                               Email verification code
                             </span>
                             <input
@@ -478,7 +478,7 @@ export function AuthPage() {
                               value={verificationCode}
                               onChange={(event) => setVerificationCode(event.target.value)}
                               placeholder="Enter the code from your inbox"
-                              className="min-h-[3.7rem] rounded-[20px] border border-[#ddd4c7] bg-white/88 px-4 text-[1rem] font-medium text-[#2f3426] outline-none"
+                              className="min-h-[3.7rem] rounded-[20px] border border-[#DCE3EF] bg-white/88 px-4 text-[1rem] font-medium text-[#0F1115] outline-none"
                             />
                           </label>
 

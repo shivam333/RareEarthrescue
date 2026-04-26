@@ -85,7 +85,7 @@ export function AboutPage() {
             <p className="eyebrow">Industry validation</p>
             <h2 className="heading-2">Trust starts with signals from the companies already building domestic rare earth capability.</h2>
           </div>
-          <p className="max-w-[26rem] text-[0.98rem] leading-7 text-[#5d6c79]">
+          <p className="max-w-[26rem] text-[0.98rem] leading-7 text-[#6D7484]">
             These are public industry perspectives and company signals that reflect the exact market
             need Rare Earth Rescue is built for. Verified customer case studies can layer in here as they are cleared for publication.
           </p>
@@ -98,7 +98,7 @@ export function AboutPage() {
                 href={voice.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group block h-full overflow-hidden rounded-[32px] border border-[#dacfbf] bg-[rgba(255,252,247,0.94)] shadow-[0_22px_60px_rgba(46,41,31,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#315e53]/24"
+                className="group block h-full overflow-hidden rounded-[32px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.94)] shadow-[0_22px_60px_rgba(46,41,31,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#253B80]/24"
               >
                 <div className="relative h-64 overflow-hidden">
                   <AppImage
@@ -115,12 +115,12 @@ export function AboutPage() {
                 </div>
 
                 <div className="p-6">
-                  <p className="font-display text-[1.18rem] leading-[1.08] tracking-[-0.04em] text-[#11283d]">
+                  <p className="font-display text-[1.18rem] leading-[1.08] tracking-[-0.04em] text-[#0F1115]">
                     {voice.isQuote ? `“${voice.quote}”` : voice.quote}
                   </p>
-                  <div className="mt-5 border-t border-[#e5dccf] pt-4">
-                    <strong className="block text-[0.96rem] text-[#1b2430]">{voice.speaker}</strong>
-                    <span className="mt-1 block text-[0.84rem] leading-6 text-[#6b756f]">{voice.role}</span>
+                  <div className="mt-5 border-t border-[#DCE3EF] pt-4">
+                    <strong className="block text-[0.96rem] text-[#0F1115]">{voice.speaker}</strong>
+                    <span className="mt-1 block text-[0.84rem] leading-6 text-[#6D7484]">{voice.role}</span>
                   </div>
                 </div>
               </a>

@@ -6,7 +6,7 @@ const ShadCard = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
     <div
       ref={ref}
       className={cn(
-        "rounded-[30px] border border-[#ddd3c5] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(246,239,227,0.92))] shadow-[0_18px_55px_rgba(46,41,31,0.06)]",
+        "rounded-[30px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(246,239,227,0.92))] shadow-[0_18px_55px_rgba(46,41,31,0.06)]",
         className
       )}
       {...props}
@@ -22,14 +22,14 @@ ShadCardHeader.displayName = "ShadCardHeader";
 
 const ShadCardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
-    <h3 ref={ref} className={cn("font-display text-[1.3rem] tracking-[-0.04em] text-[#2f3426]", className)} {...props} />
+    <h3 ref={ref} className={cn("font-display text-[1.3rem] tracking-[-0.04em] text-[#0F1115]", className)} {...props} />
   )
 );
 ShadCardTitle.displayName = "ShadCardTitle";
 
 const ShadCardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
   ({ className, ...props }, ref) => (
-    <p ref={ref} className={cn("text-[0.96rem] leading-7 text-[#6f6b57]", className)} {...props} />
+    <p ref={ref} className={cn("text-[0.96rem] leading-7 text-[#6D7484]", className)} {...props} />
   )
 );
 ShadCardDescription.displayName = "ShadCardDescription";

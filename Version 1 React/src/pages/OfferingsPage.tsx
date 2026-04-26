@@ -130,7 +130,7 @@ function PrimaryLink({ to, children }: { to: string; children: React.ReactNode }
   return (
     <Link
       to={to}
-      className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(145deg,#b88b3c,#9f742c)] px-6 py-3 text-[0.82rem] font-bold uppercase tracking-[0.14em] text-white shadow-[0_16px_40px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5"
+      className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-6 py-3 text-[0.82rem] font-bold uppercase tracking-[0.14em] text-white shadow-[0_16px_40px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5"
     >
       {children}
     </Link>
@@ -141,7 +141,7 @@ function SecondaryLink({ to, children }: { to: string; children: React.ReactNode
   return (
     <Link
       to={to}
-      className="inline-flex items-center justify-center rounded-full border border-[#d8cfbf] bg-white/84 px-6 py-3 text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e]"
+      className="inline-flex items-center justify-center rounded-full border border-[#DCE3EF] bg-white/84 px-6 py-3 text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#253B80] transition hover:-translate-y-0.5 hover:border-[#D9C47A]"
     >
       {children}
     </Link>
@@ -173,10 +173,10 @@ function OfferingsHero() {
           </div>
         </MotionItem>
 
-        <MotionItem className="rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-7">
-          <div className="relative overflow-hidden rounded-[28px] border border-[#dfd5c7] bg-[radial-gradient(circle_at_top_left,rgba(184,139,60,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.14),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.88),rgba(248,242,233,0.94))] p-5">
+        <MotionItem className="rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-7">
+          <div className="relative overflow-hidden rounded-[28px] border border-[#DCE3EF] bg-[radial-gradient(circle_at_top_left,rgba(184,139,60,0.14),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.14),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.88),rgba(248,242,233,0.94))] p-5">
             <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(17,40,61,0.24)_1px,transparent_1px),linear-gradient(90deg,rgba(17,40,61,0.24)_1px,transparent_1px)] [background-size:24px_24px]" />
-            <span className="relative z-10 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+            <span className="relative z-10 text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
               Product journey
             </span>
             <div className="relative z-10 mt-5 grid gap-4">
@@ -187,7 +187,7 @@ function OfferingsHero() {
                     whileInView={{ opacity: 1, scale: [1, 1.08, 1] }}
                     viewport={{ once: true, amount: 0.4 }}
                     transition={{ duration: 0.5, delay: index * 0.08 }}
-                    className="relative flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#173550] text-[0.7rem] font-bold text-white"
+                    className="relative flex h-[30px] w-[30px] items-center justify-center rounded-full bg-[#253B80] text-[0.7rem] font-bold text-white"
                   >
                     {index + 1}
                     {index < flowSteps.length - 1 ? (
@@ -196,11 +196,11 @@ function OfferingsHero() {
                         whileInView={{ scaleY: 1 }}
                         viewport={{ once: true, amount: 0.4 }}
                         transition={{ duration: 0.45, delay: 0.15 + index * 0.08 }}
-                        className="absolute left-1/2 top-[28px] h-8 w-px origin-top bg-[linear-gradient(180deg,#173550,#c9b08a)]"
+                        className="absolute left-1/2 top-[28px] h-8 w-px origin-top bg-[linear-gradient(180deg,#253B80,#D9C47A)]"
                       />
                     ) : null}
                   </motion.div>
-                  <div className="rounded-[20px] border border-[#dfd5c7] bg-white/82 px-4 py-3 text-[0.92rem] font-semibold text-[#173550] shadow-[0_12px_28px_rgba(46,41,31,0.05)]">
+                  <div className="rounded-[20px] border border-[#DCE3EF] bg-white/82 px-4 py-3 text-[0.92rem] font-semibold text-[#253B80] shadow-[0_12px_28px_rgba(46,41,31,0.05)]">
                     {step}
                   </div>
                 </div>
@@ -218,10 +218,10 @@ function ServiceWorkflow() {
     <MotionSection className="shell section-gap">
       <MotionItem className="max-w-3xl">
         <p className="eyebrow">Service layer</p>
-        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#11283d]">
+        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#0F1115]">
           From material discovery to completed transaction
         </h2>
-        <p className="mt-4 text-[1rem] leading-8 text-[#5a6a78]">
+        <p className="mt-4 text-[1rem] leading-8 text-[#6D7484]">
           We support the full recovery workflow from identifying the right scrap streams to assay verification,
           due diligence, shipment coordination, and transaction support.
         </p>
@@ -243,15 +243,15 @@ function ServiceWorkflow() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             whileHover={{ y: -6 }}
-            className="rounded-[28px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.95),rgba(244,236,224,0.9))] p-5 shadow-[0_20px_60px_rgba(46,41,31,0.07)]"
+            className="rounded-[28px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.95),rgba(244,236,224,0.9))] p-5 shadow-[0_20px_60px_rgba(46,41,31,0.07)]"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-[16px] bg-[#173550] text-[0.8rem] font-bold uppercase tracking-[0.12em] text-white">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[16px] bg-[#253B80] text-[0.8rem] font-bold uppercase tracking-[0.12em] text-white">
               {service.icon}
             </div>
-            <strong className="mt-5 block font-display text-[1.18rem] leading-[1.05] tracking-[-0.05em] text-[#11283d]">
+            <strong className="mt-5 block font-display text-[1.18rem] leading-[1.05] tracking-[-0.05em] text-[#0F1115]">
               {service.title}
             </strong>
-            <p className="mt-4 text-[0.94rem] leading-7 text-[#556576]">{service.copy}</p>
+            <p className="mt-4 text-[0.94rem] leading-7 text-[#6D7484]">{service.copy}</p>
           </motion.article>
         ))}
       </div>
@@ -267,7 +267,7 @@ function CategoryTabs() {
           <ShadTabsTrigger
             key={set.id}
             value={set.id}
-            className="rounded-full border border-[#d8cfbf] bg-white/82 px-4 py-2 text-[0.76rem] uppercase tracking-[0.14em] data-[state=active]:bg-[#173550] data-[state=active]:text-white"
+            className="rounded-full border border-[#DCE3EF] bg-white/82 px-4 py-2 text-[0.76rem] uppercase tracking-[0.14em] data-[state=active]:bg-[#253B80] data-[state=active]:text-white"
           >
             {set.label}
           </ShadTabsTrigger>
@@ -278,41 +278,41 @@ function CategoryTabs() {
         <ShadTabsContent key={set.id} value={set.id} className="mt-6">
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
             <div className="grid gap-4 sm:grid-cols-3">
-              <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 p-5">
-                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+              <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 p-5">
+                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                   Managed category
                 </span>
-                <strong className="mt-2 block font-display text-[1.42rem] tracking-[-0.04em] text-[#11283d]">
+                <strong className="mt-2 block font-display text-[1.42rem] tracking-[-0.04em] text-[#0F1115]">
                   {set.label}
                 </strong>
               </div>
-              <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 p-5">
-                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+              <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 p-5">
+                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                   Active subcategories
                 </span>
-                <strong className="mt-2 block font-display text-[1.42rem] tracking-[-0.04em] text-[#11283d]">
+                <strong className="mt-2 block font-display text-[1.42rem] tracking-[-0.04em] text-[#0F1115]">
                   {set.categories.length}
                 </strong>
               </div>
-              <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 p-5">
-                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+              <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 p-5">
+                <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                   Visible supply
                 </span>
-                <strong className="mt-2 block font-display text-[1.42rem] tracking-[-0.04em] text-[#11283d]">
+                <strong className="mt-2 block font-display text-[1.42rem] tracking-[-0.04em] text-[#0F1115]">
                   {set.tonnage}
                 </strong>
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(247,241,232,0.86))] p-4 shadow-[0_18px_48px_rgba(46,41,31,0.05)]">
+            <div className="rounded-[28px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(247,241,232,0.86))] p-4 shadow-[0_18px_48px_rgba(46,41,31,0.05)]">
               <div className="grid gap-4 md:grid-cols-[180px_minmax(0,1fr)]">
                 <AppImage src={set.image} alt={set.label} className="h-40 w-full rounded-[22px] object-cover" />
                 <div className="flex flex-col justify-between">
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full border border-[#d8cfbf] bg-[#eef4ef] px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#315e53]">
+                    <span className="rounded-full border border-[#DCE3EF] bg-[#DDF1E8] px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
                       {set.verification}
                     </span>
-                    <span className="rounded-full border border-[#d8cfbf] bg-white/82 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#173550]">
+                    <span className="rounded-full border border-[#DCE3EF] bg-white/82 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
                       {set.totalLots}
                     </span>
                   </div>
@@ -320,7 +320,7 @@ function CategoryTabs() {
                     {set.categories.map((category) => (
                       <span
                         key={category}
-                        className="rounded-full border border-[#ddd4c7] bg-white/82 px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#173550]"
+                        className="rounded-full border border-[#DCE3EF] bg-white/82 px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#253B80]"
                       >
                         {category}
                       </span>
@@ -345,32 +345,32 @@ function MarketplaceSnapshot() {
     <MotionSection className="shell section-gap">
       <MotionItem className="max-w-3xl">
         <p className="eyebrow">Marketplace snapshot</p>
-        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#11283d]">
+        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#0F1115]">
           A structured marketplace for fragmented feedstock supply
         </h2>
-        <p className="mt-4 text-[1rem] leading-8 text-[#5a6a78]">
+        <p className="mt-4 text-[1rem] leading-8 text-[#6D7484]">
           Browse rare-earth-bearing materials across managed categories and subcategories designed around real
           recovery workflows.
         </p>
       </MotionItem>
 
-      <div className="mt-8 rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-7">
+      <div className="mt-8 rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-7">
         <div className="grid gap-4 md:grid-cols-4">
-          <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 p-5">
-            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">Managed categories</span>
-            <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.04em] text-[#11283d]">{managedCategories}</strong>
+          <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 p-5">
+            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">Managed categories</span>
+            <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.04em] text-[#0F1115]">{managedCategories}</strong>
           </div>
-          <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 p-5">
-            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">Active subcategories</span>
-            <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.04em] text-[#11283d]">{activeSubcategories}</strong>
+          <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 p-5">
+            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">Active subcategories</span>
+            <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.04em] text-[#0F1115]">{activeSubcategories}</strong>
           </div>
-          <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 p-5">
-            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">Visible lots</span>
-            <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.04em] text-[#11283d]">{totalVisibleLots}</strong>
+          <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 p-5">
+            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">Visible lots</span>
+            <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.04em] text-[#0F1115]">{totalVisibleLots}</strong>
           </div>
-          <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 p-5">
-            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">Verification status</span>
-            <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.04em] text-[#315e53]">High-trust listings</strong>
+          <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 p-5">
+            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">Verification status</span>
+            <strong className="mt-2 block font-display text-[1.55rem] tracking-[-0.04em] text-[#253B80]">High-trust listings</strong>
           </div>
         </div>
 
@@ -389,15 +389,15 @@ function BiddingSnapshot() {
     <MotionSection className="shell section-gap">
       <MotionItem className="max-w-3xl">
         <p className="eyebrow">Bidding activity</p>
-        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#11283d]">
+        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#0F1115]">
           Turn fragmented supply into competitive market activity
         </h2>
-        <p className="mt-4 text-[1rem] leading-8 text-[#5a6a78]">
+        <p className="mt-4 text-[1rem] leading-8 text-[#6D7484]">
           Suppliers can surface material opportunities while recyclers can review details, compare lots, and place structured bids.
         </p>
       </MotionItem>
 
-      <div className="mt-8 rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-7">
+      <div className="mt-8 rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-7">
         <div className="space-y-4">
           {preview.map((listing, index) => (
             <motion.article
@@ -407,22 +407,22 @@ function BiddingSnapshot() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.4, delay: index * 0.06 }}
               whileHover={{ y: -4 }}
-              className="grid gap-4 rounded-[28px] border border-[#ddd4c7] bg-white/84 p-4 shadow-[0_18px_42px_rgba(46,41,31,0.05)] lg:grid-cols-[92px_minmax(0,1.4fr)_repeat(4,minmax(0,0.55fr))]"
+              className="grid gap-4 rounded-[28px] border border-[#DCE3EF] bg-white/84 p-4 shadow-[0_18px_42px_rgba(46,41,31,0.05)] lg:grid-cols-[92px_minmax(0,1.4fr)_repeat(4,minmax(0,0.55fr))]"
             >
               <AppImage src={listing.image} alt={listing.category} className="h-20 w-full rounded-[20px] object-cover" />
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-[#173550] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-white">
+                  <span className="rounded-full bg-[#253B80] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-white">
                     Live
                   </span>
-                  <span className="rounded-full border border-[#d8cfbf] bg-[#eef4ef] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#315e53]">
+                  <span className="rounded-full border border-[#DCE3EF] bg-[#DDF1E8] px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#253B80]">
                     {listing.verification}
                   </span>
                 </div>
-                <strong className="mt-3 block font-display text-[1.08rem] leading-[1.03] tracking-[-0.04em] text-[#11283d]">
+                <strong className="mt-3 block font-display text-[1.08rem] leading-[1.03] tracking-[-0.04em] text-[#0F1115]">
                   {listing.category}
                 </strong>
-                <p className="mt-2 max-w-[32rem] text-[0.88rem] leading-7 text-[#556576]">{listing.detailSummary}</p>
+                <p className="mt-2 max-w-[32rem] text-[0.88rem] leading-7 text-[#6D7484]">{listing.detailSummary}</p>
               </div>
               <MetricCell label="Quantity" value={listing.quantity} />
               <MetricCell label="Location" value={listing.location} />
@@ -430,13 +430,13 @@ function BiddingSnapshot() {
               <div className="flex flex-col items-start justify-center gap-3">
                 <Link
                   to={`/listing/${listing.id}`}
-                  className="inline-flex rounded-full border border-[#d8cfbf] bg-white/82 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#173550]"
+                  className="inline-flex rounded-full border border-[#DCE3EF] bg-white/82 px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-[#253B80]"
                 >
                   View Details
                 </Link>
                 <Link
                   to="/sign-in"
-                  className="inline-flex rounded-full bg-[linear-gradient(145deg,#b88b3c,#9f742c)] px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-white"
+                  className="inline-flex rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-2 text-[0.74rem] font-bold uppercase tracking-[0.14em] text-white"
                 >
                   Place Bid
                 </Link>
@@ -452,8 +452,8 @@ function BiddingSnapshot() {
 function MetricCell({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col justify-center">
-      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">{label}</span>
-      <strong className="mt-2 text-[0.92rem] leading-7 text-[#173550]">{value}</strong>
+      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">{label}</span>
+      <strong className="mt-2 text-[0.92rem] leading-7 text-[#253B80]">{value}</strong>
     </div>
   );
 }
@@ -463,10 +463,10 @@ function CommodityAnalytics() {
     <MotionSection className="shell section-gap">
       <MotionItem className="max-w-3xl">
         <p className="eyebrow">Commodity analytics</p>
-        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#11283d]">
+        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#0F1115]">
           Market intelligence for better sourcing and selling decisions
         </h2>
-        <p className="mt-4 text-[1rem] leading-8 text-[#5a6a78]">
+        <p className="mt-4 text-[1rem] leading-8 text-[#6D7484]">
           Access signals around pricing, supply hotspots, demand concentration, and material availability to make better commercial decisions.
         </p>
       </MotionItem>
@@ -479,13 +479,13 @@ function CommodityAnalytics() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="rounded-[28px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-5 shadow-[0_20px_60px_rgba(46,41,31,0.07)]"
+            className="rounded-[28px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-5 shadow-[0_20px_60px_rgba(46,41,31,0.07)]"
           >
-            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">{card.title}</span>
-            <strong className="mt-3 block font-display text-[1.36rem] leading-[1.04] tracking-[-0.05em] text-[#11283d]">
+            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">{card.title}</span>
+            <strong className="mt-3 block font-display text-[1.36rem] leading-[1.04] tracking-[-0.05em] text-[#0F1115]">
               {card.value}
             </strong>
-            <p className="mt-3 text-[0.9rem] leading-7 text-[#556576]">{card.body}</p>
+            <p className="mt-3 text-[0.9rem] leading-7 text-[#6D7484]">{card.body}</p>
             <div className="mt-5">
               {card.kind === "line" ? <LineSparkline data={card.data} /> : null}
               {card.kind === "map" ? <MapDots /> : null}
@@ -514,7 +514,7 @@ function LineSparkline({ data }: { data: readonly number[] }) {
   return (
     <svg viewBox="0 0 100 80" className="h-24 w-full" preserveAspectRatio="none">
       <path d={`${path} L 100 80 L 0 80 Z`} fill="rgba(184,139,60,0.16)" />
-      <path d={path} fill="none" stroke="#b88b3c" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d={path} fill="none" stroke="#D9C47A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -529,7 +529,7 @@ function MapDots() {
           cx={cx}
           cy={cy}
           r="5"
-          fill={index % 2 === 0 ? "#173550" : "#6e9879"}
+          fill={index % 2 === 0 ? "#253B80" : "#3654A3"}
           initial={{ opacity: 0.5, scale: 0.88 }}
           whileInView={{ opacity: 1, scale: [1, 1.22, 1] }}
           viewport={{ once: true, amount: 0.2 }}
@@ -552,7 +552,7 @@ function BarSignal({ data }: { data: readonly number[] }) {
           whileInView={{ height: `${(value / max) * 100}%` }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.45, delay: index * 0.06 }}
-          className="w-full rounded-t-[14px] bg-[linear-gradient(180deg,#173550,#2a506d)]"
+          className="w-full rounded-t-[14px] bg-[linear-gradient(180deg,#253B80,#253B80)]"
         />
       ))}
     </div>
@@ -564,13 +564,13 @@ function ProgressSignal({ data }: { data: readonly number[] }) {
     <div className="space-y-3">
       {data.map((value, index) => (
         <div key={`${value}-${index}`}>
-          <div className="h-2.5 rounded-full bg-[#ebe2d4]">
+          <div className="h-2.5 rounded-full bg-[#F6F8FC]">
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: `${value}%` }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.45, delay: index * 0.06 }}
-              className="h-full rounded-full bg-[linear-gradient(145deg,#6e9879,#4d7f63)]"
+              className="h-full rounded-full bg-[linear-gradient(145deg,#3654A3,#3654A3)]"
             />
           </div>
         </div>
@@ -584,12 +584,12 @@ function UserJourney() {
     <MotionSection className="shell section-gap">
       <MotionItem className="max-w-3xl">
         <p className="eyebrow">Shared journey</p>
-        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#11283d]">
+        <h2 className="font-display text-[clamp(2rem,3vw,3rem)] leading-[0.96] tracking-[-0.06em] text-[#0F1115]">
           One platform, two sides of the recovery network
         </h2>
       </MotionItem>
 
-      <div className="mt-8 rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-7">
+      <div className="mt-8 rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-7">
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_180px_minmax(0,1fr)] xl:items-start">
           <JourneyColumn
             title="Supplier path"
@@ -598,11 +598,11 @@ function UserJourney() {
             tone="gold"
           />
           <div className="flex h-full flex-col items-center justify-center gap-4">
-            <span className="rounded-full border border-[#d8cfbf] bg-white/84 px-4 py-2 text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+            <span className="rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-2 text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
               Shared infrastructure
             </span>
-            <div className="relative flex h-36 w-36 items-center justify-center rounded-full border border-[#ddd4c7] bg-[radial-gradient(circle_at_top_left,rgba(184,139,60,0.12),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.14),transparent_40%),rgba(255,255,255,0.88)] shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
-              <span className="max-w-[10ch] text-center font-display text-[1.24rem] leading-[1.04] tracking-[-0.05em] text-[#11283d]">
+            <div className="relative flex h-36 w-36 items-center justify-center rounded-full border border-[#DCE3EF] bg-[radial-gradient(circle_at_top_left,rgba(184,139,60,0.12),transparent_36%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.14),transparent_40%),rgba(255,255,255,0.88)] shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
+              <span className="max-w-[10ch] text-center font-display text-[1.24rem] leading-[1.04] tracking-[-0.05em] text-[#0F1115]">
                 Verification, bidding, and transaction flow
               </span>
             </div>
@@ -631,25 +631,25 @@ function JourneyColumn({
   tone: "gold" | "green";
 }) {
   return (
-    <div className="rounded-[28px] border border-[#ddd4c7] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
+    <div className="rounded-[28px] border border-[#DCE3EF] bg-white/82 p-5 shadow-[0_18px_42px_rgba(46,41,31,0.05)]">
       <span
         className={`rounded-full px-3 py-1.5 text-[0.68rem] font-extrabold uppercase tracking-[0.16em] ${
-          tone === "gold" ? "bg-[rgba(184,139,60,0.12)] text-[#8d6d39]" : "bg-[rgba(110,152,121,0.14)] text-[#315e53]"
+          tone === "gold" ? "bg-[rgba(184,139,60,0.12)] text-[#C8AA48]" : "bg-[rgba(110,152,121,0.14)] text-[#253B80]"
         }`}
       >
         {badge}
       </span>
-      <strong className="mt-4 block font-display text-[1.4rem] tracking-[-0.05em] text-[#11283d]">{title}</strong>
+      <strong className="mt-4 block font-display text-[1.4rem] tracking-[-0.05em] text-[#0F1115]">{title}</strong>
       <div className="mt-6 grid gap-4">
         {steps.map((step, index) => (
           <div key={step} className="grid grid-cols-[28px_1fr] gap-4">
-            <div className={`relative flex h-7 w-7 items-center justify-center rounded-full text-[0.68rem] font-bold text-white ${tone === "gold" ? "bg-[#b88b3c]" : "bg-[#6e9879]"}`}>
+            <div className={`relative flex h-7 w-7 items-center justify-center rounded-full text-[0.68rem] font-bold text-white ${tone === "gold" ? "bg-[#D9C47A]" : "bg-[#3654A3]"}`}>
               {index + 1}
               {index < steps.length - 1 ? (
-                <span className={`absolute left-1/2 top-[27px] h-7 w-px -translate-x-1/2 ${tone === "gold" ? "bg-[linear-gradient(180deg,#b88b3c,#d6c1a0)]" : "bg-[linear-gradient(180deg,#6e9879,#c6d7cb)]"}`} />
+                <span className={`absolute left-1/2 top-[27px] h-7 w-px -translate-x-1/2 ${tone === "gold" ? "bg-[linear-gradient(180deg,#D9C47A,#D9C47A)]" : "bg-[linear-gradient(180deg,#3654A3,#DDF1E8)]"}`} />
               ) : null}
             </div>
-            <div className="rounded-[20px] border border-[#e0d7c9] bg-[rgba(251,247,239,0.92)] px-4 py-3 text-[0.92rem] font-semibold text-[#173550]">
+            <div className="rounded-[20px] border border-[#DCE3EF] bg-[rgba(251,247,239,0.92)] px-4 py-3 text-[0.92rem] font-semibold text-[#253B80]">
               {step}
             </div>
           </div>
@@ -662,20 +662,20 @@ function JourneyColumn({
 function FinalCTA() {
   return (
     <MotionSection className="shell section-gap">
-      <div className="rounded-[36px] border border-[#d8cfbf] bg-[radial-gradient(circle_at_top_left,rgba(184,139,60,0.16),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.16),transparent_28%),linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.92))] p-8 shadow-[0_32px_90px_rgba(46,41,31,0.08)] lg:p-10">
+      <div className="rounded-[36px] border border-[#DCE3EF] bg-[radial-gradient(circle_at_top_left,rgba(184,139,60,0.16),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.16),transparent_28%),linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.92))] p-8 shadow-[0_32px_90px_rgba(46,41,31,0.08)] lg:p-10">
         <MotionItem className="mx-auto max-w-4xl text-center">
           <p className="eyebrow">Ready to start?</p>
-          <h2 className="font-display text-[clamp(2rem,3.2vw,3.4rem)] leading-[0.95] tracking-[-0.06em] text-[#11283d]">
+          <h2 className="font-display text-[clamp(2rem,3.2vw,3.4rem)] leading-[0.95] tracking-[-0.06em] text-[#0F1115]">
             Ready to move rare earth recovery from fragmented to structured?
           </h2>
-          <p className="mx-auto mt-5 max-w-[48rem] text-[1rem] leading-8 text-[#5a6a78]">
+          <p className="mx-auto mt-5 max-w-[48rem] text-[1rem] leading-8 text-[#6D7484]">
             Start with a one-time transaction, subscribe for recurring marketplace access, or work with our team on a custom enterprise program.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <PrimaryLink to="/get-started">Get Started</PrimaryLink>
             <SecondaryLink to="/sign-in">Sign in / Create Account</SecondaryLink>
           </div>
-          <p className="mt-4 text-[0.86rem] leading-7 text-[#7a746a]">
+          <p className="mt-4 text-[0.86rem] leading-7 text-[#6D7484]">
             No role selection required upfront. Choose your path after account creation.
           </p>
         </MotionItem>

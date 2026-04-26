@@ -64,8 +64,8 @@ export function PlanDetailPage() {
       <section className="section shell">
         <div className="rounded-[36px] border border-[rgba(104,90,59,0.14)] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(245,237,225,0.92))] p-7 shadow-[0_24px_80px_rgba(87,68,35,0.12)] lg:p-10">
           <MotionItem>
-            <div className="flex flex-wrap items-center gap-3 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[#87775f]">
-              <Link to="/get-started" className="transition hover:text-[#2f3426]">
+            <div className="flex flex-wrap items-center gap-3 text-[0.76rem] font-bold uppercase tracking-[0.16em] text-[#6D7484]">
+              <Link to="/get-started" className="transition hover:text-[#0F1115]">
                 Get started
               </Link>
               <span>/</span>
@@ -80,19 +80,19 @@ export function PlanDetailPage() {
               <span
                 className={`inline-flex rounded-full px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.16em] ${
                   planCard.featured
-                    ? "bg-[rgba(111,138,85,0.14)] text-[#526946]"
-                    : "bg-[rgba(184,139,60,0.14)] text-[#9f742c]"
+                    ? "bg-[rgba(111,138,85,0.14)] text-[#253B80]"
+                    : "bg-[rgba(184,139,60,0.14)] text-[#C8AA48]"
                 }`}
               >
                 {planCard.shortLabel}
               </span>
-              <h1 className="mt-5 max-w-[11ch] text-[clamp(3rem,5vw,5.6rem)] leading-[0.96] tracking-[-0.06em] text-[#2f3426]">
+              <h1 className="mt-5 max-w-[11ch] text-[clamp(3rem,5vw,5.6rem)] leading-[0.96] tracking-[-0.06em] text-[#0F1115]">
                 {planCard.title}
               </h1>
-              <p className="mt-4 max-w-[44rem] text-[1.08rem] leading-8 text-[#6f6b57]">
+              <p className="mt-4 max-w-[44rem] text-[1.08rem] leading-8 text-[#6D7484]">
                 {variant.detailTitle}
               </p>
-              <p className="mt-4 max-w-[44rem] text-[1rem] leading-8 text-[#6f6b57]">
+              <p className="mt-4 max-w-[44rem] text-[1rem] leading-8 text-[#6D7484]">
                 {variant.detailSummary}
               </p>
 
@@ -113,14 +113,14 @@ export function PlanDetailPage() {
               <div className="rounded-[30px] border border-[rgba(104,90,59,0.12)] bg-[rgba(255,255,255,0.6)] p-6">
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className="text-[0.76rem] font-bold uppercase tracking-[0.18em] text-[#87775f]">
+                    <p className="text-[0.76rem] font-bold uppercase tracking-[0.18em] text-[#6D7484]">
                       Access path
                     </p>
-                    <h2 className="mt-2 text-[1.7rem] leading-[1.05] tracking-[-0.05em] text-[#2f3426]">
+                    <h2 className="mt-2 text-[1.7rem] leading-[1.05] tracking-[-0.05em] text-[#0F1115]">
                       {roleLabels[role]} workflow
                     </h2>
                   </div>
-                  <span className="rounded-full border border-[rgba(104,90,59,0.12)] bg-[rgba(255,250,242,0.8)] px-4 py-2 text-[0.78rem] font-semibold text-[#6f6b57]">
+                  <span className="rounded-full border border-[rgba(104,90,59,0.12)] bg-[rgba(255,250,242,0.8)] px-4 py-2 text-[0.78rem] font-semibold text-[#6D7484]">
                     {variant.shortLabel}
                   </span>
                 </div>
@@ -135,10 +135,10 @@ export function PlanDetailPage() {
                       transition={{ duration: 0.35, delay: index * 0.05 }}
                       className="flex items-start gap-3 rounded-[18px] border border-[rgba(104,90,59,0.1)] bg-[rgba(255,252,247,0.85)] px-4 py-3"
                     >
-                      <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(111,138,85,0.14)] text-[0.82rem] font-bold text-[#526946]">
+                      <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(111,138,85,0.14)] text-[0.82rem] font-bold text-[#253B80]">
                         ✓
                       </span>
-                      <span className="text-[0.98rem] leading-7 text-[#44505b]">{bullet}</span>
+                      <span className="text-[0.98rem] leading-7 text-[#6D7484]">{bullet}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -156,7 +156,7 @@ export function PlanDetailPage() {
               {variant.bestFor.map((item) => (
                 <div
                   key={item}
-                  className="rounded-[18px] border border-[rgba(104,90,59,0.1)] bg-[rgba(255,255,255,0.62)] px-4 py-3 text-[0.98rem] leading-7 text-[#44505b]"
+                  className="rounded-[18px] border border-[rgba(104,90,59,0.1)] bg-[rgba(255,255,255,0.62)] px-4 py-3 text-[0.98rem] leading-7 text-[#6D7484]"
                 >
                   {item}
                 </div>
@@ -173,14 +173,14 @@ export function PlanDetailPage() {
                   className="rounded-[18px] border border-[rgba(104,90,59,0.1)] bg-[rgba(255,255,255,0.62)] px-4 py-4"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="grid h-8 w-8 place-items-center rounded-full bg-[rgba(184,139,60,0.14)] text-[0.82rem] font-bold text-[#9f742c]">
+                    <span className="grid h-8 w-8 place-items-center rounded-full bg-[rgba(184,139,60,0.14)] text-[0.82rem] font-bold text-[#C8AA48]">
                       0{index + 1}
                     </span>
-                    <strong className="text-[1rem] tracking-[-0.03em] text-[#2f3426]">
+                    <strong className="text-[1rem] tracking-[-0.03em] text-[#0F1115]">
                       {step.title}
                     </strong>
                   </div>
-                  <p className="mt-3 pl-11 text-[0.96rem] leading-7 text-[#6f6b57]">{step.copy}</p>
+                  <p className="mt-3 pl-11 text-[0.96rem] leading-7 text-[#6D7484]">{step.copy}</p>
                 </div>
               ))}
             </div>

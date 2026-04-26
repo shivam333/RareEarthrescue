@@ -55,9 +55,9 @@ export function OAuthCallbackPage() {
             <p className="body-copy">
               Rare Earth Rescue is finalizing your authentication with Clerk and redirecting you back into the platform.
             </p>
-            <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-[#e4d8c8] border-t-[#12293f]" />
+            <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-[#F6F8FC] border-t-[#253B80]" />
             {error ? (
-              <div className="rounded-[18px] border border-[rgba(198,120,105,0.28)] bg-[rgba(198,120,105,0.12)] px-4 py-3 text-sm leading-7 text-[#8c473c]">
+              <div className="rounded-[18px] border border-[rgba(198,120,105,0.28)] bg-[rgba(198,120,105,0.12)] px-4 py-3 text-sm leading-7 text-[#C8AA48]">
                 {error}
               </div>
             ) : null}

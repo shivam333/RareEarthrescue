@@ -58,14 +58,14 @@ export function AccountSettingsPage() {
   return (
     <motion.main className="page" {...pageMotionProps}>
       <section className="shell section-gap pt-10 lg:pt-14">
-        <div className="rounded-[34px] border border-[#d8cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.97),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#e0d7c9] pb-5">
+        <div className="rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.97),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)] lg:p-8">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#DCE3EF] pb-5">
             <div className="max-w-3xl">
               <p className="eyebrow mb-0">Account details</p>
-              <h1 className="mt-2 font-display text-[2rem] leading-[0.98] tracking-[-0.06em] text-[#11283d] sm:text-[2.35rem]">
+              <h1 className="mt-2 font-display text-[2rem] leading-[0.98] tracking-[-0.06em] text-[#0F1115] sm:text-[2.35rem]">
                 Manage role access across supplier and recycler workflows.
               </h1>
-              <p className="mt-4 max-w-[46rem] text-[1rem] leading-8 text-[#5a6a78]">
+              <p className="mt-4 max-w-[46rem] text-[1rem] leading-8 text-[#6D7484]">
                 Your initial account path is preserved for reference, but you can change your working role here as your operating model evolves.
               </p>
             </div>
@@ -76,19 +76,19 @@ export function AccountSettingsPage() {
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 px-5 py-5">
-              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+            <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 px-5 py-5">
+              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                 Current access
               </span>
-              <strong className="mt-3 block font-display text-[1.5rem] tracking-[-0.04em] text-[#11283d] capitalize">
+              <strong className="mt-3 block font-display text-[1.5rem] tracking-[-0.04em] text-[#0F1115] capitalize">
                 {accountRole}
               </strong>
             </div>
-            <div className="rounded-[24px] border border-[#ddd4c7] bg-white/82 px-5 py-5">
-              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+            <div className="rounded-[24px] border border-[#DCE3EF] bg-white/82 px-5 py-5">
+              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                 Role chosen at signup
               </span>
-              <strong className="mt-3 block font-display text-[1.5rem] tracking-[-0.04em] text-[#11283d] capitalize">
+              <strong className="mt-3 block font-display text-[1.5rem] tracking-[-0.04em] text-[#0F1115] capitalize">
                 {initialAccountRole}
               </strong>
             </div>
@@ -105,14 +105,14 @@ export function AccountSettingsPage() {
                   onClick={() => setSelectedRole(role.id)}
                   className={`rounded-[26px] border p-5 text-left transition ${
                     isActive
-                      ? "border-[#b38a4e] bg-[linear-gradient(145deg,rgba(184,139,60,0.12),rgba(111,138,85,0.08))] shadow-[0_16px_42px_rgba(46,41,31,0.06)]"
-                      : "border-[#ddd4c7] bg-white/82 hover:-translate-y-0.5 hover:border-[#d3c4ad]"
+                      ? "border-[#D9C47A] bg-[linear-gradient(145deg,rgba(184,139,60,0.12),rgba(111,138,85,0.08))] shadow-[0_16px_42px_rgba(46,41,31,0.06)]"
+                      : "border-[#DCE3EF] bg-white/82 hover:-translate-y-0.5 hover:border-[#DCE3EF]"
                   }`}
                 >
-                  <strong className="block font-display text-[1.3rem] tracking-[-0.04em] text-[#11283d]">
+                  <strong className="block font-display text-[1.3rem] tracking-[-0.04em] text-[#0F1115]">
                     {role.title}
                   </strong>
-                  <p className="mt-3 text-[0.94rem] leading-7 text-[#556576]">{role.copy}</p>
+                  <p className="mt-3 text-[0.94rem] leading-7 text-[#6D7484]">{role.copy}</p>
                 </button>
               );
             })}

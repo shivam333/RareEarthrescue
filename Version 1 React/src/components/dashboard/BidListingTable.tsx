@@ -69,19 +69,19 @@ export function BidListingTable({
             {getDetailHref ? (
               <Link
                 to={getDetailHref(row.original)}
-                className="block transition hover:text-[#8d6d39]"
+                className="block transition hover:text-[#C8AA48]"
               >
-                <strong className="block font-display text-[1rem] leading-7 tracking-[-0.03em] text-[#11283d]">
+                <strong className="block font-display text-[1rem] leading-7 tracking-[-0.03em] text-[#0F1115]">
                   <MaybeBlur blurred={blurred}>{row.original.material}</MaybeBlur>
                 </strong>
               </Link>
             ) : (
-              <strong className="block font-display text-[1rem] leading-7 tracking-[-0.03em] text-[#11283d]">
+              <strong className="block font-display text-[1rem] leading-7 tracking-[-0.03em] text-[#0F1115]">
                 <MaybeBlur blurred={blurred}>{row.original.material}</MaybeBlur>
               </strong>
             )}
             {isInteractiveBidTable ? (
-              <span className="mt-2 block text-[0.76rem] font-semibold uppercase tracking-[0.12em] text-[#8a7b65]">
+              <span className="mt-2 block text-[0.76rem] font-semibold uppercase tracking-[0.12em] text-[#6D7484]">
                 Available lot: {cleanLotQuantity(row.original.quantity)}
               </span>
             ) : null}
@@ -90,14 +90,14 @@ export function BidListingTable({
       }),
       columnHelper.accessor("category", {
         header: "Category",
-        cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
+        cell: (info) => <span className="text-[0.94rem] leading-7 text-[#6D7484]">{info.getValue()}</span>,
       }),
       ...(!isDashboardBidTable
         ? [
             columnHelper.accessor("location", {
               header: "Location",
               cell: (info) => (
-                <span className="text-[0.94rem] leading-7 text-[#5c6b79]">
+                <span className="text-[0.94rem] leading-7 text-[#6D7484]">
                   <MaybeBlur blurred={blurred}>{info.getValue()}</MaybeBlur>
                 </span>
               ),
@@ -116,17 +116,17 @@ export function BidListingTable({
                 <label className="sr-only" htmlFor={`qty-${row.original.id}`}>
                   Bid quantity in tons
                 </label>
-                <div className="rounded-[18px] border border-[#ddd4c7] bg-white/84 px-3 py-2">
+                <div className="rounded-[18px] border border-[#DCE3EF] bg-white/84 px-3 py-2">
                   <input
                     id={`qty-${row.original.id}`}
                     inputMode="decimal"
                     type="text"
                     value={quantityInputs?.[row.original.id] ?? ""}
                     onChange={(event) => onQuantityChange?.(row.original.id, event.target.value)}
-                    className="w-full border-0 bg-transparent text-[0.95rem] font-semibold text-[#173550] outline-none"
+                    className="w-full border-0 bg-transparent text-[0.95rem] font-semibold text-[#253B80] outline-none"
                     placeholder="0.00"
                   />
-                  <span className="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-[#8a7b65]">
+                  <span className="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-[#6D7484]">
                     Tons
                   </span>
                 </div>
@@ -137,7 +137,7 @@ export function BidListingTable({
             id: "openingBidPerKg",
             header: "Opening bid",
             cell: ({ row }) => (
-              <span className="text-[0.94rem] font-semibold text-[#8d6d39]">
+              <span className="text-[0.94rem] font-semibold text-[#C8AA48]">
                 ${parsePricePerKg(row.original).toFixed(2)} / kg
               </span>
             ),
@@ -149,7 +149,7 @@ export function BidListingTable({
               id: "availableLots",
               header: "Available lot",
               cell: ({ row }) => (
-                <span className="text-[0.94rem] font-semibold text-[#173550]">
+                <span className="text-[0.94rem] font-semibold text-[#253B80]">
                   {row.original.availableLots} lot{row.original.availableLots === 1 ? "" : "s"}
                 </span>
               ),
@@ -158,7 +158,7 @@ export function BidListingTable({
               id: "minimumLotSize",
               header: "Minimum lot size",
               cell: ({ row }) => (
-                <span className="text-[0.94rem] font-semibold text-[#173550]">
+                <span className="text-[0.94rem] font-semibold text-[#253B80]">
                   {cleanLotQuantity(row.original.quantity)}
                 </span>
               ),
@@ -167,7 +167,7 @@ export function BidListingTable({
               id: "openingBidPerKg",
               header: "Opening bid",
               cell: ({ row }) => (
-                <span className="text-[0.94rem] font-semibold text-[#8d6d39]">
+                <span className="text-[0.94rem] font-semibold text-[#C8AA48]">
                   ${parsePricePerKg(row.original).toFixed(2)} / kg
                 </span>
               ),
@@ -177,13 +177,13 @@ export function BidListingTable({
           columnHelper.accessor("quantity", {
             header: "Quantity",
             cell: (info) => (
-              <span className="text-[0.94rem] font-semibold text-[#173550]">{info.getValue()}</span>
+              <span className="text-[0.94rem] font-semibold text-[#253B80]">{info.getValue()}</span>
             ),
           }),
           columnHelper.accessor("openingBid", {
             header: "Opening bid",
             cell: (info) => (
-              <span className="text-[0.94rem] font-semibold text-[#8d6d39]">{info.getValue()}</span>
+              <span className="text-[0.94rem] font-semibold text-[#C8AA48]">{info.getValue()}</span>
             ),
           }),
         ];
@@ -192,11 +192,11 @@ export function BidListingTable({
       ? [
           columnHelper.accessor("concentration", {
             header: "Concentration",
-            cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
+            cell: (info) => <span className="text-[0.94rem] leading-7 text-[#6D7484]">{info.getValue()}</span>,
           }),
           columnHelper.accessor("verification", {
             header: "Verification",
-            cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
+            cell: (info) => <span className="text-[0.94rem] leading-7 text-[#6D7484]">{info.getValue()}</span>,
           }),
         ]
       : [];
@@ -206,11 +206,11 @@ export function BidListingTable({
         ? [
             columnHelper.accessor("purityNotes", {
               header: "Purity notes",
-              cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
+              cell: (info) => <span className="text-[0.94rem] leading-7 text-[#6D7484]">{info.getValue()}</span>,
             }),
             columnHelper.accessor("availability", {
               header: "Availability",
-              cell: (info) => <span className="text-[0.94rem] leading-7 text-[#5c6b79]">{info.getValue()}</span>,
+              cell: (info) => <span className="text-[0.94rem] leading-7 text-[#6D7484]">{info.getValue()}</span>,
             }),
           ]
         : []),
@@ -225,10 +225,10 @@ export function BidListingTable({
 
                 return (
                   <div>
-                    <strong className="block text-[0.98rem] tracking-[-0.02em] text-[#11283d]">
+                    <strong className="block text-[0.98rem] tracking-[-0.02em] text-[#0F1115]">
                       ${Number.isFinite(totalBid) ? totalBid.toLocaleString(undefined, { maximumFractionDigits: 2 }) : "0.00"}
                     </strong>
-                    <span className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-[#8a7b65]">
+                    <span className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-[#6D7484]">
                       Calculated total
                     </span>
                   </div>
@@ -254,13 +254,13 @@ export function BidListingTable({
           return isDashboardBidTable ? (
             <div className="flex flex-col items-start gap-2">
               <Link
-                className="inline-flex items-center rounded-full border border-[#d8cebd] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e] hover:text-[#0f2a40]"
+                className="inline-flex items-center rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#253B80] transition hover:-translate-y-0.5 hover:border-[#D9C47A] hover:text-[#253B80]"
                 to={actionHref}
               >
                 {actionLabel}
               </Link>
               <Link
-                className="text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#8d6d39] transition hover:text-[#173550]"
+                className="text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#C8AA48] transition hover:text-[#253B80]"
                 to={detailHref}
               >
                 View details
@@ -268,7 +268,7 @@ export function BidListingTable({
             </div>
           ) : (
             <Link
-              className="inline-flex items-center rounded-full border border-[#d8cebd] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#173550] transition hover:-translate-y-0.5 hover:border-[#b38a4e] hover:text-[#0f2a40]"
+              className="inline-flex items-center rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#253B80] transition hover:-translate-y-0.5 hover:border-[#D9C47A] hover:text-[#253B80]"
               to={actionHref}
             >
               {actionLabel}
@@ -299,7 +299,7 @@ export function BidListingTable({
   });
 
   return (
-    <div className="overflow-hidden rounded-[30px] border border-[#ddd4c7] bg-[rgba(255,252,247,0.84)] shadow-[0_20px_60px_rgba(46,41,31,0.07)]">
+    <div className="overflow-hidden rounded-[30px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.84)] shadow-[0_20px_60px_rgba(46,41,31,0.07)]">
       <div className="overflow-x-auto">
         <table
           className={`w-full text-left ${
@@ -312,11 +312,11 @@ export function BidListingTable({
         >
           <thead className="bg-[rgba(247,239,227,0.92)]">
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-[#e6ddcf]">
+              <tr key={headerGroup.id} className="border-b border-[#DCE3EF]">
                 {headerGroup.headers.map((header, index) => (
                   <th
                     key={header.id}
-                    className={`px-5 py-4 text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#837865] ${
+                    className={`px-5 py-4 text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484] ${
                       index === 0 ? (compact ? "w-[21rem]" : "w-[24rem]") : ""
                     }`}
                   >
@@ -334,7 +334,7 @@ export function BidListingTable({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.35, delay: index * 0.03 }}
-                className="border-b border-[#ece4d8] last:border-b-0 hover:bg-[rgba(255,255,255,0.48)]"
+                className="border-b border-[#F6F8FC] last:border-b-0 hover:bg-[rgba(255,255,255,0.48)]"
               >
                 {row.getVisibleCells().map((cell) => (
                   <td key={cell.id} className="px-5 py-5 align-top">

@@ -25,7 +25,7 @@ export function MaterialTileGrid({
         >
           <Link
             to={hrefMode === "dashboard" ? tile.dashboardHref : tile.publicHref}
-            className={`group relative block overflow-hidden rounded-[28px] border border-[#d9cfbf] shadow-[0_24px_70px_rgba(46,41,31,0.08)] ${
+            className={`group relative block overflow-hidden rounded-[28px] border border-[#DCE3EF] shadow-[0_24px_70px_rgba(46,41,31,0.08)] ${
               compact ? "min-h-[11.5rem]" : "min-h-[14rem]"
             }`}
           >

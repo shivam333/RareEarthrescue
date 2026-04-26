@@ -48,7 +48,7 @@ export function AccessPathsSection({
         <h2 className={compactIntro ? "max-w-[18ch] text-[clamp(2rem,3.6vw,3.35rem)] leading-[1.02] tracking-[-0.05em]" : ""}>
           {title}
         </h2>
-        <p className={`section-copy ${compactIntro ? "max-w-[44rem] text-[1rem] leading-7 text-[#5d6c79]" : ""}`}>
+        <p className={`section-copy ${compactIntro ? "max-w-[44rem] text-[1rem] leading-7 text-[#6D7484]" : ""}`}>
           {copy}
         </p>
       </div>
@@ -61,10 +61,10 @@ export function AccessPathsSection({
                 key={item}
                 className="rounded-[22px] border border-[rgba(104,90,59,0.08)] bg-[rgba(255,255,255,0.56)] px-4 py-4"
               >
-                <span className="text-[0.74rem] font-bold uppercase tracking-[0.18em] text-[#8d6d39]">
+                <span className="text-[0.74rem] font-bold uppercase tracking-[0.18em] text-[#C8AA48]">
                   0{index + 1}
                 </span>
-                <p className="mt-3 text-[0.98rem] leading-7 text-[#44505b]">{item}</p>
+                <p className="mt-3 text-[0.98rem] leading-7 text-[#6D7484]">{item}</p>
               </div>
             ))}
           </div>
@@ -82,8 +82,8 @@ export function AccessPathsSection({
                 onClick={() => setSelectedRole(role)}
                 className={`rounded-full px-5 py-3 text-sm font-bold uppercase tracking-[0.14em] transition ${
                   isActive
-                    ? "bg-[linear-gradient(145deg,#b88b3c,#9f742c)] text-white shadow-[0_10px_24px_rgba(184,139,60,0.2)]"
-                    : "text-[#6f6b57] hover:text-[#2f3426]"
+                    ? "bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] text-white shadow-[0_10px_24px_rgba(184,139,60,0.2)]"
+                    : "text-[#6D7484] hover:text-[#0F1115]"
                 }`}
               >
                 {roleLabels[role]}
@@ -125,33 +125,33 @@ export function AccessPathsSection({
                     <span
                       className={`inline-flex rounded-full px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] ${
                         plan.featured
-                          ? "bg-[rgba(111,138,85,0.14)] text-[#526946]"
-                          : "bg-[rgba(184,139,60,0.14)] text-[#9f742c]"
+                          ? "bg-[rgba(111,138,85,0.14)] text-[#253B80]"
+                          : "bg-[rgba(184,139,60,0.14)] text-[#C8AA48]"
                       }`}
                     >
                       {plan.shortLabel}
                     </span>
-                    <h3 className="mt-4 text-[1.42rem] tracking-[-0.05em] text-[#2f3426]">
+                    <h3 className="mt-4 text-[1.42rem] tracking-[-0.05em] text-[#0F1115]">
                       {plan.title}
                     </h3>
                     {plan.priceLabel ? (
-                      <p className="mt-3 font-display text-[1.5rem] tracking-[-0.05em] text-[#11283d]">
+                      <p className="mt-3 font-display text-[1.5rem] tracking-[-0.05em] text-[#0F1115]">
                         {plan.priceLabel}
                       </p>
                     ) : null}
-                    <p className="mt-3 text-[0.98rem] leading-7 text-[#6f6b57]">
+                    <p className="mt-3 text-[0.98rem] leading-7 text-[#6D7484]">
                       {plan.summary}
                     </p>
                   </div>
 
                   {plan.featured ? (
-                    <span className="rounded-full border border-[rgba(111,138,85,0.2)] bg-[rgba(111,138,85,0.1)] px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#526946]">
+                    <span className="rounded-full border border-[rgba(111,138,85,0.2)] bg-[rgba(111,138,85,0.1)] px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#253B80]">
                       Recommended
                     </span>
                   ) : null}
                 </div>
 
-                <p className="mt-5 text-[0.78rem] font-bold uppercase tracking-[0.18em] text-[#8a7b65]">
+                <p className="mt-5 text-[0.78rem] font-bold uppercase tracking-[0.18em] text-[#6D7484]">
                   {plan.progression}
                 </p>
 
@@ -165,14 +165,14 @@ export function AccessPathsSection({
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       className="mt-5"
                     >
-                      <p className="text-[0.98rem] leading-7 text-[#44505b]">{planVariant.summary}</p>
+                      <p className="text-[0.98rem] leading-7 text-[#6D7484]">{planVariant.summary}</p>
                       <div className="mt-5 grid gap-3">
                         {planVariant.bullets.slice(0, 6).map((bullet: string) => (
                           <div key={bullet} className="flex items-start gap-3">
-                            <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(111,138,85,0.14)] text-[0.82rem] font-bold text-[#526946]">
+                            <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(111,138,85,0.14)] text-[0.82rem] font-bold text-[#253B80]">
                               ✓
                             </span>
-                            <span className="text-[0.95rem] leading-7 text-[#44505b]">{bullet}</span>
+                            <span className="text-[0.95rem] leading-7 text-[#6D7484]">{bullet}</span>
                           </div>
                         ))}
                       </div>
@@ -183,10 +183,10 @@ export function AccessPathsSection({
                     <div className="grid gap-3">
                       {plan.bullets?.map((bullet) => (
                         <div key={bullet} className="flex items-start gap-3">
-                          <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(184,139,60,0.14)] text-[0.82rem] font-bold text-[#9f742c]">
+                          <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(184,139,60,0.14)] text-[0.82rem] font-bold text-[#C8AA48]">
                             ✓
                           </span>
-                          <span className="text-[0.95rem] leading-7 text-[#44505b]">{bullet}</span>
+                          <span className="text-[0.95rem] leading-7 text-[#6D7484]">{bullet}</span>
                         </div>
                       ))}
                     </div>
@@ -215,14 +215,14 @@ export function AccessPathsSection({
 
                   {planVariant && rolePlanId ? (
                     <Link
-                      className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-[#8d6d39] transition hover:text-[#2f3426]"
+                      className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-[#C8AA48] transition hover:text-[#0F1115]"
                       to={getPlanDetailPath(rolePlanId, selectedRole)}
                     >
                       Know more
                     </Link>
                   ) : (
                     <button
-                      className="w-fit border-0 bg-transparent px-0 text-left text-[0.8rem] font-bold uppercase tracking-[0.16em] text-[#8d6d39] transition hover:text-[#2f3426]"
+                      className="w-fit border-0 bg-transparent px-0 text-left text-[0.8rem] font-bold uppercase tracking-[0.16em] text-[#C8AA48] transition hover:text-[#0F1115]"
                       type="button"
                       onClick={() => navigate("/contact")}
                     >
@@ -240,11 +240,11 @@ export function AccessPathsSection({
         <div className="flex flex-col gap-4 border-b border-[rgba(104,90,59,0.1)] pb-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <span className="plan-visual-label">Comparison helper</span>
-            <h3 className="mt-3 text-[1.5rem] tracking-[-0.04em] text-[#2f3426]">
+            <h3 className="mt-3 text-[1.5rem] tracking-[-0.04em] text-[#0F1115]">
               A simple progression from first transaction to scaled operating model.
             </h3>
           </div>
-          <p className="max-w-[38rem] text-[0.96rem] leading-7 text-[#6f6b57]">
+          <p className="max-w-[38rem] text-[0.96rem] leading-7 text-[#6D7484]">
             Use one-time access to start, move into subscription when activity becomes repeatable,
             and step into enterprise support when the workflow needs tailored coordination.
           </p>
@@ -265,10 +265,10 @@ export function AccessPathsSection({
                   onClick={() => setActiveHelper(isOpen ? "" : item.id)}
                   aria-expanded={isOpen}
                 >
-                  <span className="text-[1rem] font-semibold tracking-[-0.02em] text-[#2f3426]">
+                  <span className="text-[1rem] font-semibold tracking-[-0.02em] text-[#0F1115]">
                     {item.question}
                   </span>
-                  <span className="text-[1.4rem] leading-none text-[#8d6d39]">
+                  <span className="text-[1.4rem] leading-none text-[#C8AA48]">
                     {isOpen ? "−" : "+"}
                   </span>
                 </button>
@@ -281,7 +281,7 @@ export function AccessPathsSection({
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="max-w-[64rem] pb-5 text-[0.96rem] leading-7 text-[#6f6b57]">
+                      <p className="max-w-[64rem] pb-5 text-[0.96rem] leading-7 text-[#6D7484]">
                         {item.answer}
                       </p>
                     </motion.div>

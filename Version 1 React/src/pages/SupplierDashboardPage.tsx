@@ -51,12 +51,12 @@ export function SupplierDashboardPage({
   onModeChange?: (mode: DashboardMode) => void;
 }) {
   const modeSwitch = showModeSwitch && onModeChange ? (
-    <div className="mb-8 flex flex-col gap-4 rounded-[30px] border border-[#d7cebf] bg-white/72 p-5 shadow-[0_20px_56px_rgba(46,41,31,0.06)] lg:flex-row lg:items-center lg:justify-between">
+    <div className="mb-8 flex flex-col gap-4 rounded-[30px] border border-[#DCE3EF] bg-white/72 p-5 shadow-[0_20px_56px_rgba(46,41,31,0.06)] lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+        <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
           Account mode
         </span>
-        <p className="mt-2 max-w-[34rem] text-[0.94rem] leading-7 text-[#556576]">
+        <p className="mt-2 max-w-[34rem] text-[0.94rem] leading-7 text-[#6D7484]">
           Switch between recycler procurement workflows and supplier sell-side operations from the same account.
         </p>
       </div>
@@ -66,7 +66,7 @@ export function SupplierDashboardPage({
 
   return (
     <motion.main className="page bg-transparent" {...pageMotionProps}>
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(121,161,144,0.18),transparent_26%),radial-gradient(circle_at_92%_0%,rgba(210,175,103,0.16),transparent_24%),linear-gradient(180deg,#fcf8f1_0%,#f3eadb_58%,#f5efe4_100%)] pb-14 pt-28">
+      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(121,161,144,0.18),transparent_26%),radial-gradient(circle_at_92%_0%,rgba(210,175,103,0.16),transparent_24%),linear-gradient(180deg,#FFFFFF_0%,#F6F8FC_58%,#F6F8FC_100%)] pb-14 pt-28">
         <div className="absolute inset-0 opacity-[0.14] [background-image:linear-gradient(rgba(17,40,61,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(17,40,61,0.04)_1px,transparent_1px)] [background-size:32px_32px]" />
         <div className="shell relative z-10">
           {modeSwitch}
@@ -74,10 +74,10 @@ export function SupplierDashboardPage({
           <div className="grid gap-8 xl:grid-cols-[minmax(0,1.05fr)_460px]">
             <div>
               <p className="eyebrow">Supplier dashboard</p>
-              <h1 className="max-w-[13ch] font-display text-[clamp(3rem,5vw,5rem)] leading-[0.95] tracking-[-0.06em] text-[#11283d]">
+              <h1 className="max-w-[13ch] font-display text-[clamp(3rem,5vw,5rem)] leading-[0.95] tracking-[-0.06em] text-[#0F1115]">
                 Run verified sell-side programs for rare-earth-bearing scrap.
               </h1>
-              <p className="mt-5 max-w-[46rem] text-[1.02rem] leading-8 text-[#4b5b69]">
+              <p className="mt-5 max-w-[46rem] text-[1.02rem] leading-8 text-[#6D7484]">
                 Organize feedstock by source family, tighten documentation before outreach, and prepare repeat lots for recycler demand without losing commercial control.
               </p>
 
@@ -85,12 +85,12 @@ export function SupplierDashboardPage({
                 {supplierStats.map((stat) => (
                   <div
                     key={stat.label}
-                    className="rounded-[26px] border border-[#d9cfbf] bg-white/82 px-5 py-5 shadow-[0_18px_42px_rgba(46,41,31,0.06)]"
+                    className="rounded-[26px] border border-[#DCE3EF] bg-white/82 px-5 py-5 shadow-[0_18px_42px_rgba(46,41,31,0.06)]"
                   >
-                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                       {stat.label}
                     </span>
-                    <strong className="mt-2 block font-display text-[1.8rem] tracking-[-0.05em] text-[#11283d]">
+                    <strong className="mt-2 block font-display text-[1.8rem] tracking-[-0.05em] text-[#0F1115]">
                       {stat.value}
                     </strong>
                   </div>
@@ -107,15 +107,15 @@ export function SupplierDashboardPage({
               </div>
             </div>
 
-            <div className="rounded-[34px] border border-[#d8cfbf] bg-white/82 p-5 shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
-              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#8a7b65]">
+            <div className="rounded-[34px] border border-[#DCE3EF] bg-white/82 p-5 shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
+              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                 Supply families
               </span>
               <div className="mt-4 grid gap-4">
                 {dashboardMaterialTiles.slice(0, 3).map((tile) => (
                   <article
                     key={tile.id}
-                    className="grid gap-4 rounded-[26px] border border-[#ddd4c7] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(247,241,232,0.84))] p-4 md:grid-cols-[132px_minmax(0,1fr)]"
+                    className="grid gap-4 rounded-[26px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(247,241,232,0.84))] p-4 md:grid-cols-[132px_minmax(0,1fr)]"
                   >
                     <AppImage
                       src={tile.image}
@@ -123,10 +123,10 @@ export function SupplierDashboardPage({
                       className="h-28 w-full rounded-[22px] object-cover"
                     />
                     <div>
-                      <strong className="block font-display text-[1.22rem] tracking-[-0.04em] text-[#11283d]">
+                      <strong className="block font-display text-[1.22rem] tracking-[-0.04em] text-[#0F1115]">
                         {tile.title}
                       </strong>
-                      <p className="mt-2 text-[0.92rem] leading-7 text-[#556576]">{tile.subtitle}</p>
+                      <p className="mt-2 text-[0.92rem] leading-7 text-[#6D7484]">{tile.subtitle}</p>
                     </div>
                   </article>
                 ))}
@@ -147,15 +147,15 @@ export function SupplierDashboardPage({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.18 }}
               transition={{ duration: 0.45, delay: index * 0.05 }}
-              className="rounded-[30px] border border-[#d9cfbf] bg-[rgba(255,252,247,0.94)] p-6 shadow-[0_24px_70px_rgba(46,41,31,0.07)]"
+              className="rounded-[30px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.94)] p-6 shadow-[0_24px_70px_rgba(46,41,31,0.07)]"
             >
               <span className="badge">Supplier workflow</span>
-              <strong className="mt-4 block font-display text-[1.4rem] leading-[1.02] tracking-[-0.04em] text-[#11283d]">
+              <strong className="mt-4 block font-display text-[1.4rem] leading-[1.02] tracking-[-0.04em] text-[#0F1115]">
                 {program.title}
               </strong>
-              <p className="mt-4 text-[0.96rem] leading-7 text-[#556576]">{program.body}</p>
+              <p className="mt-4 text-[0.96rem] leading-7 text-[#6D7484]">{program.body}</p>
               <Link
-                className="mt-6 inline-flex text-[0.78rem] font-bold uppercase tracking-[0.14em] text-[#8d6d39] transition hover:text-[#173550]"
+                className="mt-6 inline-flex text-[0.78rem] font-bold uppercase tracking-[0.14em] text-[#C8AA48] transition hover:text-[#253B80]"
                 to={program.href}
               >
                 {program.cta}
