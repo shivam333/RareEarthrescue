@@ -7,12 +7,32 @@ import {
   comparisonHelperItems,
   getPlanDetailPath,
   planCards,
+  PlanBullet,
   PlanSlug,
   roleLabels,
 } from "../../data/authPlansData";
 
 function isRoleDrivenPlan(planId: string): planId is PlanSlug {
   return planId === "one-time-order" || planId === "subscription";
+}
+
+function BenefitRow({ bullet }: { bullet: PlanBullet }) {
+  const isNegative = bullet.tone === "negative";
+
+  return (
+    <div className="flex items-start gap-3">
+      <span
+        className={`mt-1 grid h-6 w-6 place-items-center rounded-full text-[0.82rem] font-bold ${
+          isNegative
+            ? "bg-[rgba(198,120,105,0.14)] text-[#c67869]"
+            : "bg-[#DDF1E8] text-[#2f7c62]"
+        }`}
+      >
+        {isNegative ? "×" : "✓"}
+      </span>
+      <span className="text-[0.92rem] leading-6 text-[#6D7484]">{bullet.text}</span>
+    </div>
+  );
 }
 
 type AccessPathsSectionProps = {
@@ -139,7 +159,7 @@ export function AccessPathsSection({
                         {plan.priceLabel}
                       </p>
                     ) : null}
-                    <p className="mt-3 text-[0.98rem] leading-7 text-[#6D7484]">
+                    <p className="mt-3 max-w-[28rem] text-[0.95rem] leading-6 text-[#6D7484]">
                       {plan.summary}
                     </p>
                   </div>
@@ -165,15 +185,10 @@ export function AccessPathsSection({
                       transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       className="mt-5"
                     >
-                      <p className="text-[0.98rem] leading-7 text-[#6D7484]">{planVariant.summary}</p>
+                      <p className="text-[0.94rem] leading-6 text-[#6D7484]">{planVariant.summary}</p>
                       <div className="mt-5 grid gap-3">
-                        {planVariant.bullets.slice(0, 6).map((bullet: string) => (
-                          <div key={bullet} className="flex items-start gap-3">
-                            <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(111,138,85,0.14)] text-[0.82rem] font-bold text-[#253B80]">
-                              ✓
-                            </span>
-                            <span className="text-[0.95rem] leading-7 text-[#6D7484]">{bullet}</span>
-                          </div>
+                        {planVariant.bullets.slice(0, 6).map((bullet) => (
+                          <BenefitRow key={bullet.text} bullet={bullet} />
                         ))}
                       </div>
                     </motion.div>
@@ -182,12 +197,7 @@ export function AccessPathsSection({
                   <div className="mt-5">
                     <div className="grid gap-3">
                       {plan.bullets?.map((bullet) => (
-                        <div key={bullet} className="flex items-start gap-3">
-                          <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(184,139,60,0.14)] text-[0.82rem] font-bold text-[#C8AA48]">
-                            ✓
-                          </span>
-                          <span className="text-[0.95rem] leading-7 text-[#6D7484]">{bullet}</span>
-                        </div>
+                        <BenefitRow key={bullet.text} bullet={bullet} />
                       ))}
                     </div>
                   </div>

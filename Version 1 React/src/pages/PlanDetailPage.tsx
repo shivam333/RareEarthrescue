@@ -5,6 +5,7 @@ import {
   AuthRole,
   getPlanCardBySlug,
   getPlanDetailPath,
+  PlanBullet,
   PlanSlug,
   roleLabels,
 } from "../data/authPlansData";
@@ -23,6 +24,31 @@ function isPlanSlug(value: string | undefined): value is PlanSlug {
 
 function isAuthRole(value: string | undefined): value is AuthRole {
   return value === "recycler" || value === "supplier";
+}
+
+function BenefitRow({ bullet }: { bullet: PlanBullet }) {
+  const isNegative = bullet.tone === "negative";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -10 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.35 }}
+      className="flex items-start gap-3 rounded-[18px] border border-[rgba(104,90,59,0.1)] bg-[rgba(255,252,247,0.85)] px-4 py-3"
+    >
+      <span
+        className={`mt-1 grid h-6 w-6 place-items-center rounded-full text-[0.82rem] font-bold ${
+          isNegative
+            ? "bg-[rgba(198,120,105,0.14)] text-[#c67869]"
+            : "bg-[#DDF1E8] text-[#2f7c62]"
+        }`}
+      >
+        {isNegative ? "×" : "✓"}
+      </span>
+      <span className="text-[0.96rem] leading-6 text-[#6D7484]">{bullet.text}</span>
+    </motion.div>
+  );
 }
 
 export function PlanDetailPage() {
@@ -89,10 +115,10 @@ export function PlanDetailPage() {
               <h1 className="mt-5 max-w-[11ch] text-[clamp(3rem,5vw,5.6rem)] leading-[0.96] tracking-[-0.06em] text-[#0F1115]">
                 {planCard.title}
               </h1>
-              <p className="mt-4 max-w-[44rem] text-[1.08rem] leading-8 text-[#6D7484]">
+              <p className="mt-4 max-w-[44rem] text-[1.02rem] leading-7 text-[#6D7484]">
                 {variant.detailTitle}
               </p>
-              <p className="mt-4 max-w-[44rem] text-[1rem] leading-8 text-[#6D7484]">
+              <p className="mt-4 max-w-[44rem] text-[0.98rem] leading-7 text-[#6D7484]">
                 {variant.detailSummary}
               </p>
 
@@ -127,19 +153,9 @@ export function PlanDetailPage() {
 
                 <div className="mt-6 grid gap-3">
                   {variant.bullets.map((bullet, index) => (
-                    <motion.div
-                      key={bullet}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{ duration: 0.35, delay: index * 0.05 }}
-                      className="flex items-start gap-3 rounded-[18px] border border-[rgba(104,90,59,0.1)] bg-[rgba(255,252,247,0.85)] px-4 py-3"
-                    >
-                      <span className="mt-1 grid h-6 w-6 place-items-center rounded-full bg-[rgba(111,138,85,0.14)] text-[0.82rem] font-bold text-[#253B80]">
-                        ✓
-                      </span>
-                      <span className="text-[0.98rem] leading-7 text-[#6D7484]">{bullet}</span>
-                    </motion.div>
+                    <div key={bullet.text} style={{ animationDelay: `${index * 0.05}s` }}>
+                      <BenefitRow bullet={bullet} />
+                    </div>
                   ))}
                 </div>
               </div>

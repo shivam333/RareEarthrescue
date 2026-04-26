@@ -1,12 +1,17 @@
 export type AuthRole = "recycler" | "supplier";
 export type PlanSlug = "one-time-order" | "subscription";
 export type AuthPlanType = "free" | "subscription";
+export type PlanBulletTone = "positive" | "negative";
+export type PlanBullet = {
+  text: string;
+  tone: PlanBulletTone;
+};
 
 export type PlanVariant = {
   shortLabel: string;
   title: string;
   summary: string;
-  bullets: string[];
+  bullets: PlanBullet[];
   detailTitle: string;
   detailSummary: string;
   bestFor: string[];
@@ -24,7 +29,7 @@ export type PlanCardConfig = {
   featured?: boolean;
   planType?: AuthPlanType;
   variants?: Record<AuthRole, PlanVariant>;
-  bullets?: string[];
+  bullets?: PlanBullet[];
 };
 
 export const roleLabels: Record<AuthRole, string> = {
@@ -39,25 +44,25 @@ export const planCards: PlanCardConfig[] = [
     title: "One-Time Order",
     progression: "Best for a first transaction",
     priceLabel: "Per transaction",
-    summary: "Move a targeted lot with guided execution and low commitment.",
+    summary: "Target one opportunity with guided execution and minimal commitment.",
     cta: "Start one-time access",
     planType: "free",
     variants: {
       recycler: {
         shortLabel: "Recycler",
         title: "One-time procurement path",
-        summary: "Bid on a targeted opportunity with guided execution and delivery support.",
+        summary: "Bid on one qualified lot without committing to recurring marketplace access.",
         bullets: [
-          "Place bids on targeted opportunities",
-          "Guided delivery coordination",
-          "Critical delivery support available",
-          "Assay and composition visibility",
-          "Managed logistics with handling fee",
-          "No live marketplace or commodity intelligence access",
+          { text: "Access live feedstock listings", tone: "positive" },
+          { text: "Place bids on targeted lots", tone: "positive" },
+          { text: "Assay and composition visibility", tone: "positive" },
+          { text: "1% shipment handling fee", tone: "negative" },
+          { text: "Due diligence packs at $79 each", tone: "negative" },
+          { text: "No smart commodity analytics", tone: "negative" },
         ],
-        detailTitle: "Use one-time access when a recycler needs a specific lot without committing to a recurring workflow.",
+        detailTitle: "Use one-time access when a recycler needs a specific lot without stepping into a recurring sourcing program.",
         detailSummary:
-          "This path is built for buyers testing Rare Earth Rescue, filling a near-term plant need, or securing a single opportunity that still requires technical and logistics support.",
+          "Built for buyers testing Rare Earth Rescue, filling a near-term plant need, or securing a single opportunity with structured visibility but lighter platform depth.",
         bestFor: [
           "A focused procurement need with defined tonnage or chemistry",
           "A first transaction before moving into recurring sourcing",
@@ -85,18 +90,16 @@ export const planCards: PlanCardConfig[] = [
       supplier: {
         shortLabel: "Supplier",
         title: "One-time sell-side path",
-        summary: "Post a single opportunity and move it through a guided sale workflow.",
+        summary: "Move a single sell-side lot through a guided workflow with lighter tooling.",
         bullets: [
-          "Post a live feedstock opportunity",
-          "Guided pickup assignment",
-          "Payment after sale confirmation",
-          "Manual BOM and composition entry",
-          "Managed logistics with handling fee",
-          "No commodity intelligence or bidding tools",
+          { text: "Run up to 3 live bidding workflows at a time", tone: "positive" },
+          { text: "No commodity intelligence or bidding tools", tone: "negative" },
+          { text: "Manual BOM and composition entry", tone: "negative" },
+          { text: "Guided pickup assignment", tone: "negative" },
         ],
-        detailTitle: "Use one-time access when a supplier wants to test the market with a single lot or a one-off disposal event.",
+        detailTitle: "Use one-time access when a supplier wants to test the market with a single lot or one-off disposal event.",
         detailSummary:
-          "This path is built for scrappers, dismantlers, ITAD operators, and industrial salvage teams that need a structured sale without committing to a recurring program.",
+          "Built for scrappers, dismantlers, ITAD operators, and industrial salvage teams that need a structured sale without ongoing subscription tools.",
         bestFor: [
           "A first transaction through Rare Earth Rescue",
           "A one-off lot of rare-earth-bearing scrap that needs specialist buyers",
@@ -129,7 +132,7 @@ export const planCards: PlanCardConfig[] = [
     title: "Subscription",
     progression: "Recommended for repeat operators",
     priceLabel: "$599 / month",
-    summary: "Unlock recurring access, stronger intelligence, and deeper workflow support.",
+    summary: "Unlock recurring access, richer intelligence, and deeper workflow support.",
     cta: "Create subscription account",
     featured: true,
     planType: "subscription",
@@ -137,18 +140,18 @@ export const planCards: PlanCardConfig[] = [
       recycler: {
         shortLabel: "Recycler",
         title: "Recurring procurement path",
-        summary: "Designed for buyers who need steady discovery, direct pricing, and repeat sourcing workflows.",
+        summary: "Built for buyers who need steady discovery, direct pricing, and repeat sourcing depth.",
         bullets: [
-          "Access live feedstock listings",
-          "Submit buy prices directly",
-          "Commodity analytics and supply hotspots",
-          "Fixed feedstock supply contracts",
-          "No handling fee",
-          "Designed for recurring procurement workflows",
+          { text: "Access the feedstock recommender", tone: "positive" },
+          { text: "Access live listings and closed auction events", tone: "positive" },
+          { text: "Assay and composition visibility", tone: "positive" },
+          { text: "No handling fee", tone: "positive" },
+          { text: "10 free due diligence packs", tone: "positive" },
+          { text: "Commodity analytics and supply hotspots", tone: "positive" },
         ],
-        detailTitle: "Subscription is the right fit when recycler utilization depends on repeat sourcing and better market visibility.",
+        detailTitle: "Subscription fits when recycler utilization depends on repeat sourcing and better market visibility.",
         detailSummary:
-          "This path supports refiners, magnet recyclers, and recovery operators that need recurring access to fragmented supply, pricing signals, and structured commercial workflows.",
+          "This path supports refiners, magnet recyclers, and recovery operators that need recurring access to fragmented supply, closed-event opportunities, and structured commercial workflows.",
         bestFor: [
           "Facilities that need repeat feedstock visibility to avoid idle capacity",
           "Procurement teams that want direct pricing and recurring supplier relationships",
@@ -176,17 +179,14 @@ export const planCards: PlanCardConfig[] = [
       supplier: {
         shortLabel: "Supplier",
         title: "Recurring sell-side path",
-        summary: "Best for sellers running repeat lots, faster operations, and more structured buyer engagement.",
+        summary: "Built for sellers running repeat lots with better automation and market visibility.",
         bullets: [
-          "Run up to 3 live bidding workflows",
-          "Schedule pickups directly",
-          "Access commodity intelligence",
-          "No handling fee",
-          "Faster post-sale payment flow",
-          "BOM and composition autofill from images and existing data",
-          "Managed recurring contracts",
+          { text: "Post live feedstock opportunities and active catalogs", tone: "positive" },
+          { text: "Commodity intelligence and sales analytics", tone: "positive" },
+          { text: "BOM and composition autofill from images and existing data", tone: "positive" },
+          { text: "Schedule pickups directly", tone: "positive" },
         ],
-        detailTitle: "Subscription is built for suppliers who generate repeat recovery opportunities and want a faster, more informed sell-side workflow.",
+        detailTitle: "Subscription is built for suppliers generating repeat recovery opportunities and wanting a faster, more informed sell-side workflow.",
         detailSummary:
           "This path supports operators moving regular lots and needing stronger listing tools, less manual entry, and better visibility into pricing and buyer demand.",
         bestFor: [
@@ -225,12 +225,11 @@ export const planCards: PlanCardConfig[] = [
       "Tailored support for managed sourcing, structured sell-side programs, and multi-site commercial workflows.",
     cta: "Talk to our team",
     bullets: [
-      "Managed sourcing or sell-side programs",
-      "Custom commercial models",
-      "Cross-region logistics coordination",
-      "Batch consolidation and workflow design",
-      "High-touch onboarding and advisory",
-      "Tailored support for multi-site operators",
+      { text: "Custom commercial models", tone: "positive" },
+      { text: "Cross-region logistics coordination", tone: "positive" },
+      { text: "Batch consolidation and workflow design", tone: "positive" },
+      { text: "High-touch onboarding and advisory", tone: "positive" },
+      { text: "Tailored support for multi-site operators", tone: "positive" },
     ],
   },
 ];
