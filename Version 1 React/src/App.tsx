@@ -21,6 +21,7 @@ import { OfferingsPage } from "./pages/OfferingsPage";
 import { PlanDetailPage } from "./pages/PlanDetailPage";
 import { RecyclerOnboardingPage } from "./pages/RecyclerOnboardingPage";
 import { SourceMarketplacePage } from "./pages/SourceMarketplacePage";
+import { SupplierCreateBidPage } from "./pages/SupplierCreateBidPage";
 import { SupplierOnboardingPage } from "./pages/SupplierOnboardingPage";
 
 export default function App() {
@@ -97,6 +98,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <AccountSettingsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/supplier/create-bid"
+            element={
+              <ProtectedRoute requiredMode="supplier">
+                <SupplierCreateBidPage />
               </ProtectedRoute>
             }
           />
