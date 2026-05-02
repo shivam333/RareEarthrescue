@@ -22,6 +22,7 @@ import { PlanDetailPage } from "./pages/PlanDetailPage";
 import { RecyclerOnboardingPage } from "./pages/RecyclerOnboardingPage";
 import { SourceMarketplacePage } from "./pages/SourceMarketplacePage";
 import { SupplierCreateBidPage } from "./pages/SupplierCreateBidPage";
+import { SupplierActiveListingsPage } from "./pages/SupplierActiveListingsPage";
 import { SupplierOnboardingPage } from "./pages/SupplierOnboardingPage";
 
 export default function App() {
@@ -106,6 +107,14 @@ export default function App() {
             element={
               <ProtectedRoute requiredMode="supplier">
                 <SupplierCreateBidPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/supplier/listings"
+            element={
+              <ProtectedRoute requiredMode="supplier">
+                <SupplierActiveListingsPage />
               </ProtectedRoute>
             }
           />
