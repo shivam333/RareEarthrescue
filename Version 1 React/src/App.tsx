@@ -111,6 +111,14 @@ export default function App() {
             }
           />
           <Route
+            path="/dashboard/supplier/create-bid/:familyId"
+            element={
+              <ProtectedRoute requiredMode="supplier">
+                <SupplierCreateBidPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/dashboard/supplier/listings"
             element={
               <ProtectedRoute requiredMode="supplier">
