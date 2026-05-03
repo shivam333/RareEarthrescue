@@ -7,8 +7,6 @@ import { useGSAP } from "@gsap/react";
 import { AppImage } from "../components/ui/AppImage";
 import { ShadButton } from "../components/ui/ShadButton";
 import { ShadTabs, ShadTabsContent, ShadTabsList, ShadTabsTrigger } from "../components/ui/ShadTabs";
-import rareEarthHeroVisual from "../assets/rare-earth-elements-hero.svg";
-import usRecoveryMapVisual from "../assets/us-recovery-map.svg";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -679,9 +677,9 @@ export function HomePage() {
             <div className="gsap-hero-visual relative min-h-[520px] overflow-hidden rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(239,231,218,0.9))] shadow-[0_34px_90px_rgba(46,41,31,0.1)] lg:min-h-[540px]">
               <div className="gsap-parallax absolute inset-0 opacity-[0.16]">
                 <AppImage
-                  src={rareEarthHeroVisual}
-                  alt="Rare earth elements, ore samples, and periodic table visual"
-                  className="h-full w-full object-cover saturate-[0.82] hue-rotate-[2deg]"
+                  src="https://images.unsplash.com/photo-1513828742140-ccaa28f3eda0?auto=format&fit=crop&w=1600&q=80"
+                  alt="Shiny metallic industrial material surface"
+                  className="h-full w-full object-cover saturate-[0.7]"
                 />
               </div>
 
@@ -849,16 +847,33 @@ export function HomePage() {
                   ))}
                 </div>
 
-                <div className="relative mt-6 overflow-hidden rounded-[30px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(244,237,225,0.86))] p-4">
-                  <div className="absolute inset-0 opacity-[0.9]">
-                    <AppImage
-                      src={usRecoveryMapVisual}
-                      alt="United States map showing recovery network focus states"
-                      className="h-full w-full object-cover saturate-[0.88]"
-                    />
-                  </div>
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(247,243,234,0.16),rgba(247,243,234,0.08))]" />
+                <div className="relative mt-6 rounded-[30px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(244,237,225,0.86))] p-4">
                   <svg viewBox="0 0 620 420" className="h-full w-full">
+                    <path
+                      d="M75 145 92 126 116 112 145 110 173 115 205 109 233 114 262 126 298 125 330 118 365 116 396 122 430 122 462 118 491 123 516 133 544 139 567 153 584 174 589 196 582 209 568 214 554 225 545 235 527 238 512 250 509 266 494 276 482 292 456 302 427 310 398 313 367 322 336 327 308 322 280 325 250 336 223 342 193 338 168 329 144 320 123 302 106 289 91 271 83 251 76 227 73 204 67 180Z"
+                      fill="rgba(255,255,255,0.56)"
+                      stroke="rgba(17,40,61,0.15)"
+                      strokeWidth="1.8"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M235 124C261 146 284 171 307 208"
+                      fill="none"
+                      stroke="rgba(17,40,61,0.09)"
+                      strokeWidth="1.4"
+                    />
+                    <path
+                      d="M375 118C402 149 435 185 510 241"
+                      fill="none"
+                      stroke="rgba(17,40,61,0.09)"
+                      strokeWidth="1.4"
+                    />
+                    <path
+                      d="M152 287C242 260 344 253 493 278"
+                      fill="none"
+                      stroke="rgba(17,40,61,0.08)"
+                      strokeWidth="1.4"
+                    />
                     <path id="corridor-west" className="gsap-network-route" d="M140 260C174 248 207 233 245 214" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.3" />
                     <path id="corridor-central" className="gsap-network-route" d="M245 214C277 200 303 188 332 166" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.3" />
                     <path id="corridor-lakes" className="gsap-network-route" d="M332 166C359 152 383 144 412 139" fill="none" stroke="rgba(17,40,61,0.22)" strokeWidth="2.3" />

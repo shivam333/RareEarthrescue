@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { supplierActiveListings } from "../data/supplierListingsData";
 import { pageEnter } from "../lib/motion";
@@ -11,6 +12,8 @@ const pageMotionProps = {
 };
 
 export function SupplierActiveListingsPage() {
+  const [closedIds, setClosedIds] = useState<string[]>([]);
+
   return (
     <motion.main className="page bg-transparent" {...pageMotionProps}>
       <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(121,161,144,0.18),transparent_26%),radial-gradient(circle_at_92%_0%,rgba(210,175,103,0.16),transparent_24%),linear-gradient(180deg,#FFFFFF_0%,#F6F8FC_58%,#F6F8FC_100%)] pb-16 pt-28">
@@ -45,13 +48,16 @@ export function SupplierActiveListingsPage() {
             </div>
 
             <div className="mt-8 grid gap-4">
-              {supplierActiveListings.map((listing, index) => (
+              {supplierActiveListings.map((listing, index) => {
+                const isClosed = closedIds.includes(listing.id);
+
+                return (
                 <motion.article
                   key={listing.id}
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.38, delay: index * 0.05 }}
-                  className="grid gap-4 rounded-[26px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(249,244,236,0.86))] p-5 xl:grid-cols-[minmax(0,1.3fr)_repeat(5,minmax(0,0.45fr))]"
+                  className="grid gap-4 rounded-[26px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.92),rgba(249,244,236,0.86))] p-5 xl:grid-cols-[minmax(0,1.3fr)_repeat(6,minmax(0,0.42fr))]"
                 >
                   <div>
                     <strong className="block font-display text-[1.18rem] tracking-[-0.04em] text-[#0F1115]">
@@ -93,10 +99,30 @@ export function SupplierActiveListingsPage() {
                     <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
                       Status
                     </span>
-                    <p className="mt-2 text-[0.82rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">{listing.status}</p>
+                    <p className={`mt-2 text-[0.82rem] font-bold uppercase tracking-[0.14em] ${isClosed ? "text-[#B16A1D]" : "text-[#253B80]"}`}>
+                      {isClosed ? "Bid closed" : listing.status}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                      Action
+                    </span>
+                    <button
+                      type="button"
+                      disabled={isClosed}
+                      onClick={() => setClosedIds((current) => [...current, listing.id])}
+                      className={`mt-2 inline-flex rounded-full px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] transition ${
+                        isClosed
+                          ? "cursor-not-allowed border border-[#DCE3EF] bg-[#F6F8FC] text-[#9AA4B2]"
+                          : "bg-[#253B80] text-white hover:bg-[#11283D]"
+                      }`}
+                    >
+                      {isClosed ? "Closed" : "Close bid"}
+                    </button>
                   </div>
                 </motion.article>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

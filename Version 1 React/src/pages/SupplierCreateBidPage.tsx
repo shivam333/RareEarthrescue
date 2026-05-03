@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AppImage } from "../components/ui/AppImage";
@@ -13,54 +13,167 @@ const pageMotionProps = {
   exit: "exit" as const,
 };
 
-type FamilyKey = DashboardSourceId | "custom";
-type SupplierAction = "list-at-floor" | "create-bid";
+type FamilyKey = DashboardSourceId | "specialized-products";
+type SupplierAction = "draft" | "list-at-floor" | "create-bid";
+type DetailMode = "yes" | "no" | "";
 
-type StagedListing = {
+type PartOption = {
   id: string;
-  familyLabel: string;
+  manufacturer: string;
+  modelFamily: string;
+  partNumber: string;
+};
+
+type SubcategoryOption = {
+  id: string;
+  label: string;
+  guidance: string;
+};
+
+type FeedstockLineItem = {
+  id: string;
   subcategoryLabel: string;
   manufacturer: string;
   modelFamily: string;
   partNumber: string;
   quantityKg: string;
-  enteredFloor: string;
-  action: SupplierAction;
+  floorPriceKg: string;
+  packaging: string;
+  condition: string;
+  detailMode: DetailMode;
+  authorization: string;
+  releasePath: string;
+  isBelowRange: boolean;
 };
 
-const customTile = {
-  id: "custom" as const,
-  title: "Custom Listing",
-  subtitle: "Use a guided path for equipment that does not map to the standard rare-earth scrap families",
+const specializedTile = {
+  id: "specialized-products" as const,
+  title: "Specialized Products",
+  subtitle:
+    "Defense and security products that are authorized for scrap release, demil, recycling, or controlled recovery programs",
   image:
     "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=1400&q=80",
 };
 
 const faqItems = [
   {
-    question: "How does Rare Earth Rescue determine whether my floor is low?",
+    question: "How does Rare Earth Rescue decide whether a supplier floor is low?",
     answer:
-      "The platform checks the subcategory, manufacturer, part number, condition, and evidence you provide against an internal materials database. It does not reveal the composition model or pricing calculation back to the supplier.",
+      "The platform checks the selected subcategory, known equipment details, and supplied evidence against a protected backend materials database. Suppliers only see guidance, never the underlying composition model or exact pricing output.",
   },
   {
-    question: "What happens if my floor price is below the platform range?",
+    question: "What happens if the supplier enters a floor below the platform range?",
     answer:
-      "You will see two choices: keep the lower floor and list directly, or create a live bid to test buyer demand without exposing the platform's pricing output.",
+      "Rare Earth Rescue gives the supplier two paths: keep the submitted floor and list it directly, or open a bid to let recycler demand compete above that floor.",
   },
   {
-    question: "Why is quantity entered in kilograms?",
+    question: "Why do we ask whether the supplier knows the equipment details?",
     answer:
-      "Supplier listing intake is standardized in kilograms so the backend pricing and recovery logic can compare lots consistently across families and subcategories.",
+      "That question decides whether the workflow should use guided dropdown matching, manual identifiers, or a platform-review path for unknown material.",
   },
   {
-    question: "What is the custom listing path for?",
+    question: "What is specialized products used for?",
     answer:
-      "Custom listing is for equipment that does not clearly fit into a standard family. The platform still collects structured details so it can classify the lane and return a protected pricing recommendation.",
+      "Specialized products is designed for authorized defense and security-related assets that require tighter release, demil, and handling context before the listing can go live.",
   },
 ];
 
 const packagingOptions = ["Palletized", "Gaylords", "Drummed", "Loose units", "Containerized"];
 const conditionOptions = ["Intact", "Dismantled", "Damaged", "Shredded fraction", "Mixed condition"];
+const authorizationOptions = [
+  "Authorized scrap release",
+  "Demil completed",
+  "Controlled recycler release",
+  "OEM-approved disposition",
+];
+const releasePathOptions = [
+  "Standard industrial release",
+  "Secure handling channel",
+  "Defense contractor release",
+  "Government-approved recycler transfer",
+];
+
+const specializedSubcategories: SubcategoryOption[] = [
+  {
+    id: "defense-electronics",
+    label: "Defense electronics",
+    guidance: "Boards, motors, and embedded magnet systems from approved defense electronics recovery streams.",
+  },
+  {
+    id: "secure-comms",
+    label: "Secure communications hardware",
+    guidance: "Authorized communications and control equipment requiring tighter release records and handling notes.",
+  },
+  {
+    id: "sensor-guidance",
+    label: "Sensor and guidance assemblies",
+    guidance: "Authorized motion-control, targeting, and sensing modules where embedded magnets may drive recovery value.",
+  },
+  {
+    id: "protected-motor-units",
+    label: "Protected motor units",
+    guidance: "Controlled motor-bearing products that need extra release documentation before recycler visibility.",
+  },
+];
+
+const specializedPartCatalog: Record<string, PartOption[]> = {
+  "defense-electronics": [
+    {
+      id: "spec-harris-board",
+      manufacturer: "L3Harris",
+      modelFamily: "Secure electronics module",
+      partNumber: "L3-SM-4401",
+    },
+    {
+      id: "spec-raytheon-control",
+      manufacturer: "RTX",
+      modelFamily: "Control and actuation assembly",
+      partNumber: "RTX-CA-9088",
+    },
+  ],
+  "secure-comms": [
+    {
+      id: "spec-secure-radio",
+      manufacturer: "General Dynamics",
+      modelFamily: "Secure radio chassis",
+      partNumber: "GD-SR-2002",
+    },
+    {
+      id: "spec-thales-comms",
+      manufacturer: "Thales",
+      modelFamily: "Protected comms unit",
+      partNumber: "TH-CU-7421",
+    },
+  ],
+  "sensor-guidance": [
+    {
+      id: "spec-sensor-rig",
+      manufacturer: "Northrop Grumman",
+      modelFamily: "Sensor and tracking assembly",
+      partNumber: "NG-ST-8820",
+    },
+    {
+      id: "spec-guidance-kit",
+      manufacturer: "BAE Systems",
+      modelFamily: "Guidance support module",
+      partNumber: "BAE-GM-3155",
+    },
+  ],
+  "protected-motor-units": [
+    {
+      id: "spec-protected-motor",
+      manufacturer: "Lockheed Martin",
+      modelFamily: "Protected actuator motor",
+      partNumber: "LM-PM-1108",
+    },
+    {
+      id: "spec-aux-drive",
+      manufacturer: "Boeing Defense",
+      modelFamily: "Auxiliary drive package",
+      partNumber: "BD-AD-6262",
+    },
+  ],
+};
 
 const platformEstimatedFloorByPart: Record<string, number> = {
   "hdd-seagate-exos": 2.42,
@@ -75,28 +188,53 @@ const platformEstimatedFloorByPart: Record<string, number> = {
   "ind-dyson-v11": 2.12,
   "ind-siemens-servo": 3.26,
   "ind-vestas-wind": 3.44,
-  "mri-ge-signa": 46000,
-  "mri-siemens-skyra": 58000,
-  "mri-fonar-open": 27500,
+  "mri-ge-signa": 46.0,
+  "mri-siemens-skyra": 58.0,
+  "mri-fonar-open": 27.5,
   "other-fanuc-actuator": 4.24,
   "other-eppendorf-spin": 2.36,
   "other-thk-linear": 2.74,
+  "spec-harris-board": 8.9,
+  "spec-raytheon-control": 10.4,
+  "spec-secure-radio": 7.6,
+  "spec-thales-comms": 8.1,
+  "spec-sensor-rig": 9.8,
+  "spec-guidance-kit": 11.2,
+  "spec-protected-motor": 12.6,
+  "spec-aux-drive": 9.4,
+};
+
+const hotspotRegionsByFamily: Record<FamilyKey, string[]> = {
+  hdd: ["Texas", "Illinois", "Ontario"],
+  "auto-motors": ["Ontario", "Texas", "Michigan"],
+  "industrial-motors": ["Midwest", "Texas", "Pacific Northwest"],
+  mri: ["Upper Midwest", "Northeast", "Mid-Atlantic"],
+  "other-items": ["California", "Upper Midwest", "Germany-linked buyers"],
+  "specialized-products": ["Virginia", "Texas", "Mid-Atlantic secure handling"],
 };
 
 function getFamilyRecord(familyId: FamilyKey | undefined): SupplyFamilyListingDatabase | null {
-  if (!familyId || familyId === "custom") {
+  if (!familyId || familyId === "specialized-products") {
     return null;
   }
   return supplierListingDatabase.find((record) => record.familyId === familyId) ?? null;
 }
 
-function createListingId() {
-  return `listing-${Math.random().toString(36).slice(2, 10)}`;
+function createLineItemId() {
+  return `line-${Math.random().toString(36).slice(2, 10)}`;
 }
 
-function toCurrencyValue(value: string) {
+function toNumberValue(value: string) {
   const normalized = value.replace(/[^0-9.]/g, "");
   return normalized ? Number(normalized) : NaN;
+}
+
+function currency(value: number) {
+  return `$${value.toFixed(2)}/kg`;
+}
+
+function normalizeLookupValue(value: string) {
+  return value.trim().toLowerCase();
 }
 
 export function SupplierCreateBidPage() {
@@ -104,32 +242,36 @@ export function SupplierCreateBidPage() {
   const familyId = (params.familyId as FamilyKey | undefined) ?? undefined;
   const isSelectionPage = !familyId;
   const familyRecord = getFamilyRecord(familyId);
+
   const activeTile =
-    familyId === "custom"
-      ? customTile
+    familyId === "specialized-products"
+      ? specializedTile
       : dashboardMaterialTiles.find((tile) => tile.id === familyId) ?? null;
 
   const [selectedSubcategoryId, setSelectedSubcategoryId] = useState("");
-  const [selectedManufacturer, setSelectedManufacturer] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
-  const [selectedPartId, setSelectedPartId] = useState("");
-  const [listingTitle, setListingTitle] = useState("");
+  const [packageTitle, setPackageTitle] = useState("");
+  const [evidenceNotes, setEvidenceNotes] = useState("");
+  const [detailMode, setDetailMode] = useState<DetailMode>("");
+  const [manufacturerSelect, setManufacturerSelect] = useState("");
+  const [manufacturerManual, setManufacturerManual] = useState("");
+  const [modelSelect, setModelSelect] = useState("");
+  const [modelManual, setModelManual] = useState("");
+  const [partSelect, setPartSelect] = useState("");
+  const [partManual, setPartManual] = useState("");
+  const [observedIdentifier, setObservedIdentifier] = useState("");
   const [quantityKg, setQuantityKg] = useState("");
-  const [enteredFloor, setEnteredFloor] = useState("");
+  const [floorPriceKg, setFloorPriceKg] = useState("");
   const [packaging, setPackaging] = useState(packagingOptions[0]);
   const [condition, setCondition] = useState(conditionOptions[0]);
-  const [evidenceNotes, setEvidenceNotes] = useState("");
-  const [stagedListings, setStagedListings] = useState<StagedListing[]>([]);
+  const [authorization, setAuthorization] = useState(authorizationOptions[0]);
+  const [releasePath, setReleasePath] = useState(releasePathOptions[0]);
+  const [lineItems, setLineItems] = useState<FeedstockLineItem[]>([]);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isRecommendationOpen, setIsRecommendationOpen] = useState(false);
 
-  const subcategoryCards =
-    familyId === "custom"
-      ? [
-          {
-            id: "custom-listing",
-            label: "Custom listing",
-            guidance: "Use this path when your equipment needs platform review before it can be matched to a standard lane.",
-          },
-        ]
+  const subcategoryCards: SubcategoryOption[] =
+    familyId === "specialized-products"
+      ? specializedSubcategories
       : (familyRecord?.subcategories ?? []).map((subcategory) => ({
           id: subcategory.id,
           label: subcategory.label,
@@ -137,108 +279,199 @@ export function SupplierCreateBidPage() {
         }));
 
   const selectedSubcategory =
-    familyId === "custom"
-      ? selectedSubcategoryId === "custom-listing"
-        ? { id: "custom-listing", label: "Custom listing", partRecords: [] as never[] }
-        : null
-      : familyRecord?.subcategories.find((subcategory) => subcategory.id === selectedSubcategoryId) ?? null;
+    subcategoryCards.find((subcategory) => subcategory.id === selectedSubcategoryId) ?? null;
 
-  const manufacturerOptions = useMemo(() => {
-    if (!selectedSubcategory || familyId === "custom" || !("partRecords" in selectedSubcategory)) {
+  const partCatalog: PartOption[] = useMemo(() => {
+    if (!selectedSubcategoryId) {
       return [];
     }
-    return [...new Set(selectedSubcategory.partRecords.map((record) => record.manufacturer))];
-  }, [familyId, selectedSubcategory]);
-
-  const modelOptions = useMemo(() => {
-    if (!selectedSubcategory || familyId === "custom" || !selectedManufacturer || !("partRecords" in selectedSubcategory)) {
-      return [];
+    if (familyId === "specialized-products") {
+      return specializedPartCatalog[selectedSubcategoryId] ?? [];
     }
-    return [
-      ...new Set(
-        selectedSubcategory.partRecords
-          .filter((record) => record.manufacturer === selectedManufacturer)
-          .map((record) => record.modelFamily),
-      ),
-    ];
-  }, [familyId, selectedManufacturer, selectedSubcategory]);
-
-  const partOptions = useMemo(() => {
-    if (!selectedSubcategory || familyId === "custom" || !selectedManufacturer || !selectedModel || !("partRecords" in selectedSubcategory)) {
-      return [];
-    }
-    return selectedSubcategory.partRecords.filter(
-      (record) => record.manufacturer === selectedManufacturer && record.modelFamily === selectedModel,
+    const sourceSubcategory = familyRecord?.subcategories.find((subcategory) => subcategory.id === selectedSubcategoryId);
+    return (
+      sourceSubcategory?.partRecords.map((record) => ({
+        id: record.id,
+        manufacturer: record.manufacturer,
+        modelFamily: record.modelFamily,
+        partNumber: record.partNumber,
+      })) ?? []
     );
-  }, [familyId, selectedManufacturer, selectedModel, selectedSubcategory]);
+  }, [familyId, familyRecord, selectedSubcategoryId]);
+
+  const manufacturerOptions = [...new Set(partCatalog.map((record) => record.manufacturer))];
+  const modelOptions = [...new Set(partCatalog.filter((record) => !manufacturerSelect || record.manufacturer === manufacturerSelect).map((record) => record.modelFamily))];
+  const partOptions = partCatalog.filter(
+    (record) =>
+      (!manufacturerSelect || record.manufacturer === manufacturerSelect) &&
+      (!modelSelect || record.modelFamily === modelSelect),
+  );
 
   useEffect(() => {
     setSelectedSubcategoryId("");
-    setSelectedManufacturer("");
-    setSelectedModel("");
-    setSelectedPartId("");
-    setListingTitle("");
-    setQuantityKg("");
-    setEnteredFloor("");
-    setPackaging(packagingOptions[0]);
-    setCondition(conditionOptions[0]);
+    setPackageTitle("");
     setEvidenceNotes("");
+    setLineItems([]);
+    setStatusMessage("");
   }, [familyId]);
 
   useEffect(() => {
-    setSelectedManufacturer("");
-    setSelectedModel("");
-    setSelectedPartId("");
-    setListingTitle("");
+    setDetailMode("");
+    setManufacturerSelect("");
+    setManufacturerManual("");
+    setModelSelect("");
+    setModelManual("");
+    setPartSelect("");
+    setPartManual("");
+    setObservedIdentifier("");
     setQuantityKg("");
-    setEnteredFloor("");
+    setFloorPriceKg("");
     setPackaging(packagingOptions[0]);
     setCondition(conditionOptions[0]);
-    setEvidenceNotes("");
+    setAuthorization(authorizationOptions[0]);
+    setReleasePath(releasePathOptions[0]);
+    setStatusMessage("");
   }, [selectedSubcategoryId]);
 
-  useEffect(() => {
-    if (partOptions.length === 1) {
-      setSelectedPartId(partOptions[0].id);
+  const platformEstimate = useMemo(() => {
+    if (partSelect && platformEstimatedFloorByPart[partSelect]) {
+      return platformEstimatedFloorByPart[partSelect];
     }
-  }, [partOptions]);
 
-  const estimatedFloor =
-    familyId === "custom"
-      ? null
-      : selectedPartId
-        ? platformEstimatedFloorByPart[selectedPartId] ?? null
-        : null;
+    if (partCatalog.length === 0) {
+      return null;
+    }
 
-  const enteredFloorNumber = toCurrencyValue(enteredFloor);
+    const manufacturerLookup = normalizeLookupValue(manufacturerManual || manufacturerSelect);
+    const modelLookup = normalizeLookupValue(modelManual || modelSelect);
+    const partLookup = normalizeLookupValue(partManual);
+
+    const matchedRecord = partCatalog.find((record) => {
+      const manufacturerMatch = manufacturerLookup
+        ? normalizeLookupValue(record.manufacturer).includes(manufacturerLookup)
+        : true;
+      const modelMatch = modelLookup ? normalizeLookupValue(record.modelFamily).includes(modelLookup) : true;
+      const partMatch = partLookup ? normalizeLookupValue(record.partNumber).includes(partLookup) : true;
+      return manufacturerMatch && modelMatch && partMatch;
+    });
+
+    if (matchedRecord && platformEstimatedFloorByPart[matchedRecord.id]) {
+      return platformEstimatedFloorByPart[matchedRecord.id];
+    }
+
+    const estimatePool = partCatalog
+      .map((record) => platformEstimatedFloorByPart[record.id])
+      .filter((value): value is number => typeof value === "number");
+
+    if (estimatePool.length === 0) {
+      return null;
+    }
+
+    return estimatePool.reduce((sum, value) => sum + value, 0) / estimatePool.length;
+  }, [manufacturerManual, manufacturerSelect, modelManual, modelSelect, partCatalog, partManual, partSelect]);
+  const enteredFloorNumber = toNumberValue(floorPriceKg);
   const isBelowPlatformRange =
-    typeof estimatedFloor === "number" && Number.isFinite(enteredFloorNumber) && enteredFloorNumber < estimatedFloor;
+    typeof platformEstimate === "number" && Number.isFinite(enteredFloorNumber) && enteredFloorNumber < platformEstimate;
 
-  const pricingGuidance = isBelowPlatformRange
-    ? "This floor is below the platform's protected pricing range for the selected feedstock."
-    : Number.isFinite(enteredFloorNumber)
-      ? "This floor can move forward without exposing the platform's pricing model."
-      : "Enter a supplier floor price to receive pricing guidance.";
+  const resolvedManufacturer = detailMode === "yes" ? manufacturerManual || manufacturerSelect : "Platform review required";
+  const resolvedModel = detailMode === "yes" ? modelManual || modelSelect : observedIdentifier || "Observed identifier pending";
+  const resolvedPart = detailMode === "yes" ? partManual || partSelect : "Platform-reviewed";
 
-  const handleStageListing = (action: SupplierAction) => {
-    if (!selectedSubcategoryId || !quantityKg || !enteredFloor) {
+  const identificationComplete =
+    detailMode === "yes"
+      ? Boolean((manufacturerManual || manufacturerSelect) && (modelManual || modelSelect) && (partManual || partSelect))
+      : detailMode === "no"
+        ? Boolean(observedIdentifier)
+        : false;
+
+  const lineItemComplete =
+    Boolean(
+      selectedSubcategoryId &&
+        detailMode &&
+        identificationComplete &&
+        quantityKg &&
+        floorPriceKg &&
+        packaging &&
+        condition &&
+        (familyId !== "specialized-products" || (authorization && releasePath)),
+    );
+
+  const packageComplete = Boolean(packageTitle && evidenceNotes && lineItems.length > 0);
+
+  const averageFloor =
+    lineItems.length > 0
+      ? lineItems.reduce((sum, item) => sum + toNumberValue(item.floorPriceKg), 0) / lineItems.length
+      : 0;
+  const bidSpreadLow = averageFloor ? averageFloor * 1.04 : 0;
+  const bidSpreadHigh = averageFloor ? averageFloor * 1.11 : 0;
+  const totalQuantityKg = lineItems.reduce((sum, item) => sum + (toNumberValue(item.quantityKg) || 0), 0);
+  const minRecommendedQty = totalQuantityKg > 0 ? Math.max(500, Math.round(totalQuantityKg * 0.4)) : 0;
+  const demandHotspots = familyId ? hotspotRegionsByFamily[familyId] : [];
+  const anyBelowRange = lineItems.some((item) => item.isBelowRange);
+
+  const addLineItem = () => {
+    if (!lineItemComplete || !selectedSubcategory) {
       return;
     }
 
-    setStagedListings((current) => [
+    setLineItems((current) => [
       ...current,
       {
-        id: createListingId(),
-        familyLabel: activeTile?.title ?? "Listing",
-        subcategoryLabel: selectedSubcategory?.label ?? "Selected subcategory",
-        manufacturer: selectedManufacturer || "Platform-reviewed",
-        modelFamily: selectedModel || "Platform-reviewed",
-        partNumber: selectedPartId || "Platform-reviewed",
+        id: createLineItemId(),
+        subcategoryLabel: selectedSubcategory.label,
+        manufacturer: resolvedManufacturer,
+        modelFamily: resolvedModel,
+        partNumber: resolvedPart,
         quantityKg,
-        enteredFloor,
-        action,
+        floorPriceKg,
+        packaging,
+        condition,
+        detailMode,
+        authorization,
+        releasePath,
+        isBelowRange: isBelowPlatformRange,
       },
     ]);
+
+    setDetailMode("");
+    setManufacturerSelect("");
+    setManufacturerManual("");
+    setModelSelect("");
+    setModelManual("");
+    setPartSelect("");
+    setPartManual("");
+    setObservedIdentifier("");
+    setQuantityKg("");
+    setFloorPriceKg("");
+    setPackaging(packagingOptions[0]);
+    setCondition(conditionOptions[0]);
+    setAuthorization(authorizationOptions[0]);
+    setReleasePath(releasePathOptions[0]);
+    setStatusMessage("Feedstock item added to the listing package.");
+  };
+
+  const handleSaveDraft = () => {
+    if (!packageComplete) {
+      setStatusMessage("Complete the package title, evidence notes, and at least one feedstock item before saving.");
+      return;
+    }
+    setStatusMessage("Draft saved. The listing package is ready for review or pricing guidance.");
+  };
+
+  const handleListAtSpecifiedFloor = () => {
+    if (!packageComplete) {
+      setStatusMessage("Complete all mandatory sections before listing the package.");
+      return;
+    }
+    setStatusMessage("The package has been staged to list at the supplier-specified floor price.");
+  };
+
+  const handleOpenRecommendation = () => {
+    if (!packageComplete) {
+      setStatusMessage("Complete all mandatory sections before requesting a bidding recommendation.");
+      return;
+    }
+    setIsRecommendationOpen(true);
   };
 
   return (
@@ -274,12 +507,12 @@ export function SupplierCreateBidPage() {
               <h1 className="max-w-[12ch] font-display text-[clamp(2.8rem,4vw,4.4rem)] leading-[0.95] tracking-[-0.06em] text-[#0F1115]">
                 Choose the feedstock family you want to list.
               </h1>
-              <p className="mt-4 max-w-[42rem] text-[0.98rem] leading-7 text-[#6D7484]">
-                Start with the category. Rare Earth Rescue will open a dedicated listing workflow on the next page, then use subcategory and equipment details to guide pricing without revealing the underlying composition logic.
+              <p className="mt-4 max-w-[44rem] text-[0.98rem] leading-7 text-[#6D7484]">
+                Start with the category. Rare Earth Rescue opens a dedicated workflow on the next page, then uses the subcategory and the supplier’s details to check pricing without exposing the protected model.
               </p>
 
               <div className="mt-8 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                {[...dashboardMaterialTiles, customTile].map((tile) => (
+                {[...dashboardMaterialTiles, specializedTile].map((tile) => (
                   <Link
                     key={tile.id}
                     to={`/dashboard/supplier/create-bid/${tile.id}`}
@@ -305,15 +538,15 @@ export function SupplierCreateBidPage() {
             >
               <p className="eyebrow">Create listing | {activeTile?.title}</p>
               <h1 className="max-w-[12ch] font-display text-[clamp(2.8rem,4vw,4.3rem)] leading-[0.95] tracking-[-0.06em] text-[#0F1115]">
-                Select a subcategory to unlock the supplier listing form.
+                Select a subcategory to unlock the supplier listing workflow.
               </h1>
-              <p className="mt-4 max-w-[44rem] text-[0.98rem] leading-7 text-[#6D7484]">
-                Once you click a subcategory, Rare Earth Rescue will open a dropdown-led form that maps your listing to its backend materials database and checks the supplier floor you enter.
+              <p className="mt-4 max-w-[46rem] text-[0.98rem] leading-7 text-[#6D7484]">
+                Suppliers choose the subcategory first. Then the platform opens a required form where each feedstock item can be entered manually or matched from dropdowns before pricing guidance is returned.
               </p>
 
               {activeTile ? (
                 <div className="mt-6 rounded-[26px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(247,241,232,0.84))] p-4">
-                  <div className="grid gap-4 md:grid-cols-[200px_minmax(0,1fr)]">
+                  <div className="grid gap-4 md:grid-cols-[220px_minmax(0,1fr)]">
                     <AppImage src={activeTile.image} alt={activeTile.title} className="h-32 w-full rounded-[20px] object-cover" />
                     <div className="flex flex-col justify-center">
                       <strong className="block font-display text-[1.3rem] tracking-[-0.04em] text-[#0F1115]">
@@ -327,7 +560,7 @@ export function SupplierCreateBidPage() {
 
               <div className="mt-8">
                 <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                  Subcategories
+                  Step 1 | Choose subcategory
                 </span>
                 <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                   {subcategoryCards.map((subcategory) => {
@@ -363,175 +596,313 @@ export function SupplierCreateBidPage() {
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                     <div>
                       <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Supplier form
+                        Step 2 | Complete required package fields
                       </span>
                       <strong className="mt-2 block font-display text-[1.46rem] tracking-[-0.05em] text-[#0F1115]">
-                        Enter supplier-visible details for platform-assisted pricing
+                        Build one listing package and add multiple feedstock items below
                       </strong>
                     </div>
-                    <div className="rounded-[22px] border border-[#DCE3EF] bg-white/84 px-4 py-4 lg:min-w-[320px]">
+                    {statusMessage ? (
+                      <div className="rounded-[18px] border border-[#DCE3EF] bg-white/84 px-4 py-3 text-[0.86rem] leading-6 text-[#253B80]">
+                        {statusMessage}
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="mt-6 grid gap-4 md:grid-cols-2">
+                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
+                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                        Listing package title
+                      </span>
+                      <input
+                        value={packageTitle}
+                        onChange={(event) => setPackageTitle(event.target.value)}
+                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                        placeholder="Example: Mixed approved motor lots"
+                      />
+                    </label>
+
+                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
+                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                        Evidence and photos summary
+                      </span>
+                      <textarea
+                        value={evidenceNotes}
+                        onChange={(event) => setEvidenceNotes(event.target.value)}
+                        className="mt-3 min-h-[112px] w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                        placeholder="Describe manifests, photos, teardown stage, release notes, and handling information."
+                      />
+                    </label>
+                  </div>
+
+                  <div className="mt-6 rounded-[26px] border border-[#DCE3EF] bg-white/84 p-5">
+                    <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                      <div>
+                        <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                          Step 3 | Add feedstock item
+                        </span>
+                        <strong className="mt-2 block font-display text-[1.3rem] tracking-[-0.05em] text-[#0F1115]">
+                          One item at a time, all fields required
+                        </strong>
+                      </div>
+                      <span className="rounded-full border border-[#DCE3EF] bg-[#F8FAFD] px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
+                        {selectedSubcategory?.label}
+                      </span>
+                    </div>
+
+                    <div className="mt-5 rounded-[22px] border border-[#DCE3EF] bg-[rgba(248,250,253,0.82)] p-4">
                       <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
-                        Pricing guidance
+                        Do you know any details about the scrap?
+                      </span>
+                      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                        {[
+                          { value: "yes" as const, label: "Yes, I know the item details" },
+                          { value: "no" as const, label: "No, platform review needed" },
+                        ].map((option) => (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => setDetailMode(option.value)}
+                            className={`rounded-[18px] px-4 py-3 text-left text-[0.78rem] font-bold uppercase tracking-[0.12em] transition ${
+                              detailMode === option.value
+                                ? "bg-[#253B80] text-white"
+                                : "border border-[#DCE3EF] bg-white text-[#0F1115] hover:border-[#253B80]"
+                            }`}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {detailMode === "yes" ? (
+                      <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                            Manufacturer dropdown
+                          </span>
+                          <select
+                            value={manufacturerSelect}
+                            onChange={(event) => setManufacturerSelect(event.target.value)}
+                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          >
+                            <option value="">Select manufacturer</option>
+                            {manufacturerOptions.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+
+                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                            Or type manufacturer
+                          </span>
+                          <input
+                            value={manufacturerManual}
+                            onChange={(event) => setManufacturerManual(event.target.value)}
+                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                            placeholder="Type manufacturer name"
+                          />
+                        </label>
+
+                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                            Model family dropdown
+                          </span>
+                          <select
+                            value={modelSelect}
+                            onChange={(event) => setModelSelect(event.target.value)}
+                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          >
+                            <option value="">Select model family</option>
+                            {modelOptions.map((option) => (
+                              <option key={option} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+
+                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                            Or type model family
+                          </span>
+                          <input
+                            value={modelManual}
+                            onChange={(event) => setModelManual(event.target.value)}
+                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                            placeholder="Type model family"
+                          />
+                        </label>
+
+                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                            Part number dropdown
+                          </span>
+                          <select
+                            value={partSelect}
+                            onChange={(event) => setPartSelect(event.target.value)}
+                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          >
+                            <option value="">Select part number</option>
+                            {partOptions.map((option) => (
+                              <option key={option.id} value={option.id}>
+                                {option.partNumber}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+
+                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                            Or type part number
+                          </span>
+                          <input
+                            value={partManual}
+                            onChange={(event) => setPartManual(event.target.value)}
+                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                            placeholder="Type part number"
+                          />
+                        </label>
+                      </div>
+                    ) : null}
+
+                    {detailMode === "no" ? (
+                      <label className="mt-4 block rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                        <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                          Best observed identifier
+                        </span>
+                        <input
+                          value={observedIdentifier}
+                          onChange={(event) => setObservedIdentifier(event.target.value)}
+                          className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          placeholder="Example: nameplate fragment, stamp, release code, or visual marker"
+                        />
+                      </label>
+                    ) : null}
+
+                    <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                      <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                        <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                          Supplier floor price / kg
+                        </span>
+                        <input
+                          value={floorPriceKg}
+                          onChange={(event) => setFloorPriceKg(event.target.value)}
+                          className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          placeholder="Example: $2.95"
+                        />
+                      </label>
+
+                      <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                        <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                          Quantity in kg
+                        </span>
+                        <input
+                          value={quantityKg}
+                          onChange={(event) => setQuantityKg(event.target.value)}
+                          className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          placeholder="Example: 12000"
+                        />
+                      </label>
+
+                      <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                        <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                          Condition
+                        </span>
+                        <select
+                          value={condition}
+                          onChange={(event) => setCondition(event.target.value)}
+                          className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                        >
+                          {conditionOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                        <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                          Packaging
+                        </span>
+                        <select
+                          value={packaging}
+                          onChange={(event) => setPackaging(event.target.value)}
+                          className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                        >
+                          {packagingOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      {familyId === "specialized-products" ? (
+                        <>
+                          <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                              Authorization status
+                            </span>
+                            <select
+                              value={authorization}
+                              onChange={(event) => setAuthorization(event.target.value)}
+                              className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                            >
+                              {authorizationOptions.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+
+                          <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                            <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                              Release path
+                            </span>
+                            <select
+                              value={releasePath}
+                              onChange={(event) => setReleasePath(event.target.value)}
+                              className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                            >
+                              {releasePathOptions.map((option) => (
+                                <option key={option} value={option}>
+                                  {option}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                        </>
+                      ) : null}
+                    </div>
+
+                    <div className="mt-4 rounded-[22px] border border-[#DCE3EF] bg-[rgba(248,250,253,0.82)] px-4 py-4">
+                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                        Platform pricing guidance
                       </span>
                       <p className={`mt-2 text-[0.92rem] leading-6 ${isBelowPlatformRange ? "text-[#B16A1D]" : "text-[#253B80]"}`}>
-                        {pricingGuidance}
+                        {typeof platformEstimate === "number"
+                          ? isBelowPlatformRange
+                            ? "Entered floor appears below the platform's protected range for this item. After you add it, choose whether to list at your floor or open a recycler bid."
+                            : "Entered floor is within a workable supplier range. Exact pricing logic remains hidden."
+                          : "Complete the item details to let Rare Earth Rescue assess the supplier floor."}
                       </p>
                     </div>
-                  </div>
 
-                  <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Listing title
-                      </span>
-                      <input
-                        value={listingTitle}
-                        onChange={(event) => setListingTitle(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                        placeholder="Example: Buyer-ready motor lot"
-                      />
-                    </label>
-
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Manufacturer
-                      </span>
-                      <select
-                        value={selectedManufacturer}
-                        onChange={(event) => setSelectedManufacturer(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                    <div className="mt-5">
+                      <button
+                        className={`button-primary ${lineItemComplete ? "" : "pointer-events-none opacity-50"}`}
+                        type="button"
+                        onClick={addLineItem}
                       >
-                        <option value="">Select manufacturer</option>
-                        {(familyId === "custom" ? ["Custom / not listed"] : manufacturerOptions).map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Model family
-                      </span>
-                      <select
-                        value={selectedModel}
-                        onChange={(event) => setSelectedModel(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                      >
-                        <option value="">Select model family</option>
-                        {(familyId === "custom" ? ["Supplier-defined model family"] : modelOptions).map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Part number
-                      </span>
-                      <select
-                        value={selectedPartId}
-                        onChange={(event) => setSelectedPartId(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                      >
-                        <option value="">Select part number</option>
-                        {(familyId === "custom" ? [{ id: "custom", partNumber: "Custom / platform reviewed" }] : partOptions).map((option) => (
-                          <option key={option.id} value={option.id}>
-                            {option.partNumber}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Supplier floor price / kg
-                      </span>
-                      <input
-                        value={enteredFloor}
-                        onChange={(event) => setEnteredFloor(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                        placeholder="Example: $2.95"
-                      />
-                    </label>
-
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Quantity in kg
-                      </span>
-                      <input
-                        value={quantityKg}
-                        onChange={(event) => setQuantityKg(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                        placeholder="Example: 12000"
-                      />
-                    </label>
-
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Condition
-                      </span>
-                      <select
-                        value={condition}
-                        onChange={(event) => setCondition(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                      >
-                        {conditionOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                      <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                        Packaging
-                      </span>
-                      <select
-                        value={packaging}
-                        onChange={(event) => setPackaging(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                      >
-                        {packagingOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-
-                  <label className="mt-4 block rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
-                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                      Pictures and evidence notes
-                    </span>
-                    <textarea
-                      value={evidenceNotes}
-                      onChange={(event) => setEvidenceNotes(event.target.value)}
-                      className="mt-3 min-h-[110px] w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                      placeholder="Describe uploaded photos, manifests, teardown stage, or anything that helps the platform assist pricing."
-                    />
-                  </label>
-
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    {isBelowPlatformRange ? (
-                      <>
-                        <button className="button-secondary" onClick={() => handleStageListing("list-at-floor")} type="button">
-                          List at floor price
-                        </button>
-                        <button className="button-primary" onClick={() => handleStageListing("create-bid")} type="button">
-                          Create bid
-                        </button>
-                      </>
-                    ) : (
-                      <button className="button-primary" onClick={() => handleStageListing("list-at-floor")} type="button">
-                        Save listing draft
+                        Add feedstock item
                       </button>
-                    )}
+                    </div>
                   </div>
                 </motion.section>
               ) : null}
@@ -540,26 +911,26 @@ export function SupplierCreateBidPage() {
                 <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                   <div>
                     <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                      Multi-listing package
+                      Step 4 | Package items
                     </span>
                     <strong className="mt-2 block font-display text-[1.35rem] tracking-[-0.05em] text-[#0F1115]">
-                      Listings staged from this category workflow
+                      Multiple feedstock items can be grouped into one listing package
                     </strong>
                   </div>
                   <span className="rounded-full border border-[#DCE3EF] bg-[#F8FAFD] px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
-                    {stagedListings.length} staged
+                    {lineItems.length} items
                   </span>
                 </div>
 
                 <div className="mt-5 space-y-3">
-                  {stagedListings.length === 0 ? (
+                  {lineItems.length === 0 ? (
                     <div className="rounded-[22px] border border-dashed border-[#DCE3EF] bg-[rgba(248,250,253,0.8)] px-5 py-6 text-[0.92rem] leading-7 text-[#6D7484]">
-                      No staged listings yet. Click a subcategory above to unlock the workflow and start building supplier-ready lots.
+                      Add at least one complete feedstock item. All sections are mandatory before the package can be saved, recommended, or listed.
                     </div>
                   ) : (
-                    stagedListings.map((listing, index) => (
+                    lineItems.map((item, index) => (
                       <motion.article
-                        key={listing.id}
+                        key={item.id}
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.35, delay: index * 0.05 }}
@@ -568,21 +939,21 @@ export function SupplierCreateBidPage() {
                         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                           <div>
                             <strong className="block font-display text-[1.04rem] tracking-[-0.04em] text-[#0F1115]">
-                              {listing.subcategoryLabel} | {listing.manufacturer}
+                              {item.subcategoryLabel} | {item.manufacturer}
                             </strong>
                             <p className="mt-1 text-[0.84rem] leading-6 text-[#6D7484]">
-                              {listing.modelFamily} | {listing.partNumber}
+                              {item.modelFamily} | {item.partNumber}
                             </p>
                           </div>
                           <div className="flex flex-wrap gap-2">
                             <span className="rounded-full border border-[#DCE3EF] bg-white px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
-                              {listing.quantityKg} kg
+                              {item.quantityKg} kg
                             </span>
                             <span className="rounded-full border border-[#DCE3EF] bg-white px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
-                              {listing.enteredFloor} / kg
+                              {item.floorPriceKg}/kg
                             </span>
                             <span className="rounded-full border border-[#DCE3EF] bg-white px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
-                              {listing.action === "create-bid" ? "Create bid" : "List at floor"}
+                              {item.isBelowRange ? "Below range" : "Within range"}
                             </span>
                           </div>
                         </div>
@@ -590,6 +961,36 @@ export function SupplierCreateBidPage() {
                     ))
                   )}
                 </div>
+
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <button className={`button-secondary ${packageComplete ? "" : "pointer-events-none opacity-50"}`} type="button" onClick={handleSaveDraft}>
+                    Save draft
+                  </button>
+                  <button
+                    className={`button-secondary ${packageComplete ? "" : "pointer-events-none opacity-50"}`}
+                    type="button"
+                    onClick={handleOpenRecommendation}
+                  >
+                    Get bidding recommendation
+                  </button>
+                  <button
+                    className={`button-primary ${packageComplete ? "" : "pointer-events-none opacity-50"}`}
+                    type="button"
+                    onClick={handleListAtSpecifiedFloor}
+                  >
+                    List at specified floor price
+                  </button>
+                </div>
+
+                {anyBelowRange ? (
+                  <div className="mt-4 rounded-[22px] border border-[#E7C98A] bg-[rgba(255,249,238,0.92)] p-4">
+                    <p className="text-[0.9rem] leading-7 text-[#7C5A18]">
+                      One or more items are below the platform-protected range. Choose either{" "}
+                      <span className="font-semibold text-[#0F1115]">List at specified floor price</span> or{" "}
+                      <span className="font-semibold text-[#0F1115]">Get bidding recommendation</span> to open a competitive recycler bid.
+                    </p>
+                  </div>
+                ) : null}
               </section>
             </motion.section>
           )}
@@ -621,6 +1022,105 @@ export function SupplierCreateBidPage() {
             </div>
           </section>
         </div>
+
+        <AnimatePresence>
+          {isRecommendationOpen ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-[#0F1115]/46 px-4"
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 24, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.98 }}
+                transition={{ duration: 0.28 }}
+                className="w-full max-w-3xl rounded-[32px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,241,232,0.95))] p-6 shadow-[0_32px_120px_rgba(15,17,21,0.24)]"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="eyebrow">Bidding recommendation</p>
+                    <h3 className="font-display text-[2rem] leading-[0.96] tracking-[-0.06em] text-[#0F1115]">
+                      Protected pricing guidance for this listing package
+                    </h3>
+                    <p className="mt-3 max-w-[42rem] text-[0.94rem] leading-7 text-[#6D7484]">
+                      This recommendation is based on category, equipment detail, current recycler pull, and your submitted floor prices. The platform never reveals the backend composition model directly.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsRecommendationOpen(false)}
+                    className="rounded-full border border-[#DCE3EF] px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#0F1115]"
+                  >
+                    Close
+                  </button>
+                </div>
+
+                <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  <div className="rounded-[22px] border border-[#DCE3EF] bg-white/86 p-4">
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                      Listed floor price
+                    </span>
+                    <p className="mt-2 font-display text-[1.3rem] tracking-[-0.05em] text-[#0F1115]">
+                      {averageFloor ? currency(averageFloor) : "N/A"}
+                    </p>
+                  </div>
+                  <div className="rounded-[22px] border border-[#DCE3EF] bg-white/86 p-4">
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                      Bid spread
+                    </span>
+                    <p className="mt-2 font-display text-[1.1rem] tracking-[-0.05em] text-[#253B80]">
+                      {averageFloor ? `${currency(bidSpreadLow)} - ${currency(bidSpreadHigh)}` : "Add items first"}
+                    </p>
+                  </div>
+                  <div className="rounded-[22px] border border-[#DCE3EF] bg-white/86 p-4">
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                      Min qty recommended
+                    </span>
+                    <p className="mt-2 font-display text-[1.3rem] tracking-[-0.05em] text-[#0F1115]">
+                      {minRecommendedQty ? `${minRecommendedQty.toLocaleString()} kg` : "N/A"}
+                    </p>
+                  </div>
+                  <div className="rounded-[22px] border border-[#DCE3EF] bg-white/86 p-4">
+                    <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                      Demand hotspots
+                    </span>
+                    <p className="mt-2 text-[0.88rem] leading-6 text-[#0F1115]">{demandHotspots.join(" | ") || "N/A"}</p>
+                  </div>
+                </div>
+
+                <div className="mt-5 rounded-[22px] border border-[#DCE3EF] bg-[rgba(248,250,253,0.84)] p-4">
+                  <p className="text-[0.92rem] leading-7 text-[#6D7484]">
+                    {anyBelowRange
+                      ? "At least one feedstock item is below the platform's protected range. You can still list it at the specified floor, or open a recycler bid to test stronger pricing."
+                      : "The package is within a workable listing range. A live recycler bid may still improve price discovery if you want broader demand tension."}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    className="button-primary"
+                    onClick={() => {
+                      setStatusMessage("Bidding recommendation accepted. The package is staged to open a recycler bid.");
+                      setIsRecommendationOpen(false);
+                    }}
+                  >
+                    List bid for recyclers
+                  </button>
+                  <button
+                    type="button"
+                    className="button-secondary"
+                    onClick={() => setIsRecommendationOpen(false)}
+                  >
+                    Keep editing
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </section>
     </motion.main>
   );
