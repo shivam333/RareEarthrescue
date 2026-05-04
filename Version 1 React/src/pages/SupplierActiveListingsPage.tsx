@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { supplierActiveListings } from "../data/supplierListingsData";
+import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 
 const pageMotionProps = {
@@ -13,6 +13,7 @@ const pageMotionProps = {
 
 export function SupplierActiveListingsPage() {
   const [closedIds, setClosedIds] = useState<string[]>([]);
+  const { mergedActiveListings } = useSupplierListingStore();
 
   return (
     <motion.main className="page bg-transparent" {...pageMotionProps}>
@@ -48,7 +49,7 @@ export function SupplierActiveListingsPage() {
             </div>
 
             <div className="mt-8 grid gap-4">
-              {supplierActiveListings.map((listing, index) => {
+              {mergedActiveListings.map((listing, index) => {
                 const isClosed = closedIds.includes(listing.id);
 
                 return (

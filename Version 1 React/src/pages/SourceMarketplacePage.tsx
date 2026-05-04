@@ -4,10 +4,10 @@ import { useParams } from "react-router-dom";
 import { BidListingTable } from "../components/dashboard/BidListingTable";
 import { MotionItem, MotionSection } from "../components/ui/Motion";
 import {
-  dashboardBidListings,
   dashboardSourceContent,
   DashboardSourceId,
 } from "../data/dashboardMarketplaceData";
+import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 import { toAppRelativeUrl } from "../lib/site";
 
@@ -26,9 +26,10 @@ export function SourceMarketplacePage() {
   const { sourceId } = useParams<{ sourceId: string }>();
   const activeSource: DashboardSourceId = isDashboardSourceId(sourceId) ? sourceId : "hdd";
   const sourceContent = dashboardSourceContent[activeSource];
+  const { mergedMarketplaceListings } = useSupplierListingStore();
   const sourceListings = useMemo(
-    () => dashboardBidListings.filter((listing) => listing.sourceId === activeSource),
-    [activeSource]
+    () => mergedMarketplaceListings.filter((listing) => listing.sourceId === activeSource),
+    [activeSource, mergedMarketplaceListings]
   );
 
   return (

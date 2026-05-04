@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { dashboardBidListings } from "../data/dashboardMarketplaceData";
+import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { useRecyclerOrderBook } from "../hooks/useRecyclerOrderBook";
 import { pageEnter } from "../lib/motion";
 import { AppImage } from "../components/ui/AppImage";
@@ -15,11 +15,12 @@ const pageMotionProps = {
 
 export function DashboardListingDetailPage() {
   const { listingId, sourceId } = useParams<{ listingId: string; sourceId: string }>();
+  const { mergedMarketplaceListings } = useSupplierListingStore();
   const listing = useMemo(
-    () => dashboardBidListings.find((item) => item.id === listingId) ?? dashboardBidListings[0],
-    [listingId]
+    () => mergedMarketplaceListings.find((item) => item.id === listingId) ?? mergedMarketplaceListings[0],
+    [listingId, mergedMarketplaceListings]
   );
-  const relatedListings = dashboardBidListings
+  const relatedListings = mergedMarketplaceListings
     .filter((item) => item.id !== listing.id && item.sourceId === listing.sourceId)
     .slice(0, 3);
   const [activeImage, setActiveImage] = useState(0);

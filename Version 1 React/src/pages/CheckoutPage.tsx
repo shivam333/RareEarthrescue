@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { dashboardBidListings } from "../data/dashboardMarketplaceData";
 import { useRecyclerOrderBook } from "../hooks/useRecyclerOrderBook";
+import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 import { AppImage } from "../components/ui/AppImage";
 
@@ -23,7 +23,8 @@ function parsePricePerTon(pricePerTon: string) {
 
 export function CheckoutPage() {
   const { orderBook, totalItems, totalLots, setLots } = useRecyclerOrderBook();
-  const stagedListings = dashboardBidListings.filter((listing) => (orderBook[listing.id] ?? 0) > 0);
+  const { mergedMarketplaceListings } = useSupplierListingStore();
+  const stagedListings = mergedMarketplaceListings.filter((listing) => (orderBook[listing.id] ?? 0) > 0);
   const estimatedOrderValue = stagedListings.reduce((sum, listing) => {
     const stagedLots = orderBook[listing.id] ?? 0;
     return sum + parsePricePerTon(listing.pricePerTon) * stagedLots;

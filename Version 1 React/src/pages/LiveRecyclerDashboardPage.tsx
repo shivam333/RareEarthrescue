@@ -3,10 +3,10 @@ import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { LiveMarketplaceBoard } from "../components/dashboard/LiveMarketplaceBoard";
 import {
-  dashboardBidListings,
   dashboardSourceContent,
   DashboardSourceId,
 } from "../data/dashboardMarketplaceData";
+import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 
 const pageMotionProps = {
@@ -24,9 +24,10 @@ export function LiveRecyclerDashboardPage() {
   const { sourceId } = useParams<{ sourceId: string }>();
   const activeSource: DashboardSourceId = isDashboardSourceId(sourceId) ? sourceId : "hdd";
   const sourceContent = dashboardSourceContent[activeSource];
+  const { mergedMarketplaceListings } = useSupplierListingStore();
   const sourceListings = useMemo(
-    () => dashboardBidListings.filter((listing) => listing.sourceId === activeSource),
-    [activeSource]
+    () => mergedMarketplaceListings.filter((listing) => listing.sourceId === activeSource),
+    [activeSource, mergedMarketplaceListings]
   );
 
   return (

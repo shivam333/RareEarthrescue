@@ -1,9 +1,14 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AppImage } from "../components/ui/AppImage";
 import { DashboardSourceId, dashboardMaterialTiles } from "../data/dashboardMarketplaceData";
 import { SupplyFamilyListingDatabase, supplierListingDatabase } from "../data/supplierListingDatabase";
+import {
+  SupplierListingPackage,
+  SupplierPackageStatus,
+  useSupplierListingStore,
+} from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 
 const pageMotionProps = {
@@ -14,7 +19,6 @@ const pageMotionProps = {
 };
 
 type FamilyKey = DashboardSourceId | "specialized-products";
-type SupplierAction = "draft" | "list-at-floor" | "create-bid";
 type DetailMode = "yes" | "no" | "";
 
 type PartOption = {
@@ -92,6 +96,7 @@ const releasePathOptions = [
   "Defense contractor release",
   "Government-approved recycler transfer",
 ];
+const MANUAL_ENTRY_VALUE = "__manual__";
 
 const specializedSubcategories: SubcategoryOption[] = [
   {
@@ -237,11 +242,17 @@ function normalizeLookupValue(value: string) {
   return value.trim().toLowerCase();
 }
 
+function createPackageId() {
+  return `pkg-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export function SupplierCreateBidPage() {
+  const navigate = useNavigate();
   const params = useParams<{ familyId?: string }>();
   const familyId = (params.familyId as FamilyKey | undefined) ?? undefined;
   const isSelectionPage = !familyId;
   const familyRecord = getFamilyRecord(familyId);
+  const { savePackage } = useSupplierListingStore();
 
   const activeTile =
     familyId === "specialized-products"
@@ -303,9 +314,12 @@ export function SupplierCreateBidPage() {
   const modelOptions = [...new Set(partCatalog.filter((record) => !manufacturerSelect || record.manufacturer === manufacturerSelect).map((record) => record.modelFamily))];
   const partOptions = partCatalog.filter(
     (record) =>
-      (!manufacturerSelect || record.manufacturer === manufacturerSelect) &&
+      (!manufacturerSelect ||
+        manufacturerSelect === MANUAL_ENTRY_VALUE ||
+        record.manufacturer === manufacturerSelect) &&
       (!modelSelect || record.modelFamily === modelSelect),
   );
+  const isManualEntry = detailMode === "yes" && manufacturerSelect === MANUAL_ENTRY_VALUE;
 
   useEffect(() => {
     setSelectedSubcategoryId("");
@@ -379,7 +393,14 @@ export function SupplierCreateBidPage() {
 
   const identificationComplete =
     detailMode === "yes"
-      ? Boolean((manufacturerManual || manufacturerSelect) && (modelManual || modelSelect) && (partManual || partSelect))
+      ? isManualEntry
+        ? Boolean(manufacturerManual && modelManual && partManual)
+        : Boolean(
+            manufacturerSelect &&
+              manufacturerSelect !== MANUAL_ENTRY_VALUE &&
+              modelSelect &&
+              partSelect,
+          )
       : detailMode === "no"
         ? Boolean(observedIdentifier)
         : false;
@@ -408,6 +429,31 @@ export function SupplierCreateBidPage() {
   const minRecommendedQty = totalQuantityKg > 0 ? Math.max(500, Math.round(totalQuantityKg * 0.4)) : 0;
   const demandHotspots = familyId ? hotspotRegionsByFamily[familyId] : [];
   const anyBelowRange = lineItems.some((item) => item.isBelowRange);
+  const bidSpreadLowPct = anyBelowRange ? -4 : -2;
+  const bidSpreadHighPct = Math.min(14, 8 + Math.max(1, lineItems.length));
+
+  const persistPackage = (status: SupplierPackageStatus) => {
+    if (!familyId || !selectedSubcategory) {
+      return;
+    }
+
+    const timestamp = new Date().toISOString();
+    const nextPackage: SupplierListingPackage = {
+      id: createPackageId(),
+      familyId,
+      familyLabel: activeTile?.title ?? "Supplier listing",
+      subcategoryId: selectedSubcategory.id,
+      subcategoryLabel: selectedSubcategory.label,
+      packageTitle,
+      evidenceNotes,
+      status,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+      lineItems,
+    };
+
+    savePackage(nextPackage);
+  };
 
   const addLineItem = () => {
     if (!lineItemComplete || !selectedSubcategory) {
@@ -455,7 +501,8 @@ export function SupplierCreateBidPage() {
       setStatusMessage("Complete the package title, evidence notes, and at least one feedstock item before saving.");
       return;
     }
-    setStatusMessage("Draft saved. The listing package is ready for review or pricing guidance.");
+    persistPackage("draft");
+    navigate("/dashboard");
   };
 
   const handleListAtSpecifiedFloor = () => {
@@ -463,7 +510,8 @@ export function SupplierCreateBidPage() {
       setStatusMessage("Complete all mandatory sections before listing the package.");
       return;
     }
-    setStatusMessage("The package has been staged to list at the supplier-specified floor price.");
+    persistPackage("live-floor");
+    navigate("/dashboard/supplier/listings");
   };
 
   const handleOpenRecommendation = () => {
@@ -683,7 +731,17 @@ export function SupplierCreateBidPage() {
                           </span>
                           <select
                             value={manufacturerSelect}
-                            onChange={(event) => setManufacturerSelect(event.target.value)}
+                            onChange={(event) => {
+                              const nextValue = event.target.value;
+                              setManufacturerSelect(nextValue);
+                              setModelSelect("");
+                              setPartSelect("");
+                              if (nextValue !== MANUAL_ENTRY_VALUE) {
+                                setManufacturerManual("");
+                                setModelManual("");
+                                setPartManual("");
+                              }
+                            }}
                             className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
                           >
                             <option value="">Select manufacturer</option>
@@ -692,80 +750,92 @@ export function SupplierCreateBidPage() {
                                 {option}
                               </option>
                             ))}
+                            <option value={MANUAL_ENTRY_VALUE}>Enter manually</option>
                           </select>
                         </label>
 
-                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
-                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                            Or type manufacturer
-                          </span>
-                          <input
-                            value={manufacturerManual}
-                            onChange={(event) => setManufacturerManual(event.target.value)}
-                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                            placeholder="Type manufacturer name"
-                          />
-                        </label>
+                        {isManualEntry ? (
+                          <>
+                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                                Type manufacturer
+                              </span>
+                              <input
+                                value={manufacturerManual}
+                                onChange={(event) => setManufacturerManual(event.target.value)}
+                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                                placeholder="Type manufacturer name"
+                              />
+                            </label>
 
-                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
-                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                            Model family dropdown
-                          </span>
-                          <select
-                            value={modelSelect}
-                            onChange={(event) => setModelSelect(event.target.value)}
-                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                          >
-                            <option value="">Select model family</option>
-                            {modelOptions.map((option) => (
-                              <option key={option} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
+                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                                Type model family
+                              </span>
+                              <input
+                                value={modelManual}
+                                onChange={(event) => setModelManual(event.target.value)}
+                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                                placeholder="Type model family"
+                              />
+                            </label>
 
-                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
-                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                            Or type model family
-                          </span>
-                          <input
-                            value={modelManual}
-                            onChange={(event) => setModelManual(event.target.value)}
-                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                            placeholder="Type model family"
-                          />
-                        </label>
+                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                                Type part number
+                              </span>
+                              <input
+                                value={partManual}
+                                onChange={(event) => setPartManual(event.target.value)}
+                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                                placeholder="Type part number"
+                              />
+                            </label>
+                          </>
+                        ) : (
+                          <>
+                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                                Model family dropdown
+                              </span>
+                              <select
+                                value={modelSelect}
+                                onChange={(event) => {
+                                  setModelSelect(event.target.value);
+                                  setPartSelect("");
+                                }}
+                                disabled={!manufacturerSelect}
+                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#253B80]"
+                              >
+                                <option value="">Select model family</option>
+                                {modelOptions.map((option) => (
+                                  <option key={option} value={option}>
+                                    {option}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
 
-                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
-                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                            Part number dropdown
-                          </span>
-                          <select
-                            value={partSelect}
-                            onChange={(event) => setPartSelect(event.target.value)}
-                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                          >
-                            <option value="">Select part number</option>
-                            {partOptions.map((option) => (
-                              <option key={option.id} value={option.id}>
-                                {option.partNumber}
-                              </option>
-                            ))}
-                          </select>
-                        </label>
-
-                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
-                          <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                            Or type part number
-                          </span>
-                          <input
-                            value={partManual}
-                            onChange={(event) => setPartManual(event.target.value)}
-                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
-                            placeholder="Type part number"
-                          />
-                        </label>
+                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                              <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                                Part number dropdown
+                              </span>
+                              <select
+                                value={partSelect}
+                                onChange={(event) => setPartSelect(event.target.value)}
+                                disabled={!manufacturerSelect || !modelSelect}
+                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#253B80]"
+                              >
+                                <option value="">Select part number</option>
+                                {partOptions.map((option) => (
+                                  <option key={option.id} value={option.id}>
+                                    {option.partNumber}
+                                  </option>
+                                ))}
+                              </select>
+                            </label>
+                          </>
+                        )}
                       </div>
                     ) : null}
 
@@ -1051,9 +1121,10 @@ export function SupplierCreateBidPage() {
                   <button
                     type="button"
                     onClick={() => setIsRecommendationOpen(false)}
-                    className="rounded-full border border-[#DCE3EF] px-3 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#0F1115]"
+                    aria-label="Close recommendation"
+                    className="grid h-10 w-10 place-items-center rounded-full border border-[#DCE3EF] bg-white/84 text-[1.2rem] font-bold text-[#0F1115] transition hover:border-[#253B80] hover:text-[#253B80]"
                   >
-                    Close
+                    ×
                   </button>
                 </div>
 
@@ -1071,7 +1142,7 @@ export function SupplierCreateBidPage() {
                       Bid spread
                     </span>
                     <p className="mt-2 font-display text-[1.1rem] tracking-[-0.05em] text-[#253B80]">
-                      {averageFloor ? `${currency(bidSpreadLow)} - ${currency(bidSpreadHigh)}` : "Add items first"}
+                      {averageFloor ? `${bidSpreadLowPct}% to +${bidSpreadHighPct}%` : "Add items first"}
                     </p>
                   </div>
                   <div className="rounded-[22px] border border-[#DCE3EF] bg-white/86 p-4">
@@ -1103,11 +1174,12 @@ export function SupplierCreateBidPage() {
                     type="button"
                     className="button-primary"
                     onClick={() => {
-                      setStatusMessage("Bidding recommendation accepted. The package is staged to open a recycler bid.");
+                      persistPackage("live-bid");
                       setIsRecommendationOpen(false);
+                      navigate("/dashboard/supplier/listings");
                     }}
                   >
-                    List bid for recyclers
+                    Create bid for recyclers
                   </button>
                   <button
                     type="button"

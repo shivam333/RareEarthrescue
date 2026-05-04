@@ -3,7 +3,7 @@ import ReactECharts from "echarts-for-react";
 import { Link } from "react-router-dom";
 import { DashboardRoleSwitch } from "../components/dashboard/DashboardRoleSwitch";
 import { MarketplaceIntelligenceSection } from "../components/dashboard/MarketplaceIntelligenceSection";
-import { supplierActiveListings } from "../data/supplierListingsData";
+import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { DashboardMode } from "../lib/accountRole";
 import { pageEnter } from "../lib/motion";
 
@@ -13,33 +13,6 @@ const pageMotionProps = {
   animate: "visible" as const,
   exit: "exit" as const,
 };
-
-const supplierMetrics = [
-  {
-    label: "Value created over floor",
-    value: "$184K",
-    change: "+16.4% this month",
-    tone: "text-[#253B80]",
-    glow: "from-[#253B80]/12 via-[#253B80]/4 to-transparent",
-    href: undefined,
-  },
-  {
-    label: "Current active listings",
-    value: "18",
-    change: "Open listed stock",
-    tone: "text-[#0F1115]",
-    glow: "from-[#C8AA48]/16 via-[#C8AA48]/6 to-transparent",
-    href: "/dashboard/supplier/listings",
-  },
-  {
-    label: "Buyer reach in motion",
-    value: "42",
-    change: "Verified recycler conversations",
-    tone: "text-[#0F1115]",
-    glow: "from-[#79A190]/16 via-[#79A190]/6 to-transparent",
-    href: undefined,
-  },
-];
 
 function supplierValueTrendOption() {
   return {
@@ -95,6 +68,34 @@ export function SupplierDashboardPage({
   activeMode?: DashboardMode;
   onModeChange?: (mode: DashboardMode) => void;
 }) {
+  const { draftCount, mergedActiveListings, publishedListingCount } = useSupplierListingStore();
+  const supplierMetrics = [
+    {
+      label: "Value created over floor",
+      value: "$184K",
+      change: "+16.4% this month",
+      tone: "text-[#253B80]",
+      glow: "from-[#253B80]/12 via-[#253B80]/4 to-transparent",
+      href: undefined,
+    },
+    {
+      label: "Current active listings",
+      value: `${18 + publishedListingCount}`,
+      change: publishedListingCount > 0 ? `${publishedListingCount} newly created live listing${publishedListingCount === 1 ? "" : "s"}` : "Open listed stock",
+      tone: "text-[#0F1115]",
+      glow: "from-[#C8AA48]/16 via-[#C8AA48]/6 to-transparent",
+      href: "/dashboard/supplier/listings",
+    },
+    {
+      label: "Buyer reach in motion",
+      value: `${42 + publishedListingCount * 2}`,
+      change: "Verified recycler conversations",
+      tone: "text-[#0F1115]",
+      glow: "from-[#79A190]/16 via-[#79A190]/6 to-transparent",
+      href: undefined,
+    },
+  ];
+
   const modeSwitch = showModeSwitch && onModeChange ? (
     <div className="mb-8 flex flex-col gap-4 rounded-[30px] border border-[#DCE3EF] bg-white/72 p-5 shadow-[0_20px_56px_rgba(46,41,31,0.06)] lg:flex-row lg:items-center lg:justify-between">
       <div>
@@ -207,7 +208,9 @@ export function SupplierDashboardPage({
                   Update listed catalogue
                 </strong>
                 <p className="mt-2 text-[0.9rem] leading-6 text-[#6D7484]">
-                  Refresh photos, documentation, and available lot data already live with buyers.
+                  {draftCount > 0
+                    ? `${draftCount} saved draft${draftCount === 1 ? "" : "s"} waiting for publish or bid launch.`
+                    : "Refresh photos, documentation, and available lot data already live with buyers."}
                 </p>
                 <Link
                   className="mt-4 inline-flex rounded-full border border-[#DCE3EF] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#0F1115] transition hover:border-[#253B80] hover:text-[#253B80]"
@@ -244,7 +247,7 @@ export function SupplierDashboardPage({
               </div>
 
               <div className="mt-5 space-y-3">
-                {supplierActiveListings.slice(0, 3).map((listing, index) => (
+                {mergedActiveListings.slice(0, 3).map((listing, index) => (
                   <motion.article
                     key={listing.id}
                     initial={{ opacity: 0, y: 10 }}

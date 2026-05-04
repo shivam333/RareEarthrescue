@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { BidRow } from "../components/dashboard/BidRow";
-import { dashboardBidListings } from "../data/dashboardMarketplaceData";
+import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 
 const pageMotionProps = {
@@ -20,10 +20,11 @@ function bidCountForIndex(index: number) {
 
 export function LiveBiddingTablePage() {
   const [page, setPage] = useState(1);
-  const pageCount = Math.max(1, Math.ceil(dashboardBidListings.length / PAGE_SIZE));
+  const { mergedMarketplaceListings } = useSupplierListingStore();
+  const pageCount = Math.max(1, Math.ceil(mergedMarketplaceListings.length / PAGE_SIZE));
   const activeListings = useMemo(
-    () => dashboardBidListings.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
-    [page]
+    () => mergedMarketplaceListings.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [mergedMarketplaceListings, page]
   );
 
   return (
@@ -46,7 +47,7 @@ export function LiveBiddingTablePage() {
                 Back to dashboard
               </Link>
               <span className="rounded-full border border-[#DCE3EF] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
-                {dashboardBidListings.length} active bids
+                {mergedMarketplaceListings.length} active bids
               </span>
             </div>
           </div>

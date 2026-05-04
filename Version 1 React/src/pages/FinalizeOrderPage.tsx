@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { dashboardBidListings } from "../data/dashboardMarketplaceData";
+import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 import { AppImage } from "../components/ui/AppImage";
 
@@ -34,9 +34,10 @@ function sanitizeQuantity(value: string) {
 export function FinalizeOrderPage() {
   const { listingId } = useParams<{ listingId: string }>();
   const [searchParams] = useSearchParams();
+  const { mergedMarketplaceListings } = useSupplierListingStore();
   const listing = useMemo(
-    () => dashboardBidListings.find((item) => item.id === listingId) ?? dashboardBidListings[0],
-    [listingId]
+    () => mergedMarketplaceListings.find((item) => item.id === listingId) ?? mergedMarketplaceListings[0],
+    [listingId, mergedMarketplaceListings]
   );
   const [activeImage, setActiveImage] = useState(0);
   const [quantityTons, setQuantityTons] = useState(searchParams.get("quantity") || "0.00");
@@ -45,7 +46,7 @@ export function FinalizeOrderPage() {
   const [bidPricePerKg, setBidPricePerKg] = useState(
     searchParams.get("price") || openingBidFloor.toFixed(2)
   );
-  const listingIndex = dashboardBidListings.findIndex((item) => item.id === listing.id);
+  const listingIndex = mergedMarketplaceListings.findIndex((item) => item.id === listing.id);
   const bidCount = 4 + (listingIndex % 7);
   const bidStartDate = formatAuctionDate(listingIndex % 3);
   const bidEndDate = formatAuctionDate(5 + (listingIndex % 4));
