@@ -50,6 +50,23 @@ type FeedstockLineItem = {
   isBelowRange: boolean;
 };
 
+type ValidationField =
+  | "detailMode"
+  | "manufacturerSelect"
+  | "manufacturerManual"
+  | "modelSelect"
+  | "modelManual"
+  | "partSelect"
+  | "partManual"
+  | "observedIdentifier"
+  | "floorPriceKg"
+  | "quantityKg"
+  | "packageTitle"
+  | "evidenceNotes"
+  | "lineItems";
+
+type ValidationErrors = Partial<Record<ValidationField, string>>;
+
 const specializedTile = {
   id: "specialized-products" as const,
   title: "Specialized Products",
@@ -242,6 +259,10 @@ function normalizeLookupValue(value: string) {
   return value.trim().toLowerCase();
 }
 
+function hasValue(value: string) {
+  return value.trim().length > 0;
+}
+
 function createPackageId() {
   return `pkg-${Math.random().toString(36).slice(2, 10)}`;
 }
@@ -279,6 +300,8 @@ export function SupplierCreateBidPage() {
   const [lineItems, setLineItems] = useState<FeedstockLineItem[]>([]);
   const [statusMessage, setStatusMessage] = useState("");
   const [isRecommendationOpen, setIsRecommendationOpen] = useState(false);
+  const [showLineItemValidation, setShowLineItemValidation] = useState(false);
+  const [showPackageValidation, setShowPackageValidation] = useState(false);
 
   const subcategoryCards: SubcategoryOption[] =
     familyId === "specialized-products"
@@ -327,6 +350,9 @@ export function SupplierCreateBidPage() {
     setEvidenceNotes("");
     setLineItems([]);
     setStatusMessage("");
+    setShowLineItemValidation(false);
+    setShowPackageValidation(false);
+    setIsRecommendationOpen(false);
   }, [familyId]);
 
   useEffect(() => {
@@ -345,6 +371,7 @@ export function SupplierCreateBidPage() {
     setAuthorization(authorizationOptions[0]);
     setReleasePath(releasePathOptions[0]);
     setStatusMessage("");
+    setShowLineItemValidation(false);
   }, [selectedSubcategoryId]);
 
   const platformEstimate = useMemo(() => {
@@ -390,34 +417,84 @@ export function SupplierCreateBidPage() {
   const resolvedManufacturer = detailMode === "yes" ? manufacturerManual || manufacturerSelect : "Platform review required";
   const resolvedModel = detailMode === "yes" ? modelManual || modelSelect : observedIdentifier || "Observed identifier pending";
   const resolvedPart = detailMode === "yes" ? partManual || partSelect : "Platform-reviewed";
+  const lineItemErrors = useMemo<ValidationErrors>(() => {
+    const errors: ValidationErrors = {};
 
-  const identificationComplete =
-    detailMode === "yes"
-      ? isManualEntry
-        ? Boolean(manufacturerManual && modelManual && partManual)
-        : Boolean(
-            manufacturerSelect &&
-              manufacturerSelect !== MANUAL_ENTRY_VALUE &&
-              modelSelect &&
-              partSelect,
-          )
-      : detailMode === "no"
-        ? Boolean(observedIdentifier)
-        : false;
+    if (!detailMode) {
+      errors.detailMode = "Choose whether you know the item details or need platform review.";
+    } else if (detailMode === "yes") {
+      if (!manufacturerSelect) {
+        errors.manufacturerSelect = "Choose a manufacturer or select Enter manually.";
+      } else if (manufacturerSelect === MANUAL_ENTRY_VALUE) {
+        if (!hasValue(manufacturerManual)) {
+          errors.manufacturerManual = "Type the manufacturer name.";
+        }
+        if (!hasValue(modelManual)) {
+          errors.modelManual = "Type the model family.";
+        }
+        if (!hasValue(partManual)) {
+          errors.partManual = "Type the part number.";
+        }
+      } else {
+        if (!modelSelect) {
+          errors.modelSelect = "Select the model family.";
+        }
+        if (!partSelect) {
+          errors.partSelect = "Select the part number.";
+        }
+      }
+    } else if (!hasValue(observedIdentifier)) {
+      errors.observedIdentifier = "Enter the best identifier you can see on the scrap.";
+    }
 
-  const lineItemComplete =
-    Boolean(
-      selectedSubcategoryId &&
-        detailMode &&
-        identificationComplete &&
-        quantityKg &&
-        floorPriceKg &&
-        packaging &&
-        condition &&
-        (familyId !== "specialized-products" || (authorization && releasePath)),
-    );
+    if (!hasValue(floorPriceKg)) {
+      errors.floorPriceKg = "Enter the supplier floor price per kg.";
+    } else if (!Number.isFinite(enteredFloorNumber) || enteredFloorNumber <= 0) {
+      errors.floorPriceKg = "Enter a valid positive floor price.";
+    }
 
-  const packageComplete = Boolean(packageTitle && evidenceNotes && lineItems.length > 0);
+    const quantityNumber = toNumberValue(quantityKg);
+    if (!hasValue(quantityKg)) {
+      errors.quantityKg = "Enter the quantity in kg.";
+    } else if (!Number.isFinite(quantityNumber) || quantityNumber <= 0) {
+      errors.quantityKg = "Enter a valid positive quantity.";
+    }
+
+    return errors;
+  }, [
+    detailMode,
+    enteredFloorNumber,
+    floorPriceKg,
+    manufacturerManual,
+    manufacturerSelect,
+    modelManual,
+    modelSelect,
+    observedIdentifier,
+    partManual,
+    partSelect,
+    quantityKg,
+  ]);
+
+  const packageErrors = useMemo<ValidationErrors>(() => {
+    const errors: ValidationErrors = {};
+
+    if (!hasValue(packageTitle)) {
+      errors.packageTitle = "Add a listing package title.";
+    }
+
+    if (!hasValue(evidenceNotes)) {
+      errors.evidenceNotes = "Add the evidence and photos summary.";
+    }
+
+    if (lineItems.length === 0) {
+      errors.lineItems = "Add at least one complete feedstock item before continuing.";
+    }
+
+    return errors;
+  }, [evidenceNotes, lineItems.length, packageTitle]);
+
+  const lineItemComplete = Boolean(selectedSubcategoryId) && Object.keys(lineItemErrors).length === 0;
+  const packageComplete = Object.keys(packageErrors).length === 0;
 
   const averageFloor =
     lineItems.length > 0
@@ -456,7 +533,10 @@ export function SupplierCreateBidPage() {
   };
 
   const addLineItem = () => {
+    setShowLineItemValidation(true);
+
     if (!lineItemComplete || !selectedSubcategory) {
+      setStatusMessage("Complete every required field in Step 3 before adding the item to the package.");
       return;
     }
 
@@ -493,10 +573,13 @@ export function SupplierCreateBidPage() {
     setCondition(conditionOptions[0]);
     setAuthorization(authorizationOptions[0]);
     setReleasePath(releasePathOptions[0]);
+    setShowLineItemValidation(false);
     setStatusMessage("Feedstock item added to the listing package.");
   };
 
   const handleSaveDraft = () => {
+    setShowPackageValidation(true);
+
     if (!packageComplete) {
       setStatusMessage("Complete the package title, evidence notes, and at least one feedstock item before saving.");
       return;
@@ -506,6 +589,8 @@ export function SupplierCreateBidPage() {
   };
 
   const handleListAtSpecifiedFloor = () => {
+    setShowPackageValidation(true);
+
     if (!packageComplete) {
       setStatusMessage("Complete all mandatory sections before listing the package.");
       return;
@@ -515,12 +600,25 @@ export function SupplierCreateBidPage() {
   };
 
   const handleOpenRecommendation = () => {
+    setShowPackageValidation(true);
+
     if (!packageComplete) {
       setStatusMessage("Complete all mandatory sections before requesting a bidding recommendation.");
       return;
     }
     setIsRecommendationOpen(true);
   };
+
+  const getFieldShellClass = (hasError: boolean) =>
+    `rounded-[24px] border p-4 ${hasError ? "border-[#B16A1D] bg-[rgba(255,248,240,0.98)]" : "border-[#DCE3EF] bg-white"}`;
+
+  const getInputClass = (hasError: boolean, extraClasses = "") =>
+    `mt-3 w-full rounded-[18px] border px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80] ${
+      hasError ? "border-[#B16A1D] bg-[#FFFDFC]" : "border-[#DCE3EF] bg-white"
+    } ${extraClasses}`.trim();
+
+  const getErrorMessage = (errors: ValidationErrors, field: ValidationField, shouldShow: boolean) =>
+    shouldShow ? errors[field] : undefined;
 
   return (
     <motion.main className="page bg-transparent" {...pageMotionProps}>
@@ -658,28 +756,41 @@ export function SupplierCreateBidPage() {
                   </div>
 
                   <div className="mt-6 grid gap-4 md:grid-cols-2">
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
+                    <label className={getFieldShellClass(Boolean(getErrorMessage(packageErrors, "packageTitle", showPackageValidation)))}>
                       <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                         Listing package title
                       </span>
                       <input
                         value={packageTitle}
                         onChange={(event) => setPackageTitle(event.target.value)}
-                        className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                        className={getInputClass(Boolean(getErrorMessage(packageErrors, "packageTitle", showPackageValidation)))}
                         placeholder="Example: Mixed approved motor lots"
                       />
+                      {getErrorMessage(packageErrors, "packageTitle", showPackageValidation) ? (
+                        <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                          {getErrorMessage(packageErrors, "packageTitle", showPackageValidation)}
+                        </p>
+                      ) : null}
                     </label>
 
-                    <label className="rounded-[24px] border border-[#DCE3EF] bg-white/84 p-4">
+                    <label className={getFieldShellClass(Boolean(getErrorMessage(packageErrors, "evidenceNotes", showPackageValidation)))}>
                       <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                         Evidence and photos summary
                       </span>
                       <textarea
                         value={evidenceNotes}
                         onChange={(event) => setEvidenceNotes(event.target.value)}
-                        className="mt-3 min-h-[112px] w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                        className={getInputClass(
+                          Boolean(getErrorMessage(packageErrors, "evidenceNotes", showPackageValidation)),
+                          "min-h-[112px]",
+                        )}
                         placeholder="Describe manifests, photos, teardown stage, release notes, and handling information."
                       />
+                      {getErrorMessage(packageErrors, "evidenceNotes", showPackageValidation) ? (
+                        <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                          {getErrorMessage(packageErrors, "evidenceNotes", showPackageValidation)}
+                        </p>
+                      ) : null}
                     </label>
                   </div>
 
@@ -721,11 +832,20 @@ export function SupplierCreateBidPage() {
                           </button>
                         ))}
                       </div>
+                      {getErrorMessage(lineItemErrors, "detailMode", showLineItemValidation) ? (
+                        <p className="mt-3 text-[0.8rem] leading-6 text-[#B16A1D]">
+                          {getErrorMessage(lineItemErrors, "detailMode", showLineItemValidation)}
+                        </p>
+                      ) : null}
                     </div>
 
                     {detailMode === "yes" ? (
                       <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                        <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                        <label
+                          className={getFieldShellClass(
+                            Boolean(getErrorMessage(lineItemErrors, "manufacturerSelect", showLineItemValidation)),
+                          )}
+                        >
                           <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                             Manufacturer dropdown
                           </span>
@@ -742,7 +862,9 @@ export function SupplierCreateBidPage() {
                                 setPartManual("");
                               }
                             }}
-                            className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                            className={getInputClass(
+                              Boolean(getErrorMessage(lineItemErrors, "manufacturerSelect", showLineItemValidation)),
+                            )}
                           >
                             <option value="">Select manufacturer</option>
                             {manufacturerOptions.map((option) => (
@@ -752,49 +874,91 @@ export function SupplierCreateBidPage() {
                             ))}
                             <option value={MANUAL_ENTRY_VALUE}>Enter manually</option>
                           </select>
+                          {getErrorMessage(lineItemErrors, "manufacturerSelect", showLineItemValidation) ? (
+                            <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                              {getErrorMessage(lineItemErrors, "manufacturerSelect", showLineItemValidation)}
+                            </p>
+                          ) : null}
                         </label>
 
                         {isManualEntry ? (
                           <>
-                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                            <label
+                              className={getFieldShellClass(
+                                Boolean(getErrorMessage(lineItemErrors, "manufacturerManual", showLineItemValidation)),
+                              )}
+                            >
                               <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                                 Type manufacturer
                               </span>
                               <input
                                 value={manufacturerManual}
                                 onChange={(event) => setManufacturerManual(event.target.value)}
-                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                                className={getInputClass(
+                                  Boolean(getErrorMessage(lineItemErrors, "manufacturerManual", showLineItemValidation)),
+                                )}
                                 placeholder="Type manufacturer name"
                               />
+                              {getErrorMessage(lineItemErrors, "manufacturerManual", showLineItemValidation) ? (
+                                <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                                  {getErrorMessage(lineItemErrors, "manufacturerManual", showLineItemValidation)}
+                                </p>
+                              ) : null}
                             </label>
 
-                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                            <label
+                              className={getFieldShellClass(
+                                Boolean(getErrorMessage(lineItemErrors, "modelManual", showLineItemValidation)),
+                              )}
+                            >
                               <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                                 Type model family
                               </span>
                               <input
                                 value={modelManual}
                                 onChange={(event) => setModelManual(event.target.value)}
-                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                                className={getInputClass(
+                                  Boolean(getErrorMessage(lineItemErrors, "modelManual", showLineItemValidation)),
+                                )}
                                 placeholder="Type model family"
                               />
+                              {getErrorMessage(lineItemErrors, "modelManual", showLineItemValidation) ? (
+                                <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                                  {getErrorMessage(lineItemErrors, "modelManual", showLineItemValidation)}
+                                </p>
+                              ) : null}
                             </label>
 
-                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                            <label
+                              className={getFieldShellClass(
+                                Boolean(getErrorMessage(lineItemErrors, "partManual", showLineItemValidation)),
+                              )}
+                            >
                               <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                                 Type part number
                               </span>
                               <input
                                 value={partManual}
                                 onChange={(event) => setPartManual(event.target.value)}
-                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                                className={getInputClass(
+                                  Boolean(getErrorMessage(lineItemErrors, "partManual", showLineItemValidation)),
+                                )}
                                 placeholder="Type part number"
                               />
+                              {getErrorMessage(lineItemErrors, "partManual", showLineItemValidation) ? (
+                                <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                                  {getErrorMessage(lineItemErrors, "partManual", showLineItemValidation)}
+                                </p>
+                              ) : null}
                             </label>
                           </>
                         ) : (
                           <>
-                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                            <label
+                              className={getFieldShellClass(
+                                Boolean(getErrorMessage(lineItemErrors, "modelSelect", showLineItemValidation)),
+                              )}
+                            >
                               <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                                 Model family dropdown
                               </span>
@@ -805,7 +969,10 @@ export function SupplierCreateBidPage() {
                                   setPartSelect("");
                                 }}
                                 disabled={!manufacturerSelect}
-                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#253B80]"
+                                className={getInputClass(
+                                  Boolean(getErrorMessage(lineItemErrors, "modelSelect", showLineItemValidation)),
+                                  "disabled:cursor-not-allowed disabled:opacity-50",
+                                )}
                               >
                                 <option value="">Select model family</option>
                                 {modelOptions.map((option) => (
@@ -814,9 +981,18 @@ export function SupplierCreateBidPage() {
                                   </option>
                                 ))}
                               </select>
+                              {getErrorMessage(lineItemErrors, "modelSelect", showLineItemValidation) ? (
+                                <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                                  {getErrorMessage(lineItemErrors, "modelSelect", showLineItemValidation)}
+                                </p>
+                              ) : null}
                             </label>
 
-                            <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                            <label
+                              className={getFieldShellClass(
+                                Boolean(getErrorMessage(lineItemErrors, "partSelect", showLineItemValidation)),
+                              )}
+                            >
                               <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                                 Part number dropdown
                               </span>
@@ -824,7 +1000,10 @@ export function SupplierCreateBidPage() {
                                 value={partSelect}
                                 onChange={(event) => setPartSelect(event.target.value)}
                                 disabled={!manufacturerSelect || !modelSelect}
-                                className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#253B80]"
+                                className={getInputClass(
+                                  Boolean(getErrorMessage(lineItemErrors, "partSelect", showLineItemValidation)),
+                                  "disabled:cursor-not-allowed disabled:opacity-50",
+                                )}
                               >
                                 <option value="">Select part number</option>
                                 {partOptions.map((option) => (
@@ -833,6 +1012,11 @@ export function SupplierCreateBidPage() {
                                   </option>
                                 ))}
                               </select>
+                              {getErrorMessage(lineItemErrors, "partSelect", showLineItemValidation) ? (
+                                <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                                  {getErrorMessage(lineItemErrors, "partSelect", showLineItemValidation)}
+                                </p>
+                              ) : null}
                             </label>
                           </>
                         )}
@@ -840,42 +1024,75 @@ export function SupplierCreateBidPage() {
                     ) : null}
 
                     {detailMode === "no" ? (
-                      <label className="mt-4 block rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                      <label
+                        className={`mt-4 block ${getFieldShellClass(
+                          Boolean(getErrorMessage(lineItemErrors, "observedIdentifier", showLineItemValidation)),
+                        )}`}
+                      >
                         <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                           Best observed identifier
                         </span>
                         <input
                           value={observedIdentifier}
                           onChange={(event) => setObservedIdentifier(event.target.value)}
-                          className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          className={getInputClass(
+                            Boolean(getErrorMessage(lineItemErrors, "observedIdentifier", showLineItemValidation)),
+                          )}
                           placeholder="Example: nameplate fragment, stamp, release code, or visual marker"
                         />
+                        {getErrorMessage(lineItemErrors, "observedIdentifier", showLineItemValidation) ? (
+                          <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                            {getErrorMessage(lineItemErrors, "observedIdentifier", showLineItemValidation)}
+                          </p>
+                        ) : null}
                       </label>
                     ) : null}
 
                     <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                      <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                      <label
+                        className={getFieldShellClass(
+                          Boolean(getErrorMessage(lineItemErrors, "floorPriceKg", showLineItemValidation)),
+                        )}
+                      >
                         <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                           Supplier floor price / kg
                         </span>
                         <input
                           value={floorPriceKg}
                           onChange={(event) => setFloorPriceKg(event.target.value)}
-                          className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          className={getInputClass(
+                            Boolean(getErrorMessage(lineItemErrors, "floorPriceKg", showLineItemValidation)),
+                          )}
                           placeholder="Example: $2.95"
                         />
+                        {getErrorMessage(lineItemErrors, "floorPriceKg", showLineItemValidation) ? (
+                          <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                            {getErrorMessage(lineItemErrors, "floorPriceKg", showLineItemValidation)}
+                          </p>
+                        ) : null}
                       </label>
 
-                      <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
+                      <label
+                        className={getFieldShellClass(
+                          Boolean(getErrorMessage(lineItemErrors, "quantityKg", showLineItemValidation)),
+                        )}
+                      >
                         <span className="text-[0.62rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
                           Quantity in kg
                         </span>
                         <input
                           value={quantityKg}
                           onChange={(event) => setQuantityKg(event.target.value)}
-                          className="mt-3 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.95rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                          className={getInputClass(
+                            Boolean(getErrorMessage(lineItemErrors, "quantityKg", showLineItemValidation)),
+                          )}
                           placeholder="Example: 12000"
                         />
+                        {getErrorMessage(lineItemErrors, "quantityKg", showLineItemValidation) ? (
+                          <p className="mt-2 text-[0.8rem] leading-6 text-[#B16A1D]">
+                            {getErrorMessage(lineItemErrors, "quantityKg", showLineItemValidation)}
+                          </p>
+                        ) : null}
                       </label>
 
                       <label className="rounded-[24px] border border-[#DCE3EF] bg-white p-4">
@@ -964,12 +1181,16 @@ export function SupplierCreateBidPage() {
                       </p>
                     </div>
 
+                    {showLineItemValidation && Object.keys(lineItemErrors).length > 0 ? (
+                      <div className="mt-4 rounded-[22px] border border-[#E7C98A] bg-[rgba(255,249,238,0.92)] px-4 py-4">
+                        <p className="text-[0.9rem] leading-7 text-[#7C5A18]">
+                          Finish every required Step 3 field before the item can move into Package items.
+                        </p>
+                      </div>
+                    ) : null}
+
                     <div className="mt-5">
-                      <button
-                        className={`button-primary ${lineItemComplete ? "" : "pointer-events-none opacity-50"}`}
-                        type="button"
-                        onClick={addLineItem}
-                      >
+                      <button className="button-primary" type="button" onClick={addLineItem}>
                         Add feedstock item
                       </button>
                     </div>
@@ -994,8 +1215,15 @@ export function SupplierCreateBidPage() {
 
                 <div className="mt-5 space-y-3">
                   {lineItems.length === 0 ? (
-                    <div className="rounded-[22px] border border-dashed border-[#DCE3EF] bg-[rgba(248,250,253,0.8)] px-5 py-6 text-[0.92rem] leading-7 text-[#6D7484]">
-                      Add at least one complete feedstock item. All sections are mandatory before the package can be saved, recommended, or listed.
+                    <div
+                      className={`rounded-[22px] border border-dashed px-5 py-6 text-[0.92rem] leading-7 ${
+                        getErrorMessage(packageErrors, "lineItems", showPackageValidation)
+                          ? "border-[#E7C98A] bg-[rgba(255,249,238,0.92)] text-[#7C5A18]"
+                          : "border-[#DCE3EF] bg-[rgba(248,250,253,0.8)] text-[#6D7484]"
+                      }`}
+                    >
+                      {getErrorMessage(packageErrors, "lineItems", showPackageValidation) ??
+                        "Add at least one complete feedstock item. All sections are mandatory before the package can be saved, recommended, or listed."}
                     </div>
                   ) : (
                     lineItems.map((item, index) => (
@@ -1032,22 +1260,26 @@ export function SupplierCreateBidPage() {
                   )}
                 </div>
 
+                {showPackageValidation &&
+                (getErrorMessage(packageErrors, "packageTitle", true) ||
+                  getErrorMessage(packageErrors, "evidenceNotes", true) ||
+                  getErrorMessage(packageErrors, "lineItems", true)) ? (
+                  <div className="mt-5 rounded-[22px] border border-[#E7C98A] bg-[rgba(255,249,238,0.92)] px-4 py-4">
+                    <p className="text-[0.9rem] leading-7 text-[#7C5A18]">
+                      {getErrorMessage(packageErrors, "lineItems", true) ??
+                        "Complete the package title and evidence summary before continuing."}
+                    </p>
+                  </div>
+                ) : null}
+
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <button className={`button-secondary ${packageComplete ? "" : "pointer-events-none opacity-50"}`} type="button" onClick={handleSaveDraft}>
+                  <button className="button-secondary" type="button" onClick={handleSaveDraft}>
                     Save draft
                   </button>
-                  <button
-                    className={`button-secondary ${packageComplete ? "" : "pointer-events-none opacity-50"}`}
-                    type="button"
-                    onClick={handleOpenRecommendation}
-                  >
+                  <button className="button-secondary" type="button" onClick={handleOpenRecommendation}>
                     Get bidding recommendation
                   </button>
-                  <button
-                    className={`button-primary ${packageComplete ? "" : "pointer-events-none opacity-50"}`}
-                    type="button"
-                    onClick={handleListAtSpecifiedFloor}
-                  >
+                  <button className="button-primary" type="button" onClick={handleListAtSpecifiedFloor}>
                     List at specified floor price
                   </button>
                 </div>
