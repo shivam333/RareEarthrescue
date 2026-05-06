@@ -15,12 +15,12 @@ const pageMotionProps = {
 
 export function DashboardListingDetailPage() {
   const { listingId, sourceId } = useParams<{ listingId: string; sourceId: string }>();
-  const { mergedMarketplaceListings } = useSupplierListingStore();
+  const { mergedLiveListings } = useSupplierListingStore();
   const listing = useMemo(
-    () => mergedMarketplaceListings.find((item) => item.id === listingId) ?? mergedMarketplaceListings[0],
-    [listingId, mergedMarketplaceListings]
+    () => mergedLiveListings.find((item) => item.id === listingId) ?? mergedLiveListings[0],
+    [listingId, mergedLiveListings]
   );
-  const relatedListings = mergedMarketplaceListings
+  const relatedListings = mergedLiveListings
     .filter((item) => item.id !== listing.id && item.sourceId === listing.sourceId)
     .slice(0, 3);
   const [activeImage, setActiveImage] = useState(0);
@@ -75,7 +75,7 @@ export function DashboardListingDetailPage() {
           </article>
 
           <aside className="rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.97),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
-            <p className="eyebrow !mb-0">Live recycler listing</p>
+            <p className="eyebrow !mb-0">Live fixed-price listing</p>
             <h1 className="mt-2 font-display text-[2.1rem] leading-[0.98] tracking-[-0.06em] text-[#0F1115]">
               {listing.detailTitle}
             </h1>
@@ -126,16 +126,16 @@ export function DashboardListingDetailPage() {
                 className="mt-4 w-full rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5"
               >
                 {selectedLots === 0
-                  ? "Add 1 lot to order"
-                  : `Add ${selectedLots} lot${selectedLots === 1 ? "" : "s"} to order`}
+                  ? "Add 1 lot to cart"
+                  : `Add ${selectedLots} lot${selectedLots === 1 ? "" : "s"} to cart`}
               </button>
 
               <div className="mt-4 grid gap-3">
                 <Link
-                  to={`/dashboard/place-order/${listing.id}`}
+                  to="/dashboard/checkout"
                   className="rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-3 text-sm font-bold text-[#253B80]"
                 >
-                  Bid from this listing
+                  Review cart and buy
                 </Link>
                 <button
                   type="button"
@@ -156,7 +156,7 @@ export function DashboardListingDetailPage() {
               </p>
               <p className="mt-2 text-[0.78rem] leading-6 text-[#6D7484]">
                 {stagedLots > 0
-                  ? `${stagedLots} lot${stagedLots === 1 ? "" : "s"} already staged from this listing.`
+                  ? `${stagedLots} lot${stagedLots === 1 ? "" : "s"} already staged in the purchase cart.`
                   : "Nothing staged from this listing yet."}
               </p>
             </div>

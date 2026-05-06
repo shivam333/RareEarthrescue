@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { BidRow } from "../components/dashboard/BidRow";
+import { useRecyclerBidBook } from "../hooks/useRecyclerBidBook";
 import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 
@@ -20,11 +21,16 @@ function bidCountForIndex(index: number) {
 
 export function LiveBiddingTablePage() {
   const [page, setPage] = useState(1);
-  const { mergedMarketplaceListings } = useSupplierListingStore();
-  const pageCount = Math.max(1, Math.ceil(mergedMarketplaceListings.length / PAGE_SIZE));
+  const { mergedAuctionListings } = useSupplierListingStore();
+  const { bidMap } = useRecyclerBidBook();
+  const openAuctionListings = useMemo(
+    () => mergedAuctionListings.filter((listing) => !bidMap[listing.id]),
+    [bidMap, mergedAuctionListings]
+  );
+  const pageCount = Math.max(1, Math.ceil(openAuctionListings.length / PAGE_SIZE));
   const activeListings = useMemo(
-    () => mergedMarketplaceListings.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
-    [mergedMarketplaceListings, page]
+    () => openAuctionListings.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    [openAuctionListings, page]
   );
 
   return (
@@ -35,10 +41,10 @@ export function LiveBiddingTablePage() {
             <div className="max-w-4xl">
               <p className="eyebrow !mb-0">Live bidding dashboard</p>
               <h1 className="mt-2 font-display text-[2rem] leading-[0.98] tracking-[-0.05em] text-[#0F1115] sm:text-[2.35rem] lg:text-[2.85rem]">
-                Live bidding opportunities across active rare-earth-bearing scrap listings.
+                Open auction events where this recycler account has not yet bid.
               </h1>
               <p className="mt-4 max-w-[48rem] text-[1rem] leading-8 text-[#6D7484]">
-                Use this table to scan current opportunities before you move into bid entry or open detailed listing views.
+                These lots are sourced from the active bid database and stay separate from the fixed-price live listing boards.
               </p>
             </div>
 
@@ -47,7 +53,7 @@ export function LiveBiddingTablePage() {
                 Back to dashboard
               </Link>
               <span className="rounded-full border border-[#DCE3EF] bg-white/82 px-4 py-2 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#253B80]">
-                {mergedMarketplaceListings.length} active bids
+                {openAuctionListings.length} total open bids
               </span>
             </div>
           </div>

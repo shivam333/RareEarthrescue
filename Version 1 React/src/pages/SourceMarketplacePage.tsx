@@ -26,10 +26,10 @@ export function SourceMarketplacePage() {
   const { sourceId } = useParams<{ sourceId: string }>();
   const activeSource: DashboardSourceId = isDashboardSourceId(sourceId) ? sourceId : "hdd";
   const sourceContent = dashboardSourceContent[activeSource];
-  const { mergedMarketplaceListings } = useSupplierListingStore();
+  const { mergedLiveListings } = useSupplierListingStore();
   const sourceListings = useMemo(
-    () => mergedMarketplaceListings.filter((listing) => listing.sourceId === activeSource),
-    [activeSource, mergedMarketplaceListings]
+    () => mergedLiveListings.filter((listing) => listing.sourceId === activeSource),
+    [activeSource, mergedLiveListings]
   );
 
   return (

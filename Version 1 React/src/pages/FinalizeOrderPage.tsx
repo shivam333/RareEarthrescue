@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useRecyclerBidBook } from "../hooks/useRecyclerBidBook";
 import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
 import { AppImage } from "../components/ui/AppImage";
@@ -32,12 +33,14 @@ function sanitizeQuantity(value: string) {
 }
 
 export function FinalizeOrderPage() {
+  const navigate = useNavigate();
   const { listingId } = useParams<{ listingId: string }>();
   const [searchParams] = useSearchParams();
-  const { mergedMarketplaceListings } = useSupplierListingStore();
+  const { mergedAuctionListings } = useSupplierListingStore();
+  const { bidMap, saveBid } = useRecyclerBidBook();
   const listing = useMemo(
-    () => mergedMarketplaceListings.find((item) => item.id === listingId) ?? mergedMarketplaceListings[0],
-    [listingId, mergedMarketplaceListings]
+    () => mergedAuctionListings.find((item) => item.id === listingId) ?? mergedAuctionListings[0],
+    [listingId, mergedAuctionListings]
   );
   const [activeImage, setActiveImage] = useState(0);
   const [quantityTons, setQuantityTons] = useState(searchParams.get("quantity") || "0.00");
@@ -46,10 +49,11 @@ export function FinalizeOrderPage() {
   const [bidPricePerKg, setBidPricePerKg] = useState(
     searchParams.get("price") || openingBidFloor.toFixed(2)
   );
-  const listingIndex = mergedMarketplaceListings.findIndex((item) => item.id === listing.id);
+  const listingIndex = mergedAuctionListings.findIndex((item) => item.id === listing.id);
   const bidCount = 4 + (listingIndex % 7);
   const bidStartDate = formatAuctionDate(listingIndex % 3);
   const bidEndDate = formatAuctionDate(5 + (listingIndex % 4));
+  const existingBid = bidMap[listing.id];
 
   const unitPricePerKg = Number(bidPricePerKg || 0);
   const quantityValue = Number(quantityTons || 0);
@@ -104,7 +108,7 @@ export function FinalizeOrderPage() {
           </article>
 
           <aside className="rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(244,236,224,0.92))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
-            <p className="eyebrow !mb-0">Finalize order</p>
+            <p className="eyebrow !mb-0">Bid submission</p>
             <h1 className="mt-2 font-display text-[2.1rem] leading-[0.98] tracking-[-0.06em] text-[#0F1115]">
               {listing.detailTitle}
             </h1>
@@ -225,9 +229,26 @@ export function FinalizeOrderPage() {
                 <button
                   type="button"
                   disabled={!isBidPriceValid || quantityValue <= 0}
+                  onClick={() => {
+                    if (!isBidPriceValid || quantityValue <= 0) {
+                      return;
+                    }
+
+                    saveBid({
+                      listingId: listing.id,
+                      sourceId: listing.sourceId,
+                      listingTitle: listing.detailTitle,
+                      bidPricePerKg: unitPricePerKg,
+                      quantityTons: quantityValue,
+                      totalBid,
+                      submittedAt: new Date().toISOString(),
+                      status: existingBid ? "updated" : "active",
+                    });
+                    navigate("/dashboard/active-bids");
+                  }}
                   className="rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
                 >
-                  Submit bid request
+                  {existingBid ? "Update bid request" : "Submit bid request"}
                 </button>
                 <button
                   type="button"
@@ -254,6 +275,12 @@ export function FinalizeOrderPage() {
                   ["Packaging", listing.packaging],
                   ["Logistics", "Managed by seller after bid confirmation"],
                   ["Due diligence pack", "$50 request fee"],
+                  ...(existingBid
+                    ? [[
+                        "Current saved bid",
+                        `${existingBid.quantityTons.toFixed(2)} tons at $${existingBid.bidPricePerKg.toFixed(2)} / kg`,
+                      ]]
+                    : []),
                 ].map(([label, value]) => (
                   <div key={label}>
                     <span className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#6D7484]">

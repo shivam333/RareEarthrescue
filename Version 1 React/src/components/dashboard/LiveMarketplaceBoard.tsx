@@ -34,12 +34,12 @@ export function LiveMarketplaceBoard({
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
         <div className="rounded-[26px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.92)] px-5 py-4 shadow-[0_18px_50px_rgba(46,41,31,0.06)]">
           <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-            Order staging
+            Purchase cart
           </span>
           <p className="mt-2 text-[0.98rem] leading-7 text-[#6D7484]">
             {totalLots > 0
               ? `${totalLots} lots staged across ${totalItems} listing${totalItems === 1 ? "" : "s"}.`
-              : "Stage lots from this live marketplace to build a recycler order basket."}
+              : "Stage fixed-price lots from this live marketplace to build a purchase basket."}
           </p>
         </div>
 
@@ -147,7 +147,7 @@ export function LiveMarketplaceBoard({
 
                   <div className="mt-6 rounded-[22px] border border-[#DCE3EF] bg-white/76 p-4">
                     <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                      Add to order
+                      Add to cart
                     </span>
                     <div className="mt-3 flex items-center justify-between gap-3 rounded-full border border-[#DCE3EF] bg-[#F6F8FC] px-2 py-2">
                       <button
@@ -187,13 +187,13 @@ export function LiveMarketplaceBoard({
                       className="mt-4 w-full rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5"
                     >
                       {selectedLots === 0
-                        ? "Add 1 lot to order"
-                        : `Add ${selectedLots} lot${selectedLots === 1 ? "" : "s"} to order`}
+                        ? "Add 1 lot to cart"
+                        : `Add ${selectedLots} lot${selectedLots === 1 ? "" : "s"} to cart`}
                     </button>
                     <p className="mt-3 text-[0.76rem] leading-6 text-[#6D7484]">
                       {stagedLots > 0
                         ? `${stagedLots} lot${stagedLots === 1 ? "" : "s"} already staged from this listing.`
-                        : "Stage lots here and refine volume after due diligence."}
+                        : "Add the listed quantity to cart and complete purchase from checkout."}
                     </p>
                   </div>
 
@@ -204,6 +204,14 @@ export function LiveMarketplaceBoard({
                     >
                       View details
                     </Link>
+                    {stagedLots > 0 ? (
+                      <Link
+                        to="/dashboard/checkout"
+                        className="inline-flex items-center justify-center rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-3 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#253B80] transition hover:-translate-y-0.5 hover:border-[#D9C47A]"
+                      >
+                        Review cart and buy
+                      </Link>
+                    ) : null}
                     <span className="text-[0.74rem] leading-6 text-[#6D7484]">
                       Seller: {listing.sellerName} · {listing.sellerType}
                     </span>

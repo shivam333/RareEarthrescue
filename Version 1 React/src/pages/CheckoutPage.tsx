@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecyclerOrderBook } from "../hooks/useRecyclerOrderBook";
 import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
@@ -22,9 +23,14 @@ function parsePricePerTon(pricePerTon: string) {
 }
 
 export function CheckoutPage() {
-  const { orderBook, totalItems, totalLots, setLots } = useRecyclerOrderBook();
-  const { mergedMarketplaceListings } = useSupplierListingStore();
-  const stagedListings = mergedMarketplaceListings.filter((listing) => (orderBook[listing.id] ?? 0) > 0);
+  const { orderBook, totalItems, totalLots, setLots, clearOrderBook } = useRecyclerOrderBook();
+  const { mergedLiveListings } = useSupplierListingStore();
+  const [buyerReference, setBuyerReference] = useState("");
+  const [deliveryContact, setDeliveryContact] = useState("");
+  const [deliveryWindow, setDeliveryWindow] = useState("");
+  const [purchaseSubmitted, setPurchaseSubmitted] = useState(false);
+  const [purchaseError, setPurchaseError] = useState("");
+  const stagedListings = mergedLiveListings.filter((listing) => (orderBook[listing.id] ?? 0) > 0);
   const estimatedOrderValue = stagedListings.reduce((sum, listing) => {
     const stagedLots = orderBook[listing.id] ?? 0;
     return sum + parsePricePerTon(listing.pricePerTon) * stagedLots;
@@ -49,11 +55,10 @@ export function CheckoutPage() {
           <section className="rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
             <p className="eyebrow !mb-0">Staged order book</p>
             <h1 className="mt-2 max-w-[14ch] font-display text-[clamp(2.5rem,4vw,4.1rem)] leading-[0.94] tracking-[-0.06em] text-[#0F1115]">
-              Review staged lots before moving into final bid requests.
+              Review staged lots before completing a fixed-price purchase request.
             </h1>
             <p className="mt-4 max-w-[44rem] text-[0.98rem] leading-8 text-[#6D7484]">
-              Use this cart as a working checkout layer for recycler procurement. Adjust staged lots,
-              reopen listing details, or move directly into the bid screen for the selected feedstock.
+              This cart sits outside the auction flow. Adjust live listings here, confirm buyer-side delivery details, and send the purchase package for transaction handling.
             </p>
 
             {stagedListings.length === 0 ? (
@@ -102,30 +107,27 @@ export function CheckoutPage() {
                         <div className="mt-4 grid gap-4 md:grid-cols-3">
                           <CheckoutMeta label="Staged lots" value={`${stagedLots} lot${stagedLots === 1 ? "" : "s"}`} />
                           <CheckoutMeta label="Minimum lot size" value={cleanLotQuantity(listing.quantity)} />
-                          <CheckoutMeta label="Bid basis" value={listing.pricePerTon} />
+                          <CheckoutMeta label="Listed price" value={listing.pricePerTon} />
                         </div>
                       </div>
 
                       <div className="flex flex-col justify-between gap-3 rounded-[24px] border border-[#DCE3EF] bg-[rgba(251,247,239,0.86)] p-4">
                         <div>
                           <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
-                            Est. staged value
+                            Est. purchase value
                           </span>
                           <strong className="mt-2 block font-display text-[1.7rem] tracking-[-0.05em] text-[#0F1115]">
                             ${(parsePricePerTon(listing.pricePerTon) * stagedLots).toLocaleString()}
                           </strong>
                           <p className="mt-2 text-[0.8rem] leading-6 text-[#6D7484]">
-                            Seller manages logistics after bid confirmation and lot award.
+                            Seller manages logistics after the fixed-price purchase package is confirmed.
                           </p>
                         </div>
 
                         <div className="grid gap-3">
-                          <Link
-                            to={`/dashboard/place-order/${listing.id}`}
-                            className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5"
-                          >
-                            Continue to bid
-                          </Link>
+                          <span className="inline-flex items-center justify-center rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)]">
+                            Ready to buy
+                          </span>
                           <Link
                             to={`/dashboard/live/${listing.sourceId}/listing/${listing.id}`}
                             className="inline-flex items-center justify-center rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-3 text-sm font-bold text-[#253B80]"
@@ -153,18 +155,90 @@ export function CheckoutPage() {
             <div className="mt-5 grid gap-4">
               <SummaryStat label="Listings staged" value={`${totalItems}`} />
               <SummaryStat label="Lots staged" value={`${totalLots}`} />
-              <SummaryStat label="Est. order value" value={`$${estimatedOrderValue.toLocaleString()}`} />
+              <SummaryStat label="Est. purchase value" value={`$${estimatedOrderValue.toLocaleString()}`} />
             </div>
 
             <div className="mt-6 rounded-[26px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(247,241,232,0.84))] p-5">
               <strong className="block font-display text-[1.24rem] tracking-[-0.04em] text-[#0F1115]">
-                Checkout guidance
+                Purchase workflow
               </strong>
               <ul className="mt-4 space-y-3 text-[0.9rem] leading-7 text-[#6D7484]">
-                <li>Stage lots first, then enter exact bid quantity on the next screen.</li>
-                <li>Seller-managed logistics remain part of the commercial workflow after bid acceptance.</li>
-                <li>Due diligence packs can be requested for $50 before final commitment.</li>
+                <li>Stage fixed-price lots in the cart and review total purchase exposure.</li>
+                <li>Seller-managed logistics remain part of the workflow after the purchase package is confirmed.</li>
+                <li>Use the listing details page if you need diligence notes before final confirmation.</li>
               </ul>
+            </div>
+
+            <div className="mt-6 rounded-[26px] border border-[#DCE3EF] bg-white/80 p-5">
+              <strong className="block font-display text-[1.24rem] tracking-[-0.04em] text-[#0F1115]">
+                Complete purchase request
+              </strong>
+              <div className="mt-4 grid gap-4">
+                <label>
+                  <span className="text-[0.64rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                    Buyer reference
+                  </span>
+                  <input
+                    value={buyerReference}
+                    onChange={(event) => setBuyerReference(event.target.value)}
+                    className="mt-2 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.94rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                    placeholder="Example: June procurement program"
+                  />
+                </label>
+                <label>
+                  <span className="text-[0.64rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                    Delivery contact
+                  </span>
+                  <input
+                    value={deliveryContact}
+                    onChange={(event) => setDeliveryContact(event.target.value)}
+                    className="mt-2 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.94rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                    placeholder="Name, email, or procurement desk"
+                  />
+                </label>
+                <label>
+                  <span className="text-[0.64rem] font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                    Delivery window
+                  </span>
+                  <input
+                    value={deliveryWindow}
+                    onChange={(event) => setDeliveryWindow(event.target.value)}
+                    className="mt-2 w-full rounded-[18px] border border-[#DCE3EF] bg-white px-4 py-3 text-[0.94rem] text-[#0F1115] outline-none transition focus:border-[#253B80]"
+                    placeholder="Example: Within 10 business days"
+                  />
+                </label>
+              </div>
+
+              {purchaseError ? (
+                <p className="mt-4 rounded-[18px] border border-[#E7C98A] bg-[rgba(255,249,238,0.92)] px-4 py-3 text-[0.84rem] leading-6 text-[#7C5A18]">
+                  {purchaseError}
+                </p>
+              ) : null}
+
+              {purchaseSubmitted ? (
+                <div className="mt-4 rounded-[20px] border border-[#DDF1E8] bg-[rgba(233,244,235,0.92)] px-4 py-4 text-[0.88rem] leading-7 text-[#253B80]">
+                  Purchase request submitted. The marketplace desk will confirm lot availability, seller-managed logistics, and final commercial paperwork.
+                </div>
+              ) : null}
+
+              <button
+                type="button"
+                disabled={stagedListings.length === 0}
+                onClick={() => {
+                  if (!buyerReference.trim() || !deliveryContact.trim() || !deliveryWindow.trim()) {
+                    setPurchaseSubmitted(false);
+                    setPurchaseError("Complete buyer reference, delivery contact, and delivery window before submitting.");
+                    return;
+                  }
+
+                  setPurchaseError("");
+                  setPurchaseSubmitted(true);
+                  clearOrderBook();
+                }}
+                className="mt-5 w-full rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+              >
+                Complete purchase transaction
+              </button>
             </div>
           </aside>
         </div>

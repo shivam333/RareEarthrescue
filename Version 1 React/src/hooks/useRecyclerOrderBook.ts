@@ -87,5 +87,8 @@ export function useRecyclerOrderBook() {
         return { ...current, [listingId]: nextCount };
       });
     },
+    clearOrderBook() {
+      setOrderBook({});
+    },
   };
 }

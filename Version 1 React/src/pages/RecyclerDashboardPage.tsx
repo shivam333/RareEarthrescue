@@ -26,7 +26,7 @@ export function RecyclerDashboardPage({
   activeMode?: DashboardMode;
   onModeChange?: (mode: DashboardMode) => void;
 }) {
-  const { mergedMarketplaceListings } = useSupplierListingStore();
+  const { mergedAuctionListings } = useSupplierListingStore();
   const modeSwitch = showModeSwitch && onModeChange ? (
     <div className="mb-8 flex flex-col gap-4 rounded-[30px] border border-[#DCE3EF] bg-white/72 p-5 shadow-[0_20px_56px_rgba(46,41,31,0.06)] lg:flex-row lg:items-center lg:justify-between">
       <div>
@@ -76,7 +76,7 @@ export function RecyclerDashboardPage({
             viewport={{ once: true, amount: 0.12 }}
             transition={{ duration: 0.5 }}
           >
-            <LiveBiddingDashboard listings={mergedMarketplaceListings} />
+            <LiveBiddingDashboard listings={mergedAuctionListings} />
           </motion.div>
 
           <motion.div

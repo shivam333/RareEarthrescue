@@ -1,12 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import {
-  dashboardBidListings,
   dashboardMaterialTiles,
   DashboardBidListing,
   DashboardLocationFilter,
   DashboardLotSize,
   DashboardSourceId,
 } from "../data/dashboardMarketplaceData";
+import {
+  dashboardAuctionListings,
+  dashboardLiveListings,
+} from "../data/recyclerMarketData";
 import { supplierActiveListings, SupplierActiveListing } from "../data/supplierListingsData";
 
 export type SupplierStoreFamilyId = DashboardSourceId | "specialized-products";
@@ -268,9 +271,19 @@ export function useSupplierListingStore() {
     [packages],
   );
 
-  const dynamicMarketplaceListings = useMemo(
+  const dynamicAuctionListings = useMemo(
     () =>
       [...publishedPackages]
+        .filter((pkg) => pkg.status === "live-bid")
+        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+        .flatMap(mapPackageToMarketplaceListings),
+    [publishedPackages],
+  );
+
+  const dynamicLiveListings = useMemo(
+    () =>
+      [...publishedPackages]
+        .filter((pkg) => pkg.status === "live-floor")
         .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
         .flatMap(mapPackageToMarketplaceListings),
     [publishedPackages],
@@ -284,9 +297,14 @@ export function useSupplierListingStore() {
     [publishedPackages],
   );
 
-  const mergedMarketplaceListings = useMemo(
-    () => [...dynamicMarketplaceListings, ...dashboardBidListings],
-    [dynamicMarketplaceListings],
+  const mergedAuctionListings = useMemo(
+    () => [...dynamicAuctionListings, ...dashboardAuctionListings],
+    [dynamicAuctionListings],
+  );
+
+  const mergedLiveListings = useMemo(
+    () => [...dynamicLiveListings, ...dashboardLiveListings],
+    [dynamicLiveListings],
   );
 
   const mergedActiveListings = useMemo(
@@ -300,9 +318,11 @@ export function useSupplierListingStore() {
     publishedPackages,
     draftCount: draftPackages.length,
     publishedListingCount: dynamicActiveListings.length,
-    dynamicMarketplaceListings,
+    dynamicAuctionListings,
+    dynamicLiveListings,
     dynamicActiveListings,
-    mergedMarketplaceListings,
+    mergedAuctionListings,
+    mergedLiveListings,
     mergedActiveListings,
     savePackage(nextPackage: SupplierListingPackage) {
       setPackages((current) =>

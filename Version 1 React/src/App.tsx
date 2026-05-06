@@ -19,6 +19,7 @@ import { NewsPage } from "./pages/NewsPage";
 import { OAuthCallbackPage } from "./pages/OAuthCallbackPage";
 import { OfferingsPage } from "./pages/OfferingsPage";
 import { PlanDetailPage } from "./pages/PlanDetailPage";
+import { RecyclerActiveBidsPage } from "./pages/RecyclerActiveBidsPage";
 import { RecyclerOnboardingPage } from "./pages/RecyclerOnboardingPage";
 import { SourceMarketplacePage } from "./pages/SourceMarketplacePage";
 import { SupplierCreateBidPage } from "./pages/SupplierCreateBidPage";
@@ -59,6 +60,14 @@ export default function App() {
             element={
               <ProtectedRoute requiredMode="recycler">
                 <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/active-bids"
+            element={
+              <ProtectedRoute requiredMode="recycler">
+                <RecyclerActiveBidsPage />
               </ProtectedRoute>
             }
           />
