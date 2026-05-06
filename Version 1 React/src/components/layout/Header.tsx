@@ -19,6 +19,7 @@ export function Header() {
   const isHome = location.pathname === "/";
   const { isLoaded, isSignedIn } = useAuth();
   const { totalItems, totalLots } = useRecyclerOrderBook();
+  const cartCount = totalLots > 0 ? totalLots : totalItems;
 
   return (
     <header className="site-header">
@@ -59,10 +60,10 @@ export function Header() {
               >
                 <span>Cart</span>
                 <span className="inline-flex min-w-8 items-center justify-center rounded-full bg-[#253B80] px-2 py-1 text-[0.68rem] text-white">
-                  {totalLots}
+                  {cartCount}
                 </span>
                 <span className="text-[0.66rem] text-[#6D7484] normal-case tracking-normal">
-                  {totalItems} listing{totalItems === 1 ? "" : "s"}
+                  {totalItems} listing{totalItems === 1 ? "" : "s"} staged
                 </span>
               </Link>
               <Button href="/dashboard" variant="primary">

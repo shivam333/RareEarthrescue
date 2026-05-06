@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecyclerOrderBook } from "../hooks/useRecyclerOrderBook";
 import { useSupplierListingStore } from "../hooks/useSupplierListingStore";
 import { pageEnter } from "../lib/motion";
@@ -23,12 +23,12 @@ function parsePricePerTon(pricePerTon: string) {
 }
 
 export function CheckoutPage() {
-  const { orderBook, totalItems, totalLots, setLots, clearOrderBook } = useRecyclerOrderBook();
+  const navigate = useNavigate();
+  const { orderBook, totalItems, totalLots, setLots } = useRecyclerOrderBook();
   const { mergedLiveListings } = useSupplierListingStore();
   const [buyerReference, setBuyerReference] = useState("");
   const [deliveryContact, setDeliveryContact] = useState("");
   const [deliveryWindow, setDeliveryWindow] = useState("");
-  const [purchaseSubmitted, setPurchaseSubmitted] = useState(false);
   const [purchaseError, setPurchaseError] = useState("");
   const stagedListings = mergedLiveListings.filter((listing) => (orderBook[listing.id] ?? 0) > 0);
   const estimatedOrderValue = stagedListings.reduce((sum, listing) => {
@@ -55,10 +55,10 @@ export function CheckoutPage() {
           <section className="rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(244,236,224,0.9))] p-6 shadow-[0_28px_80px_rgba(46,41,31,0.08)]">
             <p className="eyebrow !mb-0">Staged order book</p>
             <h1 className="mt-2 max-w-[14ch] font-display text-[clamp(2.5rem,4vw,4.1rem)] leading-[0.94] tracking-[-0.06em] text-[#0F1115]">
-              Review staged lots before completing a fixed-price purchase request.
+              Review staged lots before moving into secure payment.
             </h1>
             <p className="mt-4 max-w-[44rem] text-[0.98rem] leading-8 text-[#6D7484]">
-              This cart sits outside the auction flow. Adjust live listings here, confirm buyer-side delivery details, and send the purchase package for transaction handling.
+              This cart sits outside the auction flow. Adjust live listings here, confirm buyer-side delivery details, and move the fixed-price package into payment.
             </p>
 
             {stagedListings.length === 0 ? (
@@ -171,7 +171,7 @@ export function CheckoutPage() {
 
             <div className="mt-6 rounded-[26px] border border-[#DCE3EF] bg-white/80 p-5">
               <strong className="block font-display text-[1.24rem] tracking-[-0.04em] text-[#0F1115]">
-                Complete purchase request
+                Purchase handoff details
               </strong>
               <div className="mt-4 grid gap-4">
                 <label>
@@ -215,29 +215,27 @@ export function CheckoutPage() {
                 </p>
               ) : null}
 
-              {purchaseSubmitted ? (
-                <div className="mt-4 rounded-[20px] border border-[#DDF1E8] bg-[rgba(233,244,235,0.92)] px-4 py-4 text-[0.88rem] leading-7 text-[#253B80]">
-                  Purchase request submitted. The marketplace desk will confirm lot availability, seller-managed logistics, and final commercial paperwork.
-                </div>
-              ) : null}
-
               <button
                 type="button"
                 disabled={stagedListings.length === 0}
                 onClick={() => {
                   if (!buyerReference.trim() || !deliveryContact.trim() || !deliveryWindow.trim()) {
-                    setPurchaseSubmitted(false);
                     setPurchaseError("Complete buyer reference, delivery contact, and delivery window before submitting.");
                     return;
                   }
 
                   setPurchaseError("");
-                  setPurchaseSubmitted(true);
-                  clearOrderBook();
+                  const paymentParams = new URLSearchParams({
+                    mode: "purchase",
+                    reference: buyerReference.trim(),
+                    contact: deliveryContact.trim(),
+                    window: deliveryWindow.trim(),
+                  });
+                  navigate(`/dashboard/payment?${paymentParams.toString()}`);
                 }}
                 className="mt-5 w-full rounded-full bg-[linear-gradient(145deg,#D9C47A,#C8AA48)] px-4 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_14px_34px_rgba(184,139,60,0.22)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
               >
-                Complete purchase transaction
+                Proceed to payment
               </button>
             </div>
           </aside>

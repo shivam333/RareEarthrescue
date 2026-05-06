@@ -256,6 +256,12 @@ export function FinalizeOrderPage() {
                 >
                   Save to watchlist
                 </button>
+                <Link
+                  to={`/dashboard/payment?mode=diligence&listingId=${listing.id}`}
+                  className="rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-3 text-center text-sm font-bold text-[#253B80]"
+                >
+                  Request due diligence pack · $50
+                </Link>
                 <button
                   type="button"
                   className="rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-3 text-sm font-bold text-[#253B80]"

@@ -18,6 +18,7 @@ import { ListingDetailPage } from "./pages/ListingDetailPage";
 import { NewsPage } from "./pages/NewsPage";
 import { OAuthCallbackPage } from "./pages/OAuthCallbackPage";
 import { OfferingsPage } from "./pages/OfferingsPage";
+import { PaymentPage } from "./pages/PaymentPage";
 import { PlanDetailPage } from "./pages/PlanDetailPage";
 import { RecyclerActiveBidsPage } from "./pages/RecyclerActiveBidsPage";
 import { RecyclerOnboardingPage } from "./pages/RecyclerOnboardingPage";
@@ -60,6 +61,14 @@ export default function App() {
             element={
               <ProtectedRoute requiredMode="recycler">
                 <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/payment"
+            element={
+              <ProtectedRoute requiredMode="recycler">
+                <PaymentPage />
               </ProtectedRoute>
             }
           />
