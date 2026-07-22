@@ -451,26 +451,26 @@ export function SourceMarketplacePage() {
               </div>
             </div>
 
-            <div className="mt-5 rounded-[26px] border border-[#d7cfbf] bg-[linear-gradient(180deg,rgba(17,22,19,0.94),rgba(23,29,25,0.94))] p-4 text-[#f7efe3] shadow-[0_20px_50px_rgba(8,10,9,0.26)]">
-              <p className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#d3a245]">
+            <div className="mt-5 rounded-[26px] border border-[#d7cfbf] bg-[linear-gradient(180deg,rgba(255,252,247,0.96),rgba(245,236,221,0.92))] p-4 text-[#111613] shadow-[0_18px_46px_rgba(54,36,18,0.08)]">
+              <p className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#c16039]">
                 Marketplace signals
               </p>
               <div className="mt-4 grid gap-3">
-                <div className="rounded-[18px] border border-[#d3a245]/16 bg-[rgba(247,239,227,0.06)] px-4 py-3">
-                  <span className="text-[0.7rem] uppercase tracking-[0.16em] text-[#d2cabd]">Visible lots</span>
-                  <strong className="mt-2 block font-display text-[1.8rem] leading-none tracking-[0.03em]">
+                <div className="rounded-[18px] border border-[#d7cfbf] bg-white/82 px-4 py-3">
+                  <span className="text-[0.7rem] uppercase tracking-[0.16em] text-[#5b554c]">Visible lots</span>
+                  <strong className="mt-2 block font-display text-[1.8rem] leading-none tracking-[0.03em] text-[#111613]">
                     {filteredListings.length}
                   </strong>
                 </div>
-                <div className="rounded-[18px] border border-[#d3a245]/16 bg-[rgba(247,239,227,0.06)] px-4 py-3">
-                  <span className="text-[0.7rem] uppercase tracking-[0.16em] text-[#d2cabd]">Available lots</span>
-                  <strong className="mt-2 block font-display text-[1.8rem] leading-none tracking-[0.03em]">
+                <div className="rounded-[18px] border border-[#d7cfbf] bg-white/82 px-4 py-3">
+                  <span className="text-[0.7rem] uppercase tracking-[0.16em] text-[#5b554c]">Available lots</span>
+                  <strong className="mt-2 block font-display text-[1.8rem] leading-none tracking-[0.03em] text-[#111613]">
                     {totalAvailableLots}
                   </strong>
                 </div>
-                <div className="rounded-[18px] border border-[#d3a245]/16 bg-[rgba(247,239,227,0.06)] px-4 py-3">
-                  <span className="text-[0.7rem] uppercase tracking-[0.16em] text-[#d2cabd]">Average ask</span>
-                  <strong className="mt-2 block text-[1rem] font-semibold">{formatAverageBid(filteredListings)}</strong>
+                <div className="rounded-[18px] border border-[#d7cfbf] bg-white/82 px-4 py-3">
+                  <span className="text-[0.7rem] uppercase tracking-[0.16em] text-[#5b554c]">Average ask</span>
+                  <strong className="mt-2 block text-[1rem] font-semibold text-[#111613]">{formatAverageBid(filteredListings)}</strong>
                 </div>
               </div>
             </div>
@@ -604,7 +604,7 @@ export function SourceMarketplacePage() {
             </div>
 
             <div className="mt-5 overflow-hidden rounded-[34px] border border-[#d7cfbf] bg-[rgba(255,252,247,0.92)] shadow-[0_24px_70px_rgba(54,36,18,0.08)]">
-              <div className="hidden grid-cols-[190px_minmax(0,1.8fr)_0.95fr_1.1fr_1fr_210px] gap-4 bg-[#171d19] px-4 py-4 text-[0.78rem] font-extrabold uppercase tracking-[0.16em] text-[#f7efe3] lg:grid">
+              <div className="hidden grid-cols-[190px_minmax(0,1.8fr)_0.95fr_1.1fr_1fr_210px] gap-4 border-b border-[#d7cfbf] bg-[linear-gradient(180deg,rgba(255,250,242,0.98),rgba(240,229,210,0.96))] px-4 py-4 text-[0.78rem] font-extrabold uppercase tracking-[0.16em] text-[#5b554c] lg:grid">
                 <span>Image</span>
                 <span>Lot info</span>
                 <span>Material info</span>
@@ -638,9 +638,9 @@ export function SourceMarketplacePage() {
                             alt={listing.category}
                             className="aspect-[1.24/1] w-full object-cover transition duration-300 group-hover:scale-[1.03]"
                           />
-                          <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-full border border-white/18 bg-[rgba(17,22,19,0.7)] px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-white backdrop-blur">
+                          <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-full border border-[#d7cfbf] bg-[rgba(255,250,242,0.94)] px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#111613] backdrop-blur">
                             <span>{listing.availableLots} lots</span>
-                            <span>{lotSizeLabels[listing.lotSize]}</span>
+                            <span className="text-[#17695d]">{lotSizeLabels[listing.lotSize]}</span>
                           </div>
                         </Link>
 
@@ -679,12 +679,12 @@ export function SourceMarketplacePage() {
                           <div className="mt-5 flex flex-wrap gap-3">
                             <Link
                               to={`/sign-in?redirect_url=${encodeURIComponent(toAppRelativeUrl(`/marketplace/source/${activeSource}`))}`}
-                              className="inline-flex items-center gap-2 rounded-full border border-[#17695d]/24 bg-white/86 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#17695d] transition hover:-translate-y-0.5"
+                              className="inline-flex items-center gap-2 rounded-full border border-[#17695d]/28 bg-white/94 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#17695d] transition hover:-translate-y-0.5"
                             >
                               <Bookmark className="h-4 w-4" />
                               Watch lane
                             </Link>
-                            <span className="inline-flex items-center gap-2 rounded-full border border-[#d3a245]/24 bg-[#fff6df] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#865425]">
+                            <span className="inline-flex items-center gap-2 rounded-full border border-[#d3a245]/28 bg-[#fff6df] px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#865425]">
                               <ShieldCheck className="h-4 w-4" />
                               {listing.verification}
                             </span>
@@ -770,7 +770,7 @@ export function SourceMarketplacePage() {
                           <div className="mt-6 space-y-3">
                             <Link
                               to={detailHref}
-                              className="inline-flex w-full items-center justify-center rounded-full bg-[linear-gradient(135deg,#17695d,#c16039)] px-5 py-3 text-[0.78rem] font-extrabold uppercase tracking-[0.16em] text-white shadow-[0_14px_30px_rgba(23,105,93,0.22)] transition hover:-translate-y-0.5"
+                              className="inline-flex w-full items-center justify-center rounded-full bg-[linear-gradient(135deg,#17695d,#c16039)] px-5 py-3 text-[0.78rem] font-extrabold uppercase tracking-[0.16em] text-white shadow-[0_14px_30px_rgba(23,105,93,0.22)] transition hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#17695d] focus:ring-offset-2"
                             >
                               Open secure view
                             </Link>
