@@ -615,32 +615,35 @@ export function HomePage() {
     { scope: rootRef }
   );
   return (
-    <div ref={rootRef} className="bg-[#F6F8FC] text-[#151714]">
+    <div
+      ref={rootRef}
+      className="bg-[radial-gradient(circle_at_top_left,rgba(193,96,57,0.1),transparent_26%),linear-gradient(180deg,#f4ead8_0%,#efe1c8_38%,#f3e7d1_100%)] text-[#111613]"
+    >
       <main className="page bg-transparent">
         <section
           id="top"
-          className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(202,151,48,0.18),transparent_22%),radial-gradient(circle_at_88%_12%,rgba(27,93,82,0.18),transparent_28%),linear-gradient(180deg,#f3ede1_0%,#ebe0cb_58%,#f4ede0_100%)] pb-3 pt-24 lg:pb-4 lg:pt-28"
+          className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(211,162,69,0.22),transparent_22%),radial-gradient(circle_at_88%_12%,rgba(23,105,93,0.24),transparent_28%),linear-gradient(180deg,#0d120f_0%,#141a16_50%,#111613_100%)] pb-3 pt-24 lg:pb-4 lg:pt-28"
         >
-          <div className="gsap-grid-shift absolute inset-0 opacity-[0.22] [background-image:linear-gradient(rgba(21,23,20,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(21,23,20,0.08)_1px,transparent_1px)] [background-size:32px_32px]" />
-          <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(135deg,transparent_0,transparent_48%,rgba(21,23,20,0.18)_49%,transparent_50%,transparent_100%)] [background-size:22px_22px]" />
-          <div className="gsap-orb absolute left-[-8rem] top-[-3rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(184,92,56,0.22),transparent_70%)] blur-3xl" />
-          <div className="gsap-orb absolute bottom-[-10rem] right-[-7rem] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(27,93,82,0.18),transparent_68%)] blur-3xl" />
+          <div className="gsap-grid-shift absolute inset-0 opacity-[0.22] [background-image:linear-gradient(rgba(247,239,227,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(247,239,227,0.08)_1px,transparent_1px)] [background-size:32px_32px]" />
+          <div className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(135deg,transparent_0,transparent_48%,rgba(211,162,69,0.24)_49%,transparent_50%,transparent_100%)] [background-size:24px_24px]" />
+          <div className="gsap-orb absolute left-[-8rem] top-[-3rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(193,96,57,0.28),transparent_70%)] blur-3xl" />
+          <div className="gsap-orb absolute bottom-[-10rem] right-[-7rem] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(23,105,93,0.22),transparent_68%)] blur-3xl" />
 
           <div className="shell relative z-10 grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(500px,0.92fr)] lg:items-center">
             <div className="gsap-hero-copy pt-1">
-              <div className="gsap-hero-logo mb-7 inline-flex h-24 w-24 items-center justify-center rounded-[2rem] border border-[#D7CFBF] bg-[rgba(255,252,247,0.88)] shadow-[0_18px_40px_rgba(46,41,31,0.08)] backdrop-blur">
-                <svg viewBox="0 0 100 100" className="h-14 w-14 text-[#1B5D52]">
+              <div className="gsap-hero-logo mb-7 inline-flex h-24 w-24 items-center justify-center rounded-[2rem] border border-[#d3a245]/30 bg-[rgba(247,239,227,0.08)] shadow-[0_18px_40px_rgba(0,0,0,0.24)] backdrop-blur">
+                <svg viewBox="0 0 100 100" className="h-14 w-14 text-[#d3a245]">
                   <circle cx="50" cy="50" r="39" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M73 17l15 8-1 18-7-8" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M22 64L45 40l13 17 11-9 15 16" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
 
-              <p className="eyebrow !text-[#8F5C22]">Circular critical mineral supply chains built for North America</p>
-              <h1 className="max-w-[12.5ch] font-display text-[clamp(3.1rem,5.4vw,5.6rem)] leading-[0.95] tracking-[-0.06em] text-[#151714]">
+              <p className="eyebrow !text-[#d3a245]">Circular critical mineral supply chains built for North America</p>
+              <h1 className="max-w-[12.5ch] font-display text-[clamp(3.4rem,5.8vw,6.2rem)] leading-[0.9] tracking-[0.02em] text-[#f7efe3]">
                 The Marketplace for America's Rare Earth Elements.
               </h1>
-              <p className="mt-5 max-w-[42rem] text-[1.05rem] leading-8 text-[#5C5B54] sm:text-[1.16rem]">
+              <p className="mt-5 max-w-[42rem] text-[1.05rem] leading-8 text-[#d2cabd] sm:text-[1.16rem]">
                 Rare Earth Rescue connects suppliers, scrappers, and processors with verified
                 industrial buyers across magnets, motors, HDD assemblies, and other rare-earth-bearing feedstock.
               </p>
@@ -649,7 +652,7 @@ export function HomePage() {
                 {["Verified industrial buyers", "Localized circular supply", "Structured execution"].map((pill) => (
                   <span
                     key={pill}
-                    className="rounded-full border border-[#D7CFBF] bg-[linear-gradient(135deg,rgba(255,248,239,0.95),rgba(230,218,198,0.84))] px-4 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]"
+                    className="rounded-full border border-[#d3a245]/25 bg-[rgba(247,239,227,0.08)] px-4 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#f7efe3]"
                   >
                     {pill}
                   </span>
@@ -661,42 +664,42 @@ export function HomePage() {
                   <Link
                     key={path.title}
                     to={path.href}
-                    className="gsap-hero-path group rounded-[24px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,249,240,0.9),rgba(239,227,209,0.8))] p-5 shadow-[0_18px_48px_rgba(76,52,24,0.08)] backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:border-[#CA9730]/35 hover:bg-[rgba(255,255,255,0.92)]"
+                    className="gsap-hero-path group rounded-[24px] border border-[#d3a245]/18 bg-[linear-gradient(180deg,rgba(21,28,24,0.88),rgba(15,20,17,0.78))] p-5 shadow-[0_20px_54px_rgba(0,0,0,0.24)] backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:border-[#d3a245]/45 hover:bg-[linear-gradient(180deg,rgba(28,36,31,0.92),rgba(15,20,17,0.84))]"
                   >
-                    <span className="inline-flex rounded-full border border-[#D7CFBF] px-3 py-1 text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#5C5B54]">
+                    <span className="inline-flex rounded-full border border-[#d3a245]/22 px-3 py-1 text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#d3a245]">
                       {path.badge}
                     </span>
-                    <strong className="mt-4 block font-display text-[1.02rem] tracking-[-0.03em] text-[#151714]">
+                    <strong className="mt-4 block font-display text-[1.12rem] tracking-[0.02em] text-[#f7efe3]">
                       {path.title}
                     </strong>
-                    <p className="mt-2 text-sm leading-6 text-[#5C5B54]">{path.body}</p>
+                    <p className="mt-2 text-sm leading-6 text-[#d2cabd]">{path.body}</p>
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="gsap-hero-visual relative min-h-[520px] overflow-hidden rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,249,241,0.96),rgba(234,221,202,0.92))] shadow-[0_34px_90px_rgba(76,52,24,0.12)] lg:min-h-[540px]">
-              <div className="gsap-parallax absolute inset-0 opacity-[0.16]">
+            <div className="gsap-hero-visual relative min-h-[520px] overflow-hidden rounded-[34px] border border-[#d3a245]/18 bg-[linear-gradient(180deg,rgba(20,27,23,0.96),rgba(14,19,16,0.92))] shadow-[0_34px_90px_rgba(0,0,0,0.26)] lg:min-h-[540px]">
+              <div className="gsap-parallax absolute inset-0 opacity-[0.22]">
                 <AppImage
                   src="https://images.unsplash.com/photo-1513828742140-ccaa28f3eda0?auto=format&fit=crop&w=1600&q=80"
                   alt="Shiny metallic industrial material surface"
-                  className="h-full w-full object-cover saturate-[0.7]"
+                  className="h-full w-full object-cover saturate-[0.55]"
                 />
               </div>
 
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(202,151,48,0.22),transparent_22%),linear-gradient(180deg,rgba(255,249,241,0.96),rgba(231,220,203,0.88))]" />
-              <div className="gsap-grid-shift absolute inset-0 opacity-[0.3] [background-image:linear-gradient(rgba(21,23,20,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(21,23,20,0.07)_1px,transparent_1px)] [background-size:38px_38px]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(211,162,69,0.18),transparent_22%),linear-gradient(180deg,rgba(16,20,18,0.92),rgba(13,17,15,0.92))]" />
+              <div className="gsap-grid-shift absolute inset-0 opacity-[0.26] [background-image:linear-gradient(rgba(247,239,227,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(247,239,227,0.08)_1px,transparent_1px)] [background-size:38px_38px]" />
               <div className="gsap-network-drift absolute left-[14%] top-[18%] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(202,151,48,0.16),transparent_68%)] blur-2xl" />
               <div className="gsap-network-drift absolute right-[12%] top-[30%] h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(27,93,82,0.16),transparent_68%)] blur-3xl" />
               <div className="gsap-network-drift absolute bottom-[16%] left-[36%] h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(184,92,56,0.14),transparent_72%)] blur-2xl" />
               <div className="absolute inset-[12%_10%_18%] rounded-[32px] border border-white/30 opacity-60" />
 
-              <div className="absolute left-5 right-5 top-5 z-10 overflow-hidden rounded-full border border-[#D7CFBF] bg-white/84 px-3 py-2 shadow-[0_14px_32px_rgba(31,40,31,0.06)]">
+              <div className="absolute left-5 right-5 top-5 z-10 overflow-hidden rounded-full border border-[#d3a245]/18 bg-[rgba(247,239,227,0.08)] px-3 py-2 shadow-[0_14px_32px_rgba(0,0,0,0.18)]">
                 <div className="gsap-hero-ticker-track flex min-w-max items-center gap-6">
                   {[...heroCommodityTickers, ...heroCommodityTickers].map((ticker, index) => (
                     <div key={`${ticker.label}-${index}`} className="flex items-center gap-3 text-sm">
-                      <span className="font-semibold uppercase tracking-[0.14em] text-[#5C5B54]">{ticker.label}</span>
-                      <span className="font-bold text-[#1B5D52]">{ticker.value}</span>
+                      <span className="font-semibold uppercase tracking-[0.14em] text-[#f7efe3]">{ticker.label}</span>
+                      <span className="font-bold text-[#d3a245]">{ticker.value}</span>
                       <span className={`font-bold ${ticker.tone}`}>{ticker.move}</span>
                     </div>
                   ))}
@@ -709,21 +712,21 @@ export function HomePage() {
                     className="gsap-network-route"
                     d="M94 204c46-38 89-58 126-58 42 0 82 16 120 48 33 28 71 42 114 42 29 0 69-8 122-26 52-18 100-24 144-18"
                     fill="none"
-                    stroke="rgba(17,40,61,0.18)"
+                    stroke="rgba(247,239,227,0.18)"
                     strokeWidth="1.4"
                   />
                   <path
                     className="gsap-network-route"
                     d="M144 360c44-28 80-42 108-42 32 0 67 14 106 42 38 28 78 42 118 42 33 0 72-10 120-30 46-18 88-24 128-18"
                     fill="none"
-                    stroke="rgba(17,40,61,0.18)"
+                    stroke="rgba(247,239,227,0.18)"
                     strokeWidth="1.4"
                   />
                   <path
                     className="gsap-network-route"
                     d="M226 512c26-22 50-34 72-34 25 0 53 10 82 30 32 22 64 34 96 34 31 0 68-10 110-32 41-20 81-28 120-24"
                     fill="none"
-                    stroke="rgba(17,40,61,0.18)"
+                    stroke="rgba(247,239,227,0.18)"
                     strokeWidth="1.4"
                   />
                   {networkNodes.map((node, index) => (
@@ -742,13 +745,13 @@ export function HomePage() {
                 {heroCommodityTickers.map((ticker) => (
                   <div
                     key={ticker.label}
-                    className="rounded-[22px] border border-[#D7CFBF] bg-white/84 p-4 shadow-[0_16px_36px_rgba(31,40,31,0.06)] backdrop-blur"
+                    className="rounded-[22px] border border-[#d3a245]/16 bg-[rgba(247,239,227,0.08)] p-4 shadow-[0_16px_36px_rgba(0,0,0,0.18)] backdrop-blur"
                   >
-                    <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]">
+                    <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#d2cabd]">
                       {ticker.label}
                     </span>
                     <div className="mt-3 flex items-end justify-between gap-3">
-                      <strong className="font-display text-[1.15rem] tracking-[-0.03em] text-[#151714]">
+                      <strong className="font-display text-[1.24rem] tracking-[0.02em] text-[#f7efe3]">
                         {ticker.value}
                       </strong>
                       <span className={`text-sm font-bold ${ticker.tone}`}>{ticker.move}</span>
@@ -761,7 +764,7 @@ export function HomePage() {
         </section>
 
         <section id="why-this-matters" className="shell pt-4 lg:pt-6">
-          <div className="grid items-start gap-10 xl:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)]">
+          <div className="home-shell-band home-shell-band-light grid items-start gap-10 xl:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)]">
             <div>
               <p className="eyebrow">Why this matters</p>
               <h2 className="max-w-[14ch] font-display text-[clamp(2.7rem,5.2vw,4.8rem)] leading-[0.94] tracking-[-0.07em] text-[#151714]">
@@ -954,295 +957,356 @@ export function HomePage() {
         </section>
 
         <section id="metrics" className="shell section-gap">
-          <SectionHeading
-            eyebrow="Credibility and traction"
-            title="The network is already shaped around the categories and counterparties that matter."
-          />
-
-          <div className="mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-5">
-            {metrics.map((metric) => (
-              <article key={metric.label} className="gsap-reveal">
-                <span
-                  className="gsap-count block whitespace-nowrap bg-[linear-gradient(180deg,#1B5D52_0%,#8F5C22_100%)] bg-clip-text font-display text-[clamp(2.7rem,4.6vw,4.9rem)] leading-none tracking-[-0.08em] text-transparent"
-                  data-value={metric.value}
-                  data-prefix={metric.prefix ?? ""}
-                  data-suffix={metric.suffix}
-                >
-                  0
-                </span>
-                <span className="mt-3 block max-w-[12rem] text-sm font-semibold uppercase tracking-[0.16em] text-[#5C5B54]">
-                  {metric.label}
-                </span>
-              </article>
-            ))}
-          </div>
-
-          <div className="gsap-reveal mt-10 overflow-hidden py-2">
-            <div className="gsap-ribbon-track flex min-w-max items-center gap-12 px-2">
-              {[...ribbonLogos, ...ribbonLogos].map((logo, index) => (
-                <span key={`${logo.name}-${index}`} className="whitespace-nowrap">
-                  <LogoRibbonChip logo={logo} />
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="workflow" className="shell section-gap">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div className="home-shell-band home-shell-band-dark">
             <SectionHeading
-              eyebrow="Marketplace workflow"
-              title="One marketplace that works for recurring buyers and one-time suppliers."
+              eyebrow="Credibility and traction"
+              title="The network is already shaped around the categories and counterparties that matter."
             />
 
-            <div className="gsap-reveal">
-              <ShadTabs
-                value={workflowAudience}
-                onValueChange={(value) => setWorkflowAudience(value as "suppliers" | "buyers")}
-              >
-                <ShadTabsList>
-                  <ShadTabsTrigger value="suppliers">For Suppliers</ShadTabsTrigger>
-                  <ShadTabsTrigger value="buyers">For Buyers</ShadTabsTrigger>
-                </ShadTabsList>
-              </ShadTabs>
-            </div>
-          </div>
-
-          <ShadTabs
-            value={workflowAudience}
-            onValueChange={(value) => setWorkflowAudience(value as "suppliers" | "buyers")}
-            className="mt-10 block"
-          >
-            <ShadTabsContent value="suppliers">
-              <div className="space-y-5">
-                <div className="gsap-reveal rounded-[30px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
-                  <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
-                    <div>
-                      <span className="badge">Supplier path</span>
-                      <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#151714]">
-                        Move from first listing to repeat recovery flow without building the process alone.
-                      </h3>
-                      <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#5C5B54]">
-                        Start with a single opportunity, standardize composition detail, and route
-                        material into a buyer network that can actually value rare-earth-bearing scrap.
-                      </p>
-                    </div>
-                    <div className="grid gap-3 sm:grid-cols-3">
-                      {[
-                        "Structured lot intake",
-                        "Verified buyer routing",
-                        "Pickup and settlement visibility",
-                      ].map((item) => (
-                        <div
-                          key={item}
-                          className="rounded-[22px] border border-[#D7CFBF] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#5C5B54] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
-                        >
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="grid gap-4 xl:grid-cols-4">
-                  {workflowContent.suppliers.steps.map((step, index) => (
-                    <article
-                      key={step.title}
-                      className="rounded-[26px] border border-[#D7CFBF] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
-                    >
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#DCE8DB] font-display text-sm font-bold text-[#1B5D52]">
-                        {index + 1}
-                      </span>
-                      <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#151714]">
-                        {step.title}
-                      </strong>
-                      <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{step.body}</p>
-                    </article>
-                  ))}
-                </div>
-                <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-                  <ShadButton asChild>
-                    <Link to={workflowContent.suppliers.cta}>{workflowContent.suppliers.ctaLabel}</Link>
-                  </ShadButton>
-                  <ShadButton asChild variant="secondary">
-                    <Link to={workflowContent.suppliers.secondary}>{workflowContent.suppliers.secondaryLabel}</Link>
-                  </ShadButton>
-                </div>
-              </div>
-            </ShadTabsContent>
-            <ShadTabsContent value="buyers">
-              <div className="space-y-5">
-                <div className="gsap-reveal rounded-[30px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
-                  <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
-                    <div>
-                      <span className="badge">Buyer path</span>
-                      <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#151714]">
-                        Turn fragmented feedstock into a recurring procurement workflow with better visibility.
-                      </h3>
-                      <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#5C5B54]">
-                        Review opportunities faster, refine sourcing requirements, and move from
-                        targeted lots into repeat commercial relationships across the recovery network.
-                      </p>
-                    </div>
-                    <div className="grid gap-3 sm:grid-cols-3">
-                      {[
-                        "Category-based discovery",
-                        "Direct buy-side engagement",
-                        "Contract-ready operating flow",
-                      ].map((item) => (
-                        <div
-                          key={item}
-                          className="rounded-[22px] border border-[#D7CFBF] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#5C5B54] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
-                        >
-                          {item}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-                <div className="grid gap-4 xl:grid-cols-4">
-                  {workflowContent.buyers.steps.map((step, index) => (
-                    <article
-                      key={step.title}
-                      className="rounded-[26px] border border-[#D7CFBF] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
-                    >
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#DCE8DB] font-display text-sm font-bold text-[#8F5C22]">
-                        {index + 1}
-                      </span>
-                      <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#151714]">
-                        {step.title}
-                      </strong>
-                      <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{step.body}</p>
-                    </article>
-                  ))}
-                </div>
-                <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-                  <ShadButton asChild>
-                    <Link to={workflowContent.buyers.cta}>{workflowContent.buyers.ctaLabel}</Link>
-                  </ShadButton>
-                  <ShadButton asChild variant="secondary">
-                    <Link to={workflowContent.buyers.secondary}>{workflowContent.buyers.secondaryLabel}</Link>
-                  </ShadButton>
-                </div>
-              </div>
-            </ShadTabsContent>
-          </ShadTabs>
-        </section>
-
-        <section id="service-stack" className="shell section-gap">
-          <SectionHeading
-            eyebrow="Service stack and why us"
-            title="The infrastructure stack compounds into a moat around value creation."
-            body="Each layer improves the next: cleaner classification sharpens pricing, better trust lowers friction, and repeat execution turns fragmented scrap into repeatable industrial supply."
-          />
-
-          <div className="gsap-reveal relative mt-10 overflow-hidden rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(245,236,221,0.92))] p-6 shadow-[0_24px_80px_rgba(46,41,31,0.07)] lg:p-8">
-            <div className="absolute left-8 right-8 top-[4.8rem] hidden h-[3px] rounded-full bg-[rgba(221,212,199,0.9)] lg:block" />
-            <div className="gsap-service-progress absolute left-8 right-8 top-[4.8rem] hidden h-[3px] rounded-full bg-[linear-gradient(90deg,#CA9730_0%,#DCE8DB_55%,#1B5D52_100%)] lg:block" />
-
-            <div className="grid gap-5 lg:grid-cols-5">
-              {serviceModules.map((module) => {
-                const content = (
-                  <>
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#D7CFBF] bg-white/82 font-display text-sm font-bold text-[#8F5C22]">
-                      {module.index}
-                    </span>
-                    <strong className="mt-5 block font-display text-[1.08rem] tracking-[-0.03em] text-[#151714]">
-                      {module.title}
-                    </strong>
-                    <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{module.body}</p>
-                  </>
-                );
-
-                return module.action === "modal" ? (
-                  <button
-                    key={module.title}
-                    type="button"
-                    onClick={() => setIsPricingModalOpen(true)}
-                    className="gsap-float-card relative rounded-[28px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.86)] p-6 text-left shadow-[0_18px_48px_rgba(46,41,31,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#1B5D52]/25"
+            <div className="mt-10 grid gap-8 sm:grid-cols-2 xl:grid-cols-5">
+              {metrics.map((metric) => (
+                <article key={metric.label} className="gsap-reveal">
+                  <span
+                    className="gsap-count block whitespace-nowrap bg-[linear-gradient(180deg,#f7efe3_0%,#d3a245_100%)] bg-clip-text font-display text-[clamp(2.9rem,4.8vw,5.2rem)] leading-none tracking-[0.01em] text-transparent"
+                    data-value={metric.value}
+                    data-prefix={metric.prefix ?? ""}
+                    data-suffix={metric.suffix}
                   >
-                    {content}
-                  </button>
-                ) : (
-                  <Link
-                    key={module.title}
-                    to={module.href ?? "/contact"}
-                    className="gsap-float-card relative rounded-[28px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.86)] p-6 shadow-[0_18px_48px_rgba(46,41,31,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#1B5D52]/25"
-                  >
-                    {content}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="mt-10 grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-            <div className="gsap-reveal relative min-h-[460px] overflow-hidden rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(245,236,221,0.92))] shadow-[0_24px_80px_rgba(46,41,31,0.07)]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(196,157,84,0.18),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.2),transparent_32%)]" />
-              <div className="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#D7CFBF] bg-white/92 px-5 text-center font-display text-[1.02rem] font-bold leading-5 tracking-[-0.03em] text-[#151714] shadow-[0_16px_36px_rgba(46,41,31,0.08)]">
-                Value creation engine
-              </div>
-              <div className="absolute inset-[72px] rounded-full border border-[#D7CFBF] opacity-80" />
-              <div className="absolute inset-[110px] rounded-full border border-[#F6F8FC] opacity-70" />
-              {[
-                { title: "Classification", sub: "Better labels", pos: "left-[12%] top-[14%]" },
-                { title: "Listings", sub: "Cleaner discovery", pos: "right-[15%] top-[16%]" },
-                { title: "Pricing", sub: "Better signals", pos: "right-[8%] top-[42%]" },
-                { title: "Trust", sub: "Less friction", pos: "right-[16%] bottom-[14%]" },
-                { title: "Transactions", sub: "More completed deals", pos: "left-[14%] bottom-[14%]" },
-                { title: "Data", sub: "Feedback into intelligence", pos: "left-[7%] top-[44%]" },
-              ].map((node) => (
-                <div
-                  key={node.title}
-                  className={`gsap-float-card absolute ${node.pos} max-w-[10rem] rounded-[22px] border border-[#D7CFBF] bg-white/84 p-4 shadow-[0_14px_36px_rgba(46,41,31,0.05)]`}
-                >
-                  <strong className="block font-display text-[0.98rem] tracking-[-0.03em] text-[#151714]">
-                    {node.title}
-                  </strong>
-                  <span className="mt-1 block text-xs leading-6 text-[#5C5B54]">{node.sub}</span>
-                </div>
+                    0
+                  </span>
+                  <span className="mt-3 block max-w-[12rem] text-sm font-semibold uppercase tracking-[0.16em] text-[#d2cabd]">
+                    {metric.label}
+                  </span>
+                </article>
               ))}
             </div>
 
-            <div className="gsap-reveal rounded-[32px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.82)] p-6 shadow-[0_18px_56px_rgba(46,41,31,0.06)]">
-              <div className="space-y-6">
-                {flywheelNotes.map((note, index) => (
-                  <div
-                    key={note.title}
-                    className={`${index === 0 ? "" : "border-t border-[#D7CFBF] pt-6"}`}
-                  >
-                    <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <strong className="mt-2 block font-display text-[1.08rem] tracking-[-0.03em] text-[#151714]">
-                      {note.title}
-                    </strong>
-                    <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{note.body}</p>
-                  </div>
+            <div className="gsap-reveal mt-10 overflow-hidden rounded-full border border-[#d3a245]/16 bg-[rgba(247,239,227,0.06)] py-3">
+              <div className="gsap-ribbon-track flex min-w-max items-center gap-12 px-2">
+                {[...ribbonLogos, ...ribbonLogos].map((logo, index) => (
+                  <span key={`${logo.name}-${index}`} className="whitespace-nowrap">
+                    <LogoRibbonChip logo={logo} />
+                  </span>
                 ))}
               </div>
             </div>
           </div>
         </section>
 
-        <section id="final-cta" className="shell section-gap">
-          <div className="gsap-reveal rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(135deg,rgba(255,252,247,0.96),rgba(241,234,218,0.9))] p-8 shadow-[0_28px_90px_rgba(46,41,31,0.08)] lg:flex lg:items-center lg:justify-between lg:gap-8">
-            <div className="max-w-3xl">
-              <p className="eyebrow">Start transacting with more confidence</p>
-              <h2 className="heading-2 max-w-[17ch]">
-                List feedstock, become a verified recycler, or request a demo.
-              </h2>
+        <section id="workflow" className="shell section-gap">
+          <div className="home-shell-band home-shell-band-dark">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <SectionHeading
+                eyebrow="Marketplace workflow"
+                title="One marketplace that works for recurring buyers and one-time suppliers."
+              />
+
+              <div className="gsap-reveal">
+                <ShadTabs
+                  value={workflowAudience}
+                  onValueChange={(value) => setWorkflowAudience(value as "suppliers" | "buyers")}
+                >
+                  <ShadTabsList>
+                    <ShadTabsTrigger value="suppliers">For Suppliers</ShadTabsTrigger>
+                    <ShadTabsTrigger value="buyers">For Buyers</ShadTabsTrigger>
+                  </ShadTabsList>
+                </ShadTabs>
+              </div>
             </div>
 
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:mt-0 lg:justify-end">
-              <Link className="button-primary" to="/supplier-onboarding">
-                List Your Feedstock
-              </Link>
-              <Link className="button-secondary" to="/recycler-onboarding">
-                Become a Verified Recycler
-              </Link>
-              <Link className="button-secondary" to="/contact">
-                Request a Demo
-              </Link>
+            <ShadTabs
+              value={workflowAudience}
+              onValueChange={(value) => setWorkflowAudience(value as "suppliers" | "buyers")}
+              className="mt-10 block"
+            >
+              <ShadTabsContent value="suppliers">
+                <div className="space-y-5">
+                  <div className="gsap-reveal rounded-[30px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
+                      <div>
+                        <span className="badge">Supplier path</span>
+                        <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#151714]">
+                          Move from first listing to repeat recovery flow without building the process alone.
+                        </h3>
+                        <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#5C5B54]">
+                          Start with a single opportunity, standardize composition detail, and route
+                          material into a buyer network that can actually value rare-earth-bearing scrap.
+                        </p>
+                      </div>
+                      <div className="grid gap-3 sm:grid-cols-3">
+                        {[
+                          "Structured lot intake",
+                          "Verified buyer routing",
+                          "Pickup and settlement visibility",
+                        ].map((item) => (
+                          <div
+                            key={item}
+                            className="rounded-[22px] border border-[#D7CFBF] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#5C5B54] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
+                          >
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 xl:grid-cols-4">
+                    {workflowContent.suppliers.steps.map((step, index) => (
+                      <article
+                        key={step.title}
+                        className="rounded-[26px] border border-[#D7CFBF] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
+                      >
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#DCE8DB] font-display text-sm font-bold text-[#1B5D52]">
+                          {index + 1}
+                        </span>
+                        <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#151714]">
+                          {step.title}
+                        </strong>
+                        <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{step.body}</p>
+                      </article>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+                    <ShadButton asChild>
+                      <Link to={workflowContent.suppliers.cta}>{workflowContent.suppliers.ctaLabel}</Link>
+                    </ShadButton>
+                    <ShadButton asChild variant="secondary">
+                      <Link to={workflowContent.suppliers.secondary}>{workflowContent.suppliers.secondaryLabel}</Link>
+                    </ShadButton>
+                  </div>
+                </div>
+              </ShadTabsContent>
+              <ShadTabsContent value="buyers">
+                <div className="space-y-5">
+                  <div className="gsap-reveal rounded-[30px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
+                    <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
+                      <div>
+                        <span className="badge">Buyer path</span>
+                        <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#151714]">
+                          Turn fragmented feedstock into a recurring procurement workflow with better visibility.
+                        </h3>
+                        <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#5C5B54]">
+                          Review opportunities faster, refine sourcing requirements, and move from
+                          targeted lots into repeat commercial relationships across the recovery network.
+                        </p>
+                      </div>
+                      <div className="grid gap-3 sm:grid-cols-3">
+                        {[
+                          "Category-based discovery",
+                          "Direct buy-side engagement",
+                          "Contract-ready operating flow",
+                        ].map((item) => (
+                          <div
+                            key={item}
+                            className="rounded-[22px] border border-[#D7CFBF] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#5C5B54] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
+                          >
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 xl:grid-cols-4">
+                    {workflowContent.buyers.steps.map((step, index) => (
+                      <article
+                        key={step.title}
+                        className="rounded-[26px] border border-[#D7CFBF] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
+                      >
+                        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#DCE8DB] font-display text-sm font-bold text-[#8F5C22]">
+                          {index + 1}
+                        </span>
+                        <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#151714]">
+                          {step.title}
+                        </strong>
+                        <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{step.body}</p>
+                      </article>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+                    <ShadButton asChild>
+                      <Link to={workflowContent.buyers.cta}>{workflowContent.buyers.ctaLabel}</Link>
+                    </ShadButton>
+                    <ShadButton asChild variant="secondary">
+                      <Link to={workflowContent.buyers.secondary}>{workflowContent.buyers.secondaryLabel}</Link>
+                    </ShadButton>
+                  </div>
+                </div>
+              </ShadTabsContent>
+            </ShadTabs>
+          </div>
+        </section>
+
+        <section id="service-stack" className="shell section-gap">
+          <div className="home-shell-band home-shell-band-light">
+            <SectionHeading
+              eyebrow="Service stack and why us"
+              title="The infrastructure stack compounds into a moat around value creation."
+              body="Each layer improves the next: cleaner classification sharpens pricing, better trust lowers friction, and repeat execution turns fragmented scrap into repeatable industrial supply."
+            />
+
+            <div className="gsap-reveal relative mt-10 overflow-hidden rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(245,236,221,0.92))] p-6 shadow-[0_24px_80px_rgba(46,41,31,0.07)] lg:p-8">
+              <div className="absolute left-8 right-8 top-[4.8rem] hidden h-[3px] rounded-full bg-[rgba(221,212,199,0.9)] lg:block" />
+              <div className="gsap-service-progress absolute left-8 right-8 top-[4.8rem] hidden h-[3px] rounded-full bg-[linear-gradient(90deg,#CA9730_0%,#DCE8DB_55%,#1B5D52_100%)] lg:block" />
+
+              <div className="grid gap-5 lg:grid-cols-5">
+                {serviceModules.map((module) => {
+                  const content = (
+                    <>
+                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#D7CFBF] bg-white/82 font-display text-sm font-bold text-[#8F5C22]">
+                        {module.index}
+                      </span>
+                      <strong className="mt-5 block font-display text-[1.08rem] tracking-[-0.03em] text-[#151714]">
+                        {module.title}
+                      </strong>
+                      <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{module.body}</p>
+                    </>
+                  );
+
+                  return module.action === "modal" ? (
+                    <button
+                      key={module.title}
+                      type="button"
+                      onClick={() => setIsPricingModalOpen(true)}
+                      className="gsap-float-card relative rounded-[28px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.86)] p-6 text-left shadow-[0_18px_48px_rgba(46,41,31,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#1B5D52]/25"
+                    >
+                      {content}
+                    </button>
+                  ) : (
+                    <Link
+                      key={module.title}
+                      to={module.href ?? "/contact"}
+                      className="gsap-float-card relative rounded-[28px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.86)] p-6 shadow-[0_18px_48px_rgba(46,41,31,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#1B5D52]/25"
+                    >
+                      {content}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mt-10 grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
+              <div className="gsap-reveal relative min-h-[460px] overflow-hidden rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(245,236,221,0.92))] shadow-[0_24px_80px_rgba(46,41,31,0.07)]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(196,157,84,0.18),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.2),transparent_32%)]" />
+                <div className="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#D7CFBF] bg-white/92 px-5 text-center font-display text-[1.02rem] font-bold leading-5 tracking-[-0.03em] text-[#151714] shadow-[0_16px_36px_rgba(46,41,31,0.08)]">
+                  Value creation engine
+                </div>
+                <div className="absolute inset-[72px] rounded-full border border-[#D7CFBF] opacity-80" />
+                <div className="absolute inset-[110px] rounded-full border border-[#F6F8FC] opacity-70" />
+                {[
+                  { title: "Classification", sub: "Better labels", pos: "left-[12%] top-[14%]" },
+                  { title: "Listings", sub: "Cleaner discovery", pos: "right-[15%] top-[16%]" },
+                  { title: "Pricing", sub: "Better signals", pos: "right-[8%] top-[42%]" },
+                  { title: "Trust", sub: "Less friction", pos: "right-[16%] bottom-[14%]" },
+                  { title: "Transactions", sub: "More completed deals", pos: "left-[14%] bottom-[14%]" },
+                  { title: "Data", sub: "Feedback into intelligence", pos: "left-[7%] top-[44%]" },
+                ].map((node) => (
+                  <div
+                    key={node.title}
+                    className={`gsap-float-card absolute ${node.pos} max-w-[10rem] rounded-[22px] border border-[#D7CFBF] bg-white/84 p-4 shadow-[0_14px_36px_rgba(46,41,31,0.05)]`}
+                  >
+                    <strong className="block font-display text-[0.98rem] tracking-[-0.03em] text-[#151714]">
+                      {node.title}
+                    </strong>
+                    <span className="mt-1 block text-xs leading-6 text-[#5C5B54]">{node.sub}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="gsap-reveal rounded-[32px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.82)] p-6 shadow-[0_18px_56px_rgba(46,41,31,0.06)]">
+                <div className="space-y-6">
+                  {flywheelNotes.map((note, index) => (
+                    <div
+                      key={note.title}
+                      className={`${index === 0 ? "" : "border-t border-[#D7CFBF] pt-6"}`}
+                    >
+                      <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <strong className="mt-2 block font-display text-[1.08rem] tracking-[-0.03em] text-[#151714]">
+                        {note.title}
+                      </strong>
+                      <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{note.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="final-cta" className="shell section-gap">
+          <div className="home-shell-band home-shell-band-dark gsap-reveal">
+            <div className="grid gap-8 xl:grid-cols-[minmax(0,1.02fr)_minmax(340px,0.98fr)] xl:items-end">
+              <div>
+                <p className="eyebrow">Start transacting with more confidence</p>
+                <h2 className="heading-2 max-w-[13ch]">
+                  Build your entry point into the rare-earth recovery market.
+                </h2>
+                <p className="mt-5 max-w-[40rem] text-[1rem] leading-8 text-[#d2cabd] sm:text-[1.05rem]">
+                  Whether you are listing a single magnet-bearing lot or building a repeat
+                  procurement lane, Rare Earth Rescue gives the relationship structure, quality
+                  framing, and execution support that generic scrap channels miss.
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {[
+                    "Supplier onboarding",
+                    "Buyer verification",
+                    "Managed sourcing support",
+                  ].map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-[#d3a245]/22 bg-[rgba(247,239,227,0.08)] px-4 py-2 text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-[#f7efe3]"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded-[30px] border border-[#d3a245]/18 bg-[linear-gradient(180deg,rgba(247,239,227,0.08),rgba(17,22,19,0.18))] p-4 shadow-[0_20px_56px_rgba(0,0,0,0.2)] backdrop-blur sm:p-5">
+                <div className="grid gap-3">
+                  {[
+                    {
+                      title: "List your feedstock",
+                      body: "Start with a live lot and route it to verified industrial demand.",
+                      href: "/supplier-onboarding",
+                    },
+                    {
+                      title: "Become a verified recycler",
+                      body: "Access recurring supply with stronger quality and counterparty context.",
+                      href: "/recycler-onboarding",
+                    },
+                    {
+                      title: "Request a guided demo",
+                      body: "Use Rare Earth Rescue for a managed sourcing or transaction workflow.",
+                      href: "/contact",
+                    },
+                  ].map((item, index) => (
+                    <Link
+                      key={item.title}
+                      to={item.href}
+                      className="group flex items-center justify-between gap-4 rounded-[24px] border border-[#d3a245]/14 bg-[rgba(247,239,227,0.07)] px-5 py-4 transition duration-300 hover:-translate-y-1 hover:border-[#d3a245]/36 hover:bg-[rgba(247,239,227,0.12)]"
+                    >
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-3">
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#d3a245]/24 bg-[rgba(211,162,69,0.12)] font-display text-sm font-bold text-[#d3a245]">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <strong className="block font-display text-[1.05rem] tracking-[0.01em] text-[#f7efe3]">
+                            {item.title}
+                          </strong>
+                        </div>
+                        <p className="mt-3 max-w-[26rem] text-sm leading-7 text-[#d2cabd]">
+                          {item.body}
+                        </p>
+                      </div>
+                      <span className="shrink-0 text-[1.4rem] text-[#d3a245] transition duration-300 group-hover:translate-x-1">
+                        →
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Oxanium:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&family=Big+Shoulders+Display:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -7,19 +7,22 @@
 @layer base {
   :root {
     color-scheme: light;
-    --theme-bg: #f1eadf;
-    --theme-bg-deep: #e6dac2;
-    --theme-panel: rgba(248, 243, 234, 0.9);
-    --theme-panel-strong: #f7f1e6;
-    --theme-panel-dark: #181c18;
-    --theme-line: rgba(21, 23, 20, 0.12);
-    --theme-line-strong: rgba(21, 23, 20, 0.24);
-    --theme-text: #151714;
-    --theme-muted: #5c5b54;
-    --theme-primary: #1b5d52;
-    --theme-accent: #b85c38;
-    --theme-brass: #ca9730;
-    --theme-oxide: #dce8db;
+    --theme-bg: #efe4d0;
+    --theme-bg-deep: #111613;
+    --theme-panel: rgba(247, 240, 228, 0.9);
+    --theme-panel-strong: #fbf4e7;
+    --theme-panel-dark: #171d19;
+    --theme-line: rgba(17, 22, 19, 0.14);
+    --theme-line-strong: rgba(17, 22, 19, 0.28);
+    --theme-text: #111613;
+    --theme-muted: #5b554c;
+    --theme-primary: #17695d;
+    --theme-accent: #c16039;
+    --theme-brass: #d3a245;
+    --theme-oxide: #d6e4d9;
+    --theme-hero-edge: #0d120f;
+    --theme-dark-card: rgba(22, 29, 25, 0.88);
+    --theme-glow: rgba(211, 162, 69, 0.2);
   }
 
   html {
@@ -29,9 +32,9 @@
   body {
     @apply m-0 bg-[var(--theme-bg)] font-sans text-ink antialiased;
     background-image:
-      radial-gradient(circle at top left, rgba(184, 92, 56, 0.16), transparent 28%),
-      radial-gradient(circle at 84% 12%, rgba(27, 93, 82, 0.12), transparent 24%),
-      linear-gradient(180deg, #f3ede1 0%, #e9ddc8 58%, #f4eee2 100%);
+      radial-gradient(circle at top left, rgba(193, 96, 57, 0.18), transparent 28%),
+      radial-gradient(circle at 84% 12%, rgba(23, 105, 93, 0.14), transparent 24%),
+      linear-gradient(180deg, #f5ecdc 0%, #e6d7bc 58%, #f3e7d1 100%);
     position: relative;
   }
 
@@ -79,10 +82,10 @@
     @apply rounded-[30px] backdrop-blur-sm;
     border: 1px solid var(--theme-line);
     background:
-      linear-gradient(180deg, rgba(255, 249, 240, 0.92), rgba(241, 231, 214, 0.82));
+      linear-gradient(180deg, rgba(251, 244, 231, 0.94), rgba(232, 220, 198, 0.84));
     box-shadow:
-      0 24px 80px rgba(76, 52, 24, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      0 24px 80px rgba(70, 44, 21, 0.11),
+      inset 0 1px 0 rgba(255, 255, 255, 0.62);
   }
 
   .section-gap {
@@ -92,19 +95,19 @@
   .eyebrow {
     @apply mb-3 text-[11px] font-medium uppercase tracking-[0.28em];
     color: var(--theme-accent);
-    font-family: "IBM Plex Mono", monospace;
+    font-family: "Azeret Mono", monospace;
   }
 
   .heading-1 {
-    @apply max-w-5xl font-display text-[clamp(3.6rem,7vw,6.7rem)] leading-[0.9] tracking-[-0.045em] text-[#151714];
+    @apply max-w-5xl font-display text-[clamp(3.8rem,7vw,7rem)] leading-[0.88] tracking-[0.01em] text-[#111613];
   }
 
   .heading-2 {
-    @apply max-w-4xl font-display text-[clamp(2.2rem,4vw,4.3rem)] leading-[0.96] tracking-[-0.035em] text-[#151714];
+    @apply max-w-4xl font-display text-[clamp(2.4rem,4vw,4.5rem)] leading-[0.94] tracking-[0.008em] text-[#111613];
   }
 
   .heading-3 {
-    @apply font-display text-[clamp(1.3rem,2vw,1.85rem)] leading-tight tracking-[-0.02em] text-[#151714];
+    @apply font-display text-[clamp(1.35rem,2vw,1.95rem)] leading-tight tracking-[0.01em] text-[#111613];
   }
 
   .body-copy {
@@ -157,9 +160,9 @@
   .badge {
     @apply inline-flex items-center rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em];
     border: 1px solid rgba(27, 93, 82, 0.12);
-    background: linear-gradient(135deg, rgba(220, 232, 219, 0.95), rgba(244, 225, 196, 0.72));
+    background: linear-gradient(135deg, rgba(214, 228, 217, 0.95), rgba(250, 228, 184, 0.68));
     color: var(--theme-primary);
-    font-family: "IBM Plex Mono", monospace;
+    font-family: "Azeret Mono", monospace;
   }
 
   .grid-overlay {
@@ -172,7 +175,7 @@
   .site-header {
     @apply sticky top-0 z-30 backdrop-blur-xl;
     border-bottom: 1px solid rgba(21, 23, 20, 0.08);
-    background: rgba(245, 237, 224, 0.82);
+    background: rgba(242, 232, 215, 0.82);
   }
 
   .site-header-home {
@@ -204,7 +207,7 @@
   }
 
   .brand-copy strong {
-    @apply font-display text-lg tracking-[0.04em] text-[#151714];
+    @apply font-display text-xl tracking-[0.08em] text-[#111613];
   }
 
   .brand-copy span {
@@ -280,8 +283,79 @@
     @apply py-14;
     border-top: 1px solid rgba(21, 23, 20, 0.08);
     background:
-      radial-gradient(circle at 12% 10%, rgba(184, 92, 56, 0.08), transparent 24%),
-      linear-gradient(180deg, rgba(245, 237, 224, 0.94), rgba(233, 223, 205, 0.96));
+      radial-gradient(circle at 12% 10%, rgba(193, 96, 57, 0.08), transparent 24%),
+      linear-gradient(180deg, rgba(242, 232, 215, 0.94), rgba(228, 215, 193, 0.96));
+  }
+
+  .home-shell-band {
+    @apply relative overflow-hidden rounded-[38px] border p-8 shadow-[0_34px_90px_rgba(54,36,18,0.10)] lg:p-10;
+    border-color: rgba(17, 22, 19, 0.1);
+  }
+
+  .home-shell-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(135deg, transparent 0 47%, rgba(17, 22, 19, 0.06) 48%, transparent 49%, transparent 100%),
+      linear-gradient(rgba(17, 22, 19, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(17, 22, 19, 0.04) 1px, transparent 1px);
+    background-size: 30px 30px, 36px 36px, 36px 36px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .home-shell-band > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .home-shell-band-light {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(193, 96, 57, 0.12), transparent 24%),
+      radial-gradient(circle at 90% 18%, rgba(23, 105, 93, 0.1), transparent 26%),
+      linear-gradient(180deg, rgba(248, 240, 228, 0.96), rgba(231, 219, 198, 0.92));
+  }
+
+  .home-shell-band-dark {
+    border-color: rgba(211, 162, 69, 0.16);
+    color: #f7efe3;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(193, 96, 57, 0.24), transparent 24%),
+      radial-gradient(circle at 88% 8%, rgba(23, 105, 93, 0.24), transparent 24%),
+      linear-gradient(180deg, #121714 0%, #171d19 48%, #111613 100%);
+    box-shadow:
+      0 34px 90px rgba(8, 10, 9, 0.34),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .home-shell-band-dark::before {
+    background-image:
+      linear-gradient(135deg, transparent 0 47%, rgba(247, 239, 227, 0.08) 48%, transparent 49%, transparent 100%),
+      linear-gradient(rgba(247, 239, 227, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(247, 239, 227, 0.05) 1px, transparent 1px);
+  }
+
+  .home-shell-band-dark .heading-2,
+  .home-shell-band-dark .heading-3,
+  .home-shell-band-dark .body-copy,
+  .home-shell-band-dark .section-copy {
+    color: #f7efe3;
+  }
+
+  .home-shell-band-dark .body-copy,
+  .home-shell-band-dark .section-copy {
+    color: #d2cabd;
+  }
+
+  .home-shell-band-dark .eyebrow {
+    color: #d3a245;
+  }
+
+  .home-shell-band-dark .badge {
+    border-color: rgba(211, 162, 69, 0.18);
+    background: linear-gradient(135deg, rgba(211, 162, 69, 0.16), rgba(23, 105, 93, 0.18));
+    color: #f7efe3;
   }
 
   .footer-grid {
