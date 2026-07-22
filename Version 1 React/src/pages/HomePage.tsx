@@ -31,9 +31,9 @@ type LogoBadge = {
 };
 
 const heroCommodityTickers = [
-  { label: "Copper", value: "$4.38/lb", move: "+1.2%", tone: "text-[#3654A3]" },
-  { label: "ReO Index", value: "118.4", move: "+2.1%", tone: "text-[#C8AA48]" },
-  { label: "NdFeB", value: "$57.8/kg", move: "+4.2%", tone: "text-[#3654A3]" },
+  { label: "Copper", value: "$4.38/lb", move: "+1.2%", tone: "text-[#B85C38]" },
+  { label: "ReO Index", value: "118.4", move: "+2.1%", tone: "text-[#8F5C22]" },
+  { label: "NdFeB", value: "$57.8/kg", move: "+4.2%", tone: "text-[#B85C38]" },
 ] as const;
 
 const heroPaths = [
@@ -123,44 +123,44 @@ const issues = [
 
 const issueAccentStyles = [
   {
-    icon: "bg-[#D9C47A]",
+    icon: "bg-[#CA9730]",
     iconText: "text-white",
-    chip: "text-[#C8AA48]",
+    chip: "text-[#8F5C22]",
   },
   {
-    icon: "bg-[#3654A3]",
+    icon: "bg-[#B85C38]",
     iconText: "text-white",
-    chip: "text-[#3654A3]",
+    chip: "text-[#B85C38]",
   },
   {
-    icon: "bg-[#3654A3]",
+    icon: "bg-[#B85C38]",
     iconText: "text-white",
-    chip: "text-[#3654A3]",
+    chip: "text-[#B85C38]",
   },
   {
-    icon: "bg-[#3654A3]",
+    icon: "bg-[#B85C38]",
     iconText: "text-white",
-    chip: "text-[#3654A3]",
+    chip: "text-[#B85C38]",
   },
 ] as const;
 
 const networkNodes = [
-  { cx: 148, cy: 130, fill: "#D9C47A" },
-  { cx: 212, cy: 182, fill: "#3654A3" },
-  { cx: 308, cy: 202, fill: "#D9C47A" },
-  { cx: 392, cy: 150, fill: "#3654A3" },
-  { cx: 514, cy: 148, fill: "#D9C47A" },
-  { cx: 464, cy: 266, fill: "#3654A3" },
+  { cx: 148, cy: 130, fill: "#CA9730" },
+  { cx: 212, cy: 182, fill: "#B85C38" },
+  { cx: 308, cy: 202, fill: "#CA9730" },
+  { cx: 392, cy: 150, fill: "#B85C38" },
+  { cx: 514, cy: 148, fill: "#CA9730" },
+  { cx: 464, cy: 266, fill: "#B85C38" },
 ] as const;
 
 const usRecoveryNodes = [
-  { cx: 92, cy: 170, fill: "#D9C47A", label: "Pacific Northwest" },
-  { cx: 140, cy: 222, fill: "#3654A3", label: "California" },
-  { cx: 245, cy: 194, fill: "#D9C47A", label: "Texas" },
-  { cx: 318, cy: 156, fill: "#3654A3", label: "Upper Midwest" },
-  { cx: 394, cy: 128, fill: "#D9C47A", label: "Great Lakes" },
-  { cx: 468, cy: 144, fill: "#3654A3", label: "Mid-Atlantic" },
-  { cx: 525, cy: 198, fill: "#D9C47A", label: "Southeast" },
+  { cx: 92, cy: 170, fill: "#CA9730", label: "Pacific Northwest" },
+  { cx: 140, cy: 222, fill: "#B85C38", label: "California" },
+  { cx: 245, cy: 194, fill: "#CA9730", label: "Texas" },
+  { cx: 318, cy: 156, fill: "#B85C38", label: "Upper Midwest" },
+  { cx: 394, cy: 128, fill: "#CA9730", label: "Great Lakes" },
+  { cx: 468, cy: 144, fill: "#B85C38", label: "Mid-Atlantic" },
+  { cx: 525, cy: 198, fill: "#CA9730", label: "Southeast" },
 ] as const;
 
 const workflowContent = {
@@ -398,12 +398,12 @@ function HomeLinkCard({
   return (
     <Link
       to={href}
-      className="group rounded-[24px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.82)] p-5 shadow-[0_24px_70px_rgba(32,36,28,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#253B80]/25"
+      className="group rounded-[24px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.82)] p-5 shadow-[0_24px_70px_rgba(32,36,28,0.08)] transition duration-300 hover:-translate-y-1.5 hover:border-[#1B5D52]/25"
     >
-      <strong className="block font-display text-[1.02rem] tracking-[-0.03em] text-[#0F1115] transition duration-300 group-hover:text-[#253B80]">
+      <strong className="block font-display text-[1.02rem] tracking-[-0.03em] text-[#151714] transition duration-300 group-hover:text-[#1B5D52]">
         {title}
       </strong>
-      <p className="mt-2 text-sm leading-7 text-[#6D7484]">{body}</p>
+      <p className="mt-2 text-sm leading-7 text-[#5C5B54]">{body}</p>
     </Link>
   );
 }
@@ -615,31 +615,32 @@ export function HomePage() {
     { scope: rootRef }
   );
   return (
-    <div ref={rootRef} className="bg-[#F6F8FC] text-[#0F1115]">
+    <div ref={rootRef} className="bg-[#F6F8FC] text-[#151714]">
       <main className="page bg-transparent">
         <section
           id="top"
-          className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(210,175,103,0.24),transparent_24%),radial-gradient(circle_at_88%_12%,rgba(121,161,144,0.24),transparent_30%),linear-gradient(180deg,#F6F8FC_0%,#F6F8FC_48%,#F6F8FC_100%)] pb-3 pt-24 lg:pb-4 lg:pt-28"
+          className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,rgba(202,151,48,0.18),transparent_22%),radial-gradient(circle_at_88%_12%,rgba(27,93,82,0.18),transparent_28%),linear-gradient(180deg,#f3ede1_0%,#ebe0cb_58%,#f4ede0_100%)] pb-3 pt-24 lg:pb-4 lg:pt-28"
         >
-          <div className="gsap-grid-shift absolute inset-0 opacity-[0.2] [background-image:linear-gradient(rgba(17,40,61,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(17,40,61,0.06)_1px,transparent_1px)] [background-size:32px_32px]" />
-          <div className="gsap-orb absolute left-[-8rem] top-[-3rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.28),transparent_70%)] blur-3xl" />
-          <div className="gsap-orb absolute bottom-[-10rem] right-[-7rem] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.2),transparent_68%)] blur-3xl" />
+          <div className="gsap-grid-shift absolute inset-0 opacity-[0.22] [background-image:linear-gradient(rgba(21,23,20,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(21,23,20,0.08)_1px,transparent_1px)] [background-size:32px_32px]" />
+          <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(135deg,transparent_0,transparent_48%,rgba(21,23,20,0.18)_49%,transparent_50%,transparent_100%)] [background-size:22px_22px]" />
+          <div className="gsap-orb absolute left-[-8rem] top-[-3rem] h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(184,92,56,0.22),transparent_70%)] blur-3xl" />
+          <div className="gsap-orb absolute bottom-[-10rem] right-[-7rem] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,rgba(27,93,82,0.18),transparent_68%)] blur-3xl" />
 
           <div className="shell relative z-10 grid gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(500px,0.92fr)] lg:items-center">
             <div className="gsap-hero-copy pt-1">
-              <div className="gsap-hero-logo mb-7 inline-flex h-24 w-24 items-center justify-center rounded-[2rem] border border-[#DCE3EF] bg-[rgba(255,252,247,0.88)] shadow-[0_18px_40px_rgba(46,41,31,0.08)] backdrop-blur">
-                <svg viewBox="0 0 100 100" className="h-14 w-14 text-[#253B80]">
+              <div className="gsap-hero-logo mb-7 inline-flex h-24 w-24 items-center justify-center rounded-[2rem] border border-[#D7CFBF] bg-[rgba(255,252,247,0.88)] shadow-[0_18px_40px_rgba(46,41,31,0.08)] backdrop-blur">
+                <svg viewBox="0 0 100 100" className="h-14 w-14 text-[#1B5D52]">
                   <circle cx="50" cy="50" r="39" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M73 17l15 8-1 18-7-8" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M22 64L45 40l13 17 11-9 15 16" fill="none" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </div>
 
-              <p className="eyebrow !text-[#6D7484]">Circular critical mineral supply chains built for North America</p>
-              <h1 className="max-w-[12.5ch] font-display text-[clamp(3.1rem,5.4vw,5.6rem)] leading-[0.95] tracking-[-0.06em] text-[#0F1115]">
+              <p className="eyebrow !text-[#8F5C22]">Circular critical mineral supply chains built for North America</p>
+              <h1 className="max-w-[12.5ch] font-display text-[clamp(3.1rem,5.4vw,5.6rem)] leading-[0.95] tracking-[-0.06em] text-[#151714]">
                 The Marketplace for America's Rare Earth Elements.
               </h1>
-              <p className="mt-5 max-w-[42rem] text-[1.05rem] leading-8 text-[#6D7484] sm:text-[1.16rem]">
+              <p className="mt-5 max-w-[42rem] text-[1.05rem] leading-8 text-[#5C5B54] sm:text-[1.16rem]">
                 Rare Earth Rescue connects suppliers, scrappers, and processors with verified
                 industrial buyers across magnets, motors, HDD assemblies, and other rare-earth-bearing feedstock.
               </p>
@@ -648,7 +649,7 @@ export function HomePage() {
                 {["Verified industrial buyers", "Localized circular supply", "Structured execution"].map((pill) => (
                   <span
                     key={pill}
-                    className="rounded-full border border-[#DCE3EF] bg-[rgba(255,252,247,0.86)] px-4 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]"
+                    className="rounded-full border border-[#D7CFBF] bg-[linear-gradient(135deg,rgba(255,248,239,0.95),rgba(230,218,198,0.84))] px-4 py-2 text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]"
                   >
                     {pill}
                   </span>
@@ -660,21 +661,21 @@ export function HomePage() {
                   <Link
                     key={path.title}
                     to={path.href}
-                    className="gsap-hero-path group rounded-[24px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.8)] p-5 shadow-[0_18px_48px_rgba(46,41,31,0.05)] backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:border-[#D9C47A]/35 hover:bg-[rgba(255,255,255,0.92)]"
+                    className="gsap-hero-path group rounded-[24px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,249,240,0.9),rgba(239,227,209,0.8))] p-5 shadow-[0_18px_48px_rgba(76,52,24,0.08)] backdrop-blur transition duration-300 hover:-translate-y-1.5 hover:border-[#CA9730]/35 hover:bg-[rgba(255,255,255,0.92)]"
                   >
-                    <span className="inline-flex rounded-full border border-[#DCE3EF] px-3 py-1 text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#6D7484]">
+                    <span className="inline-flex rounded-full border border-[#D7CFBF] px-3 py-1 text-[0.64rem] font-extrabold uppercase tracking-[0.22em] text-[#5C5B54]">
                       {path.badge}
                     </span>
-                    <strong className="mt-4 block font-display text-[1.02rem] tracking-[-0.03em] text-[#0F1115]">
+                    <strong className="mt-4 block font-display text-[1.02rem] tracking-[-0.03em] text-[#151714]">
                       {path.title}
                     </strong>
-                    <p className="mt-2 text-sm leading-6 text-[#6D7484]">{path.body}</p>
+                    <p className="mt-2 text-sm leading-6 text-[#5C5B54]">{path.body}</p>
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="gsap-hero-visual relative min-h-[520px] overflow-hidden rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(239,231,218,0.9))] shadow-[0_34px_90px_rgba(46,41,31,0.1)] lg:min-h-[540px]">
+            <div className="gsap-hero-visual relative min-h-[520px] overflow-hidden rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,249,241,0.96),rgba(234,221,202,0.92))] shadow-[0_34px_90px_rgba(76,52,24,0.12)] lg:min-h-[540px]">
               <div className="gsap-parallax absolute inset-0 opacity-[0.16]">
                 <AppImage
                   src="https://images.unsplash.com/photo-1513828742140-ccaa28f3eda0?auto=format&fit=crop&w=1600&q=80"
@@ -683,19 +684,19 @@ export function HomePage() {
                 />
               </div>
 
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(207,167,83,0.18),transparent_22%),linear-gradient(180deg,rgba(255,252,247,0.95),rgba(236,226,211,0.88))]" />
-              <div className="gsap-grid-shift absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(17,40,61,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(17,40,61,0.06)_1px,transparent_1px)] [background-size:38px_38px]" />
-              <div className="gsap-network-drift absolute left-[14%] top-[18%] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.16),transparent_68%)] blur-2xl" />
-              <div className="gsap-network-drift absolute right-[12%] top-[30%] h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.18),transparent_68%)] blur-3xl" />
-              <div className="gsap-network-drift absolute bottom-[16%] left-[36%] h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(23,53,80,0.12),transparent_72%)] blur-2xl" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(202,151,48,0.22),transparent_22%),linear-gradient(180deg,rgba(255,249,241,0.96),rgba(231,220,203,0.88))]" />
+              <div className="gsap-grid-shift absolute inset-0 opacity-[0.3] [background-image:linear-gradient(rgba(21,23,20,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(21,23,20,0.07)_1px,transparent_1px)] [background-size:38px_38px]" />
+              <div className="gsap-network-drift absolute left-[14%] top-[18%] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(202,151,48,0.16),transparent_68%)] blur-2xl" />
+              <div className="gsap-network-drift absolute right-[12%] top-[30%] h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(27,93,82,0.16),transparent_68%)] blur-3xl" />
+              <div className="gsap-network-drift absolute bottom-[16%] left-[36%] h-36 w-36 rounded-full bg-[radial-gradient(circle,rgba(184,92,56,0.14),transparent_72%)] blur-2xl" />
               <div className="absolute inset-[12%_10%_18%] rounded-[32px] border border-white/30 opacity-60" />
 
-              <div className="absolute left-5 right-5 top-5 z-10 overflow-hidden rounded-full border border-[#DCE3EF] bg-white/84 px-3 py-2 shadow-[0_14px_32px_rgba(31,40,31,0.06)]">
+              <div className="absolute left-5 right-5 top-5 z-10 overflow-hidden rounded-full border border-[#D7CFBF] bg-white/84 px-3 py-2 shadow-[0_14px_32px_rgba(31,40,31,0.06)]">
                 <div className="gsap-hero-ticker-track flex min-w-max items-center gap-6">
                   {[...heroCommodityTickers, ...heroCommodityTickers].map((ticker, index) => (
                     <div key={`${ticker.label}-${index}`} className="flex items-center gap-3 text-sm">
-                      <span className="font-semibold uppercase tracking-[0.14em] text-[#6D7484]">{ticker.label}</span>
-                      <span className="font-bold text-[#253B80]">{ticker.value}</span>
+                      <span className="font-semibold uppercase tracking-[0.14em] text-[#5C5B54]">{ticker.label}</span>
+                      <span className="font-bold text-[#1B5D52]">{ticker.value}</span>
                       <span className={`font-bold ${ticker.tone}`}>{ticker.move}</span>
                     </div>
                   ))}
@@ -741,13 +742,13 @@ export function HomePage() {
                 {heroCommodityTickers.map((ticker) => (
                   <div
                     key={ticker.label}
-                    className="rounded-[22px] border border-[#DCE3EF] bg-white/84 p-4 shadow-[0_16px_36px_rgba(31,40,31,0.06)] backdrop-blur"
+                    className="rounded-[22px] border border-[#D7CFBF] bg-white/84 p-4 shadow-[0_16px_36px_rgba(31,40,31,0.06)] backdrop-blur"
                   >
-                    <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                    <span className="text-[0.66rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]">
                       {ticker.label}
                     </span>
                     <div className="mt-3 flex items-end justify-between gap-3">
-                      <strong className="font-display text-[1.15rem] tracking-[-0.03em] text-[#0F1115]">
+                      <strong className="font-display text-[1.15rem] tracking-[-0.03em] text-[#151714]">
                         {ticker.value}
                       </strong>
                       <span className={`text-sm font-bold ${ticker.tone}`}>{ticker.move}</span>
@@ -763,15 +764,15 @@ export function HomePage() {
           <div className="grid items-start gap-10 xl:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)]">
             <div>
               <p className="eyebrow">Why this matters</p>
-              <h2 className="max-w-[14ch] font-display text-[clamp(2.7rem,5.2vw,4.8rem)] leading-[0.94] tracking-[-0.07em] text-[#0F1115]">
+              <h2 className="max-w-[14ch] font-display text-[clamp(2.7rem,5.2vw,4.8rem)] leading-[0.94] tracking-[-0.07em] text-[#151714]">
                 Trade rare-earth-bearing scrap into a local U.S. circular supply.
               </h2>
-              <p className="mt-5 max-w-[38rem] text-[1.03rem] leading-8 text-[#6D7484]">
+              <p className="mt-5 max-w-[38rem] text-[1.03rem] leading-8 text-[#5C5B54]">
                 Rare Earth Rescue helps recyclers keep recovery lines utilized by sourcing fragmented
                 feedstock more reliably, while helping scrappers, dismantlers, and ITAD operators
                 uncover value in magnet-bearing equipment that is often sold too generically.
               </p>
-              <p className="mt-4 max-w-[36rem] text-[0.98rem] leading-7 text-[#6D7484]">
+              <p className="mt-4 max-w-[36rem] text-[0.98rem] leading-7 text-[#5C5B54]">
                 The result is a more resilient domestic recovery network built around verified
                 counterparties, clearer material signals, and a stronger local circular economy.
               </p>
@@ -793,7 +794,7 @@ export function HomePage() {
                         >
                           {issue.title}
                         </h3>
-                        <p className="mt-3 text-[0.97rem] leading-7 text-[#6D7484]">{issue.body}</p>
+                        <p className="mt-3 text-[0.97rem] leading-7 text-[#5C5B54]">{issue.body}</p>
                       </div>
                     </article>
                   );
@@ -801,17 +802,17 @@ export function HomePage() {
               </div>
             </div>
 
-            <div className="gsap-reveal relative overflow-hidden rounded-[36px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.97),rgba(244,236,223,0.95))] p-6 shadow-[0_28px_84px_rgba(46,41,31,0.08)] sm:p-8">
+            <div className="gsap-reveal relative overflow-hidden rounded-[36px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.97),rgba(244,236,223,0.95))] p-6 shadow-[0_28px_84px_rgba(46,41,31,0.08)] sm:p-8">
               <div className="gsap-network-drift absolute left-[12%] top-[8%] h-32 w-32 rounded-full bg-[radial-gradient(circle,rgba(201,159,76,0.15),transparent_68%)] blur-3xl" />
               <div className="gsap-network-drift absolute bottom-[10%] right-[10%] h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(110,152,121,0.16),transparent_70%)] blur-3xl" />
 
               <div className="relative z-10">
                 <span className="badge">U.S. recovery network</span>
-                <h3 className="mt-4 max-w-[18ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#0F1115]">
+                <h3 className="mt-4 max-w-[18ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#151714]">
                   A live market layer that connects scattered scrap origin points with verified
                   recycler demand.
                 </h3>
-                <p className="mt-4 max-w-[34rem] text-[0.97rem] leading-7 text-[#6D7484]">
+                <p className="mt-4 max-w-[34rem] text-[0.97rem] leading-7 text-[#5C5B54]">
                   Nodes pulse where rare-earth-bearing scrap originates. Corridors tighten where
                   recycler demand is strongest. That coordination improves price discovery, lowers
                   idle capacity risk, and keeps more recovery activity onshore.
@@ -823,22 +824,22 @@ export function HomePage() {
                       label: "From export markets",
                       value: "98%",
                       width: "98%",
-                      tone: "bg-[#D9C47A]",
+                      tone: "bg-[#CA9730]",
                     },
                     {
                       label: "From local circular economy",
                       value: "<1%",
                       width: "1%",
-                      tone: "bg-[#3654A3]",
+                      tone: "bg-[#B85C38]",
                     },
                   ].map((item) => (
                     <article
                       key={item.label}
-                      className="rounded-[20px] border border-[#DCE3EF] bg-white/82 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)]"
+                      className="rounded-[20px] border border-[#D7CFBF] bg-white/82 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)]"
                     >
-                      <div className="flex items-center justify-between gap-3 text-[0.7rem] font-bold uppercase tracking-[0.14em] text-[#6D7484]">
+                      <div className="flex items-center justify-between gap-3 text-[0.7rem] font-bold uppercase tracking-[0.14em] text-[#5C5B54]">
                         <span>{item.label}</span>
-                        <strong className="text-[#0F1115]">{item.value}</strong>
+                        <strong className="text-[#151714]">{item.value}</strong>
                       </div>
                       <div className="mt-2 h-2 rounded-full bg-[#F6F8FC]">
                         <div className={`h-2 rounded-full ${item.tone}`} style={{ width: item.width }} />
@@ -847,7 +848,7 @@ export function HomePage() {
                   ))}
                 </div>
 
-                <div className="relative mt-6 rounded-[30px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(244,237,225,0.86))] p-4">
+                <div className="relative mt-6 rounded-[30px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(244,237,225,0.86))] p-4">
                   <svg viewBox="0 0 620 420" className="h-full w-full">
                     <path
                       d="M75 145 92 126 116 112 145 110 173 115 205 109 233 114 262 126 298 125 330 118 365 116 396 122 430 122 462 118 491 123 516 133 544 139 567 153 584 174 589 196 582 209 568 214 554 225 545 235 527 238 512 250 509 266 494 276 482 292 456 302 427 310 398 313 367 322 336 327 308 322 280 325 250 336 223 342 193 338 168 329 144 320 123 302 106 289 91 271 83 251 76 227 73 204 67 180Z"
@@ -895,7 +896,7 @@ export function HomePage() {
                         x={label.x}
                         y={label.y - 18}
                         textAnchor="middle"
-                        className="fill-[#6D7484] text-[9px] font-semibold uppercase tracking-[0.18em]"
+                        className="fill-[#5C5B54] text-[9px] font-semibold uppercase tracking-[0.18em]"
                       >
                         {label.label}
                       </text>
@@ -912,11 +913,11 @@ export function HomePage() {
                     ))}
 
                     {[
-                      { href: "#corridor-west", color: "#D9C47A", begin: "0s" },
-                      { href: "#corridor-central", color: "#3654A3", begin: "0.6s" },
-                      { href: "#corridor-lakes", color: "#253B80", begin: "1.1s" },
-                      { href: "#corridor-atlantic", color: "#D9C47A", begin: "1.7s" },
-                      { href: "#corridor-south", color: "#3654A3", begin: "2.1s" },
+                      { href: "#corridor-west", color: "#CA9730", begin: "0s" },
+                      { href: "#corridor-central", color: "#B85C38", begin: "0.6s" },
+                      { href: "#corridor-lakes", color: "#1B5D52", begin: "1.1s" },
+                      { href: "#corridor-atlantic", color: "#CA9730", begin: "1.7s" },
+                      { href: "#corridor-south", color: "#B85C38", begin: "2.1s" },
                     ].map((particle) => (
                       <circle key={`${particle.href}-${particle.begin}`} r="3.8" fill={particle.color} opacity="0.9">
                         <animateMotion dur="4.8s" begin={particle.begin} repeatCount="indefinite" rotate="auto">
@@ -927,20 +928,20 @@ export function HomePage() {
                   </svg>
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
-                    <div className="rounded-[18px] border border-[#DCE3EF] bg-white/84 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)] backdrop-blur">
-                      <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                    <div className="rounded-[18px] border border-[#D7CFBF] bg-white/84 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)] backdrop-blur">
+                      <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]">
                         Source nodes
                       </span>
-                      <p className="mt-2 text-[0.86rem] leading-6 text-[#6D7484]">
+                      <p className="mt-2 text-[0.86rem] leading-6 text-[#5C5B54]">
                         HDD recovery, traction motors, industrial salvage, and reverse logistics
                         programs feed the network.
                       </p>
                     </div>
-                    <div className="rounded-[18px] border border-[#DCE3EF] bg-white/84 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)] backdrop-blur">
-                      <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                    <div className="rounded-[18px] border border-[#D7CFBF] bg-white/84 px-4 py-3 shadow-[0_14px_30px_rgba(46,41,31,0.05)] backdrop-blur">
+                      <span className="text-[0.58rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]">
                         Recycler pull
                       </span>
-                      <p className="mt-2 text-[0.86rem] leading-6 text-[#6D7484]">
+                      <p className="mt-2 text-[0.86rem] leading-6 text-[#5C5B54]">
                         Verified buyer demand consolidates scattered lots into credible domestic
                         recovery corridors.
                       </p>
@@ -962,14 +963,14 @@ export function HomePage() {
             {metrics.map((metric) => (
               <article key={metric.label} className="gsap-reveal">
                 <span
-                  className="gsap-count block whitespace-nowrap bg-[linear-gradient(180deg,#253B80_0%,#C8AA48_100%)] bg-clip-text font-display text-[clamp(2.7rem,4.6vw,4.9rem)] leading-none tracking-[-0.08em] text-transparent"
+                  className="gsap-count block whitespace-nowrap bg-[linear-gradient(180deg,#1B5D52_0%,#8F5C22_100%)] bg-clip-text font-display text-[clamp(2.7rem,4.6vw,4.9rem)] leading-none tracking-[-0.08em] text-transparent"
                   data-value={metric.value}
                   data-prefix={metric.prefix ?? ""}
                   data-suffix={metric.suffix}
                 >
                   0
                 </span>
-                <span className="mt-3 block max-w-[12rem] text-sm font-semibold uppercase tracking-[0.16em] text-[#6D7484]">
+                <span className="mt-3 block max-w-[12rem] text-sm font-semibold uppercase tracking-[0.16em] text-[#5C5B54]">
                   {metric.label}
                 </span>
               </article>
@@ -1014,14 +1015,14 @@ export function HomePage() {
           >
             <ShadTabsContent value="suppliers">
               <div className="space-y-5">
-                <div className="gsap-reveal rounded-[30px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
+                <div className="gsap-reveal rounded-[30px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
                   <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
                     <div>
                       <span className="badge">Supplier path</span>
-                      <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#0F1115]">
+                      <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#151714]">
                         Move from first listing to repeat recovery flow without building the process alone.
                       </h3>
-                      <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#6D7484]">
+                      <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#5C5B54]">
                         Start with a single opportunity, standardize composition detail, and route
                         material into a buyer network that can actually value rare-earth-bearing scrap.
                       </p>
@@ -1034,7 +1035,7 @@ export function HomePage() {
                       ].map((item) => (
                         <div
                           key={item}
-                          className="rounded-[22px] border border-[#DCE3EF] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#6D7484] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
+                          className="rounded-[22px] border border-[#D7CFBF] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#5C5B54] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
                         >
                           {item}
                         </div>
@@ -1046,15 +1047,15 @@ export function HomePage() {
                   {workflowContent.suppliers.steps.map((step, index) => (
                     <article
                       key={step.title}
-                      className="rounded-[26px] border border-[#DCE3EF] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
+                      className="rounded-[26px] border border-[#D7CFBF] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
                     >
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#DDF1E8] font-display text-sm font-bold text-[#253B80]">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#DCE8DB] font-display text-sm font-bold text-[#1B5D52]">
                         {index + 1}
                       </span>
-                      <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#0F1115]">
+                      <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#151714]">
                         {step.title}
                       </strong>
-                      <p className="mt-3 text-sm leading-7 text-[#6D7484]">{step.body}</p>
+                      <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{step.body}</p>
                     </article>
                   ))}
                 </div>
@@ -1070,14 +1071,14 @@ export function HomePage() {
             </ShadTabsContent>
             <ShadTabsContent value="buyers">
               <div className="space-y-5">
-                <div className="gsap-reveal rounded-[30px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
+                <div className="gsap-reveal rounded-[30px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(244,236,224,0.9))] p-6 shadow-[0_18px_52px_rgba(46,41,31,0.06)] lg:p-8">
                   <div className="grid gap-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
                     <div>
                       <span className="badge">Buyer path</span>
-                      <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#0F1115]">
+                      <h3 className="mt-4 max-w-[16ch] font-display text-[1.75rem] leading-[1.02] tracking-[-0.05em] text-[#151714]">
                         Turn fragmented feedstock into a recurring procurement workflow with better visibility.
                       </h3>
-                      <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#6D7484]">
+                      <p className="mt-4 max-w-[35rem] text-[0.97rem] leading-7 text-[#5C5B54]">
                         Review opportunities faster, refine sourcing requirements, and move from
                         targeted lots into repeat commercial relationships across the recovery network.
                       </p>
@@ -1090,7 +1091,7 @@ export function HomePage() {
                       ].map((item) => (
                         <div
                           key={item}
-                          className="rounded-[22px] border border-[#DCE3EF] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#6D7484] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
+                          className="rounded-[22px] border border-[#D7CFBF] bg-white/78 px-4 py-4 text-sm font-semibold leading-6 text-[#5C5B54] shadow-[0_14px_34px_rgba(46,41,31,0.05)]"
                         >
                           {item}
                         </div>
@@ -1102,15 +1103,15 @@ export function HomePage() {
                   {workflowContent.buyers.steps.map((step, index) => (
                     <article
                       key={step.title}
-                      className="rounded-[26px] border border-[#DCE3EF] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
+                      className="rounded-[26px] border border-[#D7CFBF] bg-[rgba(255,255,255,0.76)] p-5 shadow-[0_16px_40px_rgba(46,41,31,0.05)]"
                     >
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#DDF1E8] font-display text-sm font-bold text-[#C8AA48]">
+                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#DCE8DB] font-display text-sm font-bold text-[#8F5C22]">
                         {index + 1}
                       </span>
-                      <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#0F1115]">
+                      <strong className="mt-4 block font-display text-[1.05rem] tracking-[-0.03em] text-[#151714]">
                         {step.title}
                       </strong>
-                      <p className="mt-3 text-sm leading-7 text-[#6D7484]">{step.body}</p>
+                      <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{step.body}</p>
                     </article>
                   ))}
                 </div>
@@ -1134,21 +1135,21 @@ export function HomePage() {
             body="Each layer improves the next: cleaner classification sharpens pricing, better trust lowers friction, and repeat execution turns fragmented scrap into repeatable industrial supply."
           />
 
-          <div className="gsap-reveal relative mt-10 overflow-hidden rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(245,236,221,0.92))] p-6 shadow-[0_24px_80px_rgba(46,41,31,0.07)] lg:p-8">
+          <div className="gsap-reveal relative mt-10 overflow-hidden rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(245,236,221,0.92))] p-6 shadow-[0_24px_80px_rgba(46,41,31,0.07)] lg:p-8">
             <div className="absolute left-8 right-8 top-[4.8rem] hidden h-[3px] rounded-full bg-[rgba(221,212,199,0.9)] lg:block" />
-            <div className="gsap-service-progress absolute left-8 right-8 top-[4.8rem] hidden h-[3px] rounded-full bg-[linear-gradient(90deg,#D9C47A_0%,#DDF1E8_55%,#253B80_100%)] lg:block" />
+            <div className="gsap-service-progress absolute left-8 right-8 top-[4.8rem] hidden h-[3px] rounded-full bg-[linear-gradient(90deg,#CA9730_0%,#DCE8DB_55%,#1B5D52_100%)] lg:block" />
 
             <div className="grid gap-5 lg:grid-cols-5">
               {serviceModules.map((module) => {
                 const content = (
                   <>
-                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#DCE3EF] bg-white/82 font-display text-sm font-bold text-[#C8AA48]">
+                    <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#D7CFBF] bg-white/82 font-display text-sm font-bold text-[#8F5C22]">
                       {module.index}
                     </span>
-                    <strong className="mt-5 block font-display text-[1.08rem] tracking-[-0.03em] text-[#0F1115]">
+                    <strong className="mt-5 block font-display text-[1.08rem] tracking-[-0.03em] text-[#151714]">
                       {module.title}
                     </strong>
-                    <p className="mt-3 text-sm leading-7 text-[#6D7484]">{module.body}</p>
+                    <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{module.body}</p>
                   </>
                 );
 
@@ -1157,7 +1158,7 @@ export function HomePage() {
                     key={module.title}
                     type="button"
                     onClick={() => setIsPricingModalOpen(true)}
-                    className="gsap-float-card relative rounded-[28px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.86)] p-6 text-left shadow-[0_18px_48px_rgba(46,41,31,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#253B80]/25"
+                    className="gsap-float-card relative rounded-[28px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.86)] p-6 text-left shadow-[0_18px_48px_rgba(46,41,31,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#1B5D52]/25"
                   >
                     {content}
                   </button>
@@ -1165,7 +1166,7 @@ export function HomePage() {
                   <Link
                     key={module.title}
                     to={module.href ?? "/contact"}
-                    className="gsap-float-card relative rounded-[28px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.86)] p-6 shadow-[0_18px_48px_rgba(46,41,31,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#253B80]/25"
+                    className="gsap-float-card relative rounded-[28px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.86)] p-6 shadow-[0_18px_48px_rgba(46,41,31,0.06)] backdrop-blur transition duration-300 hover:-translate-y-1 hover:border-[#1B5D52]/25"
                   >
                     {content}
                   </Link>
@@ -1175,12 +1176,12 @@ export function HomePage() {
           </div>
 
           <div className="mt-10 grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-            <div className="gsap-reveal relative min-h-[460px] overflow-hidden rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(245,236,221,0.92))] shadow-[0_24px_80px_rgba(46,41,31,0.07)]">
+            <div className="gsap-reveal relative min-h-[460px] overflow-hidden rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.94),rgba(245,236,221,0.92))] shadow-[0_24px_80px_rgba(46,41,31,0.07)]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(196,157,84,0.18),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(110,152,121,0.2),transparent_32%)]" />
-              <div className="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#DCE3EF] bg-white/92 px-5 text-center font-display text-[1.02rem] font-bold leading-5 tracking-[-0.03em] text-[#0F1115] shadow-[0_16px_36px_rgba(46,41,31,0.08)]">
+              <div className="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#D7CFBF] bg-white/92 px-5 text-center font-display text-[1.02rem] font-bold leading-5 tracking-[-0.03em] text-[#151714] shadow-[0_16px_36px_rgba(46,41,31,0.08)]">
                 Value creation engine
               </div>
-              <div className="absolute inset-[72px] rounded-full border border-[#DCE3EF] opacity-80" />
+              <div className="absolute inset-[72px] rounded-full border border-[#D7CFBF] opacity-80" />
               <div className="absolute inset-[110px] rounded-full border border-[#F6F8FC] opacity-70" />
               {[
                 { title: "Classification", sub: "Better labels", pos: "left-[12%] top-[14%]" },
@@ -1192,30 +1193,30 @@ export function HomePage() {
               ].map((node) => (
                 <div
                   key={node.title}
-                  className={`gsap-float-card absolute ${node.pos} max-w-[10rem] rounded-[22px] border border-[#DCE3EF] bg-white/84 p-4 shadow-[0_14px_36px_rgba(46,41,31,0.05)]`}
+                  className={`gsap-float-card absolute ${node.pos} max-w-[10rem] rounded-[22px] border border-[#D7CFBF] bg-white/84 p-4 shadow-[0_14px_36px_rgba(46,41,31,0.05)]`}
                 >
-                  <strong className="block font-display text-[0.98rem] tracking-[-0.03em] text-[#0F1115]">
+                  <strong className="block font-display text-[0.98rem] tracking-[-0.03em] text-[#151714]">
                     {node.title}
                   </strong>
-                  <span className="mt-1 block text-xs leading-6 text-[#6D7484]">{node.sub}</span>
+                  <span className="mt-1 block text-xs leading-6 text-[#5C5B54]">{node.sub}</span>
                 </div>
               ))}
             </div>
 
-            <div className="gsap-reveal rounded-[32px] border border-[#DCE3EF] bg-[rgba(255,252,247,0.82)] p-6 shadow-[0_18px_56px_rgba(46,41,31,0.06)]">
+            <div className="gsap-reveal rounded-[32px] border border-[#D7CFBF] bg-[rgba(255,252,247,0.82)] p-6 shadow-[0_18px_56px_rgba(46,41,31,0.06)]">
               <div className="space-y-6">
                 {flywheelNotes.map((note, index) => (
                   <div
                     key={note.title}
-                    className={`${index === 0 ? "" : "border-t border-[#DCE3EF] pt-6"}`}
+                    className={`${index === 0 ? "" : "border-t border-[#D7CFBF] pt-6"}`}
                   >
-                    <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#6D7484]">
+                    <span className="text-[0.68rem] font-extrabold uppercase tracking-[0.18em] text-[#5C5B54]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <strong className="mt-2 block font-display text-[1.08rem] tracking-[-0.03em] text-[#0F1115]">
+                    <strong className="mt-2 block font-display text-[1.08rem] tracking-[-0.03em] text-[#151714]">
                       {note.title}
                     </strong>
-                    <p className="mt-3 text-sm leading-7 text-[#6D7484]">{note.body}</p>
+                    <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{note.body}</p>
                   </div>
                 ))}
               </div>
@@ -1224,7 +1225,7 @@ export function HomePage() {
         </section>
 
         <section id="final-cta" className="shell section-gap">
-          <div className="gsap-reveal rounded-[34px] border border-[#DCE3EF] bg-[linear-gradient(135deg,rgba(255,252,247,0.96),rgba(241,234,218,0.9))] p-8 shadow-[0_28px_90px_rgba(46,41,31,0.08)] lg:flex lg:items-center lg:justify-between lg:gap-8">
+          <div className="gsap-reveal rounded-[34px] border border-[#D7CFBF] bg-[linear-gradient(135deg,rgba(255,252,247,0.96),rgba(241,234,218,0.9))] p-8 shadow-[0_28px_90px_rgba(46,41,31,0.08)] lg:flex lg:items-center lg:justify-between lg:gap-8">
             <div className="max-w-3xl">
               <p className="eyebrow">Start transacting with more confidence</p>
               <h2 className="heading-2 max-w-[17ch]">
@@ -1250,19 +1251,19 @@ export function HomePage() {
       <AnimatePresence>
         {isPricingModalOpen ? (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-[#253B80]/45 px-4 py-10 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#1B5D52]/45 px-4 py-10 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="w-full max-w-3xl rounded-[32px] border border-[#DCE3EF] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(244,236,224,0.95))] p-8 shadow-[0_32px_100px_rgba(13,19,28,0.26)]"
+              className="w-full max-w-3xl rounded-[32px] border border-[#D7CFBF] bg-[linear-gradient(180deg,rgba(255,252,247,0.98),rgba(244,236,224,0.95))] p-8 shadow-[0_32px_100px_rgba(13,19,28,0.26)]"
               initial={{ opacity: 0, y: 20, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 12, scale: 0.98 }}
               transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="flex flex-col gap-5 border-b border-[#DCE3EF] pb-5 sm:flex-row sm:items-start sm:justify-between">
+              <div className="flex flex-col gap-5 border-b border-[#D7CFBF] pb-5 sm:flex-row sm:items-start sm:justify-between">
                 <div>
                   <span className="badge">Pricing intelligence</span>
                   <h3 className="mt-4 heading-3">How marketplace pricing becomes more reliable over time.</h3>
@@ -1293,25 +1294,25 @@ export function HomePage() {
                 ].map((item) => (
                   <article
                     key={item.title}
-                    className="rounded-[24px] border border-[#DCE3EF] bg-white/80 p-5 shadow-[0_16px_36px_rgba(46,41,31,0.05)]"
+                    className="rounded-[24px] border border-[#D7CFBF] bg-white/80 p-5 shadow-[0_16px_36px_rgba(46,41,31,0.05)]"
                   >
-                    <strong className="block font-display text-[1rem] tracking-[-0.03em] text-[#0F1115]">
+                    <strong className="block font-display text-[1rem] tracking-[-0.03em] text-[#151714]">
                       {item.title}
                     </strong>
-                    <p className="mt-3 text-sm leading-7 text-[#6D7484]">{item.body}</p>
+                    <p className="mt-3 text-sm leading-7 text-[#5C5B54]">{item.body}</p>
                   </article>
                 ))}
               </div>
 
-              <div className="mt-6 rounded-[24px] border border-[#DCE3EF] bg-[rgba(255,255,255,0.76)] p-5">
+              <div className="mt-6 rounded-[24px] border border-[#D7CFBF] bg-[rgba(255,255,255,0.76)] p-5">
                 <div className="grid gap-4 md:grid-cols-[0.8fr_1.2fr_1.2fr]">
                   {comparisonRows.map((row) => (
                     <div key={row.label} className="contents">
-                      <div className="text-sm font-extrabold uppercase tracking-[0.16em] text-[#6D7484]">
+                      <div className="text-sm font-extrabold uppercase tracking-[0.16em] text-[#5C5B54]">
                         {row.label}
                       </div>
-                      <div className="text-sm leading-7 text-[#6D7484]">{row.oneTime}</div>
-                      <div className="text-sm leading-7 text-[#6D7484]">{row.subscription}</div>
+                      <div className="text-sm leading-7 text-[#5C5B54]">{row.oneTime}</div>
+                      <div className="text-sm leading-7 text-[#5C5B54]">{row.subscription}</div>
                     </div>
                   ))}
                 </div>

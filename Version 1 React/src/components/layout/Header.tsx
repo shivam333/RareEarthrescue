@@ -22,7 +22,7 @@ export function Header() {
   const cartCount = totalLots > 0 ? totalLots : totalItems;
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${isHome ? "site-header-home" : ""}`}>
       <div className="shell header-shell">
         <Link className="brand" to="/">
           <span className="brand-mark">
@@ -34,7 +34,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav aria-label="Primary" className="site-nav">
+        <nav aria-label="Primary" className={`site-nav ${isHome ? "site-nav-home" : ""}`}>
           {navItems.map((item) => (
             <NavLink key={item.label} to={item.href}>
               {item.label}
@@ -42,7 +42,7 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="header-actions">
+        <div className={`header-actions ${isHome ? "header-actions-home" : ""}`}>
           {!isLoaded || !isSignedIn ? (
             <>
               <Button href="/sign-in" variant={isHome ? "secondary" : "ghost"}>
@@ -56,13 +56,13 @@ export function Header() {
             <>
               <Link
                 to="/dashboard/checkout"
-                className="inline-flex items-center gap-3 rounded-full border border-[#DCE3EF] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#253B80] transition hover:-translate-y-0.5 hover:border-[#D9C47A]"
+                className="inline-flex items-center gap-3 rounded-full border border-[#D7CFBF] bg-white/84 px-4 py-2 text-[0.76rem] font-bold uppercase tracking-[0.14em] text-[#1B5D52] transition hover:-translate-y-0.5 hover:border-[#CA9730]"
               >
                 <span>Cart</span>
-                <span className="inline-flex min-w-8 items-center justify-center rounded-full bg-[#253B80] px-2 py-1 text-[0.68rem] text-white">
+                <span className="inline-flex min-w-8 items-center justify-center rounded-full bg-[#1B5D52] px-2 py-1 text-[0.68rem] text-white">
                   {cartCount}
                 </span>
-                <span className="text-[0.66rem] text-[#6D7484] normal-case tracking-normal">
+                <span className="text-[0.66rem] text-[#5C5B54] normal-case tracking-normal">
                   {totalItems} listing{totalItems === 1 ? "" : "s"} staged
                 </span>
               </Link>
@@ -73,7 +73,7 @@ export function Header() {
                 <Button href="/dashboard/account" variant="ghost">
                   Account
                 </Button>
-                <div className="flex items-center rounded-full border border-[#DCE3EF] bg-white/84 px-1.5 py-1 shadow-[0_10px_24px_rgba(46,41,31,0.05)]">
+                <div className="flex items-center rounded-full border border-[#D7CFBF] bg-white/84 px-1.5 py-1 shadow-[0_10px_24px_rgba(46,41,31,0.05)]">
                   <UserButton />
                 </div>
               </div>
