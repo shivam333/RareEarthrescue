@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { AppImage } from "../components/ui/AppImage";
 import { ShadButton } from "../components/ui/ShadButton";
 import { ShadTabs, ShadTabsContent, ShadTabsList, ShadTabsTrigger } from "../components/ui/ShadTabs";
+import { SupplyChainMissionSection } from "../components/home/SupplyChainMissionSection";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -763,7 +764,9 @@ export function HomePage() {
           </div>
         </section>
 
-        <section id="why-this-matters" className="shell pt-4 lg:pt-6">
+        <SupplyChainMissionSection />
+
+        <section id="why-this-matters" className="hidden" aria-hidden="true">
           <div className="home-shell-band home-shell-band-light grid items-start gap-10 xl:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)]">
             <div>
               <p className="eyebrow">Why this matters</p>
